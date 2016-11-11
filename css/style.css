@@ -612,21 +612,23 @@ a.article-title:hover {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  background: #add8e6;
 }
 .article-entry th {
   font-weight: bold;
+  border: 1px solid #ddd;
   border-bottom: 3px solid #ddd;
-  padding-bottom: 0.5em;
+  padding: 5px 0;
 }
 .article-entry td {
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
   padding: 10px 0;
 }
 .article-entry blockquote {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.4em;
   margin: 1.6em 20px;
-  text-align: center;
+  text-align: left;
 }
 .article-entry blockquote footer {
   font-size: 14px;
@@ -1111,11 +1113,13 @@ a.article-title:hover {
 .article-entry pre,
 .article-entry code {
   font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+  color: #fff;
 }
 .article-entry code {
-  background: #eee;
+  background: #808000;
   text-shadow: 0 1px #fff;
-  padding: 0 0.3em;
+  padding: 0.3em 0.7em;
+  border-radius: 5px;
 }
 .article-entry pre code {
   background: none;
