@@ -23,7 +23,6 @@ h4,
 h5,
 h6,
 p,
-blockquote,
 pre,
 a,
 abbr,
@@ -81,11 +80,17 @@ body {
   color: #000;
   background: #fff;
 }
+code{
+  color: white;
+  background: olive;
+  border-radius: 5px;
+}
 ol,
 ul {
   list-style: none;
 }
 table {
+  border:1px solid #ddd; 
   border-collapse: separate;
   border-spacing: 0;
   vertical-align: middle;
