@@ -1116,8 +1116,7 @@ a.article-title:hover {
   color: #fff;
 }
 .article-entry code {
-  background: #808000;
-  text-shadow: 0 1px #fff;
+  background: #ffe9ce
   padding: 0.3em 0.7em;
   border-radius: 5px;
 }
