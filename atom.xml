@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>奋斗蚁🐜</title>
+  <subtitle>前端拼搏中的小小蚁🐜</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://Jasonellen.github.io/"/>
+  <updated>2016-11-12T06:01:10.000Z</updated>
+  <id>http://Jasonellen.github.io/</id>
+  
+  <author>
+    <name>Jasonellen</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ES6新特性</title>
+    <link href="http://Jasonellen.github.io/2016/09/16/ES6%E6%96%B0%E7%89%B9%E6%80%A7/"/>
+    <id>http://Jasonellen.github.io/2016/09/16/ES6新特性/</id>
+    <published>2016-09-16T03:11:49.000Z</published>
+    <updated>2016-11-12T06:01:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：</p>
+<ul>
+<li><p>Default Parameters（默认参数）</p>
+</li>
+<li><p>Template Literals （模板文本）</p>
+</li>
+<li><p>Multi-line Strings （多行字符串）</p>
+</li>
+<li><p>Destructuring Assignment （解构赋值）</p>
+</li>
+<li><p>Enhanced Object Literals （增强的对象文本）</p>
+</li>
+<li><p>Arrow Functions （箭头函数）</p>
+</li>
+<li><p>Promises </p>
+</li>
+<li><p>Block-Scoped Constructs Let and Const（块作用域构造Let and Const）</p>
+</li>
+<li><p>Classes（类） </p>
+</li>
+<li><p>Modules（模块）</p>
+</li>
+</ul>
+<h2 id="Default-Parameters（默认参数）"><a href="#Default-Parameters（默认参数）" class="headerlink" title="Default Parameters（默认参数）"></a>Default Parameters（默认参数）</h2><p><code>before</code></p>
+<pre><code>var fn = function (height) {
+    var height = height || 50;
+       ...;
+}
+</code></pre><p><code>now</code></p>
+<pre><code>var fn = function (height=50) {
+       ...;
+}
+</code></pre><h2 id="Template-Literals（模板对象）"><a href="#Template-Literals（模板对象）" class="headerlink" title="Template Literals（模板对象）"></a>Template Literals（模板对象）</h2><p><code>before</code></p>
+<pre><code>var name = &apos;Your name is &apos; + first + &apos; &apos; + last + &apos;.&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var name = `Your name is ${first} ${last}. `;
+</code></pre><h2 id="Multi-line-Strings-（多行字符串）"><a href="#Multi-line-Strings-（多行字符串）" class="headerlink" title="Multi-line Strings （多行字符串）"></a>Multi-line Strings （多行字符串）</h2><p><code>before</code></p>
+<pre><code>var roadPoem = &apos;Then took the other, as just as fair,nt&apos;
+                + &apos;Had worn them really about the same,nt&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var roadPoem = `Then took the other, as just as fair,
+                Had worn them really about the same,`;
+</code></pre><h2 id="Destructuring-Assignment-（解构赋值）"><a href="#Destructuring-Assignment-（解构赋值）" class="headerlink" title="Destructuring Assignment （解构赋值）"></a>Destructuring Assignment （解构赋值）</h2><p><code>before</code></p>
+<pre><code>someArray=[1,2,3];
+var first = someArray[0];
+var second = someArray[1];
+var third = someArray[2];
+
+var obj={ foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+var foo = obj.foo;
+var bar = obj.bar;
+</code></pre><p><code>now</code></p>
+<pre><code>someArray=[1,2,3];
+var [first, second, third] = someArray;
+console.log(first);  // 1
+console.log(second); // 2
+console.log(third);  // 3
+
+var { foo, bar } = { foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+console.log(foo); // &quot;lorem&quot;
+console.log(bar); // &quot;ipsum&quot;
+</code></pre><h2 id="Enhanced-Object-Literals-（增强的对象字面量）"><a href="#Enhanced-Object-Literals-（增强的对象字面量）" class="headerlink" title="Enhanced Object Literals （增强的对象字面量）"></a>Enhanced Object Literals （增强的对象字面量）</h2><p><code>before</code></p>
+<pre><code>var obj = {
+    handler: handler,
+    toString: function() {
+        return &quot;d &quot; + super.toString();
+    },
+    prop42: 42
+</code></pre><p>};</p>
+<p><code>now</code></p>
+<pre><code>var obj = {
+    handler,   //ES6特性 === handler: handler,
+    toString() {   //ES6函数
+        return &quot;d &quot; + super.toString();
+       },
+    [ &apos;prop_&apos; + (() =&gt; 42)() ]: 42  
+    //主要是这个可以在字面量中加入变量 == prop42: 42
+};
+</code></pre><h2 id="Arrow-Functions-in（箭头函数）"><a href="#Arrow-Functions-in（箭头函数）" class="headerlink" title="Arrow Functions in（箭头函数）"></a>Arrow Functions in（箭头函数）</h2><p>以前我们使用闭包，this总是预期之外地产生改变，而箭头函数的迷人之处在于，现在你的this可以按照你的预期使用了，身处箭头函数里面，this还是原来的this。</p>
+<p>有了箭头函数在ES6中， 我们就不必用that = this或 self = this 或 _this = this 或.bind(this)如下:</p>
+<p><code>before</code></p>
+<pre><code>var _this = this;
+$(&apos;.btn&apos;).click(function(event){
+     _this.sendData();
+})
+</code></pre><p><code>now</code></p>
+<pre><code>$(&apos;.btn&apos;).click((event) =&gt;{
+      this.sendData();
+})
+</code></pre><h2 id="Promises-in-ES6"><a href="#Promises-in-ES6" class="headerlink" title="Promises in ES6"></a>Promises in ES6</h2><p><code>before</code></p>
+<pre><code>setTimeout(function(){
+      console.log(&apos;Yay!&apos;);
+      setTimeout(function(){
+        console.log(&apos;Wheeyee!&apos;);
+      }, 1000)
+}, 1000);
+</code></pre><p><code>now</code></p>
+<pre><code>var wait1000 =  ()=&gt; new Promise((resolve, reject)=&gt; {setTimeout(resolve, 1000)});
+wait1000()
+    .then(function() {
+        console.log(&apos;Yay!&apos;)
+        return wait1000()
+    })
+    .then(function() {
+           console.log(&apos;Wheeyee!&apos;)
+       });
+</code></pre><p>好吧，我也没看出来哪里好用了…</p>
+<h2 id="Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）"><a href="#Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）" class="headerlink" title="Block-Scoped Constructs Let and Const（块作用域和构造let和const）"></a>Block-Scoped Constructs Let and Const（块作用域和构造let和const）</h2><ul>
+<li>Let是一种新的变量申明方式，它允许你把变量作用域控制在块级里面。用大括号定义代码块（作用域）</li>
+<li><p>const，它就是一个不变量，也是块级作用域就像let一样。<br><code>before</code></p>
+<pre><code>for(var i=0; i&lt;1; i++){
+    var a=1;
+    {
+        var  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //2
+}
+console.log(i) //1
+console.log(a) //2
+</code></pre><p><code>now</code></p>
+<pre><code>for(let i=0; i&lt;1; i++){
+    const a=1;
+    {
+        const  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //1
+}
+console.log(a) // not defined
+console.log(i) // not defined
+</code></pre></li>
+</ul>
+<h2 id="Classes-（类）"><a href="#Classes-（类）" class="headerlink" title="Classes （类）"></a>Classes （类）</h2><p><code>before</code></p>
+<pre><code>function Circle(x) {
+   this.x = x;
+}
+Circle.classFn = function() { ... }
+
+Circle.prototype = {
+   fn1() {
+       return ..;
+   },
+
+   get fn2() {
+       return this.x;
+   },
+   set fn2(x) {
+       this.x = x*2;
+   }
+};
+</code></pre><p><code>now</code></p>
+<pre><code>class Circle {
+    constructor(x) {
+        this.x = x;
+    };
+
+    static classFn() { ... };
+
+    fn1(){
+        return ..;
+    }
+    get fn2() {
+        return this.x;
+    };
+    set fn2(val) {
+        this.x = x*2;
+    };
+ }
+</code></pre><h2 id="Modules-（模块）"><a href="#Modules-（模块）" class="headerlink" title="Modules （模块）"></a>Modules （模块）</h2><p><code>before</code></p>
+<p><code>module.js</code>有port变量和getAccounts 方法:</p>
+<pre><code>module.exports = {  port: 3000,  getAccounts: function() {    ...  }}
+</code></pre><p><code>main.js</code>需要依赖require(‘module’) 导入module.js：</p>
+<pre><code>var service = require(&apos;module.js&apos;);console.log(service.port); // 3000
+</code></pre><p><code>now</code></p>
+<pre><code>导出module.js
+export var port = 3000;export function getAccounts(url) {  ...}
+
+导入方式一
+import {port, getAccounts} from &apos;module&apos;;console.log(port); // 3000
+
+导入方式二
+import * as service from &apos;module&apos;;//导入全部模块
+console.log(service.port); // 3000
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Default Parameters（默认参数）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Template Literals （模板文本
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>HEXO搭建个人博客</title>
+    <link href="http://Jasonellen.github.io/2016/09/15/HEXO%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/</id>
+    <published>2016-09-15T01:53:06.000Z</published>
+    <updated>2016-11-12T02:55:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号"><a href="#我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号" class="headerlink" title="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)"></a>我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)</h3><p><code>1. $ sudo npm install hexo -g   安装博客搭建环境hexo</code></p>
+<p><code>2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地</code></p>
+<p><code>3. $ cd Jasonellen.github.io仓库</code></p>
+<p><code>4. $ hexo init 初始化文件夹</code></p>
+<p><code>5. 初始化OK可以用$ hexo server开启服务器查看个人搭建的博客</code></p>
+<p><code>6. 进入_config.xml 修改个人相关信息</code></p>
+<pre><code>title: 奋斗蚁🐜
+subtitle: 前端拼搏中的小小蚁🐜
+description:
+author: Jasonellen
+</code></pre><p><code>7. $ npm install hexo-deployer-git --save</code></p>
+<p><code>8. 同步到github账号</code></p>
+<pre><code>_config.xml拉倒最底部修改文件
+deploy:
+      type: git
+      repo: https://github.com/Jasonellen/Jasonellen.github.io.git
+</code></pre><p><code>9. 写博客</code></p>
+<ul>
+<li><p>$ hexo new 论天气</p>
+<pre><code>新建文件，对应生成到source下面的.MD文件，可以用markdown编写，Markdown简易语法教程请查看我上一篇的博客
+</code></pre></li>
+<li><p>hexo g</p>
+<pre><code>编译生成对应的html文件
+</code></pre></li>
+<li><p>hexo server 预览</p>
+<pre><code>开启服务器，本地预览写好的文章
+</code></pre></li>
+<li><p>hexo d 发布</p>
+<pre><code>同步到github账号
+</code></pre></li>
+</ul>
+<p><code>10. 博客Markdown css样式修改</code></p>
+<pre><code>样式修改的地址是 themes--languages--source--css
+如果博客打开后台有jq引入报错是因为默认引入的是谷歌CDN文件不稳定，可以修改为其他在线jquery文件即可，修改路径为themes--landscape-layout-_partial-after-footer.ejs
+</code></pre><p><code>11. 添加评论系统--这里用的是多说评论</code></p>
+<ul>
+<li>进入<a href="http://duoshuo.com/" target="_blank" rel="external">多说官网</a></li>
+<li>点击我要安装</li>
+<li>填完注册信息（记得有一个多说域名 xxx.duosho.com）自己写的xxx要记得后面会用到</li>
+<li>注册完会生成一段html代码如下(就是通用代码)</li>
+<li>进入前面的配置文件_config.xml,找个空白地新增 duoshuo_shortname: 上面注册时用的xxx</li>
+<li>进入themes\landscape\layout_partial\article.ejs</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">把最后一段这个代码</div><div class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</div><div class="line">  &lt;section id=&quot;comments&quot;&gt;</div><div class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</div><div class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/section&gt;</div><div class="line">  &lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</div><div class="line"> &lt;!-- 多说评论框 start --&gt;</div><div class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h1 id="OVER-喜欢就点个赞吧"><a href="#OVER-喜欢就点个赞吧" class="headerlink" title="OVER 喜欢就点个赞吧"></a>OVER 喜欢就点个赞吧</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号&quot;&gt;&lt;a href=&quot;#我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号&quot; clas
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>MarkDown 语法</title>
+    <link href="http://Jasonellen.github.io/2016/09/14/MarkDown/"/>
+    <id>http://Jasonellen.github.io/2016/09/14/MarkDown/</id>
+    <published>2016-09-14T08:54:43.000Z</published>
+    <updated>2016-11-12T02:56:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h2><blockquote>
+<p>Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的 HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
+</blockquote>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><pre><code>在 Mac OS X 上，我强烈建议你用 Mou 这款免费且十分好用的 Markdown 编辑器。它支持实时预览，既左边是你编辑 
+Markdown 语言，右边会实时的生成预览效果。在Win上推荐使用 MarkdownPad 或者 MarkPad。
+</code></pre><h1 id="Markdown-语法的简要规则"><a href="#Markdown-语法的简要规则" class="headerlink" title="Markdown 语法的简要规则"></a>Markdown 语法的简要规则</h1><h2 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h2><pre><code>图片为：![图片名](图片地址http://)
+       如果是本地图片请使用绝对路径
+链接为：[显示的链接名](链接地址http://..)        
+</code></pre><p><a href="https://github.com/Jasonellen/jasonProject.github.io" target="_blank" rel="external">myGitHub</a><br><img src="http://ww2.sinaimg.cn/large/6aee7dbbgw1efffa67voyj20ix0ctq3n.jpg" alt="pic"></p>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><pre><code>#~######分别表示一级-六级标题
+</code></pre><p><img src="http://ww1.sinaimg.cn/large/6aee7dbbgw1effeaclhiyj20eh09cwez.jpg" alt="title"></p>
+<p><strong>注意在符号后需要一个空格，这是最标准的 Markdown 语法。</strong></p>
+<h2 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h2><pre><code>用一对*号括起来的是斜体，两对*号括起来的是粗体
+*斜体*   **粗体**
+</code></pre><h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><pre><code>表格是我觉得 Markdown 比较累人的地方，冒号表明文字居中，例子如下：
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">Tables</th>
+<th style="text-align:center">Are</th>
+<th style="text-align:center">Cool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">col 3 is</td>
+<td style="text-align:center">right-aligned</td>
+<td style="text-align:center">$1600</td>
+</tr>
+<tr>
+<td style="text-align:center">col 2 is</td>
+<td style="text-align:center">centered</td>
+<td style="text-align:center">$12</td>
+</tr>
+<tr>
+<td style="text-align:center">zebra stripes</td>
+<td style="text-align:center">are neat</td>
+<td style="text-align:center">$1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h2><pre><code>比如我这些有背景的文字描述都是框框括起来的
+实现：tab键后再输入文字
+</code></pre><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><p>直接输入三个星号</p>
+<hr>
+<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><pre><code>用一对``号括起来
+</code></pre><p><code>个人博客：https://jasonellen.github.io</code></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
+<p>大于号后面的内容就是引用：&gt; 这里是引用的内容<br><img src="http://ww3.sinaimg.cn/large/6aee7dbbgw1effezhonxlj20e009c3yu.jpg" alt="title"></p>
+</blockquote>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><pre><code>只需要在文字前加上 - 或 * 即可变为无序列表，有序列表则直接在文字前加1. 2. 3. 符号要和文字之间加上一个字符的空格。
+</code></pre><p><img src="http://ww4.sinaimg.cn/large/6aee7dbbgw1effew5aftij20d80bz3yw.jpg" alt="title"></p>
+<h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><ul>
+<li>1 </li>
+<li>2</li>
+<li>3<h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4></li>
+</ul>
+<ol>
+<li>1</li>
+<li>2</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;导语&quot;&gt;&lt;a href=&quot;#导语&quot; class=&quot;headerlink&quot; title=&quot;导语&quot;&gt;&lt;/a&gt;导语&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
