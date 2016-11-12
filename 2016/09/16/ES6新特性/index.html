@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ES6新特性 | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：
+
+Default Parameters（默认参数）
+
+Template Literals （模板文本）
+
+Multi-line Strings （多行字符串）
+
+Destructuring Assignment （解构赋值）
+
+Enhanced Object Literals （增强的对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6新特性">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/09/16/ES6新特性/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：
+
+Default Parameters（默认参数）
+
+Template Literals （模板文本）
+
+Multi-line Strings （多行字符串）
+
+Destructuring Assignment （解构赋值）
+
+Enhanced Object Literals （增强的对">
+<meta property="og:updated_time" content="2016-11-12T06:01:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6新特性">
+<meta name="twitter:description" content="没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：
+
+Default Parameters（默认参数）
+
+Template Literals （模板文本）
+
+Multi-line Strings （多行字符串）
+
+Destructuring Assignment （解构赋值）
+
+Enhanced Object Literals （增强的对">
+  
+    <link rel="alternate" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">奋斗蚁🐜</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">前端拼搏中的小小蚁🐜</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://Jasonellen.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ES6新特性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/16/ES6新特性/" class="article-date">
+  <time datetime="2016-09-16T03:11:49.000Z" itemprop="datePublished">2016-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES6新特性
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：</p>
+<ul>
+<li><p>Default Parameters（默认参数）</p>
+</li>
+<li><p>Template Literals （模板文本）</p>
+</li>
+<li><p>Multi-line Strings （多行字符串）</p>
+</li>
+<li><p>Destructuring Assignment （解构赋值）</p>
+</li>
+<li><p>Enhanced Object Literals （增强的对象文本）</p>
+</li>
+<li><p>Arrow Functions （箭头函数）</p>
+</li>
+<li><p>Promises </p>
+</li>
+<li><p>Block-Scoped Constructs Let and Const（块作用域构造Let and Const）</p>
+</li>
+<li><p>Classes（类） </p>
+</li>
+<li><p>Modules（模块）</p>
+</li>
+</ul>
+<h2 id="Default-Parameters（默认参数）"><a href="#Default-Parameters（默认参数）" class="headerlink" title="Default Parameters（默认参数）"></a>Default Parameters（默认参数）</h2><p><code>before</code></p>
+<pre><code>var fn = function (height) {
+    var height = height || 50;
+       ...;
+}
+</code></pre><p><code>now</code></p>
+<pre><code>var fn = function (height=50) {
+       ...;
+}
+</code></pre><h2 id="Template-Literals（模板对象）"><a href="#Template-Literals（模板对象）" class="headerlink" title="Template Literals（模板对象）"></a>Template Literals（模板对象）</h2><p><code>before</code></p>
+<pre><code>var name = &apos;Your name is &apos; + first + &apos; &apos; + last + &apos;.&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var name = `Your name is ${first} ${last}. `;
+</code></pre><h2 id="Multi-line-Strings-（多行字符串）"><a href="#Multi-line-Strings-（多行字符串）" class="headerlink" title="Multi-line Strings （多行字符串）"></a>Multi-line Strings （多行字符串）</h2><p><code>before</code></p>
+<pre><code>var roadPoem = &apos;Then took the other, as just as fair,nt&apos;
+                + &apos;Had worn them really about the same,nt&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var roadPoem = `Then took the other, as just as fair,
+                Had worn them really about the same,`;
+</code></pre><h2 id="Destructuring-Assignment-（解构赋值）"><a href="#Destructuring-Assignment-（解构赋值）" class="headerlink" title="Destructuring Assignment （解构赋值）"></a>Destructuring Assignment （解构赋值）</h2><p><code>before</code></p>
+<pre><code>someArray=[1,2,3];
+var first = someArray[0];
+var second = someArray[1];
+var third = someArray[2];
+
+var obj={ foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+var foo = obj.foo;
+var bar = obj.bar;
+</code></pre><p><code>now</code></p>
+<pre><code>someArray=[1,2,3];
+var [first, second, third] = someArray;
+console.log(first);  // 1
+console.log(second); // 2
+console.log(third);  // 3
+
+var { foo, bar } = { foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+console.log(foo); // &quot;lorem&quot;
+console.log(bar); // &quot;ipsum&quot;
+</code></pre><h2 id="Enhanced-Object-Literals-（增强的对象字面量）"><a href="#Enhanced-Object-Literals-（增强的对象字面量）" class="headerlink" title="Enhanced Object Literals （增强的对象字面量）"></a>Enhanced Object Literals （增强的对象字面量）</h2><p><code>before</code></p>
+<pre><code>var obj = {
+    handler: handler,
+    toString: function() {
+        return &quot;d &quot; + super.toString();
+    },
+    prop42: 42
+</code></pre><p>};</p>
+<p><code>now</code></p>
+<pre><code>var obj = {
+    handler,   //ES6特性 === handler: handler,
+    toString() {   //ES6函数
+        return &quot;d &quot; + super.toString();
+       },
+    [ &apos;prop_&apos; + (() =&gt; 42)() ]: 42  
+    //主要是这个可以在字面量中加入变量 == prop42: 42
+};
+</code></pre><h2 id="Arrow-Functions-in（箭头函数）"><a href="#Arrow-Functions-in（箭头函数）" class="headerlink" title="Arrow Functions in（箭头函数）"></a>Arrow Functions in（箭头函数）</h2><p>以前我们使用闭包，this总是预期之外地产生改变，而箭头函数的迷人之处在于，现在你的this可以按照你的预期使用了，身处箭头函数里面，this还是原来的this。</p>
+<p>有了箭头函数在ES6中， 我们就不必用that = this或 self = this 或 _this = this 或.bind(this)如下:</p>
+<p><code>before</code></p>
+<pre><code>var _this = this;
+$(&apos;.btn&apos;).click(function(event){
+     _this.sendData();
+})
+</code></pre><p><code>now</code></p>
+<pre><code>$(&apos;.btn&apos;).click((event) =&gt;{
+      this.sendData();
+})
+</code></pre><h2 id="Promises-in-ES6"><a href="#Promises-in-ES6" class="headerlink" title="Promises in ES6"></a>Promises in ES6</h2><p><code>before</code></p>
+<pre><code>setTimeout(function(){
+      console.log(&apos;Yay!&apos;);
+      setTimeout(function(){
+        console.log(&apos;Wheeyee!&apos;);
+      }, 1000)
+}, 1000);
+</code></pre><p><code>now</code></p>
+<pre><code>var wait1000 =  ()=&gt; new Promise((resolve, reject)=&gt; {setTimeout(resolve, 1000)});
+wait1000()
+    .then(function() {
+        console.log(&apos;Yay!&apos;)
+        return wait1000()
+    })
+    .then(function() {
+           console.log(&apos;Wheeyee!&apos;)
+       });
+</code></pre><p>好吧，我也没看出来哪里好用了…</p>
+<h2 id="Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）"><a href="#Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）" class="headerlink" title="Block-Scoped Constructs Let and Const（块作用域和构造let和const）"></a>Block-Scoped Constructs Let and Const（块作用域和构造let和const）</h2><ul>
+<li>Let是一种新的变量申明方式，它允许你把变量作用域控制在块级里面。用大括号定义代码块（作用域）</li>
+<li><p>const，它就是一个不变量，也是块级作用域就像let一样。<br><code>before</code></p>
+<pre><code>for(var i=0; i&lt;1; i++){
+    var a=1;
+    {
+        var  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //2
+}
+console.log(i) //1
+console.log(a) //2
+</code></pre><p><code>now</code></p>
+<pre><code>for(let i=0; i&lt;1; i++){
+    const a=1;
+    {
+        const  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //1
+}
+console.log(a) // not defined
+console.log(i) // not defined
+</code></pre></li>
+</ul>
+<h2 id="Classes-（类）"><a href="#Classes-（类）" class="headerlink" title="Classes （类）"></a>Classes （类）</h2><p><code>before</code></p>
+<pre><code>function Circle(x) {
+   this.x = x;
+}
+Circle.classFn = function() { ... }
+
+Circle.prototype = {
+   fn1() {
+       return ..;
+   },
+
+   get fn2() {
+       return this.x;
+   },
+   set fn2(x) {
+       this.x = x*2;
+   }
+};
+</code></pre><p><code>now</code></p>
+<pre><code>class Circle {
+    constructor(x) {
+        this.x = x;
+    };
+
+    static classFn() { ... };
+
+    fn1(){
+        return ..;
+    }
+    get fn2() {
+        return this.x;
+    };
+    set fn2(val) {
+        this.x = x*2;
+    };
+ }
+</code></pre><h2 id="Modules-（模块）"><a href="#Modules-（模块）" class="headerlink" title="Modules （模块）"></a>Modules （模块）</h2><p><code>before</code></p>
+<p><code>module.js</code>有port变量和getAccounts 方法:</p>
+<pre><code>module.exports = {  port: 3000,  getAccounts: function() {    ...  }}
+</code></pre><p><code>main.js</code>需要依赖require(‘module’) 导入module.js：</p>
+<pre><code>var service = require(&apos;module.js&apos;);console.log(service.port); // 3000
+</code></pre><p><code>now</code></p>
+<pre><code>导出module.js
+export var port = 3000;export function getAccounts(url) {  ...}
+
+导入方式一
+import {port, getAccounts} from &apos;module&apos;;console.log(port); // 3000
+
+导入方式二
+import * as service from &apos;module&apos;;//导入全部模块
+console.log(service.port); // 3000
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://Jasonellen.github.io/2016/09/16/ES6新特性/" data-id="civet15310000990y5udlvfb8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/15/HEXO搭建个人博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HEXO搭建个人博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-ES6新特性" data-title="ES6新特性" data-url="http://Jasonellen.github.io/2016/09/16/ES6新特性/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end --></section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/09/16/ES6新特性/">ES6新特性</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/15/HEXO搭建个人博客/">HEXO搭建个人博客</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/14/MarkDown/">MarkDown 语法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Jasonellen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
