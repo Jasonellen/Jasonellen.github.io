@@ -6,14 +6,41 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Archives: 2016/9 | 奋斗蚁🐜</title>
+  <title>弹性球 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/archives/2016/09/index.html">
+  <meta name="description" content="本文实现JS原生弹性球创造一个球先HTML
+&amp;lt;div class=&amp;quot;ball&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;small&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;
+CSS
+&amp;lt;style&amp;gt;
+    div{
+        width:100px;
+        height:100px;
+        backgr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="弹性球">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/09/18/弹性球/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="本文实现JS原生弹性球创造一个球先HTML
+&amp;lt;div class=&amp;quot;ball&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;small&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;
+CSS
+&amp;lt;style&amp;gt;
+    div{
+        width:100px;
+        height:100px;
+        backgr">
+<meta property="og:image" content="http://a1.qpic.cn/psb?/V12tYOKO03SBgh/MCu4dRJM*wCu2kNMIsTpHVUHzlbcMS6v5goiy744f7M!/m/dHwBAAAAAAAAnull&bo=dwBpAAAAAAADBzw!&rf=photolist&t=5">
+<meta property="og:updated_time" content="2016-11-14T13:32:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="弹性球">
+<meta name="twitter:description" content="本文实现JS原生弹性球创造一个球先HTML
+&amp;lt;div class=&amp;quot;ball&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;small&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;
+CSS
+&amp;lt;style&amp;gt;
+    div{
+        width:100px;
+        height:100px;
+        backgr">
+<meta name="twitter:image" content="http://a1.qpic.cn/psb?/V12tYOKO03SBgh/MCu4dRJM*wCu2kNMIsTpHVUHzlbcMS6v5goiy744f7M!/m/dHwBAAAAAAAAnull&bo=dwBpAAAAAAADBzw!&rf=photolist&t=5">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -129,183 +156,167 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/18/弹性球/" class="archive-article-date">
-  	<time datetime="2016-09-18T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/18/弹性球/">弹性球</a>
+    <h1 class="article-title" itemprop="name">
+      弹性球
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
+<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;div class=&quot;small&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre><p><code>CSS</code></p>
+<pre><code>&lt;style&gt;
+    div{
+        width:100px;
+        height:100px;
+        background: grey;
+        border-radius:50%;
+        position: absolute;
+        bottom:0;
+        left:200px;
+    }
+    .small{
+        width:1px;
+        height:1px;
+        background: white;
+        position: absolute;
+        top:30px;
+        left:30px;
+        box-shadow: 0 0 30px 30px white;
+    }
+&lt;/style&gt;
+</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://a1.qpic.cn/psb?/V12tYOKO03SBgh/MCu4dRJM*wCu2kNMIsTpHVUHzlbcMS6v5goiy744f7M!/m/dHwBAAAAAAAAnull&amp;bo=dwBpAAAAAAADBzw!&amp;rf=photolist&amp;t=5" alt="ball"></p>
+<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
+<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
+var timer = null;
+var speedX =0, speedY=0,x=0,y=0;
+var gapX =0, gapY=0;
+</code></pre><p><code>拖拽小球并获取结束点的小球速度</code></p>
+<pre><code>obj.onmousedown = function(){
+    clearInterval(timer); 
+    var ev = ev || window.event;
+    gapX = ev.clientX - obj.offsetLeft;
+    gapY = ev.clientY - obj.offsetTop;
+    document.onmousemove = function(ev){
+        var ev = ev || window.event;
+        //记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+        speedX = ev.clientX - x - gapX;
+        speedY = ev.clientY - y - gapY;
+        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+        x = obj.offsetLeft;
+        y = obj.offsetTop;
+        obj.style.left = ev.clientX - gapX  + &quot;px&quot;;
+        obj.style.top = ev.clientY - gapY  + &quot;px&quot;;
+    }
+}
+</code></pre><p><code>释放鼠标，让球球碰撞</code></p>
+<pre><code>obj.onmouseup = function(){
+     var currentX=0,currentY=0,l=0,t=0;
+     document.onmousemove = null;
+     timer = setInterval(function(){
+         speedY +=3;  //一直有一个Y方向的增加，仿重力
+         currentX = window.innerWidth - obj.offsetWidth;
+         currentY = window.innerHeight - obj.offsetHeight;
+         l = obj.offsetLeft + speedX;
+         t = obj.offsetTop + speedY;
+         //speedY +=3;  //记住不要放在这里，不然根本停不下来😁
+         if(l &gt; currentX){
+               speedX *= -0.8;
+               l =currentX;
+         }
+         if(l &lt; 0){
+               speedX *= -0.8;
+              l = 0;
+         }
+         if(t &gt; currentY){
+                speedY *= -0.8;
+               speedX *= 0.8;
+                t = currentY;
+         }
+         if(t &lt; 0){
+            speedY *= -0.8;
+            speedX *= 0.8;
+            t = 0;
+          }
+          if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
+             clearInterval(timer);
+          }
+          obj.style.left = l  + &quot;px&quot;;
+          obj.style.top = t  + &quot;px&quot;;
+      },30)
+ }
+</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/18/弹性球/" class="archive-article-date">
+  	<time datetime="2016-09-18T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-18</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/17/元素坐标/" class="archive-article-date">
-  	<time datetime="2016-09-17T05:12:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/17/元素坐标/">元素坐标</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js坐标/">js坐标</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/16/ES6新特性/" class="archive-article-date">
-  	<time datetime="2016-09-16T03:11:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/16/ES6新特性/">ES6新特性</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/15/HEXO搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-15T01:53:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/15/HEXO搭建个人博客/">HEXO搭建个人博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/14/MarkDown/" class="archive-article-date">
-  	<time datetime="2016-09-14T08:54:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/14/MarkDown/">MarkDown 语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/">Markdown</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2016/09/17/元素坐标/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">元素坐标</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
+</nav>
 
-    
 
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-弹性球" data-title="弹性球" data-url="http://Jasonellen.github.io/2016/09/18/弹性球/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
 
       </div>
       <footer id="footer">
@@ -324,8 +335,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

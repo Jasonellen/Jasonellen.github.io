@@ -131,6 +131,157 @@
       <div class="body-wrap">
         
   
+    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/18/弹性球/">弹性球</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
+<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;div class=&quot;small&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre><p><code>CSS</code></p>
+<pre><code>&lt;style&gt;
+    div{
+        width:100px;
+        height:100px;
+        background: grey;
+        border-radius:50%;
+        position: absolute;
+        bottom:0;
+        left:200px;
+    }
+    .small{
+        width:1px;
+        height:1px;
+        background: white;
+        position: absolute;
+        top:30px;
+        left:30px;
+        box-shadow: 0 0 30px 30px white;
+    }
+&lt;/style&gt;
+</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://a1.qpic.cn/psb?/V12tYOKO03SBgh/MCu4dRJM*wCu2kNMIsTpHVUHzlbcMS6v5goiy744f7M!/m/dHwBAAAAAAAAnull&amp;bo=dwBpAAAAAAADBzw!&amp;rf=photolist&amp;t=5" alt="ball"></p>
+<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
+<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
+var timer = null;
+var speedX =0, speedY=0,x=0,y=0;
+var gapX =0, gapY=0;
+</code></pre><p><code>拖拽小球并获取结束点的小球速度</code></p>
+<pre><code>obj.onmousedown = function(){
+    clearInterval(timer); 
+    var ev = ev || window.event;
+    gapX = ev.clientX - obj.offsetLeft;
+    gapY = ev.clientY - obj.offsetTop;
+    document.onmousemove = function(ev){
+        var ev = ev || window.event;
+        //记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+        speedX = ev.clientX - x - gapX;
+        speedY = ev.clientY - y - gapY;
+        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+        x = obj.offsetLeft;
+        y = obj.offsetTop;
+        obj.style.left = ev.clientX - gapX  + &quot;px&quot;;
+        obj.style.top = ev.clientY - gapY  + &quot;px&quot;;
+    }
+}
+</code></pre><p><code>释放鼠标，让球球碰撞</code></p>
+<pre><code>obj.onmouseup = function(){
+     var currentX=0,currentY=0,l=0,t=0;
+     document.onmousemove = null;
+     timer = setInterval(function(){
+         speedY +=3;  //一直有一个Y方向的增加，仿重力
+         currentX = window.innerWidth - obj.offsetWidth;
+         currentY = window.innerHeight - obj.offsetHeight;
+         l = obj.offsetLeft + speedX;
+         t = obj.offsetTop + speedY;
+         //speedY +=3;  //记住不要放在这里，不然根本停不下来😁
+         if(l &gt; currentX){
+               speedX *= -0.8;
+               l =currentX;
+         }
+         if(l &lt; 0){
+               speedX *= -0.8;
+              l = 0;
+         }
+         if(t &gt; currentY){
+                speedY *= -0.8;
+               speedX *= 0.8;
+                t = currentY;
+         }
+         if(t &lt; 0){
+            speedY *= -0.8;
+            speedX *= 0.8;
+            t = 0;
+          }
+          if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
+             clearInterval(timer);
+          }
+          obj.style.left = l  + &quot;px&quot;;
+          obj.style.top = t  + &quot;px&quot;;
+      },30)
+ }
+</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/18/弹性球/" class="archive-article-date">
+  	<time datetime="2016-09-18T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-弹性球" data-title="弹性球" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+  
     <article id="post-元素坐标" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -794,7 +945,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a>
+    				<a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a>
     			</div>
     	</section>
     
