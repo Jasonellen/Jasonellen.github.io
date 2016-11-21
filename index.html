@@ -329,11 +329,10 @@ data: {
 </code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
 <li>只有当data属性里的值改变才会重新渲染view视图</li>
 <li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速</li>
-<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总会执行函数<ul>
+<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多    次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
 <li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
 </ul>
-</li>
-</ul>
+<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
 
       
     </div>
