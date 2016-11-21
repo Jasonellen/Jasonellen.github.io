@@ -6,39 +6,51 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>JS经典题 | 奋斗蚁🐜</title>
+  <title>Vue单例webpack配置 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目如下：1，function fn(){
-    getName = function(){alert(&amp;apos;大木&amp;apos;)};
-    return this;
-}
-
-2，fn.getName = function(){ alert(&amp;apos;大木2&amp;apos;)}
-
-3，fn.prototype.getName = function(){ alert(&amp;apos;大木3&amp;apos">
+  <meta name="description" content="目录结构-APP
+    -dest
+        +css
+        +html
+        +img
+        +js
+    +node_modules
+    +component
+    +src
+package.json{
+  &amp;quot;name&amp;quot;: &amp;quot;guoxing&amp;quot;,
+  &amp;quot;version&amp;quot;: &amp;quot;1.0">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS经典题">
-<meta property="og:url" content="http://Jasonellen.github.io/2016/09/21/JS经典题解析/index.html">
+<meta property="og:title" content="Vue单例webpack配置">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/09/25/Vue单例webpack配置/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="题目如下：1，function fn(){
-    getName = function(){alert(&amp;apos;大木&amp;apos;)};
-    return this;
-}
-
-2，fn.getName = function(){ alert(&amp;apos;大木2&amp;apos;)}
-
-3，fn.prototype.getName = function(){ alert(&amp;apos;大木3&amp;apos">
-<meta property="og:updated_time" content="2016-11-16T14:39:03.000Z">
+<meta property="og:description" content="目录结构-APP
+    -dest
+        +css
+        +html
+        +img
+        +js
+    +node_modules
+    +component
+    +src
+package.json{
+  &amp;quot;name&amp;quot;: &amp;quot;guoxing&amp;quot;,
+  &amp;quot;version&amp;quot;: &amp;quot;1.0">
+<meta property="og:updated_time" content="2016-11-21T06:24:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS经典题">
-<meta name="twitter:description" content="题目如下：1，function fn(){
-    getName = function(){alert(&amp;apos;大木&amp;apos;)};
-    return this;
-}
-
-2，fn.getName = function(){ alert(&amp;apos;大木2&amp;apos;)}
-
-3，fn.prototype.getName = function(){ alert(&amp;apos;大木3&amp;apos">
+<meta name="twitter:title" content="Vue单例webpack配置">
+<meta name="twitter:description" content="目录结构-APP
+    -dest
+        +css
+        +html
+        +img
+        +js
+    +node_modules
+    +component
+    +src
+package.json{
+  &amp;quot;name&amp;quot;: &amp;quot;guoxing&amp;quot;,
+  &amp;quot;version&amp;quot;: &amp;quot;1.0">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -154,7 +166,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-JS经典题解析" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Vue单例webpack配置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -164,7 +176,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS经典题
+      Vue单例webpack配置
     </h1>
   
 
@@ -172,95 +184,143 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="题目如下："><a href="#题目如下：" class="headerlink" title="题目如下："></a>题目如下：</h1><pre><code>1，function fn(){
-    getName = function(){alert(&apos;大木&apos;)};
-    return this;
+        <h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><pre><code>-APP
+    -dest
+        +css
+        +html
+        +img
+        +js
+    +node_modules
+    +component
+    +src
+</code></pre><h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><pre><code>{
+  &quot;name&quot;: &quot;guoxing&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+   &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;start&quot;: &quot;webpack-dev-server --inline&quot;
+   },
+   &quot;author&quot;: &quot;&quot;,
+   &quot;license&quot;: &quot;ISC&quot;,
+   &quot;devDependencies&quot;: {
+     &quot;autoprefixer-loader&quot;: &quot;^2.0.0&quot;,
+     &quot;babel&quot;: &quot;^6.3.13&quot;,
+     &quot;babel-core&quot;: &quot;^6.3.21&quot;,
+     &quot;babel-loader&quot;: &quot;^6.2.0&quot;,
+     &quot;babel-plugin-transform-runtime&quot;: &quot;^6.3.13&quot;,
+     &quot;babel-preset-es2015&quot;: &quot;^6.3.13&quot;,
+     &quot;babel-runtime&quot;: &quot;^5.8.34&quot;,
+     &quot;css-loader&quot;: &quot;^0.25.0&quot;,
+     &quot;file-loader&quot;: &quot;^0.9.0&quot;,
+     &quot;html-loader&quot;: &quot;^0.3.0&quot;,
+     &quot;node-sass&quot;: &quot;^3.4.2&quot;,
+     &quot;sass-loader&quot;: &quot;^3.2.0&quot;,
+     &quot;style-loader&quot;: &quot;^0.13.1&quot;,
+     &quot;url-loader&quot;: &quot;^0.5.7&quot;,
+     &quot;vue-loader&quot;: &quot;^7.2.0&quot;,
+     &quot;webpack&quot;: &quot;^1.13.3&quot;,
+     &quot;webpack-dev-server&quot;: &quot;^1.14.0&quot;
+   },
+   &quot;dependencies&quot;: {
+     &quot;vue&quot;: &quot;^2.0.3&quot;
+   }
 }
+</code></pre><h1 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h1><pre><code>var path = require(&apos;path&apos;);
+var webpack = require(&apos;webpack&apos;)
+// NodeJS中的Path对象，用于处理目录的对象，提高开发效率。
+// 模块导入
+module.exports = {
+    // 入口文件地址，不需要写完，会自动查找
+    // entry: [&apos;./src/index&apos;,&apos;./src/manor&apos;], //只能生成一个out文件
 
-2，fn.getName = function(){ alert(&apos;大木2&apos;)}
+entry:{   //生成多个out文件，文件名就是属性名
+    index: &apos;./src/index&apos;,
+    manor: &apos;./src/manor&apos;,
+    news: &apos;./src/news&apos;,
+    product: &apos;./src/product&apos;,
+    grape: &apos;./src/grape&apos;,
+    technology: &apos;./src/technology&apos;,
+    message: &apos;./src/message&apos;,
+    concat: &apos;./src/concat&apos;,
 
-3，fn.prototype.getName = function(){ alert(&apos;大木3&apos;)}
+},
+// 输出
+output: {
+    path: path.join(__dirname, &apos;dest/js&apos;),
+    //path:__dirname+&apos;/dist/&apos;,
+    // 文件地址，使用绝对路径形式
+    filename: &apos;[name].js&apos;,// 主要用于多个入口点--对应多个出口点
+    //[name]这里是webpack提供的根据路口文件自动生成的名字
 
-4，var getName = function(){ alert(&apos;大木4&apos;)}
+    //就是因为url-loader路径的问题，项目安排目录结构都在dest中
+    //publicPath: &apos;dest/&apos;
 
-5，function getName(){ alert(&apos;大木5&apos;)}
-</code></pre><p><code>请输入如下结果</code></p>
-<ol>
-<li>fn.getName();</li>
-<li>getName();</li>
-<li>fn().getName()</li>
-<li>getName()</li>
-<li>new fn.getName()</li>
-<li>new fn().getName()</li>
-<li>new new fn().getName()</li>
-</ol>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><ol>
-<li><p>fn.getName();     ———-  大木2</p>
-</li>
-<li><p>getName();    ————-  大木4</p>
-</li>
-<li><p>fn().getName() ———-  大木</p>
-</li>
-<li><p>getName() ————— 大木</p>
-</li>
-<li><p>new fn.getName()——–大木2</p>
-</li>
-<li><p>new fn().getName()—— 大木3</p>
-</li>
-<li><p>new new fn().getName()–大木3</p>
-</li>
-</ol>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><ol>
-<li>该题首先定义了一个构造函数fn，fn内部定义了一个全局变量 getName 然后返回 this</li>
-<li>给fn定义了一个静态属性getName,注意次属性只能由 fn函数自己调用</li>
-<li>给构造函数fn原型链添加一个getName方法</li>
-<li>var 定义一个变量 getName</li>
-<li>定义一个普通函数getName</li>
-</ol>
-<p><code>JS变量解析方式是先将变量申明和函数申明放到作用域最顶部，函数和变量同名会用函数申明覆盖变量申明，然后再进行赋值操作，所以解析后代码如下</code></p>
-<p><del>var getName;</del> //无效，被覆盖</p>
-<p><del>function getName(){ alert(‘大木5’)}</del>   //覆盖上面的变量申明</p>
-<p>function fn(){<br>    getName = function(){<br>    alert(‘大木’    );<br>    return tis;<br>}</p>
-<p>fn.getName = function(){ alert(‘木2’)}</p>
-<p>fn.prototype.getName = function(){ alert(‘木3’)}</p>
-<p>getName = function(){ alert(‘大木4’)} //普通函数被重新指向一个新函数</p>
-<pre><code>第一问 fn.getName(); 是执行函数的静态变量  ---大木2
-第二问 getName() 执行普通函数 ---大木4
-第三问 fn().getName() ==先执行fn(),将全局变量getName指向新函数 alert(&apos;大木&apos;)
-      返回this--&gt;指向window,再执行window.getName()  --大木
-第四问 getName() 直接执行被在fn内部改变指向后的getName --大木
-第五问 new fn.getName() 是JS运算符优先级.语法高于new，所以是先执行(fn.getName)()，
-      然后将执行后的函数实例化操作 --大木2
-第六文 new fn().getName()--new 带参数（即 new Foo()）和函数自调用（即先 Foo()），
-      而 new 带参数的优先级是高于函数调用的! 所以此处执行顺序为(new fn()).getName()
-      即fn数理化后执行原型链方法getName --大木3
-第七问 同理先执行new fn()返回实例化对象A，new A.getName()同第五问==new(A.getName)()--大木3
-</code></pre><p><code>注意点：</code></p>
-<pre><code>1，变量提升，同名函数申明会覆盖变量申明
-2，“.”语法操作优先级高于 new语法操作
-3，函数自调用 fn() 优先级 小于 new fn()
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+},
+// 加载器
+module: {
+    // 加载器
+    loaders: [
+        // 解析.vue文件
+        { test: /\.vue$/, loader: &apos;vue&apos; },
+        // 转化ES6的语法
+        { test: /\.js$/, loader: &apos;babel&apos;, exclude: /node_modules/ },
+        // 编译css并自动添加css前缀
+        { test: /\.css$/, loader: &apos;style!css!autoprefixer&apos;},
+        //.scss 文件想要编译，scss就需要这些东西！来编译处理
+        //install css-loader style-loader sass-loader node-sass --save-dev
+        { test: /\.scss$/, loader: &apos;style!css!sass?sourceMap&apos;},
+        // 图片转化，小于32K自动转化为base64的编码 因为IE8最大支持32K 的base64
+        { test: /\.(png|jpg|gif)$/, loader: &apos;url-loader?limit=32000&amp;name=../img/[name].[ext]&apos;}, //相对于上面的outpath
+        //html模板编译？
+        { test: /\.(html|tpl)$/, loader: &apos;html-loader&apos; },
+    ]
+},
+
+// 转化成es5的语法
+babel: {
+    presets: [&apos;es2015&apos;],
+    plugins: [&apos;transform-runtime&apos;]
+},
+
+ // 启用观察  不用-w了
+watch: true, // boolean
+
+resolve: {
+    // import require时省略的扩展名，如：require(&apos;module&apos;) 不需要module.js
+    extensions: [&apos;&apos;, &apos;.js&apos;, &apos;.vue&apos;],
+    // 别名，可以直接使用别名来代表设定的路径以及其他  感觉不加更好点？？
+    alias: {
+        &apos;vue$&apos;: &apos;vue/dist/vue.js&apos;,   //给vue/dist/vue.js起个别名vue   然后后面才可以直接import Vue from &quot;vue&quot;;
+        filter: path.join(__dirname, &apos;./src/filters&apos;),
+        components: path.join(__dirname, &apos;./src/components&apos;)
+    }
+},
+// plugins: [    //强制以压缩格式转化js文件 “监听慢” 最后最后需要压缩时再使用
+//     // 抑制压缩后语法不规范的警告提示
+//     new webpack.optimize.UglifyJsPlugin({
+//       minimize: true,
+//       compress: {
+//         warnings: false,
+//       },
+//     }),
+// ]
+
+};
+</code></pre><p><code>直接命令工具运行 webpack 就OK了</code></p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/09/21/JS经典题解析/" class="archive-article-date">
-  	<time datetime="2016-09-21T09:55:18.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-21</time>
+      <a href="/2016/09/25/Vue单例webpack配置/" class="archive-article-date">
+  	<time datetime="2016-09-25T06:10:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS经典题解析/">JS经典题解析</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue单例组件/">Vue单例组件</a></li></ul>
 	</div>
 
       
@@ -273,18 +333,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/09/25/Vue单例webpack配置/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Vue单例webpack配置
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/09/18/弹性球/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">弹性球</div>
+    <a href="/2016/09/21/JS经典题解析/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS经典题</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -302,7 +353,7 @@
 
 
 
-<div class="ds-share" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;right:30px;z-index:10'>
+<div class="ds-share" data-thread-key="post-Vue单例webpack配置" data-title="Vue单例webpack配置" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;right:30px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -319,7 +370,7 @@
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-url="http://Jasonellen.github.io/2016/09/21/JS经典题解析/"></div>
+  <div class="ds-thread" data-thread-key="post-Vue单例webpack配置" data-title="Vue单例webpack配置" data-url="http://Jasonellen.github.io/2016/09/25/Vue单例webpack配置/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
