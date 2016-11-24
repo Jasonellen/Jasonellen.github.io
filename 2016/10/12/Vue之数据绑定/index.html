@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>Vue数据绑定 | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="文件安装开发版本生产版本
+ $ npm install vue 
+基本语法-无序😁Vue实例
+var app = new Vue({
+      el: &amp;apos;#app&amp;apos;,
+      //实例代理属性data
+      data: {
+        message: &amp;apos;Hello Vue!&amp;apos;,
+        seen: true,
+        to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue数据绑定">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/10/12/Vue之数据绑定/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="文件安装开发版本生产版本
+ $ npm install vue 
+基本语法-无序😁Vue实例
+var app = new Vue({
+      el: &amp;apos;#app&amp;apos;,
+      //实例代理属性data
+      data: {
+        message: &amp;apos;Hello Vue!&amp;apos;,
+        seen: true,
+        to">
+<meta property="og:image" content="http://cn.vuejs.org/images/lifecycle.png">
+<meta property="og:image" content="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png">
+<meta property="og:updated_time" content="2016-11-24T14:51:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue数据绑定">
+<meta name="twitter:description" content="文件安装开发版本生产版本
+ $ npm install vue 
+基本语法-无序😁Vue实例
+var app = new Vue({
+      el: &amp;apos;#app&amp;apos;,
+      //实例代理属性data
+      data: {
+        message: &amp;apos;Hello Vue!&amp;apos;,
+        seen: true,
+        to">
+<meta name="twitter:image" content="http://cn.vuejs.org/images/lifecycle.png">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&amp;bo=tAC0AAAAAAAFByQ!&amp;rf=photolist&amp;t=5" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&amp;bo=tAC0AAAAAAAFByQ!&amp;rf=photolist&amp;t=5" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vue数据绑定
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
+<p><strong> $ npm install vue </strong></p>
+<h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
+<pre><code>var app = new Vue({
+      el: &apos;#app&apos;,
+      //实例代理属性data
+      data: {
+        message: &apos;Hello Vue!&apos;,
+        seen: true,
+        todos: [
+              { text: &apos;Learn JavaScript&apos; },
+              { text: &apos;Learn Vue&apos; },
+              { text: &apos;Build something awesome&apos; }
+        ],
+        html:&apos;&lt;p&gt;这是插入的p标签&lt;/p&gt;&apos;,
+        ...
+        filters: {
+            capitalize: function (value) {
+              if (!value) return &apos;&apos;
+              value = value.toString()
+              return value.charAt(0).toUpperCase() + value.slice(1)
+           }
+      },
+      //计算属性
+      computed:{
+          reverseMessage:function(){...},
+          //绑定fullName，没有参数默认执行getter，有参数默认执行setter
+          fullName: {
+            // getter
+            get: function () {
+                  return this.firstName + &apos; &apos; + this.lastName
+            },
+            // setter
+            set: function (newValue) {
+                  var names = newValue.split(&apos; &apos;)
+                  this.firstName = names[0]
+                  this.lastName = names[names.length - 1]
+            }
+          }
+      },
+      //方法
+      methods:{
+          myclick:function(){...}
+      },
+      watch:{
+          seen:function(){...}
+      },
+      //钩子函数 
+      //mounted当组件被挂载并解析完成后执行
+      mounted:function(){
+          ...
+      },
+      ...
+
+})
+</code></pre><p><code>内容绑定</code></p>
+<pre><code>//内容绑定
+&lt;div id=&quot;app&quot;&gt;{{ message }}&lt;/div&gt;
+</code></pre><p><code>属性绑定</code></p>
+<pre><code>//绑定title属性到message上
+&lt;span v-bind:title=&quot;message&quot;&gt;&lt;/span&gt;
+</code></pre><p><code>v-if</code></p>
+<pre><code>//执行的是append和remove  和show有本质的区别
+//如果seen为true则now you see 显示，否则no see显示
+&lt;p v-if=&quot;seen&quot;&gt;Now you see me&lt;/p&gt;
+&lt;p v-else&gt;no see&lt;/p&gt;
+</code></pre><p><code>v-show</code></p>
+<pre><code>//执行的是 diplay:none 与 display：block 
+//不支持给组件设置 如&lt;template v-show=&apos;seen&apos;&gt;
+&lt;h1 v-show=&quot;seen&quot;&gt;Hello!&lt;/h1&gt;
+</code></pre><p><code>v-for循环</code></p>
+<pre><code>&lt;ol&gt;
+    //数组的话todo 和todos名字要一一对应，一个单数一个复数,二参可选(下标)
+    //建议提供key,以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
+    &lt;li v-for=&quot;(todo,index) in todos&quot; :key=&quot;item.id&gt;               {{ todo.text }}
+       &lt;/li&gt;
+&lt;/ol&gt;
+
+//遍历对象不用一一对应，一参 键值，二参键名(可选)，三参索引(可选)
+&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
+      {{ index }}. {{ key }} : {{ value }}
+&lt;/div&gt;
+
+//取整数
+&lt;span v-for=&quot;n in 10&quot;&gt;{{ n }}&lt;/span&gt;
+&lt;li v-for=&quot;n in evenNumbers&quot;&gt;{{ n }}&lt;/li&gt; //计算属性
+&lt;li v-for=&quot;n in even(10)&quot;&gt;{{ n }}&lt;/li&gt;
+
+//v-for 支持 &lt;template&gt; 循环渲染很多模板--数据需要绑定，不能自动传进组件里
+&lt;my-component
+      v-for=&quot;(item, index) in items&quot;
+      v-bind:item=&quot;item&quot;
+     v-bind:index=&quot;index&quot;&gt;
+&lt;/my-component&gt;
+</code></pre><p><code>事件绑定</code></p>
+<pre><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;
+//缩写
+v-bind:href=&quot;url&quot;  ==  :href=&quot;url&quot;
+v-on:click=&quot;reverseMessage&quot;  ==  @click=&quot;reverseMessage&quot;
+</code></pre><p><code>表单双向绑定</code></p>
+<pre><code>  &lt;input v-model=&quot;message&quot;&gt;
+  &lt;p&gt;{{ message }}&lt;/p&gt;
+
+  //需要换行？    white-space: pre直接空格/换行
+  &lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
+&lt;br&gt;
+&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
+</code></pre><p><code>标签插值</code></p>
+<pre><code>//span将被忽略
+&lt;div v-html=&apos;html&apos;&gt;{{html}}&lt;span&gt;11111&lt;/span&gt;&lt;/div&gt;
+</code></pre><p><code>模板表达式</code></p>
+<pre><code>//模板表达式中还可以使用 Math 和 Date不能访问用户定义的全局变量
+{{ number + 1 }}
+{{ ok ? 'YES' : 'NO' }}
+{{ message.split('').reverse().join('') }}
+//list- 是字符串 id是绑定的变量
+&lt;div v-bind:id=&quot;&apos;list-&apos; + id&quot;&gt;&lt;/div&gt;
+</code></pre><p><code>过滤</code></p>
+<pre><code>//默认参数是message或message表达式的返回值
+&lt;div&gt;{{ message | filterA | filterB }}&lt;/div&gt;
+//传入的参数表示过滤函数的第二参和第三参
+{{ message | filterA('arg1', arg2) }}
+</code></pre><p><code>事件修饰符</code></p>
+<pre><code>&lt;!-- 阻止单击事件冒泡 --&gt;
+&lt;a v-on:click.stop=&quot;doThis&quot;&gt;&lt;/a&gt;
+
+&lt;!-- 提交事件不再重载页面 --&gt;
+&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
+
+&lt;!-- 修饰符可以串联  --&gt;
+&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
+
+&lt;!-- 只有修饰符 --&gt;
+&lt;form v-on:submit.prevent&gt;&lt;/form&gt;
+
+&lt;!-- 添加事件侦听器时使用事件捕获模式 --&gt;
+&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
+
+&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;
+&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
+</code></pre><p><code>按键修饰符</code></p>
+<pre><code>&lt;!-- 只有在 keyCode 是 13 时调用 vm.submit() --&gt;
+&lt;input v-on:keyup.13=&quot;submit&quot;&gt;
+
+//记不住所有的code？用名字呗
+&lt;!-- 同上 --&gt;
+&lt;input v-on:keyup.enter=&quot;submit&quot;&gt;
+//enter，tab，delete，esc，space，up，down，left，right
+
+&lt;!-- 没有想用的？自定义喽 --&gt;
+// 可以使用 v-on:keyup.f1
+Vue.config.keyCodes.A = 112
+</code></pre><p><code>对象/数组语法</code></p>
+<pre><code>//当对象的值isActive为真时 class将会有类名 对象的键  一直都有div的类名
+v-bind:class=&quot;{ active: isActive, &apos;text-danger&apos;: hasError }&quot; class=‘div’&gt;
+
+//activeClass和errorClass为真时才会被赋值给class
+&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
+
+//样式绑定     --前缀vue会自动添加
+&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &apos;px&apos; }&quot;&gt;&lt;/div&gt;
+...清晰的写法...
+&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;    
+data: {
+      styleObject: {
+        color: &apos;red&apos;,
+        fontSize: &apos;13px&apos;
+      }
+}
+</code></pre><p><code>数组方法</code></p>
+<pre><code>如下两项改变data不会重新渲染页面
+1，vm.items[indexOfItem] = newValue
+    改为：Vue.set(example1.items, indexOfItem, newValue)
+    或：example1.items.splice(indexOfItem, 1, newValue)
+
+2，vm.items.length = newLength
+    改为：example1.items.splice(newLength)
+</code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
+<li>只有当data属性里的值改变才会重新渲染view视图</li>
+<li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速</li>
+<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多    次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
+<li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
+</ul>
+<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
+  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue数据绑定/">Vue数据绑定</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/10/14/Vue表单与组件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Vue表单与组件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/08/Vue单例webpack配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Vue单例webpack配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-Vue之数据绑定" data-title="Vue数据绑定" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-Vue之数据绑定" data-title="Vue数据绑定" data-url="http://Jasonellen.github.io/2016/10/12/Vue之数据绑定/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.taobao.com/">淘宝</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

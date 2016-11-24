@@ -6,24 +6,36 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>HEXO搭建个人博客 | 奋斗蚁🐜</title>
+  <title>16个正则表达式 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
+  <meta name="description" content="概述
+正则表达式，一个十分古老而又强大的文本处理工具，仅仅用一段非常简短的表达式语句，便能够快速实现一个非常复杂的业务逻辑。熟练地掌握正则表达式的话，能够使你的开发效率得到极大的提升。
+
+快速进入正题
+校验密码强度
+密码的强度必须是包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间。
+var reg=/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HEXO搭建个人博客">
-<meta property="og:url" content="http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/index.html">
+<meta property="og:title" content="16个正则表达式">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/10/21/16个正则表达式/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
-<meta property="og:updated_time" content="2016-11-13T09:28:15.000Z">
+<meta property="og:description" content="概述
+正则表达式，一个十分古老而又强大的文本处理工具，仅仅用一段非常简短的表达式语句，便能够快速实现一个非常复杂的业务逻辑。熟练地掌握正则表达式的话，能够使你的开发效率得到极大的提升。
+
+快速进入正题
+校验密码强度
+密码的强度必须是包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间。
+var reg=/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/">
+<meta property="og:updated_time" content="2016-11-24T14:52:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HEXO搭建个人博客">
-<meta name="twitter:description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
+<meta name="twitter:title" content="16个正则表达式">
+<meta name="twitter:description" content="概述
+正则表达式，一个十分古老而又强大的文本处理工具，仅仅用一段非常简短的表达式语句，便能够快速实现一个非常复杂的业务逻辑。熟练地掌握正则表达式的话，能够使你的开发效率得到极大的提升。
+
+快速进入正题
+校验密码强度
+密码的强度必须是包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间。
+var reg=/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -135,7 +147,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-16个正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -145,7 +157,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HEXO搭建个人博客
+      16个正则表达式
     </h1>
   
 
@@ -153,63 +165,98 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号"><a href="#我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号" class="headerlink" title="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)"></a>我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)</h3><p><code>1. $ sudo npm install hexo -g   安装博客搭建环境hexo</code></p>
-<p><code>2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地</code></p>
-<p><code>3. $ cd Jasonellen.github.io仓库</code></p>
-<p><code>4. $ hexo init 初始化文件夹</code></p>
-<p><code>5. 初始化OK可以用$ hexo server开启服务器查看个人搭建的博客</code></p>
-<p><code>6. 进入_config.xml 修改个人相关信息</code></p>
-<pre><code>title: 奋斗蚁🐜
-subtitle: 前端拼搏中的小小蚁🐜
-description:
-author: Jasonellen
-</code></pre><p><code>7. $ npm install hexo-deployer-git --save</code></p>
-<p><code>8. 同步到github账号</code></p>
-<pre><code>_config.xml拉倒最底部修改文件
-deploy:
-      type: git
-      repo: https://github.com/Jasonellen/Jasonellen.github.io.git
-</code></pre><p><code>9. 写博客</code></p>
-<ul>
-<li><p>$ hexo new 论天气</p>
-<pre><code>新建文件，对应生成到source下面的.MD文件，可以用markdown编写，Markdown简易语法教程请查看我上一篇的博客
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><blockquote>
+<p>正则表达式，一个十分古老而又强大的文本处理工具，仅仅用一段非常简短的表达式语句，便能够快速实现一个非常复杂的业务逻辑。熟练地掌握正则表达式的话，能够使你的开发效率得到极大的提升。</p>
+</blockquote>
+<h1 id="快速进入正题"><a href="#快速进入正题" class="headerlink" title="快速进入正题"></a>快速进入正题</h1><ol>
+<li><p>校验密码强度</p>
+<pre><code>密码的强度必须是包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间。
+var reg=/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/
+if (reg.test(tel)){
+    return true;
+}else{
+    return false;
+}
 </code></pre></li>
-<li><p>hexo g</p>
-<pre><code>编译生成对应的html文件
+<li><p>校验中文</p>
+<pre><code>字符串仅能是中文。
+var reg=/^[\\u4e00-\\u9fa5]{0,}$/
 </code></pre></li>
-<li><p>hexo server 预览</p>
-<pre><code>开启服务器，本地预览写好的文章
+<li><p>由数字、26个英文字母或下划线组成的字符串</p>
+<pre><code>var reg=/^\\w+$/
 </code></pre></li>
-<li><p>hexo d 发布</p>
-<pre><code>同步到github账号
+<li><p>校验E-Mail 地址</p>
+<pre><code>同密码一样，下面是E-mail地址合规性的正则检查语句。
+var reg=/[\\w!#$%&amp;&apos;*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&amp;&apos;*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/
 </code></pre></li>
-</ul>
-<p><code>10. 博客Markdown css样式修改</code></p>
-<pre><code>样式修改的地址是 themes--languages--source--css
-如果博客打开后台有jq引入报错是因为默认引入的是谷歌CDN文件不稳定，可以修改为其他在线jquery文件即可，修改路径为themes--landscape-layout-_partial-after-footer.ejs
-</code></pre><p><code>11. 添加评论系统--这里用的是多说评论</code></p>
-<ul>
-<li>进入<a href="http://duoshuo.com/" target="_blank" rel="external">多说官网</a></li>
-<li>点击我要安装</li>
-<li>填完注册信息（记得有一个多说域名 xxx.duosho.com）自己写的xxx要记得后面会用到</li>
-<li>注册完会生成一段html代码如下(就是通用代码)</li>
-<li>进入前面的配置文件_config.xml,找个空白地新增 duoshuo_shortname: 上面注册时用的xxx</li>
-<li>进入themes\landscape\layout_partial\article.ejs</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">把最后一段这个代码</div><div class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</div><div class="line">  &lt;section id=&quot;comments&quot;&gt;</div><div class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</div><div class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/section&gt;</div><div class="line">  &lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</div><div class="line"> &lt;!-- 多说评论框 start --&gt;</div><div class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
-<h1 id="OVER-喜欢就点个赞吧"><a href="#OVER-喜欢就点个赞吧" class="headerlink" title="OVER 喜欢就点个赞吧"></a>OVER 喜欢就点个赞吧</h1>
+<li><p>校验身份证号码</p>
+<pre><code>下面是身份证号码的正则校验。15 或 18位。
+15位：
+var reg=/^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$/
+18位：
+var reg=/^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$/
+</code></pre></li>
+<li><p>校验日期</p>
+<pre><code>“yyyy-mm-dd“ 格式的日期校验，已考虑平闰年。
+var reg=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/
+</code></pre></li>
+<li><p>校验金额</p>
+<pre><code>金额校验，精确到2位小数。
+var reg=/^[0-9]+(.[0-9]{2})?$/
+</code></pre></li>
+<li><p>校验手机号</p>
+<pre><code>下面是国内 13、15、18开头的手机号正则表达式。（可根据目前国内收集号扩展前两位开头号码）
+var reg=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$/
+</code></pre></li>
+<li><p>判断IE的版本</p>
+<pre><code>IE目前还没被完全取代，很多页面还是需要做版本兼容，下面是IE版本检查的表达式。
+var reg=/^.*MSIE [5-8](?:\\.[0-9]+)?(?!.*Trident\\/[5-9]\\.0).*$/
+</code></pre></li>
+<li><p>校验IP-v4地址</p>
+<pre><code>P4 正则语句。
+var reg=/\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b/
+</code></pre></li>
+<li><p>校验IP-v6地址</p>
+<pre><code>IP6 正则语句。
+var reg=/(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))
+</code></pre></li>
+<li><p>检查URL的前缀</p>
+<pre><code>应用开发中很多时候需要区分请求是HTTPS还是HTTP，通过下面的表达式可以取出一个url的前缀然后再逻辑判断。
+if (!s.match(/^[a-zA-Z]+:\\/\\//)){
+    s = &apos;http://&apos; + s;
+}
+</code></pre></li>
+<li><p>提取URL链接</p>
+<pre><code>下面的这个表达式可以筛选出一段文本中的URL。
+var reg=/^(f|ht){1}(tp|tps):\\/\\/([\\w-]+\\.)+[\\w-]+(\\/[\\w- ./?%&amp;=]*)?/
+</code></pre></li>
+<li><p>文件路径及扩展名校验</p>
+<pre><code>验证windows下文件路径和扩展名（下面的例子中为.txt文件）
+var reg=/^([a-zA-Z]\\:|\\\\)\\\\([^\\\\]+\\\\)*[^\\/:*?&quot;&lt;&gt;|]+\\.txt(l)?$/
+</code></pre></li>
+</ol>
+<ol>
+<li><p>提取网页图片</p>
+<pre><code>假若你想提取网页中所有图片信息，可以利用下面的表达式。
+var reg=/\\&lt; *[img][^\\\\&gt;]*[src] *= *[\\&quot;\\&apos;]{0,1}([^\\&quot;\\&apos;\\ &gt;]*)/
+</code></pre></li>
+<li><p>匹配HTML标签</p>
+<pre><code>通过下面的表达式可以匹配出HTML中的标签属性。
+var reg=/&lt;\\/?\\w+((\\s+\\w+(\\s*=\\s*(?:&quot;.*?&quot;|&apos;.*?&apos;|[\\^&apos;&quot;&gt;\\s]+))?)+\\s*|\\s*)\\/?&gt;/
+</code></pre></li>
+</ol>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/09/15/HEXO搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-15T01:53:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-15</time>
+      <a href="/2016/10/21/16个正则表达式/" class="archive-article-date">
+  	<time datetime="2016-10-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/16个正则表达式/">16个正则表达式</a></li></ul>
 	</div>
 
       
@@ -222,18 +269,18 @@ deploy:
   
 <nav id="article-nav">
   
-    <a href="/2016/09/21/ES6新特性/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/10/25/filter滤镜/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          ES6新特性
+          filter滤镜
         
       </div>
     </a>
   
   
-    <a href="/2016/09/14/MarkDown/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MarkDown 语法</div>
+    <a href="/2016/10/14/Vue表单与组件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Vue表单与组件</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -251,7 +298,7 @@ deploy:
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-HEXO搭建个人博客" data-title="HEXO搭建个人博客" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-16个正则表达式" data-title="16个正则表达式" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -268,7 +315,7 @@ deploy:
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-HEXO搭建个人博客" data-title="HEXO搭建个人博客" data-url="http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/"></div>
+  <div class="ds-thread" data-thread-key="post-16个正则表达式" data-title="16个正则表达式" data-url="http://Jasonellen.github.io/2016/10/21/16个正则表达式/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

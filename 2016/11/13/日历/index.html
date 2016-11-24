@@ -6,24 +6,36 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>HEXO搭建个人博客 | 奋斗蚁🐜</title>
+  <title>简版日历📅 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
+  <meta name="description" content="原生JS打造简版日历先来个预览：简版日历📅
+布局HTML:
+&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;
+    &amp;lt;ul class=&amp;quot;week&amp;quot;&amp;gt;
+        &amp;lt;li&amp;gt;星期日&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;星期一&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;星期二&amp;lt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HEXO搭建个人博客">
-<meta property="og:url" content="http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/index.html">
+<meta property="og:title" content="简版日历📅">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/11/13/日历/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
-<meta property="og:updated_time" content="2016-11-13T09:28:15.000Z">
+<meta property="og:description" content="原生JS打造简版日历先来个预览：简版日历📅
+布局HTML:
+&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;
+    &amp;lt;ul class=&amp;quot;week&amp;quot;&amp;gt;
+        &amp;lt;li&amp;gt;星期日&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;星期一&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;星期二&amp;lt;">
+<meta property="og:updated_time" content="2016-11-24T14:52:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HEXO搭建个人博客">
-<meta name="twitter:description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
+<meta name="twitter:title" content="简版日历📅">
+<meta name="twitter:description" content="原生JS打造简版日历先来个预览：简版日历📅
+布局HTML:
+&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;
+    &amp;lt;ul class=&amp;quot;week&amp;quot;&amp;gt;
+        &amp;lt;li&amp;gt;星期日&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;星期一&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;星期二&amp;lt;">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -135,7 +147,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-日历" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -145,7 +157,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HEXO搭建个人博客
+      简版日历📅
     </h1>
   
 
@@ -153,63 +165,189 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号"><a href="#我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号" class="headerlink" title="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)"></a>我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)</h3><p><code>1. $ sudo npm install hexo -g   安装博客搭建环境hexo</code></p>
-<p><code>2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地</code></p>
-<p><code>3. $ cd Jasonellen.github.io仓库</code></p>
-<p><code>4. $ hexo init 初始化文件夹</code></p>
-<p><code>5. 初始化OK可以用$ hexo server开启服务器查看个人搭建的博客</code></p>
-<p><code>6. 进入_config.xml 修改个人相关信息</code></p>
-<pre><code>title: 奋斗蚁🐜
-subtitle: 前端拼搏中的小小蚁🐜
-description:
-author: Jasonellen
-</code></pre><p><code>7. $ npm install hexo-deployer-git --save</code></p>
-<p><code>8. 同步到github账号</code></p>
-<pre><code>_config.xml拉倒最底部修改文件
-deploy:
-      type: git
-      repo: https://github.com/Jasonellen/Jasonellen.github.io.git
-</code></pre><p><code>9. 写博客</code></p>
-<ul>
-<li><p>$ hexo new 论天气</p>
-<pre><code>新建文件，对应生成到source下面的.MD文件，可以用markdown编写，Markdown简易语法教程请查看我上一篇的博客
-</code></pre></li>
-<li><p>hexo g</p>
-<pre><code>编译生成对应的html文件
-</code></pre></li>
-<li><p>hexo server 预览</p>
-<pre><code>开启服务器，本地预览写好的文章
-</code></pre></li>
-<li><p>hexo d 发布</p>
-<pre><code>同步到github账号
-</code></pre></li>
-</ul>
-<p><code>10. 博客Markdown css样式修改</code></p>
-<pre><code>样式修改的地址是 themes--languages--source--css
-如果博客打开后台有jq引入报错是因为默认引入的是谷歌CDN文件不稳定，可以修改为其他在线jquery文件即可，修改路径为themes--landscape-layout-_partial-after-footer.ejs
-</code></pre><p><code>11. 添加评论系统--这里用的是多说评论</code></p>
-<ul>
-<li>进入<a href="http://duoshuo.com/" target="_blank" rel="external">多说官网</a></li>
-<li>点击我要安装</li>
-<li>填完注册信息（记得有一个多说域名 xxx.duosho.com）自己写的xxx要记得后面会用到</li>
-<li>注册完会生成一段html代码如下(就是通用代码)</li>
-<li>进入前面的配置文件_config.xml,找个空白地新增 duoshuo_shortname: 上面注册时用的xxx</li>
-<li>进入themes\landscape\layout_partial\article.ejs</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">把最后一段这个代码</div><div class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</div><div class="line">  &lt;section id=&quot;comments&quot;&gt;</div><div class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</div><div class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/section&gt;</div><div class="line">  &lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</div><div class="line"> &lt;!-- 多说评论框 start --&gt;</div><div class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
-<h1 id="OVER-喜欢就点个赞吧"><a href="#OVER-喜欢就点个赞吧" class="headerlink" title="OVER 喜欢就点个赞吧"></a>OVER 喜欢就点个赞吧</h1>
+        <h2 id="原生JS打造简版日历"><a href="#原生JS打造简版日历" class="headerlink" title="原生JS打造简版日历"></a>原生JS打造简版日历</h2><p><code>先来个预览：</code><a href="http://htmlpreview.github.io?https://github.com/Jasonellen/jasonProject.github.io/blob/master/calendar.html" target="_blank" rel="external">简版日历📅</a></p>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p><code>HTML:</code></p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;ul class=&quot;week&quot;&gt;
+        &lt;li&gt;星期日&lt;/li&gt;
+        &lt;li&gt;星期一&lt;/li&gt;
+        &lt;li&gt;星期二&lt;/li&gt;
+        &lt;li&gt;星期三&lt;/li&gt;
+        &lt;li&gt;星期四&lt;/li&gt;
+        &lt;li&gt;星期五&lt;/li&gt;
+        &lt;li&gt;星期六&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;ul class=&quot;wrap&quot;&gt;
+        &lt;li&gt;12&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;box&quot;&gt;
+    &lt;button class=&quot;preY&quot;&gt;上一年&lt;/button&gt;
+    &lt;button class=&quot;nextY&quot;&gt;下一年&lt;/button&gt;
+    &lt;button class=&quot;preM&quot;&gt;上个月&lt;/button&gt;
+    &lt;button class=&quot;nextM&quot;&gt;下个月&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;show&quot;&gt;12&lt;/div&gt;
+</code></pre><p><code>CSS:</code></p>
+<pre><code>&lt;style&gt;
+    ul,ol,li{
+        margin:0;
+        padding: 0;
+        list-style: none;
+    }
+    body{
+        background: #000;
+    }
+    .container{
+        width: 420px;
+        color: olive;
+    }
+    .container li{
+        width: 48px;
+        float: left;
+        border:1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+    .week li{
+        text-align: center;
+        height: 25px;
+        line-height: 25px;
+        padding: 2px;
+        background: green;
+        color: white;
+    }
+    .wrap li{
+        width:48px;
+        float: left;
+        height:48px;
+        text-align: center;
+        line-height: 48px;
+        margin:2px;
+        cursor: pointer;
+    }
+
+    .box{
+        position: absolute;
+        top: 360px;
+    }
+    button{
+        padding: 10px;
+        font-size:20px;
+        color: olive;
+    }
+    .show{
+        position: absolute;
+        left: 500px;
+        top: 100px;
+        color: gold;
+        font-size: 80px;
+    }
+&lt;/style&gt;
+</code></pre><h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><pre><code>var wrap =document.querySelector(&apos;.wrap&apos;);
+var preM =document.querySelector(&apos;.preM&apos;);
+var preY =document.querySelector(&apos;.preY&apos;);
+var nextM =document.querySelector(&apos;.nextM&apos;);
+var nextY =document.querySelector(&apos;.nextY&apos;);
+var show =document.querySelector(&apos;.show&apos;);
+
+var _Date = new Date();
+//显示的年月
+var show_year = _Date.getFullYear();
+var show_month = _Date.getMonth();
+
+//当前的年月日
+var now_year = _Date.getFullYear();
+var now_month = _Date.getMonth();
+var date = _Date.getDate();
+var inner =date; //初始化显示的日期
+
+setDate();
+preY.onclick=function(){
+    show_year--;
+    setDate();
+}
+nextY.onclick=function(){
+    show_year++;
+    setDate();
+}
+preM.onclick=function(){
+    show_month--;
+    if (show_month&lt;0) {
+        show_month=11;
+        show_year--;
+    }
+    setDate();
+}
+nextM.onclick=function(){
+    show_month++;
+    if (show_month&gt;0) {
+        show_month=0;
+        show_year++;
+    }
+    setDate();
+}
+
+function setDate(){
+    wrap.innerHTML=&apos;&apos;;  //清空列表
+
+    var today = new Date(show_year,show_month,1); //获取本年本月第一天
+    var num = today.getDay(); //获取本月第一天是周几
+    for(var i=0; i&lt;num ; i++){
+        wrap.appendChild(document.createElement(&apos;li&apos;)) //本月第一天之前添加空白标签
+    }
+
+    //本月最后一天通过下个月第0天可以获取到
+    var last_date = new Date(show_year,show_month+1,0).getDate();
+
+    //循环添加本月的日期列表，并将现在的当天设置背景颜色
+    for(var i=0; i&lt;last_date; i++){
+        var li = document.createElement(&apos;li&apos;);
+        li.innerHTML = i+1;
+
+        //如果显示的年月等于当前的年月，且当前日期等于循环的添加的li,改为选中状态
+        if( date == i+1 &amp;&amp; show_year ==now_year &amp;&amp; show_month == now_month){
+            li.style.background=&apos;red&apos;;
+            li.style.color=&apos;white&apos;;
+        }
+        wrap.appendChild(li);    
+    }
+
+    //设置每个li可以点击
+    var li = wrap.getElementsByTagName(&apos;li&apos;);
+    var length =li.length;
+    for(var i=0; i&lt;length; i++){
+        li.index =i;
+        li[i].onclick=function(){
+            if(this.innerHTML){
+                for(var j=0; j&lt;length; j++){
+                    li[j].style.background=&apos;&apos;;
+                    li[j].style.color=&apos;&apos;;
+                }
+                this.style.background=&apos;red&apos;;
+                this.style.color=&apos;white&apos;;
+                inner=this.innerHTML;
+                show.innerHTML=`${show_year}年${show_month}月${inner}日`;
+            }
+        }
+    }
+    //设置显示时间
+    show.innerHTML=`${show_year}年${show_month}月${inner}日`;
+}
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/09/15/HEXO搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-15T01:53:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-15</time>
+      <a href="/2016/11/13/日历/" class="archive-article-date">
+  	<time datetime="2016-11-13T13:20:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-13</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/简版日历/">简版日历</a></li></ul>
 	</div>
 
       
@@ -222,18 +360,9 @@ deploy:
   
 <nav id="article-nav">
   
-    <a href="/2016/09/21/ES6新特性/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          ES6新特性
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/09/14/MarkDown/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MarkDown 语法</div>
+    <a href="/2016/10/25/filter滤镜/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">filter滤镜</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -251,7 +380,7 @@ deploy:
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-HEXO搭建个人博客" data-title="HEXO搭建个人博客" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-日历" data-title="简版日历📅" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -268,7 +397,7 @@ deploy:
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-HEXO搭建个人博客" data-title="HEXO搭建个人博客" data-url="http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/"></div>
+  <div class="ds-thread" data-thread-key="post-日历" data-title="简版日历📅" data-url="http://Jasonellen.github.io/2016/11/13/日历/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

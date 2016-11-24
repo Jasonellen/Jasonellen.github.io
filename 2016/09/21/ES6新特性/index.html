@@ -6,24 +6,48 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>HEXO搭建个人博客 | 奋斗蚁🐜</title>
+  <title>ES6新特性 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
+  <meta name="description" content="没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：
+
+Default Parameters（默认参数）
+
+Template Literals （模板文本）
+
+Multi-line Strings （多行字符串）
+
+Destructuring Assignment （解构赋值）
+
+Enhanced Object Literals （增强的对">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HEXO搭建个人博客">
-<meta property="og:url" content="http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/index.html">
+<meta property="og:title" content="ES6新特性">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/09/21/ES6新特性/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
-<meta property="og:updated_time" content="2016-11-13T09:28:15.000Z">
+<meta property="og:description" content="没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：
+
+Default Parameters（默认参数）
+
+Template Literals （模板文本）
+
+Multi-line Strings （多行字符串）
+
+Destructuring Assignment （解构赋值）
+
+Enhanced Object Literals （增强的对">
+<meta property="og:updated_time" content="2016-11-24T14:49:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HEXO搭建个人博客">
-<meta name="twitter:description" content="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)1. $ sudo npm install hexo -g   安装博客搭建环境hexo
-2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地
-3. $ cd Jasonellen.githu">
+<meta name="twitter:title" content="ES6新特性">
+<meta name="twitter:description" content="没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：
+
+Default Parameters（默认参数）
+
+Template Literals （模板文本）
+
+Multi-line Strings （多行字符串）
+
+Destructuring Assignment （解构赋值）
+
+Enhanced Object Literals （增强的对">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -135,7 +159,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-ES6新特性" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -145,7 +169,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HEXO搭建个人博客
+      ES6新特性
     </h1>
   
 
@@ -153,63 +177,202 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号"><a href="#我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号" class="headerlink" title="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)"></a>我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)</h3><p><code>1. $ sudo npm install hexo -g   安装博客搭建环境hexo</code></p>
-<p><code>2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地</code></p>
-<p><code>3. $ cd Jasonellen.github.io仓库</code></p>
-<p><code>4. $ hexo init 初始化文件夹</code></p>
-<p><code>5. 初始化OK可以用$ hexo server开启服务器查看个人搭建的博客</code></p>
-<p><code>6. 进入_config.xml 修改个人相关信息</code></p>
-<pre><code>title: 奋斗蚁🐜
-subtitle: 前端拼搏中的小小蚁🐜
-description:
-author: Jasonellen
-</code></pre><p><code>7. $ npm install hexo-deployer-git --save</code></p>
-<p><code>8. 同步到github账号</code></p>
-<pre><code>_config.xml拉倒最底部修改文件
-deploy:
-      type: git
-      repo: https://github.com/Jasonellen/Jasonellen.github.io.git
-</code></pre><p><code>9. 写博客</code></p>
+        <p>没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：</p>
 <ul>
-<li><p>$ hexo new 论天气</p>
-<pre><code>新建文件，对应生成到source下面的.MD文件，可以用markdown编写，Markdown简易语法教程请查看我上一篇的博客
-</code></pre></li>
-<li><p>hexo g</p>
-<pre><code>编译生成对应的html文件
-</code></pre></li>
-<li><p>hexo server 预览</p>
-<pre><code>开启服务器，本地预览写好的文章
-</code></pre></li>
-<li><p>hexo d 发布</p>
-<pre><code>同步到github账号
+<li><p>Default Parameters（默认参数）</p>
+</li>
+<li><p>Template Literals （模板文本）</p>
+</li>
+<li><p>Multi-line Strings （多行字符串）</p>
+</li>
+<li><p>Destructuring Assignment （解构赋值）</p>
+</li>
+<li><p>Enhanced Object Literals （增强的对象文本）</p>
+</li>
+<li><p>Arrow Functions （箭头函数）</p>
+</li>
+<li><p>Promises </p>
+</li>
+<li><p>Block-Scoped Constructs Let and Const（块作用域构造Let and Const）</p>
+</li>
+<li><p>Classes（类） </p>
+</li>
+<li><p>Modules（模块）</p>
+</li>
+</ul>
+<h2 id="Default-Parameters（默认参数）"><a href="#Default-Parameters（默认参数）" class="headerlink" title="Default Parameters（默认参数）"></a>Default Parameters（默认参数）</h2><p><code>before</code></p>
+<pre><code>var fn = function (height) {
+    var height = height || 50;
+       ...;
+}
+</code></pre><p><code>now</code></p>
+<pre><code>var fn = function (height=50) {
+       ...;
+}
+</code></pre><h2 id="Template-Literals（模板对象）"><a href="#Template-Literals（模板对象）" class="headerlink" title="Template Literals（模板对象）"></a>Template Literals（模板对象）</h2><p><code>before</code></p>
+<pre><code>var name = &apos;Your name is &apos; + first + &apos; &apos; + last + &apos;.&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var name = `Your name is ${first} ${last}. `;
+</code></pre><h2 id="Multi-line-Strings-（多行字符串）"><a href="#Multi-line-Strings-（多行字符串）" class="headerlink" title="Multi-line Strings （多行字符串）"></a>Multi-line Strings （多行字符串）</h2><p><code>before</code></p>
+<pre><code>var roadPoem = &apos;Then took the other, as just as fair,nt&apos;
+                + &apos;Had worn them really about the same,nt&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var roadPoem = `Then took the other, as just as fair,
+                Had worn them really about the same,`;
+</code></pre><h2 id="Destructuring-Assignment-（解构赋值）"><a href="#Destructuring-Assignment-（解构赋值）" class="headerlink" title="Destructuring Assignment （解构赋值）"></a>Destructuring Assignment （解构赋值）</h2><p><code>before</code></p>
+<pre><code>someArray=[1,2,3];
+var first = someArray[0];
+var second = someArray[1];
+var third = someArray[2];
+
+var obj={ foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+var foo = obj.foo;
+var bar = obj.bar;
+</code></pre><p><code>now</code></p>
+<pre><code>someArray=[1,2,3];
+var [first, second, third] = someArray;
+console.log(first);  // 1
+console.log(second); // 2
+console.log(third);  // 3
+
+var { foo, bar } = { foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+console.log(foo); // &quot;lorem&quot;
+console.log(bar); // &quot;ipsum&quot;
+</code></pre><h2 id="Enhanced-Object-Literals-（增强的对象字面量）"><a href="#Enhanced-Object-Literals-（增强的对象字面量）" class="headerlink" title="Enhanced Object Literals （增强的对象字面量）"></a>Enhanced Object Literals （增强的对象字面量）</h2><p><code>before</code></p>
+<pre><code>var obj = {
+    handler: handler,
+    toString: function() {
+        return &quot;d &quot; + super.toString();
+    },
+    prop42: 42
+</code></pre><p>};</p>
+<p><code>now</code></p>
+<pre><code>var obj = {
+    handler,   //ES6特性 === handler: handler,
+    toString() {   //ES6函数
+        return &quot;d &quot; + super.toString();
+       },
+    [ &apos;prop_&apos; + (() =&gt; 42)() ]: 42  
+    //主要是这个可以在字面量中加入变量 == prop42: 42
+};
+</code></pre><h2 id="Arrow-Functions-in（箭头函数）"><a href="#Arrow-Functions-in（箭头函数）" class="headerlink" title="Arrow Functions in（箭头函数）"></a>Arrow Functions in（箭头函数）</h2><p>以前我们使用闭包，this总是预期之外地产生改变，而箭头函数的迷人之处在于，现在你的this可以按照你的预期使用了，身处箭头函数里面，this还是原来的this。</p>
+<p>有了箭头函数在ES6中， 我们就不必用that = this或 self = this 或 _this = this 或.bind(this)如下:</p>
+<p><code>before</code></p>
+<pre><code>var _this = this;
+$(&apos;.btn&apos;).click(function(event){
+     _this.sendData();
+})
+</code></pre><p><code>now</code></p>
+<pre><code>$(&apos;.btn&apos;).click((event) =&gt;{
+      this.sendData();
+})
+</code></pre><h2 id="Promises-in-ES6"><a href="#Promises-in-ES6" class="headerlink" title="Promises in ES6"></a>Promises in ES6</h2><p><code>before</code></p>
+<pre><code>setTimeout(function(){
+      console.log(&apos;Yay!&apos;);
+      setTimeout(function(){
+        console.log(&apos;Wheeyee!&apos;);
+      }, 1000)
+}, 1000);
+</code></pre><p><code>now</code></p>
+<pre><code>var wait1000 =  ()=&gt; new Promise((resolve, reject)=&gt; {setTimeout(resolve, 1000)});
+wait1000()
+    .then(function() {
+        console.log(&apos;Yay!&apos;)
+        return wait1000()
+    })
+    .then(function() {
+           console.log(&apos;Wheeyee!&apos;)
+       });
+</code></pre><p>好吧，我也没看出来哪里好用了…</p>
+<h2 id="Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）"><a href="#Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）" class="headerlink" title="Block-Scoped Constructs Let and Const（块作用域和构造let和const）"></a>Block-Scoped Constructs Let and Const（块作用域和构造let和const）</h2><ul>
+<li>Let是一种新的变量申明方式，它允许你把变量作用域控制在块级里面。用大括号定义代码块（作用域）</li>
+<li><p>const，它就是一个不变量，也是块级作用域就像let一样。<br><code>before</code></p>
+<pre><code>for(var i=0; i&lt;1; i++){
+    var a=1;
+    {
+        var  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //2
+}
+console.log(i) //1
+console.log(a) //2
+</code></pre><p><code>now</code></p>
+<pre><code>for(let i=0; i&lt;1; i++){
+    const a=1;
+    {
+        const  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //1
+}
+console.log(a) // not defined
+console.log(i) // not defined
 </code></pre></li>
 </ul>
-<p><code>10. 博客Markdown css样式修改</code></p>
-<pre><code>样式修改的地址是 themes--languages--source--css
-如果博客打开后台有jq引入报错是因为默认引入的是谷歌CDN文件不稳定，可以修改为其他在线jquery文件即可，修改路径为themes--landscape-layout-_partial-after-footer.ejs
-</code></pre><p><code>11. 添加评论系统--这里用的是多说评论</code></p>
-<ul>
-<li>进入<a href="http://duoshuo.com/" target="_blank" rel="external">多说官网</a></li>
-<li>点击我要安装</li>
-<li>填完注册信息（记得有一个多说域名 xxx.duosho.com）自己写的xxx要记得后面会用到</li>
-<li>注册完会生成一段html代码如下(就是通用代码)</li>
-<li>进入前面的配置文件_config.xml,找个空白地新增 duoshuo_shortname: 上面注册时用的xxx</li>
-<li>进入themes\landscape\layout_partial\article.ejs</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">把最后一段这个代码</div><div class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</div><div class="line">  &lt;section id=&quot;comments&quot;&gt;</div><div class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</div><div class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/section&gt;</div><div class="line">  &lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</div><div class="line"> &lt;!-- 多说评论框 start --&gt;</div><div class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
-<h1 id="OVER-喜欢就点个赞吧"><a href="#OVER-喜欢就点个赞吧" class="headerlink" title="OVER 喜欢就点个赞吧"></a>OVER 喜欢就点个赞吧</h1>
+<h2 id="Classes-（类）"><a href="#Classes-（类）" class="headerlink" title="Classes （类）"></a>Classes （类）</h2><p><code>before</code></p>
+<pre><code>function Circle(x) {
+   this.x = x;
+}
+Circle.classFn = function() { ... }
+
+Circle.prototype = {
+   fn1() {
+       return ..;
+   },
+
+   get fn2() {
+       return this.x;
+   },
+   set fn2(x) {
+       this.x = x*2;
+   }
+};
+</code></pre><p><code>now</code></p>
+<pre><code>class Circle {
+    constructor(x) {
+        this.x = x;
+    };
+
+    static classFn() { ... };
+
+    fn1(){
+        return ..;
+    }
+    get fn2() {
+        return this.x;
+    };
+    set fn2(val) {
+        this.x = x*2;
+    };
+ }
+</code></pre><h2 id="Modules-（模块）"><a href="#Modules-（模块）" class="headerlink" title="Modules （模块）"></a>Modules （模块）</h2><p><code>before</code></p>
+<p><code>module.js</code>有port变量和getAccounts 方法:</p>
+<pre><code>module.exports = {  port: 3000,  getAccounts: function() {    ...  }}
+</code></pre><p><code>main.js</code>需要依赖require(‘module’) 导入module.js：</p>
+<pre><code>var service = require(&apos;module.js&apos;);console.log(service.port); // 3000
+</code></pre><p><code>now</code></p>
+<pre><code>导出module.js
+export var port = 3000;export function getAccounts(url) {  ...}
+
+导入方式一
+import {port, getAccounts} from &apos;module&apos;;console.log(port); // 3000
+
+导入方式二
+import * as service from &apos;module&apos;;//导入全部模块
+console.log(service.port); // 3000
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/09/15/HEXO搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-15T01:53:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-15</time>
+      <a href="/2016/09/21/ES6新特性/" class="archive-article-date">
+  	<time datetime="2016-09-21T03:11:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
 	</div>
 
       
@@ -222,18 +385,18 @@ deploy:
   
 <nav id="article-nav">
   
-    <a href="/2016/09/21/ES6新特性/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/09/27/元素坐标/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          ES6新特性
+          元素坐标
         
       </div>
     </a>
   
   
-    <a href="/2016/09/14/MarkDown/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MarkDown 语法</div>
+    <a href="/2016/09/15/HEXO搭建个人博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HEXO搭建个人博客</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -251,7 +414,7 @@ deploy:
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-HEXO搭建个人博客" data-title="HEXO搭建个人博客" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-ES6新特性" data-title="ES6新特性" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -268,7 +431,7 @@ deploy:
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-HEXO搭建个人博客" data-title="HEXO搭建个人博客" data-url="http://Jasonellen.github.io/2016/09/15/HEXO搭建个人博客/"></div>
+  <div class="ds-thread" data-thread-key="post-ES6新特性" data-title="ES6新特性" data-url="http://Jasonellen.github.io/2016/09/21/ES6新特性/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

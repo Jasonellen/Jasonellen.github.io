@@ -6,14 +6,39 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: ES6 | 奋斗蚁🐜</title>
+  <title>JS经典题 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/ES6/index.html">
+  <meta name="description" content="题目如下：1，function fn(){
+    getName = function(){alert(&amp;apos;大木&amp;apos;)};
+    return this;
+}
+
+2，fn.getName = function(){ alert(&amp;apos;大木2&amp;apos;)}
+
+3，fn.prototype.getName = function(){ alert(&amp;apos;大木3&amp;apos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS经典题">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/10/02/JS经典题解析/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="题目如下：1，function fn(){
+    getName = function(){alert(&amp;apos;大木&amp;apos;)};
+    return this;
+}
+
+2，fn.getName = function(){ alert(&amp;apos;大木2&amp;apos;)}
+
+3，fn.prototype.getName = function(){ alert(&amp;apos;大木3&amp;apos">
+<meta property="og:updated_time" content="2016-11-24T14:50:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="JS经典题">
+<meta name="twitter:description" content="题目如下：1，function fn(){
+    getName = function(){alert(&amp;apos;大木&amp;apos;)};
+    return this;
+}
+
+2，fn.getName = function(){ alert(&amp;apos;大木2&amp;apos;)}
+
+3，fn.prototype.getName = function(){ alert(&amp;apos;大木3&amp;apos">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -125,54 +150,188 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-JS经典题解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/21/ES6新特性/" class="archive-article-date">
-  	<time datetime="2016-09-21T03:11:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/21/ES6新特性/">ES6新特性</a>
+    <h1 class="article-title" itemprop="name">
+      JS经典题
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目如下："><a href="#题目如下：" class="headerlink" title="题目如下："></a>题目如下：</h1><pre><code>1，function fn(){
+    getName = function(){alert(&apos;大木&apos;)};
+    return this;
+}
+
+2，fn.getName = function(){ alert(&apos;大木2&apos;)}
+
+3，fn.prototype.getName = function(){ alert(&apos;大木3&apos;)}
+
+4，var getName = function(){ alert(&apos;大木4&apos;)}
+
+5，function getName(){ alert(&apos;大木5&apos;)}
+</code></pre><p><code>请输入如下结果</code></p>
+<ol>
+<li>fn.getName();</li>
+<li>getName();</li>
+<li>fn().getName()</li>
+<li>getName()</li>
+<li>new fn.getName()</li>
+<li>new fn().getName()</li>
+<li>new new fn().getName()</li>
+</ol>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><ol>
+<li><p>fn.getName();     ———-  大木2</p>
+</li>
+<li><p>getName();    ————-  大木4</p>
+</li>
+<li><p>fn().getName() ———-  大木</p>
+</li>
+<li><p>getName() ————— 大木</p>
+</li>
+<li><p>new fn.getName()——–大木2</p>
+</li>
+<li><p>new fn().getName()—— 大木3</p>
+</li>
+<li><p>new new fn().getName()–大木3</p>
+</li>
+</ol>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><ol>
+<li>该题首先定义了一个构造函数fn，fn内部定义了一个全局变量 getName 然后返回 this</li>
+<li>给fn定义了一个静态属性getName,注意次属性只能由 fn函数自己调用</li>
+<li>给构造函数fn原型链添加一个getName方法</li>
+<li>var 定义一个变量 getName</li>
+<li>定义一个普通函数getName</li>
+</ol>
+<p><code>JS变量解析方式是先将变量申明和函数申明放到作用域最顶部，函数和变量同名会用函数申明覆盖变量申明，然后再进行赋值操作，所以解析后代码如下</code></p>
+<p><del>var getName;</del> //无效，被覆盖</p>
+<p><del>function getName(){ alert(‘大木5’)}</del>   //覆盖上面的变量申明</p>
+<p>function fn(){<br>    getName = function(){<br>    alert(‘大木’    );<br>    return tis;<br>}</p>
+<p>fn.getName = function(){ alert(‘木2’)}</p>
+<p>fn.prototype.getName = function(){ alert(‘木3’)}</p>
+<p>getName = function(){ alert(‘大木4’)} //普通函数被重新指向一个新函数</p>
+<pre><code>第一问 fn.getName(); 是执行函数的静态变量  ---大木2
+第二问 getName() 执行普通函数 ---大木4
+第三问 fn().getName() ==先执行fn(),将全局变量getName指向新函数 alert(&apos;大木&apos;)
+      返回this--&gt;指向window,再执行window.getName()  --大木
+第四问 getName() 直接执行被在fn内部改变指向后的getName --大木
+第五问 new fn.getName() 是JS运算符优先级.语法高于new，所以是先执行(fn.getName)()，
+      然后将执行后的函数实例化操作 --大木2
+第六文 new fn().getName()--new 带参数（即 new Foo()）和函数自调用（即先 Foo()），
+      而 new 带参数的优先级是高于函数调用的! 所以此处执行顺序为(new fn()).getName()
+      即fn数理化后执行原型链方法getName --大木3
+第七问 同理先执行new fn()返回实例化对象A，new A.getName()同第五问==new(A.getName)()--大木3
+</code></pre><p><code>注意点：</code></p>
+<pre><code>1，变量提升，同名函数申明会覆盖变量申明
+2，“.”语法操作优先级高于 new语法操作
+3，函数自调用 fn() 优先级 小于 new fn()
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/02/JS经典题解析/" class="archive-article-date">
+  	<time datetime="2016-10-02T09:55:18.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-02</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS经典题解析/">JS经典题解析</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2016/10/08/Vue单例webpack配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Vue单例webpack配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/29/弹性球/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">弹性球</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-url="http://Jasonellen.github.io/2016/10/02/JS经典题解析/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
 
 
       </div>
@@ -192,9 +351,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
