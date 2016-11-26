@@ -101,9 +101,90 @@ Markdown 是一种轻量级的「标记语言」，它的优点很多，目前�
 		        
 			</div>
 		</nav>
-	</header>		
+	</header>			
 </div>
 
+
+
+      <div class="ball" 
+        style="width:100px;
+            height:100px;
+            background: black;
+            border-radius:50%;
+            position: absolute;
+            bottom:0;
+            left:200px;">
+    <div class="small" style="width:1px;
+            position: absolute;
+            top:50px;
+            left:50px;
+            box-shadow: 0px 0px 80px 40px cyan;"></div></div>
+
+    <script>
+
+        var ball = document.querySelector(".ball");
+        gravBall(ball);
+
+        function gravBall(obj){
+            var timer = null;
+            var speedX =0, speedY=0,x=0,y=0;
+            var gapX =0, gapY=0;
+
+            obj.onmousedown = function(){
+                clearInterval(timer); 
+                var ev = ev || window.event;
+                gapX = ev.clientX - obj.offsetLeft;
+                gapY = ev.clientY - obj.offsetTop;
+                document.onmousemove = function(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    obj.style.left = ev.clientX - gapX  + "px";
+                    obj.style.top = ev.clientY - gapY  + "px";
+                }
+            }
+
+            obj.onmouseup = function(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    document.onmousemove = null;
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+        }
+    </script>
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -357,6 +438,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
       <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
     
   </ul>
+
   <div class="tools-wrap">
     
     	<section class="tools-section tools-section-all chose">
@@ -399,6 +481,8 @@ var duoshuoQuery = {short_name:"jasonellen"};
   </div>
   
 </div>
+
+
     <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -463,7 +547,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
         </div>
 
     </div>
-
 </div>
   </div>
 </body>
