@@ -20,23 +20,23 @@
    MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。
 
 先来安装下xampp-&amp;gt;通过网址localhost/phpmyadmin进入m">
-<meta property="og:image" content="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/Ag4Kk*azCAqOy71BetywAW8KOcfkBxuoRL39iDaZtQs!/m/dAoBAAAAAAAAnull&bo=1QJ3AAAAAAADB4I!&rf=photolist&t=5">
-<meta property="og:image" content="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/SiKgtQSfAP5RQX1eBlbApm4IVWxFByM*.HYk1QLWXvU!/m/dAoBAAAAAAAAnull&bo=8gF9AAAAAAADB6w!&rf=photolist&t=5">
-<meta property="og:image" content="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/SW79*a9mkviE2mT4Qu*aGadspuSwyL7u8X*G1LxZVko!/m/dAoBAAAAAAAAnull&bo=0ARWAQAAAAADB6E!&rf=photolist&t=5">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/908edb0egw1fa5c97uo7tj20mk05xta1.jpg">
-<meta property="og:updated_time" content="2016-11-26T03:28:16.000Z">
+<meta property="og:updated_time" content="2016-11-28T11:27:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库基本操作一">
 <meta name="twitter:description" content="本文先来谈谈MYSQL内部SQL语言的基本操作
    MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。
 
 先来安装下xampp-&amp;gt;通过网址localhost/phpmyadmin进入m">
-<meta name="twitter:image" content="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/Ag4Kk*azCAqOy71BetywAW8KOcfkBxuoRL39iDaZtQs!/m/dAoBAAAAAAAAnull&bo=1QJ3AAAAAAADB4I!&rf=photolist&t=5">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
   
-    <link rel="icon" href="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5">
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
   
   <link rel="stylesheet" href="/main.css">
   
@@ -51,7 +51,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img src="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&amp;bo=tAC0AAAAAAAFByQ!&amp;rf=photolist&amp;t=5" class="js-avatar">
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
 			
 		</a>
 
@@ -106,51 +106,38 @@
 
 
 
-      <div class="ball" 
-        style="width:100px;
+      <div class="ball" style=' width:100px;
             height:100px;
-            background: black;
-            border-radius:50%;
             position: absolute;
             bottom:0;
-            left:200px;">
-    <div class="small" style="width:1px;
-            position: absolute;
-            top:50px;
-            left:50px;
-            box-shadow: 0px 0px 80px 40px cyan;"></div></div>
+            left:200px;
+            background: url(../css/images/ball.png) no-repeat;'>
+      </div>
 
-    <script>
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
 
-        var ball = document.querySelector(".ball");
-        gravBall(ball);
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
 
-        function gravBall(obj){
-            var timer = null;
-            var speedX =0, speedY=0,x=0,y=0;
-            var gapX =0, gapY=0;
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
 
-            obj.onmousedown = function(){
-                clearInterval(timer); 
-                var ev = ev || window.event;
-                gapX = ev.clientX - obj.offsetLeft;
-                gapY = ev.clientY - obj.offsetTop;
-                document.onmousemove = function(ev){
+                function down(ev){           
+                    clearInterval(timer); 
                     var ev = ev || window.event;
-                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
-                    speedX = ev.clientX - x - gapX;
-                    speedY = ev.clientY - y - gapY;
-                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
-                    x = obj.offsetLeft;
-                    y = obj.offsetTop;
-                    obj.style.left = ev.clientX - gapX  + "px";
-                    obj.style.top = ev.clientY - gapY  + "px";
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
                 }
-            }
-
-            obj.onmouseup = function(){
+                function up(){
                     var currentX=0,currentY=0,l=0,t=0;
-                    document.onmousemove = null;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
                     timer = setInterval(function(){
                         speedY +=3;  //一直有一个Y方向的增加，仿重力
                         currentX = window.innerWidth - obj.offsetWidth;
@@ -183,8 +170,45 @@
                         obj.style.top = t  + "px";
                     },30)
                 }
-        }
-    </script>
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -196,7 +220,7 @@
 		<header id="header" class="inner">
 			<div class="profilepic">
 				
-					<img src="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&amp;bo=tAC0AAAAAAAFByQ!&amp;rf=photolist&amp;t=5" class="js-avatar">
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
 				
 			</div>
 			<hgroup>
@@ -248,10 +272,10 @@
 <h3 id="先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统"><a href="#先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统" class="headerlink" title="先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统"></a>先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统</h3><h2 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h2><p><em>数据库的操作无非是增删改查，下面就是针对这几条简单的进行罗列…</em></p>
 <h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre><code>如下所示点击new 然后填入自己的数据库名字，后面的排序规则这里选utf8_general_ci,
 这里选ci的原因是ci是 case insensitive, 即 &quot;大小写不敏感&quot;, a 和 A 会在字符判断中会被当做一样的;方便查询..
-</code></pre><p><img src="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/Ag4Kk*azCAqOy71BetywAW8KOcfkBxuoRL39iDaZtQs!/m/dAoBAAAAAAAAnull&amp;bo=1QJ3AAAAAAADB4I!&amp;rf=photolist&amp;t=5" alt=""></p>
+</code></pre><p><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg" alt=""></p>
 <h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code>字段数选择比我们要创建的列表书+1，为了设置唯一id，username选择VARCHAR，勾选非空说明可以为空，id一栏勾选A_I注释，然后会弹出一框框，表明自增索引，直接执行就OK了
-</code></pre><p><img src="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/SiKgtQSfAP5RQX1eBlbApm4IVWxFByM*.HYk1QLWXvU!/m/dAoBAAAAAAAAnull&amp;bo=8gF9AAAAAAADB6w!&amp;rf=photolist&amp;t=5" alt=""></p>
-<p><img src="http://a3.qpic.cn/psb?/V12tYOKO03SBgh/SW79*a9mkviE2mT4Qu*aGadspuSwyL7u8X*G1LxZVko!/m/dAoBAAAAAAAAnull&amp;bo=0ARWAQAAAAADB6E!&amp;rf=photolist&amp;t=5" alt=""></p>
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg" alt=""></p>
 <h3 id="增加数据"><a href="#增加数据" class="headerlink" title="增加数据"></a>增加数据</h3><pre><code>//增加数据
 INSERT INTO 数据表名(字段一，字段二，字段三) VALUES (值一，值二，值三)
 INSERT INTO   users(username,pwd,age) VALUES(&apos;张三&apos;,123,25);
@@ -314,6 +338,15 @@ DELETE  FROM `users` WHERE id IN(5,6)
 
   
 <nav id="article-nav">
+  
+    <a href="/2016/11/20/php入门/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          php入门
+        
+      </div>
+    </a>
   
   
     <a href="/2016/11/13/日历/" id="article-nav-older" class="article-nav-link-wrap">
@@ -427,7 +460,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
@@ -444,6 +477,10 @@ var duoshuoQuery = {short_name:"jasonellen"};
   	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
   	        
   	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
   	        
   	        </div>
   		

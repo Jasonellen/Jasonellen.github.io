@@ -18,7 +18,7 @@
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
   
-    <link rel="icon" href="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5">
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
   
   <link rel="stylesheet" href="/main.css">
   
@@ -33,7 +33,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img src="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&amp;bo=tAC0AAAAAAAFByQ!&amp;rf=photolist&amp;t=5" class="js-avatar">
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
 			
 		</a>
 
@@ -88,51 +88,38 @@
 
 
 
-      <div class="ball" 
-        style="width:100px;
+      <div class="ball" style=' width:100px;
             height:100px;
-            background: black;
-            border-radius:50%;
             position: absolute;
             bottom:0;
-            left:200px;">
-    <div class="small" style="width:1px;
-            position: absolute;
-            top:50px;
-            left:50px;
-            box-shadow: 0px 0px 80px 40px cyan;"></div></div>
+            left:200px;
+            background: url(../css/images/ball.png) no-repeat;'>
+      </div>
 
-    <script>
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
 
-        var ball = document.querySelector(".ball");
-        gravBall(ball);
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
 
-        function gravBall(obj){
-            var timer = null;
-            var speedX =0, speedY=0,x=0,y=0;
-            var gapX =0, gapY=0;
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
 
-            obj.onmousedown = function(){
-                clearInterval(timer); 
-                var ev = ev || window.event;
-                gapX = ev.clientX - obj.offsetLeft;
-                gapY = ev.clientY - obj.offsetTop;
-                document.onmousemove = function(ev){
+                function down(ev){           
+                    clearInterval(timer); 
                     var ev = ev || window.event;
-                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
-                    speedX = ev.clientX - x - gapX;
-                    speedY = ev.clientY - y - gapY;
-                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
-                    x = obj.offsetLeft;
-                    y = obj.offsetTop;
-                    obj.style.left = ev.clientX - gapX  + "px";
-                    obj.style.top = ev.clientY - gapY  + "px";
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
                 }
-            }
-
-            obj.onmouseup = function(){
+                function up(){
                     var currentX=0,currentY=0,l=0,t=0;
-                    document.onmousemove = null;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
                     timer = setInterval(function(){
                         speedY +=3;  //一直有一个Y方向的增加，仿重力
                         currentX = window.innerWidth - obj.offsetWidth;
@@ -165,8 +152,45 @@
                         obj.style.top = t  + "px";
                     },30)
                 }
-        }
-    </script>
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -178,7 +202,7 @@
 		<header id="header" class="inner">
 			<div class="profilepic">
 				
-					<img src="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&amp;bo=tAC0AAAAAAAFByQ!&amp;rf=photolist&amp;t=5" class="js-avatar">
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
 				
 			</div>
 			<hgroup>
@@ -207,6 +231,1538 @@
 
       <div class="body-wrap">
         
+  
+    <article id="post-16个正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/21/16个正则表达式/">16个正则表达式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><blockquote>
+<p>正则表达式，一个十分古老而又强大的文本处理工具，仅仅用一段非常简短的表达式语句，便能够快速实现一个非常复杂的业务逻辑。熟练地掌握正则表达式的话，能够使你的开发效率得到极大的提升。</p>
+</blockquote>
+<h1 id="快速进入正题"><a href="#快速进入正题" class="headerlink" title="快速进入正题"></a>快速进入正题</h1><ol>
+<li><p>校验密码强度</p>
+<pre><code>密码的强度必须是包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间。
+var reg=/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/
+if (reg.test(tel)){
+    return true;
+}else{
+    return false;
+}
+</code></pre></li>
+<li><p>校验中文</p>
+<pre><code>字符串仅能是中文。
+var reg=/^[\\u4e00-\\u9fa5]{0,}$/
+</code></pre></li>
+<li><p>由数字、26个英文字母或下划线组成的字符串</p>
+<pre><code>var reg=/^\\w+$/
+</code></pre></li>
+<li><p>校验E-Mail 地址</p>
+<pre><code>同密码一样，下面是E-mail地址合规性的正则检查语句。
+var reg=/[\\w!#$%&amp;&apos;*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&amp;&apos;*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/
+</code></pre></li>
+<li><p>校验身份证号码</p>
+<pre><code>下面是身份证号码的正则校验。15 或 18位。
+15位：
+var reg=/^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$/
+18位：
+var reg=/^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$/
+</code></pre></li>
+<li><p>校验日期</p>
+<pre><code>“yyyy-mm-dd“ 格式的日期校验，已考虑平闰年。
+var reg=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/
+</code></pre></li>
+<li><p>校验金额</p>
+<pre><code>金额校验，精确到2位小数。
+var reg=/^[0-9]+(.[0-9]{2})?$/
+</code></pre></li>
+<li><p>校验手机号</p>
+<pre><code>下面是国内 13、15、18开头的手机号正则表达式。（可根据目前国内收集号扩展前两位开头号码）
+var reg=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$/
+</code></pre></li>
+<li><p>判断IE的版本</p>
+<pre><code>IE目前还没被完全取代，很多页面还是需要做版本兼容，下面是IE版本检查的表达式。
+var reg=/^.*MSIE [5-8](?:\\.[0-9]+)?(?!.*Trident\\/[5-9]\\.0).*$/
+</code></pre></li>
+<li><p>校验IP-v4地址</p>
+<pre><code>P4 正则语句。
+var reg=/\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b/
+</code></pre></li>
+<li><p>校验IP-v6地址</p>
+<pre><code>IP6 正则语句。
+var reg=/(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))
+</code></pre></li>
+<li><p>检查URL的前缀</p>
+<pre><code>应用开发中很多时候需要区分请求是HTTPS还是HTTP，通过下面的表达式可以取出一个url的前缀然后再逻辑判断。
+if (!s.match(/^[a-zA-Z]+:\\/\\//)){
+    s = &apos;http://&apos; + s;
+}
+</code></pre></li>
+<li><p>提取URL链接</p>
+<pre><code>下面的这个表达式可以筛选出一段文本中的URL。
+var reg=/^(f|ht){1}(tp|tps):\\/\\/([\\w-]+\\.)+[\\w-]+(\\/[\\w- ./?%&amp;=]*)?/
+</code></pre></li>
+<li><p>文件路径及扩展名校验</p>
+<pre><code>验证windows下文件路径和扩展名（下面的例子中为.txt文件）
+var reg=/^([a-zA-Z]\\:|\\\\)\\\\([^\\\\]+\\\\)*[^\\/:*?&quot;&lt;&gt;|]+\\.txt(l)?$/
+</code></pre></li>
+</ol>
+<ol>
+<li><p>提取网页图片</p>
+<pre><code>假若你想提取网页中所有图片信息，可以利用下面的表达式。
+var reg=/\\&lt; *[img][^\\\\&gt;]*[src] *= *[\\&quot;\\&apos;]{0,1}([^\\&quot;\\&apos;\\ &gt;]*)/
+</code></pre></li>
+<li><p>匹配HTML标签</p>
+<pre><code>通过下面的表达式可以匹配出HTML中的标签属性。
+var reg=/&lt;\\/?\\w+((\\s+\\w+(\\s*=\\s*(?:&quot;.*?&quot;|&apos;.*?&apos;|[\\^&apos;&quot;&gt;\\s]+))?)+\\s*|\\s*)\\/?&gt;/
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/21/16个正则表达式/" class="archive-article-date">
+  	<time datetime="2016-10-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/16个正则表达式/">16个正则表达式</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-16个正则表达式" data-title="16个正则表达式" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-16个正则表达式" data-title="16个正则表达式" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-Vue表单与组件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/14/Vue表单与组件/">Vue表单与组件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="表单的数据绑定"><a href="#表单的数据绑定" class="headerlink" title="表单的数据绑定"></a>表单的数据绑定</h1><p><code>文本：</code></p>
+<pre><code>&lt;input v-model=&quot;message&quot; placeholder=&quot;edit me&quot;&gt;
+&lt;p&gt;Message is: {{ message }}&lt;/p&gt;
+</code></pre><p><code>多行文本：</code>  </p>
+<pre><code>&lt;!--white-space:pre 使得空格不会被解析--&gt;
+&lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
+&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
+</code></pre><p><code>复选框：</code></p>
+<pre><code>&lt;!--如果就一个复选框--&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot; v-model=&quot;checked&quot;&gt;
+&lt;label for=&quot;checkbox&quot;&gt;{{ checked }}&lt;/label&gt;
+
+&lt;!--如果有多个复选框，应该绑定到同一个数组--&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;jack&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;label for=&quot;jack&quot;&gt;Jack&lt;/label&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;john&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;label for=&quot;john&quot;&gt;John&lt;/label&gt;
+&lt;span&gt;Checked names: {{ checkedNames }}&lt;/span&gt;
+new Vue({
+      el: &apos;...&apos;,
+      data: {
+        checkedNames: []
+      }
+})
+</code></pre><p><code>单选框：</code></p>
+<pre><code>&lt;!--不需要数组，邦定到同一个data变量上即可--&gt;
+&lt;input type=&quot;radio&quot; id=&quot;one&quot; value=&quot;One&quot; v-model=&quot;picked&quot;&gt;
+&lt;label for=&quot;one&quot;&gt;One&lt;/label&gt;
+&lt;br&gt;
+&lt;input type=&quot;radio&quot; id=&quot;two&quot; value=&quot;Two&quot; v-model=&quot;picked&quot;&gt;
+&lt;label for=&quot;two&quot;&gt;Two&lt;/label&gt;
+&lt;br&gt;
+&lt;span&gt;Picked: {{ picked }}&lt;/span&gt;
+</code></pre><p><code>表单传值===选中后绑定的data变量的值</code></p>
+<pre><code>&lt;!-- 当选中时，`picked` 为字符串 &quot;a&quot; --&gt;
+&lt;input type=&quot;radio&quot; v-model=&quot;picked&quot; value=&quot;a&quot;&gt;
+&lt;!-- `toggle` 为 true 或 false --&gt;
+&lt;input type=&quot;checkbox&quot; v-model=&quot;toggle&quot;&gt;
+&lt;!-- 当选中时，`selected` 为字符串 &quot;abc&quot; --&gt;
+&lt;select v-model=&quot;selected&quot;&gt;
+      &lt;option value=&quot;abc&quot;&gt;ABC&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!--当然可以用v-bind:value 使得value也是动态的值--&gt;
+单选：
+&lt;input type=&quot;radio&quot; v-model=&quot;pick&quot; v-bind:value=&quot;a&quot;&gt;
+// 当选中时
+vm.pick === vm.a
+
+复选：
+&lt;input
+  type=&quot;checkbox&quot;
+  v-model=&quot;toggle&quot;
+  v-bind:true-value=&quot;a&quot;
+  v-bind:false-value=&quot;b&quot;&gt;
+
+  // 当选中时
+vm.toggle === vm.a
+// 当没有选中时
+vm.toggle === vm.b
+
+列表：
+&lt;select v-model=&quot;selected&quot;&gt;
+    &lt;!-- 内联对象字面量 --&gt;
+      &lt;option v-bind:value=&quot;{ number: 123 }&quot;&gt;123&lt;/option&gt;
+&lt;/select&gt;
+// 当选中时
+typeof vm.selected // -&gt; &apos;object&apos;
+vm.selected.number // -&gt; 123
+</code></pre><h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><pre><code>&lt;!-- 在 &quot;change&quot; 而不是 &quot;input&quot; 事件中更新 --&gt;
+&lt;input v-model.lazy=&quot;msg&quot; &gt;
+
+&lt;!--自动将用户的输入值转为 Number 类型（如果原值的转换结果为 NaN 则返回原值）--&gt;
+&lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
+
+&lt;!--自动过滤用户输入的首尾空格--&gt;
+&lt;input v-model.trim=&quot;msg&quot;&gt;
+</code></pre><h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><blockquote>
+<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。</p>
+</blockquote>
+<p><code>全局组件：</code></p>
+<pre><code>&lt;div id=&quot;example&quot;&gt;
+      &lt;my-component&gt;&lt;/my-component&gt;
+&lt;/div&gt;
+// 注册
+Vue.component(&apos;my-component&apos;, {
+      template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;
+})
+// 创建根实例
+new Vue({
+      el: &apos;#example&apos;
+})
+</code></pre><p><code>局部组件：仅实例/组件的作用域中可用：</code></p>
+<pre><code>var Child = {
+      template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;
+}
+new Vue({
+      components: {
+        // &lt;my-component&gt; 将只在父模板可用
+        &apos;my-component&apos;: Child,
+        App, // App组件 == &apos;App&apos;:App,
+      }
+})
+</code></pre><p><code>组件限制--is</code></p>
+<pre><code>源于&lt;ul&gt; ， &lt;ol&gt;， &lt;table&gt; ， &lt;select&gt; 限制其内部的元素
+无效：
+&lt;table&gt;
+      &lt;my-row&gt;...&lt;/my-row&gt;
+&lt;/table&gt;
+有效：
+&lt;table&gt;
+      &lt;tr is=&quot;my-row&quot;&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre><h4 id="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："><a href="#应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：" class="headerlink" title="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："></a>应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：</h4><pre><code>&lt;script type=&quot;text/x-template&quot;&gt;
+JavaScript内联模版字符串
+.vue 组件
+</code></pre><h4 id="组件的使用。要确保在初始化根实例-之前-注册了组件"><a href="#组件的使用。要确保在初始化根实例-之前-注册了组件" class="headerlink" title="组件的使用。要确保在初始化根实例 之前 注册了组件"></a>组件的使用。要确保在初始化根实例 之前 注册了组件</h4><h4 id="data-必须是函数"><a href="#data-必须是函数" class="headerlink" title="data 必须是函数"></a>data 必须是函数</h4><pre><code>Vue.component(&apos;simple-counter&apos;, {
+      data: function () {
+        return {}
+      }
+})
+</code></pre><h4 id="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"><a href="#每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量" class="headerlink" title="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"></a>每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量</h4><pre><code>&lt;div id=&quot;example-2&quot;&gt;
+      &lt;simple-counter&gt;&lt;/simple-counter&gt;
+      &lt;simple-counter&gt;&lt;/simple-counter&gt;
+&lt;/div&gt;
+var data = { counter: 0 }
+Vue.component(&apos;simple-counter&apos;, {
+      template: &apos;&lt;button v-on:click=&quot;counter += 1&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
+      // 但是我们为每一个组件返回了同一个对象引用
+      data: function () {
+        //return data   //两个组件的值一起变
+        return {counter:0} //互不干扰
+      }
+})
+</code></pre><h2 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h2><p><code>父组件通过 props 向下传递数据给子组件，子组件通过 emit 给父组件发送消息。</code><br><img src="https://vuefe.cn/images/props-events.png" alt=""></p>
+<h4 id="props"><a href="#props" class="headerlink" title="props"></a>props</h4><p><code>常规使用</code></p>
+<pre><code>&lt;!--注意属性值用‘-’   这里是静态的hello--&gt;
+&lt;child my-message=&quot;hello!&quot;&gt;&lt;/child&gt;
+Vue.component(&apos;child&apos;, {
+      // 声明 props
+      props: [&apos;myMessage&apos;],
+      // 就像 data 一样，prop 可以用在模板内
+      // 同样也可以在 vm 实例中像 “this.message” 这样使用
+      template: &apos;&lt;span&gt;{{ myMessage }}&lt;/span&gt;&apos;
+})
+
+&lt;!--属性props动态值传递需要 v-bind --&gt;
+&lt;!-- 传递实际的数字1，也可以是变量(例如data里的变量) --&gt;
+&lt;comp v-bind:some-prop=&quot;1&quot;&gt;&lt;/comp&gt;
+</code></pre><p><code>props需要默认值或验证</code><br>    验证不通过也会正常显示，只是在后台报错，主要是给其他使用组件的朋友看的</p>
+<pre><code>Vue.component(&apos;example&apos;, {
+      props: {
+        // 基础类型检测 （`null` 意思是任何类型都可以）
+        propA: Number,
+        // 多种类型
+        propB: [String, Number],
+        // 必传且是字符串
+        propC: {
+              type: String,
+              required: true
+        },
+        // 数字，有默认值
+        propD: {
+              type: Number,
+              default: 100
+        },
+        // 数组／对象的默认值应当由一个工厂函数返回 *******必须是函数*****
+        propE: {
+              type: Object,
+              default: function () {
+                return { message: &apos;hello&apos; }
+              }
+        },
+        // 自定义验证函数
+        propF: {
+              validator: function (value) {
+                return value &gt; 10
+              }
+        }
+      }
+})
+</code></pre><p><code>emit向父组件传递数据</code></p>
+<pre><code>&lt;div id=&quot;counter-event-example&quot;&gt;
+      &lt;p&gt;{{ total }}&lt;/p&gt;
+              &lt;!--组件的increment事件出发后执行实例的incrementTotal方法--&gt;
+      &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;
+
+      &lt;!--组件使用.native说明使用的是原生click事件不是绑定的事件--&gt;
+      &lt;!--&lt;my-component v-on:click.native=&quot;doTheThing&quot;&gt;&lt;/my-component&gt;--&gt;
+
+&lt;/div&gt;
+Vue.component(&apos;button-counter&apos;, {
+                //1,组件内btn点击触发函数increment
+      template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
+      data: function () {
+        return {
+              counter: 0
+        }
+      },
+      methods: {
+        increment: function () {
+              this.counter += 1
+              // 2,函数执行后触发组件的increment事件 //带了数据出去
+              this.$emit(&apos;increment&apos;,&apos;传递的数据&apos;)
+        }
+      },
+})
+new Vue({
+      el: &apos;#counter-event-example&apos;,
+      data: {
+        total: 0,
+        str=&apos;&apos;,
+      },
+      methods: {
+          //实例方法执行，成功获取到组件内部传递的数据  //注意有参
+        incrementTotal: function (a) {
+              this.total += 1
+              this.str = a  //this.str = &apos;传递的数据&apos;
+        }
+      }
+})
+</code></pre><h2 id="插槽Slots–分发内容"><a href="#插槽Slots–分发内容" class="headerlink" title="插槽Slots–分发内容"></a>插槽Slots–分发内容</h2><blockquote>
+<p>slot标签中的任何内容都被视为备用内容。备用内容在子组件的作用域内编译，并且只有在宿主元素为空，且没有要插入的内容时才显示备用内容。</p>
+</blockquote>
+<p><code>单个插槽：</code></p>
+<pre><code>//component组件
+&lt;div&gt;
+      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+      &lt;slot&gt;如果没有分发内容则显示我。&lt;/slot&gt;
+&lt;/div&gt;
+
+//html
+&lt;div&gt;
+      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
+      &lt;my-component&gt;
+        &lt;p&gt;插入的内容&lt;/p&gt;
+      &lt;/my-component&gt;
+&lt;/div&gt;
+
+//渲染结果：
+&lt;div&gt;
+      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
+
+      &lt;div&gt;
+          &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+          &lt;p&gt;插入的内容&lt;/p&gt;
+    &lt;/div&gt;
+      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+&lt;/div&gt;
+</code></pre><p><code>多个slot:用name分配：</code></p>
+<pre><code>//组件
+&lt;div class=&quot;container&quot;&gt;
+      &lt;header&gt;
+            &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;
+      &lt;/header&gt;
+     &lt;main&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/main&gt;
+      &lt;footer&gt;
+        &lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;
+      &lt;/footer&gt;
+&lt;/div&gt;
+
+//html
+&lt;app-layout&gt;
+      &lt;h1 slot=&quot;header&quot;&gt;header&lt;/h1&gt;
+      &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+      &lt;p slot=&quot;footer&quot;&gt;footer&lt;/p&gt;
+&lt;/app-layout&gt;
+
+//渲染结果
+&lt;div class=&quot;container&quot;&gt;
+      &lt;header&gt;
+        &lt;h1&gt;header&lt;/h1&gt;
+      &lt;/header&gt;
+
+      &lt;main&gt;
+        &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+      &lt;/main&gt;
+
+      &lt;footer&gt;
+        &lt;p&gt;footer&lt;/p&gt;
+      &lt;/footer&gt;
+&lt;/div&gt;
+</code></pre><h2 id="切换组件显示"><a href="#切换组件显示" class="headerlink" title="切换组件显示"></a>切换组件显示</h2><pre><code>var vm = new Vue({
+      el: &apos;#example&apos;,
+      data: {
+        currentView: &apos;home&apos;
+      },
+      components: {
+            home: { /* ... */ },
+        posts: { /* ... */ },
+        archive: { /* ... */ }
+      }
+})
+//keep-alive切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。
+&lt;keep-alive&gt;
+    &lt;component v-bind:is=&quot;currentView&quot;&gt;
+      &lt;!-- 组件在 vm.currentview 变化时改变！ --&gt;
+    &lt;/component&gt;
+&lt;/keep-alive&gt;
+</code></pre><h3 id="子组件索引"><a href="#子组件索引" class="headerlink" title="子组件索引"></a>子组件索引</h3><h5 id="—获取其他不相关的组件并加以控制器内部实现"><a href="#—获取其他不相关的组件并加以控制器内部实现" class="headerlink" title="—获取其他不相关的组件并加以控制器内部实现"></a>—获取其他不相关的组件并加以控制器内部实现</h5><pre><code>&lt;div id=&quot;parent&quot;&gt;
+      &lt;user-profile ref=&quot;profile&quot;&gt;&lt;/user-profile&gt;
+&lt;/div&gt;
+
+var parent = new Vue({ el: &apos;#parent&apos; })
+// 访问子组件
+var child = parent.$refs.profile;
+
+//然后就可以控制child的内部实现--
+    如child.a=..
+    child.fn();
+</code></pre><p><em>尽管在 Vue 中渲染 HTML 很快，不过当组件中包含大量静态内容时，可以考虑使用 v-once 将渲染结果缓存起来 <div v-once=""></div>–注意使用v-once后内部值或者变量都只会执行一次，后续不会再变动，包括子节点</em></p>
+<h1 id="先到这里OVER"><a href="#先到这里OVER" class="headerlink" title="先到这里OVER"></a>先到这里OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/14/Vue表单与组件/" class="archive-article-date">
+  	<time datetime="2016-10-14T12:03:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue表单与组件/">Vue表单与组件</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-Vue表单与组件" data-title="Vue表单与组件" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-Vue表单与组件" data-title="Vue表单与组件" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/12/Vue之数据绑定/">Vue数据绑定</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
+<p><strong> $ npm install vue </strong></p>
+<h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
+<pre><code>var app = new Vue({
+      el: &apos;#app&apos;,
+      //实例代理属性data
+      data: {
+        message: &apos;Hello Vue!&apos;,
+        seen: true,
+        todos: [
+              { text: &apos;Learn JavaScript&apos; },
+              { text: &apos;Learn Vue&apos; },
+              { text: &apos;Build something awesome&apos; }
+        ],
+        html:&apos;&lt;p&gt;这是插入的p标签&lt;/p&gt;&apos;,
+        ...
+        filters: {
+            capitalize: function (value) {
+              if (!value) return &apos;&apos;
+              value = value.toString()
+              return value.charAt(0).toUpperCase() + value.slice(1)
+           }
+      },
+      //计算属性
+      computed:{
+          reverseMessage:function(){...},
+          //绑定fullName，没有参数默认执行getter，有参数默认执行setter
+          fullName: {
+            // getter
+            get: function () {
+                  return this.firstName + &apos; &apos; + this.lastName
+            },
+            // setter
+            set: function (newValue) {
+                  var names = newValue.split(&apos; &apos;)
+                  this.firstName = names[0]
+                  this.lastName = names[names.length - 1]
+            }
+          }
+      },
+      //方法
+      methods:{
+          myclick:function(){...}
+      },
+      watch:{
+          seen:function(){...}
+      },
+      //钩子函数 
+      //mounted当组件被挂载并解析完成后执行
+      mounted:function(){
+          ...
+      },
+      ...
+
+})
+</code></pre><p><code>内容绑定</code></p>
+<pre><code>//内容绑定
+&lt;div id=&quot;app&quot;&gt;{{ message }}&lt;/div&gt;
+</code></pre><p><code>属性绑定</code></p>
+<pre><code>//绑定title属性到message上
+&lt;span v-bind:title=&quot;message&quot;&gt;&lt;/span&gt;
+</code></pre><p><code>v-if</code></p>
+<pre><code>//执行的是append和remove  和show有本质的区别
+//如果seen为true则now you see 显示，否则no see显示
+&lt;p v-if=&quot;seen&quot;&gt;Now you see me&lt;/p&gt;
+&lt;p v-else&gt;no see&lt;/p&gt;
+</code></pre><p><code>v-show</code></p>
+<pre><code>//执行的是 diplay:none 与 display：block 
+//不支持给组件设置 如&lt;template v-show=&apos;seen&apos;&gt;
+&lt;h1 v-show=&quot;seen&quot;&gt;Hello!&lt;/h1&gt;
+</code></pre><p><code>v-for循环</code></p>
+<pre><code>&lt;ol&gt;
+    //数组的话todo 和todos名字要一一对应，一个单数一个复数,二参可选(下标)
+    //建议提供key,以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
+    &lt;li v-for=&quot;(todo,index) in todos&quot; :key=&quot;item.id&gt;               {{ todo.text }}
+       &lt;/li&gt;
+&lt;/ol&gt;
+
+//遍历对象不用一一对应，一参 键值，二参键名(可选)，三参索引(可选)
+&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
+      {{ index }}. {{ key }} : {{ value }}
+&lt;/div&gt;
+
+//取整数
+&lt;span v-for=&quot;n in 10&quot;&gt;{{ n }}&lt;/span&gt;
+&lt;li v-for=&quot;n in evenNumbers&quot;&gt;{{ n }}&lt;/li&gt; //计算属性
+&lt;li v-for=&quot;n in even(10)&quot;&gt;{{ n }}&lt;/li&gt;
+
+//v-for 支持 &lt;template&gt; 循环渲染很多模板--数据需要绑定，不能自动传进组件里
+&lt;my-component
+      v-for=&quot;(item, index) in items&quot;
+      v-bind:item=&quot;item&quot;
+     v-bind:index=&quot;index&quot;&gt;
+&lt;/my-component&gt;
+</code></pre><p><code>事件绑定</code></p>
+<pre><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;
+//缩写
+v-bind:href=&quot;url&quot;  ==  :href=&quot;url&quot;
+v-on:click=&quot;reverseMessage&quot;  ==  @click=&quot;reverseMessage&quot;
+</code></pre><p><code>表单双向绑定</code></p>
+<pre><code>  &lt;input v-model=&quot;message&quot;&gt;
+  &lt;p&gt;{{ message }}&lt;/p&gt;
+
+  //需要换行？    white-space: pre直接空格/换行
+  &lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
+&lt;br&gt;
+&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
+</code></pre><p><code>标签插值</code></p>
+<pre><code>//span将被忽略
+&lt;div v-html=&apos;html&apos;&gt;{{html}}&lt;span&gt;11111&lt;/span&gt;&lt;/div&gt;
+</code></pre><p><code>模板表达式</code></p>
+<pre><code>//模板表达式中还可以使用 Math 和 Date不能访问用户定义的全局变量
+{{ number + 1 }}
+{{ ok ? 'YES' : 'NO' }}
+{{ message.split('').reverse().join('') }}
+//list- 是字符串 id是绑定的变量
+&lt;div v-bind:id=&quot;&apos;list-&apos; + id&quot;&gt;&lt;/div&gt;
+</code></pre><p><code>过滤</code></p>
+<pre><code>//默认参数是message或message表达式的返回值
+&lt;div&gt;{{ message | filterA | filterB }}&lt;/div&gt;
+//传入的参数表示过滤函数的第二参和第三参
+{{ message | filterA('arg1', arg2) }}
+</code></pre><p><code>事件修饰符</code></p>
+<pre><code>&lt;!-- 阻止单击事件冒泡 --&gt;
+&lt;a v-on:click.stop=&quot;doThis&quot;&gt;&lt;/a&gt;
+
+&lt;!-- 提交事件不再重载页面 --&gt;
+&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
+
+&lt;!-- 修饰符可以串联  --&gt;
+&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
+
+&lt;!-- 只有修饰符 --&gt;
+&lt;form v-on:submit.prevent&gt;&lt;/form&gt;
+
+&lt;!-- 添加事件侦听器时使用事件捕获模式 --&gt;
+&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
+
+&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;
+&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
+</code></pre><p><code>按键修饰符</code></p>
+<pre><code>&lt;!-- 只有在 keyCode 是 13 时调用 vm.submit() --&gt;
+&lt;input v-on:keyup.13=&quot;submit&quot;&gt;
+
+//记不住所有的code？用名字呗
+&lt;!-- 同上 --&gt;
+&lt;input v-on:keyup.enter=&quot;submit&quot;&gt;
+//enter，tab，delete，esc，space，up，down，left，right
+
+&lt;!-- 没有想用的？自定义喽 --&gt;
+// 可以使用 v-on:keyup.f1
+Vue.config.keyCodes.A = 112
+</code></pre><p><code>对象/数组语法</code></p>
+<pre><code>//当对象的值isActive为真时 class将会有类名 对象的键  一直都有div的类名
+v-bind:class=&quot;{ active: isActive, &apos;text-danger&apos;: hasError }&quot; class=‘div’&gt;
+
+//activeClass和errorClass为真时才会被赋值给class
+&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
+
+//样式绑定     --前缀vue会自动添加
+&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &apos;px&apos; }&quot;&gt;&lt;/div&gt;
+...清晰的写法...
+&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;    
+data: {
+      styleObject: {
+        color: &apos;red&apos;,
+        fontSize: &apos;13px&apos;
+      }
+}
+</code></pre><p><code>数组方法</code></p>
+<pre><code>如下两项改变data不会重新渲染页面
+1，vm.items[indexOfItem] = newValue
+    改为：Vue.set(example1.items, indexOfItem, newValue)
+    或：example1.items.splice(indexOfItem, 1, newValue)
+
+2，vm.items.length = newLength
+    改为：example1.items.splice(newLength)
+</code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
+<li>只有当data属性里的值改变才会重新渲染view视图</li>
+<li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速</li>
+<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多    次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
+<li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
+</ul>
+<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
+  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue数据绑定/">Vue数据绑定</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-Vue之数据绑定" data-title="Vue数据绑定" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-Vue之数据绑定" data-title="Vue数据绑定" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-Vue单例webpack配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/08/Vue单例webpack配置/">Vue单例webpack配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><pre><code>-APP
+    -dest
+        +css
+        +html
+        +img
+        +js
+    +node_modules
+    +component
+    +src
+</code></pre><h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><pre><code>{
+  &quot;name&quot;: &quot;guoxing&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+   &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;start&quot;: &quot;webpack-dev-server --inline&quot;
+   },
+   &quot;author&quot;: &quot;&quot;,
+   &quot;license&quot;: &quot;ISC&quot;,
+   &quot;devDependencies&quot;: {
+     &quot;autoprefixer-loader&quot;: &quot;^2.0.0&quot;,
+     &quot;babel&quot;: &quot;^6.3.13&quot;,
+     &quot;babel-core&quot;: &quot;^6.3.21&quot;,
+     &quot;babel-loader&quot;: &quot;^6.2.0&quot;,
+     &quot;babel-plugin-transform-runtime&quot;: &quot;^6.3.13&quot;,
+     &quot;babel-preset-es2015&quot;: &quot;^6.3.13&quot;,
+     &quot;babel-runtime&quot;: &quot;^5.8.34&quot;,
+     &quot;css-loader&quot;: &quot;^0.25.0&quot;,
+     &quot;file-loader&quot;: &quot;^0.9.0&quot;,
+     &quot;html-loader&quot;: &quot;^0.3.0&quot;,
+     &quot;node-sass&quot;: &quot;^3.4.2&quot;,
+     &quot;sass-loader&quot;: &quot;^3.2.0&quot;,
+     &quot;style-loader&quot;: &quot;^0.13.1&quot;,
+     &quot;url-loader&quot;: &quot;^0.5.7&quot;,
+     &quot;vue-loader&quot;: &quot;^7.2.0&quot;,
+     &quot;webpack&quot;: &quot;^1.13.3&quot;,
+     &quot;webpack-dev-server&quot;: &quot;^1.14.0&quot;
+   },
+   &quot;dependencies&quot;: {
+     &quot;vue&quot;: &quot;^2.0.3&quot;
+   }
+}
+</code></pre><h1 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h1><pre><code>var path = require(&apos;path&apos;);
+var webpack = require(&apos;webpack&apos;)
+// NodeJS中的Path对象，用于处理目录的对象，提高开发效率。
+// 模块导入
+module.exports = {
+    // 入口文件地址，不需要写完，会自动查找
+    // entry: [&apos;./src/index&apos;,&apos;./src/manor&apos;], //只能生成一个out文件
+
+entry:{   //生成多个out文件，文件名就是属性名
+    index: &apos;./src/index&apos;,
+    manor: &apos;./src/manor&apos;,
+    news: &apos;./src/news&apos;,
+    product: &apos;./src/product&apos;,
+    grape: &apos;./src/grape&apos;,
+    technology: &apos;./src/technology&apos;,
+    message: &apos;./src/message&apos;,
+    concat: &apos;./src/concat&apos;,
+
+},
+// 输出
+output: {
+    path: path.join(__dirname, &apos;dest/js&apos;),
+    //path:__dirname+&apos;/dist/&apos;,
+    // 文件地址，使用绝对路径形式
+    filename: &apos;[name].js&apos;,// 主要用于多个入口点--对应多个出口点
+    //[name]这里是webpack提供的根据路口文件自动生成的名字
+
+    //就是因为url-loader路径的问题，项目安排目录结构都在dest中
+    //publicPath: &apos;dest/&apos;
+
+},
+// 加载器
+module: {
+    // 加载器
+    loaders: [
+        // 解析.vue文件
+        { test: /\.vue$/, loader: &apos;vue&apos; },
+        // 转化ES6的语法
+        { test: /\.js$/, loader: &apos;babel&apos;, exclude: /node_modules/ },
+        // 编译css并自动添加css前缀
+        { test: /\.css$/, loader: &apos;style!css!autoprefixer&apos;},
+        //.scss 文件想要编译，scss就需要这些东西！来编译处理
+        //install css-loader style-loader sass-loader node-sass --save-dev
+        { test: /\.scss$/, loader: &apos;style!css!sass?sourceMap&apos;},
+        // 图片转化，小于32K自动转化为base64的编码 因为IE8最大支持32K 的base64
+        { test: /\.(png|jpg|gif)$/, loader: &apos;url-loader?limit=32000&amp;name=../img/[name].[ext]&apos;}, //相对于上面的outpath
+        //html模板编译？
+        { test: /\.(html|tpl)$/, loader: &apos;html-loader&apos; },
+    ]
+},
+
+// 转化成es5的语法
+babel: {
+    presets: [&apos;es2015&apos;],
+    plugins: [&apos;transform-runtime&apos;]
+},
+
+ // 启用观察  不用-w了
+watch: true, // boolean
+
+resolve: {
+    // import require时省略的扩展名，如：require(&apos;module&apos;) 不需要module.js
+    extensions: [&apos;&apos;, &apos;.js&apos;, &apos;.vue&apos;],
+    // 别名，可以直接使用别名来代表设定的路径以及其他  感觉不加更好点？？
+    alias: {
+        &apos;vue$&apos;: &apos;vue/dist/vue.js&apos;,   //给vue/dist/vue.js起个别名vue   然后后面才可以直接import Vue from &quot;vue&quot;;
+        filter: path.join(__dirname, &apos;./src/filters&apos;),
+        components: path.join(__dirname, &apos;./src/components&apos;)
+    }
+},
+// plugins: [    //强制以压缩格式转化js文件 “监听慢” 最后最后需要压缩时再使用
+//     // 抑制压缩后语法不规范的警告提示
+//     new webpack.optimize.UglifyJsPlugin({
+//       minimize: true,
+//       compress: {
+//         warnings: false,
+//       },
+//     }),
+// ]
+
+};
+</code></pre><p><code>直接命令工具运行 webpack 就OK了</code></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/08/Vue单例webpack配置/" class="archive-article-date">
+  	<time datetime="2016-10-08T06:10:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue单例组件/">Vue单例组件</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-Vue单例webpack配置" data-title="Vue单例webpack配置" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-Vue单例webpack配置" data-title="Vue单例webpack配置" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-JS经典题解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/02/JS经典题解析/">JS经典题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目如下："><a href="#题目如下：" class="headerlink" title="题目如下："></a>题目如下：</h1><pre><code>1，function fn(){
+    getName = function(){alert(&apos;大木&apos;)};
+    return this;
+}
+
+2，fn.getName = function(){ alert(&apos;大木2&apos;)}
+
+3，fn.prototype.getName = function(){ alert(&apos;大木3&apos;)}
+
+4，var getName = function(){ alert(&apos;大木4&apos;)}
+
+5，function getName(){ alert(&apos;大木5&apos;)}
+</code></pre><p><code>请输入如下结果</code></p>
+<ol>
+<li>fn.getName();</li>
+<li>getName();</li>
+<li>fn().getName()</li>
+<li>getName()</li>
+<li>new fn.getName()</li>
+<li>new fn().getName()</li>
+<li>new new fn().getName()</li>
+</ol>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><ol>
+<li><p>fn.getName();     ———-  大木2</p>
+</li>
+<li><p>getName();    ————-  大木4</p>
+</li>
+<li><p>fn().getName() ———-  大木</p>
+</li>
+<li><p>getName() ————— 大木</p>
+</li>
+<li><p>new fn.getName()——–大木2</p>
+</li>
+<li><p>new fn().getName()—— 大木3</p>
+</li>
+<li><p>new new fn().getName()–大木3</p>
+</li>
+</ol>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><ol>
+<li>该题首先定义了一个构造函数fn，fn内部定义了一个全局变量 getName 然后返回 this</li>
+<li>给fn定义了一个静态属性getName,注意次属性只能由 fn函数自己调用</li>
+<li>给构造函数fn原型链添加一个getName方法</li>
+<li>var 定义一个变量 getName</li>
+<li>定义一个普通函数getName</li>
+</ol>
+<p><code>JS变量解析方式是先将变量申明和函数申明放到作用域最顶部，函数和变量同名会用函数申明覆盖变量申明，然后再进行赋值操作，所以解析后代码如下</code></p>
+<p><del>var getName;</del> //无效，被覆盖</p>
+<p><del>function getName(){ alert(‘大木5’)}</del>   //覆盖上面的变量申明</p>
+<p>function fn(){<br>    getName = function(){<br>    alert(‘大木’    );<br>    return tis;<br>}</p>
+<p>fn.getName = function(){ alert(‘木2’)}</p>
+<p>fn.prototype.getName = function(){ alert(‘木3’)}</p>
+<p>getName = function(){ alert(‘大木4’)} //普通函数被重新指向一个新函数</p>
+<pre><code>第一问 fn.getName(); 是执行函数的静态变量  ---大木2
+第二问 getName() 执行普通函数 ---大木4
+第三问 fn().getName() ==先执行fn(),将全局变量getName指向新函数 alert(&apos;大木&apos;)
+      返回this--&gt;指向window,再执行window.getName()  --大木
+第四问 getName() 直接执行被在fn内部改变指向后的getName --大木
+第五问 new fn.getName() 是JS运算符优先级.语法高于new，所以是先执行(fn.getName)()，
+      然后将执行后的函数实例化操作 --大木2
+第六文 new fn().getName()--new 带参数（即 new Foo()）和函数自调用（即先 Foo()），
+      而 new 带参数的优先级是高于函数调用的! 所以此处执行顺序为(new fn()).getName()
+      即fn数理化后执行原型链方法getName --大木3
+第七问 同理先执行new fn()返回实例化对象A，new A.getName()同第五问==new(A.getName)()--大木3
+</code></pre><p><code>注意点：</code></p>
+<pre><code>1，变量提升，同名函数申明会覆盖变量申明
+2，“.”语法操作优先级高于 new语法操作
+3，函数自调用 fn() 优先级 小于 new fn()
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/02/JS经典题解析/" class="archive-article-date">
+  	<time datetime="2016-10-02T09:55:18.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS经典题解析/">JS经典题解析</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/29/弹性球/">弹性球</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
+<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;    
+</code></pre><p><code>CSS</code></p>
+<pre><code>&lt;style&gt;
+    div{
+        width:100px;
+        height:100px;
+        position: absolute;
+        bottom:0;
+        left:200px;
+        background: url(img/ball.png) no-repeat;
+    }
+&lt;/style&gt;
+</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fa814luaqqj202s02sq2s.jpg" alt="ball"></p>
+<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
+<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
+</code></pre><p><code>添加移除事件兼容性处理</code></p>
+<pre><code>function addHandler(element,type,handler){
+    if(element.addEventListener){//检测是否为DOM2级方法
+        element.addEventListener(type, handler, false);
+    }else if (element.attachEvent){//检测是否为IE级方法
+        element.attachEvent(&quot;on&quot; + type, handler);
+    } else {//检测是否为DOM0级方法
+        element[&quot;on&quot; + type] = handler;
+    }
+}
+function removeHandler(element, type, handler){
+    if (element.removeEventListener){
+        element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent){
+        element.detachEvent(&quot;on&quot; + type, handler);
+    } else {
+        element[&quot;on&quot; + type] = null;
+    }
+}         
+</code></pre><p><code>封装函数</code></p>
+<pre><code>function gravBall(obj){
+    var timer = null;
+    var speedX =0, speedY=0,x=0,y=0;
+    var gapX =0, gapY=0;
+
+    // obj.onmousedown = down;
+    addHandler(obj,&apos;mousedown&apos;,down);
+    addHandler(obj,&apos;mouseup&apos;,up);
+
+    function down(ev){           
+        clearInterval(timer); 
+        var ev = ev || window.event;
+        gapX = ev.clientX - obj.offsetLeft;
+        gapY = ev.clientY - obj.offsetTop;
+        addHandler(document,&apos;mousemove&apos;,move);    
+    }
+    function up(){
+        var currentX=0,currentY=0,l=0,t=0;
+        removeHandler(document,&apos;mousemove&apos;,move)
+        clearInterval(timer); 
+        timer = setInterval(function(){
+            speedY +=3;  //一直有一个Y方向的增加，仿重力
+            currentX = window.innerWidth - obj.offsetWidth;
+            currentY = window.innerHeight - obj.offsetHeight;
+            l = obj.offsetLeft + speedX;
+            t = obj.offsetTop + speedY;
+            //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+            if(l &gt; currentX){
+                speedX *= -0.8;
+                l =currentX;
+            }
+            if(l &lt; 0){
+                speedX *= -0.8;
+                l = 0;
+            }
+            if(t &gt; currentY){
+                speedY *= -0.8;
+                speedX *= 0.8;
+                t = currentY;
+            }
+            if(t &lt; 0){
+                speedY *= -0.8;
+                speedX *= 0.8;
+                t = 0;
+            }
+            if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
+                clearInterval(timer);
+            }
+            obj.style.left = l  + &quot;px&quot;;
+            obj.style.top = t  + &quot;px&quot;;
+        },30)
+    }
+
+    function move(ev){
+        var ev = ev || window.event;
+        //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+        speedX = ev.clientX - x - gapX;
+        speedY = ev.clientY - y - gapY;
+        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+        x = obj.offsetLeft;
+        y = obj.offsetTop;
+        var evX = ev.clientX;
+        var evY = ev.clientY;
+        if(ev.clientX&lt;gapX || ev.clientX&gt;window.innerWidth-gapX || ev.clientY&lt;0 || ev.clientY&gt;window.innerHeight){
+            up();
+        }
+        obj.style.left = evX - gapX  + &quot;px&quot;;
+        obj.style.top = evY - gapY  + &quot;px&quot;;
+    }
+}
+</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/29/弹性球/" class="archive-article-date">
+  	<time datetime="2016-09-29T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-弹性球" data-title="弹性球" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-弹性球" data-title="弹性球" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-元素坐标" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/27/元素坐标/">元素坐标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析"><a href="#本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析" class="headerlink" title="本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析"></a>本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析</h1><p><br></p>
+<h2 id="screenX"><a href="#screenX" class="headerlink" title="screenX"></a>screenX</h2><p>鼠标在屏幕中的位置，指的是鼠标到电脑屏幕左侧的距离。 <code>各个浏览器相同。</code></p>
+<h2 id="pageX、clientX、offsetX、-X"><a href="#pageX、clientX、offsetX、-X" class="headerlink" title="pageX、clientX、offsetX、    X"></a>pageX、clientX、offsetX、    X</h2><pre><code>e.pageX——相对整个页面的坐标
+e.offsetX——相对当前元素的border左上角开始的坐标
+e.clientX——相对可视区域的坐标
+e.x——相对可视区域的坐标
+</code></pre><p><code>浏览器支持情况如下</code></p>
+<p><code>chrome</code></p>
+<pre><code>e.pageX  ——支持
+e.offsetX——支持
+e.clientX——支持
+e.x      ——支持
+</code></pre><p><code>safari:(这个和chrome是一样的)</code></p>
+<p><code>ff</code></p>
+<pre><code>e.pageX  ——支持
+e.offsetX——不支持
+e.clientX——支持
+e.x      ——支持
+</code></pre><p><code>opera</code></p>
+<pre><code>e.pageX  ——支持
+e.offsetX——支持
+e.clientX——支持
+e.x      ——支持
+</code></pre><p><code>IE9</code></p>
+<pre><code>e.pageX——支持
+e.offsetX——支持
+e.clientX——支持
+e.x——支持
+</code></pre><p><code>IE8</code></p>
+<pre><code>e.pageX  ——不支持
+e.offsetX——支持
+e.clientX——支持
+e.x      ——支持
+</code></pre><p><code>IE7</code></p>
+<pre><code>e.pageX  ——不支持
+e.offsetX——支持
+e.clientX——支持
+e.x      ——支持
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/27/元素坐标/" class="archive-article-date">
+  	<time datetime="2016-09-27T05:12:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js坐标/">js坐标</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-元素坐标" data-title="元素坐标" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-元素坐标" data-title="元素坐标" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
   
     <article id="post-ES6新特性" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -827,7 +2383,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
@@ -844,6 +2400,10 @@ var duoshuoQuery = {short_name:"jasonellen"};
   	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
   	        
   	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
   	        
   	        </div>
   		

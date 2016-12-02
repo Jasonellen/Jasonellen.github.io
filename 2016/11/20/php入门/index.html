@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>php入门 | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本地服务器1.打开本地服务器
+sudo apachectl start
+2.进入服务器
+/jas/资源库/webserver/Documents/    可以改权限
+
+里面放文件访问,打开127.0.0.13.结束
+sudo apachectl stop
+XAMPP服务1.打开阿帕奇
+2.测试版本,在服务器里放入一个test.php文件
+
+3.在test.php文件里写上
+
+出现版本号
+4.访问h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php入门">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/11/20/php入门/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="本地服务器1.打开本地服务器
+sudo apachectl start
+2.进入服务器
+/jas/资源库/webserver/Documents/    可以改权限
+
+里面放文件访问,打开127.0.0.13.结束
+sudo apachectl stop
+XAMPP服务1.打开阿帕奇
+2.测试版本,在服务器里放入一个test.php文件
+
+3.在test.php文件里写上
+
+出现版本号
+4.访问h">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/005WhkQKgw1fa13dg1visj30wa0c3q6k.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/005WhkQKgw1fa13df8379j30ip0d5dh5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/005WhkQKgw1fa13os08h5j30tu0by77v.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13orv94yj30de0ammxp.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13dfnm1hj30tc08p0x7.jpg">
+<meta property="og:updated_time" content="2016-12-02T10:31:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php入门">
+<meta name="twitter:description" content="本地服务器1.打开本地服务器
+sudo apachectl start
+2.进入服务器
+/jas/资源库/webserver/Documents/    可以改权限
+
+里面放文件访问,打开127.0.0.13.结束
+sudo apachectl stop
+XAMPP服务1.打开阿帕奇
+2.测试版本,在服务器里放入一个test.php文件
+
+3.在test.php文件里写上
+
+出现版本号
+4.访问h">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/mw690/005WhkQKgw1fa13dg1visj30wa0c3q6k.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(../css/images/ball.png) no-repeat;'>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-php入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      php入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本地服务器"><a href="#本地服务器" class="headerlink" title="本地服务器"></a>本地服务器</h1><p><code>1.打开本地服务器</code></p>
+<pre><code>sudo apachectl start
+</code></pre><p><code>2.进入服务器</code></p>
+<pre><code>/jas/资源库/webserver/Documents/    可以改权限
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/005WhkQKgw1fa13dg1visj30wa0c3q6k.jpg" alt=""></p>
+<h4 id="里面放文件访问-打开127-0-0-1"><a href="#里面放文件访问-打开127-0-0-1" class="headerlink" title="里面放文件访问,打开127.0.0.1"></a>里面放文件访问,打开127.0.0.1</h4><p><code>3.结束</code></p>
+<pre><code>sudo apachectl stop
+</code></pre><h1 id="XAMPP服务"><a href="#XAMPP服务" class="headerlink" title="XAMPP服务"></a>XAMPP服务</h1><p><code>1.打开阿帕奇</code><br><img src="http://ww2.sinaimg.cn/mw690/005WhkQKgw1fa13df8379j30ip0d5dh5.jpg" alt=""></p>
+<p><code>2.测试版本,在服务器里放入一个test.php文件</code></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/005WhkQKgw1fa13os08h5j30tu0by77v.jpg" alt=""></p>
+<p><code>3.在test.php文件里写上</code></p>
+<p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13orv94yj30de0ammxp.jpg" alt=""></p>
+<h3 id="出现版本号"><a href="#出现版本号" class="headerlink" title="出现版本号"></a>出现版本号</h3><p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13dfnm1hj30tc08p0x7.jpg" alt=""></p>
+<p><code>4.访问http://localhost/class/test/test.php</code></p>
+<h1 id="php语法入门"><a href="#php语法入门" class="headerlink" title="php语法入门"></a>php语法入门</h1><p><code>1.echo只能打印字符串和数字</code></p>
+<pre><code>echo &quot;hello world!&quot;;
+echo &quot;&lt;br&gt;&quot;;
+echo (111);//数字不加引号可以
+</code></pre><p><code>2.变量声明</code></p>
+<pre><code>$a = &quot;你好&quot;;
+echo $a;
+
+$b=&quot;hello&quot;;
+$hello=&quot;hello jas&quot;;
+echo $$b;                //hello jas
+</code></pre><p><code>3.变量解析，字符串连接使用“.”</code></p>
+<pre><code>$c=&quot;你好&quot;;
+$res1=&quot;张三&quot;;
+echo $c.$res1;  //你好张三
+
+$res2=&quot;张三$c&quot;;//必须双引号才会解析
+$res2=&quot;张三&apos;$c&apos;&quot;;//张三&apos;你好&apos;
+echo $res2;
+</code></pre><p><code>4.自动转换</code></p>
+<pre><code>$d=1;
+$e=&quot;2&quot;;
+echo gettype($d+$e);//整型integer
+echo ($d+$e);//3
+</code></pre><p><code>5.强制转换</code></p>
+<pre><code>echo gettype($e);  //string
+echo gettype((int)$e);//integer
+</code></pre><p><code>6.字符串定义方式二：</code></p>
+<pre><code>// 定界符,一般定义长字符串；注意，结尾顶头写，前后不许有空格
+$str=&lt;&lt;&lt;AAA
+fdffdfdfdfdfdff
+AAA;
+echo $str;//fdffdfdfdfdfdff
+</code></pre><p><code>7.php不会传值</code></p>
+<pre><code>$arr1=[1,2,3];
+$arr2=$arr1;//想传值加&amp;符号
+$arr2[0]=5;
+print_r($arr1);//Array ( [0] =&gt; 1 [1] =&gt; 2 [2] =&gt; 3 )
+
+
+$arr1=[1,2,3];
+$arr3=&amp;$arr1;//想传值加&amp;符号
+$arr3[0]=5;
+print_r($arr1);//Array ( [0] =&gt; 5 [1] =&gt; 2 [2] =&gt; 3 )
+</code></pre><p><code>8.数组定义方式</code></p>
+<pre><code>$arr=array(&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;);//索引数组
+print_r($arr);    //Array ( [0] =&gt; 张三 [1] =&gt; 李四 [2] =&gt; 王二 )
+var_dump();    // array(3) { [0]=&gt; string(6) &quot;张三&quot; [1]=&gt; string(6) &quot;李四&quot; [2]=&gt; string(6) &quot;王二&quot; }
+</code></pre><p><code>数组遍历</code></p>
+<pre><code>//遍历
+echo &quot;&lt;hr/&gt;&quot;; 
+$arr = array(&apos;武汉&apos;=&gt;&apos;三大火炉之一&apos;,&apos;上海&apos;=&gt;&apos;魔都&apos;);
+foreach ($arr as $key =&gt; $value) {
+    echo $key.&apos;:&apos;.$value;
+    echo &quot;&lt;hr/&gt;&quot;; 
+}
+
+$arr2 = array(
+    &apos;电子产品&apos;=&gt;array(&apos;iphone&apos;=&gt;&apos;64g&apos;,&apos;华为&apos;=&gt;&apos;32g&apos;),
+    &apos;食品&apos;=&gt;array(&apos;旺旺&apos;=&gt;&apos;雪饼&apos;,&apos;百事&apos;=&gt;&apos;可乐&apos;),
+);
+
+foreach ($arr2 as $key =&gt; $value) {
+    foreach ($value as $key1 =&gt; $value1) {
+        echo $key.&apos;-&apos;.$key1.&apos;-&apos;.$value1.&quot;&lt;hr/&gt;&quot;;
+    }
+}
+</code></pre><p><code>数组操作</code></p>
+<pre><code>$arr = array(&apos;张三&apos;,&apos;李四&apos;,&apos;王二&apos;);
+unset($arr[0]); //删除arr中的第一个
+print_r($arr); 
+echo &quot;&lt;hr/&gt;&quot;;
+
+//is_type  判断是否是某种类型，会返还boolean值
+echo is_array($arr);
+echo &quot;&lt;hr/&gt;&quot;;
+
+echo in_array(&apos;李四&apos;,$arr); //判断 张三是否在array中
+echo &quot;&lt;hr/&gt;&quot;;
+</code></pre><p><code>运算符等其他操作</code></p>
+<pre><code>//运算符等基本语法和JS基本都是一样的，来列列不同点
+$a = 4;
+echo &apos;$a+=5 ---&apos;.$a+=5;  //9
+echo &apos;&lt;hr&gt;&apos;;
+echo &apos;$a.=5 ---&apos;.$a.=5;  //95
+
+// &amp;&amp; == and(与)   || == or(或)   !(非)  xor(亦或)
+//  !=  ==  &lt;&gt; (不等于)
+echo &apos;&lt;hr&gt;&apos;;
+$a = mt_rand(1,10);  //随机一个1-10的数  包含1和10
+echo $a;
+echo &apos;&lt;hr&gt;&apos;;
+
+$b = $a &lt;= 5 ? &apos;小于5&apos; : &apos;大于5&apos;;  //记得要用一个新的值保存
+echo $b;
+echo &apos;&lt;hr&gt;&apos;;
+
+//有返还至的函数
+// 5！= 5*4*3*2*1   阶乘
+
+function jiechen($num){
+    if($num&gt;0){
+        return jiechen($num-1)*$num;
+    }else{
+        return 1;
+    }
+}
+
+echo jiechen(5);
+
+echo &apos;&lt;hr&gt;&apos;;
+$a = 5;
+function test(){
+    global $a;
+    echo $a;  //不能直接获取到外面的$a 需要用全局变量设置一下,或者传参
+
+    $GLOBALS[&apos;b&apos;] =$a;  //传递函数里面的变量到外面
+}
+test();
+echo &apos;&lt;hr&gt;&apos;;
+echo $GLOBALS[&apos;b&apos;];
+
+echo &apos;&lt;hr&gt;&apos;;
+function digui(){
+    static $a=5;  //静态变量，常驻内存，每次执行函数$a都存在不会被重新赋值
+    if($a&gt;0){
+        echo $a;
+        $a--;
+        digui();
+    }else{
+        return false;
+    }
+}
+digui();
+
+echo &apos;&lt;hr&gt;&apos;;
+$arr = [1,2,3];
+$arr[] =&apos;zhangsan&apos;;  //向数组中添加张三到最后，  也是方式三定义数组
+array_unshift($arr,&apos;lisi&apos;);
+array_push($arr,&apos;wanger&apos;);
+print_r($arr);
+
+$arr =range(1,10);   //生成一个1-10的数组  只能是整数
+count($arr);  //数组长度
+
+echo &apos;&lt;hr&gt;&apos;;
+$str = &apos;a,b,c,d&apos;;
+strlen($str); //字符串长度  注意 一个中文字符站三个字节，长度是三
+$arr=explode(&apos;,&apos;,$str);  //相当于split
+print_r($arr);
+$str = implode(&apos;-&apos;,$arr);
+echo $str;
+
+$arr = [&apos;a&apos;,&apos;c&apos;,&apos;d&apos;,&apos;b&apos;];
+sort($arr); //顺序
+rsort($arr);//倒序
+
+// $res = strops($str,&apos;a&apos;);  //找a出现的位置
+// $res = str_replace(&apos;x&apos;,&apos;y&apos;,$res); // 把$res中 x替换为y
+
+echo &apos;&lt;hr&gt;&apos;;
+$arr = array(1=&gt;&apos;zhangsan&apos;);
+$str = json_encode($arr);   //转为字符串
+echo $str;
+echo &apos;&lt;hr&gt;&apos;;
+$arr = json_decode($str);  //字符串解码为对象
+print_r($arr);
+
+$a = &apos;&lt;h1&gt;这是解析后的好&lt;/h1&gt;&apos;;  //直接输出会以标签的方式显示
+echo htmlspecialchars($a);  //将以字符串的方式返还成实体
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/20/php入门/" class="archive-article-date">
+  	<time datetime="2016-11-20T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php入门/">php入门</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/11/21/php文件操作/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          php文件操作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/17/数据库基本操作一/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据库基本操作一</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-php入门" data-title="php入门" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-php入门" data-title="php入门" data-url="http://Jasonellen.github.io/2016/11/20/php入门/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
