@@ -232,6 +232,277 @@
       <div class="body-wrap">
         
   
+    <article id="post-ES6新特性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/21/ES6新特性/">ES6新特性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：</p>
+<ul>
+<li><p>Default Parameters（默认参数）</p>
+</li>
+<li><p>Template Literals （模板文本）</p>
+</li>
+<li><p>Multi-line Strings （多行字符串）</p>
+</li>
+<li><p>Destructuring Assignment （解构赋值）</p>
+</li>
+<li><p>Enhanced Object Literals （增强的对象文本）</p>
+</li>
+<li><p>Arrow Functions （箭头函数）</p>
+</li>
+<li><p>Promises </p>
+</li>
+<li><p>Block-Scoped Constructs Let and Const（块作用域构造Let and Const）</p>
+</li>
+<li><p>Classes（类） </p>
+</li>
+<li><p>Modules（模块）</p>
+</li>
+</ul>
+<h2 id="Default-Parameters（默认参数）"><a href="#Default-Parameters（默认参数）" class="headerlink" title="Default Parameters（默认参数）"></a>Default Parameters（默认参数）</h2><p><code>before</code></p>
+<pre><code>var fn = function (height) {
+    var height = height || 50;
+       ...;
+}
+</code></pre><p><code>now</code></p>
+<pre><code>var fn = function (height=50) {
+       ...;
+}
+</code></pre><h2 id="Template-Literals（模板对象）"><a href="#Template-Literals（模板对象）" class="headerlink" title="Template Literals（模板对象）"></a>Template Literals（模板对象）</h2><p><code>before</code></p>
+<pre><code>var name = &apos;Your name is &apos; + first + &apos; &apos; + last + &apos;.&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var name = `Your name is ${first} ${last}. `;
+</code></pre><h2 id="Multi-line-Strings-（多行字符串）"><a href="#Multi-line-Strings-（多行字符串）" class="headerlink" title="Multi-line Strings （多行字符串）"></a>Multi-line Strings （多行字符串）</h2><p><code>before</code></p>
+<pre><code>var roadPoem = &apos;Then took the other, as just as fair,nt&apos;
+                + &apos;Had worn them really about the same,nt&apos;;
+</code></pre><p><code>now</code></p>
+<pre><code>var roadPoem = `Then took the other, as just as fair,
+                Had worn them really about the same,`;
+</code></pre><h2 id="Destructuring-Assignment-（解构赋值）"><a href="#Destructuring-Assignment-（解构赋值）" class="headerlink" title="Destructuring Assignment （解构赋值）"></a>Destructuring Assignment （解构赋值）</h2><p><code>before</code></p>
+<pre><code>someArray=[1,2,3];
+var first = someArray[0];
+var second = someArray[1];
+var third = someArray[2];
+
+var obj={ foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+var foo = obj.foo;
+var bar = obj.bar;
+</code></pre><p><code>now</code></p>
+<pre><code>someArray=[1,2,3];
+var [first, second, third] = someArray;
+console.log(first);  // 1
+console.log(second); // 2
+console.log(third);  // 3
+
+var { foo, bar } = { foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
+console.log(foo); // &quot;lorem&quot;
+console.log(bar); // &quot;ipsum&quot;
+</code></pre><h2 id="Enhanced-Object-Literals-（增强的对象字面量）"><a href="#Enhanced-Object-Literals-（增强的对象字面量）" class="headerlink" title="Enhanced Object Literals （增强的对象字面量）"></a>Enhanced Object Literals （增强的对象字面量）</h2><p><code>before</code></p>
+<pre><code>var obj = {
+    handler: handler,
+    toString: function() {
+        return &quot;d &quot; + super.toString();
+    },
+    prop42: 42
+</code></pre><p>};</p>
+<p><code>now</code></p>
+<pre><code>var obj = {
+    handler,   //ES6特性 === handler: handler,
+    toString() {   //ES6函数
+        return &quot;d &quot; + super.toString();
+       },
+    [ &apos;prop_&apos; + (() =&gt; 42)() ]: 42  
+    //主要是这个可以在字面量中加入变量 == prop42: 42
+};
+</code></pre><h2 id="Arrow-Functions-in（箭头函数）"><a href="#Arrow-Functions-in（箭头函数）" class="headerlink" title="Arrow Functions in（箭头函数）"></a>Arrow Functions in（箭头函数）</h2><p>以前我们使用闭包，this总是预期之外地产生改变，而箭头函数的迷人之处在于，现在你的this可以按照你的预期使用了，身处箭头函数里面，this还是原来的this。</p>
+<p>有了箭头函数在ES6中， 我们就不必用that = this或 self = this 或 _this = this 或.bind(this)如下:</p>
+<p><code>before</code></p>
+<pre><code>var _this = this;
+$(&apos;.btn&apos;).click(function(event){
+     _this.sendData();
+})
+</code></pre><p><code>now</code></p>
+<pre><code>$(&apos;.btn&apos;).click((event) =&gt;{
+      this.sendData();
+})
+</code></pre><h2 id="Promises-in-ES6"><a href="#Promises-in-ES6" class="headerlink" title="Promises in ES6"></a>Promises in ES6</h2><p><code>before</code></p>
+<pre><code>setTimeout(function(){
+      console.log(&apos;Yay!&apos;);
+      setTimeout(function(){
+        console.log(&apos;Wheeyee!&apos;);
+      }, 1000)
+}, 1000);
+</code></pre><p><code>now</code></p>
+<pre><code>var wait1000 =  ()=&gt; new Promise((resolve, reject)=&gt; {setTimeout(resolve, 1000)});
+wait1000()
+    .then(function() {
+        console.log(&apos;Yay!&apos;)
+        return wait1000()
+    })
+    .then(function() {
+           console.log(&apos;Wheeyee!&apos;)
+       });
+</code></pre><p>好吧，我也没看出来哪里好用了…</p>
+<h2 id="Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）"><a href="#Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）" class="headerlink" title="Block-Scoped Constructs Let and Const（块作用域和构造let和const）"></a>Block-Scoped Constructs Let and Const（块作用域和构造let和const）</h2><ul>
+<li>Let是一种新的变量申明方式，它允许你把变量作用域控制在块级里面。用大括号定义代码块（作用域）</li>
+<li><p>const，它就是一个不变量，也是块级作用域就像let一样。<br><code>before</code></p>
+<pre><code>for(var i=0; i&lt;1; i++){
+    var a=1;
+    {
+        var  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //2
+}
+console.log(i) //1
+console.log(a) //2
+</code></pre><p><code>now</code></p>
+<pre><code>for(let i=0; i&lt;1; i++){
+    const a=1;
+    {
+        const  a=2;
+        console.log(a) //2
+    }
+    console.log(a)  //1
+}
+console.log(a) // not defined
+console.log(i) // not defined
+</code></pre></li>
+</ul>
+<h2 id="Classes-（类）"><a href="#Classes-（类）" class="headerlink" title="Classes （类）"></a>Classes （类）</h2><p><code>before</code></p>
+<pre><code>function Circle(x) {
+   this.x = x;
+}
+Circle.classFn = function() { ... }
+
+Circle.prototype = {
+   fn1() {
+       return ..;
+   },
+
+   get fn2() {
+       return this.x;
+   },
+   set fn2(x) {
+       this.x = x*2;
+   }
+};
+</code></pre><p><code>now</code></p>
+<pre><code>class Circle {
+    constructor(x) {
+        this.x = x;
+    };
+
+    static classFn() { ... };
+
+    fn1(){
+        return ..;
+    }
+    get fn2() {
+        return this.x;
+    };
+    set fn2(val) {
+        this.x = x*2;
+    };
+ }
+</code></pre><h2 id="Modules-（模块）"><a href="#Modules-（模块）" class="headerlink" title="Modules （模块）"></a>Modules （模块）</h2><p><code>before</code></p>
+<p><code>module.js</code>有port变量和getAccounts 方法:</p>
+<pre><code>module.exports = {  port: 3000,  getAccounts: function() {    ...  }}
+</code></pre><p><code>main.js</code>需要依赖require(‘module’) 导入module.js：</p>
+<pre><code>var service = require(&apos;module.js&apos;);console.log(service.port); // 3000
+</code></pre><p><code>now</code></p>
+<pre><code>导出module.js
+export var port = 3000;export function getAccounts(url) {  ...}
+
+导入方式一
+import {port, getAccounts} from &apos;module&apos;;console.log(port); // 3000
+
+导入方式二
+import * as service from &apos;module&apos;;//导入全部模块
+console.log(service.port); // 3000
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/21/ES6新特性/" class="archive-article-date">
+  	<time datetime="2016-09-21T03:11:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-ES6新特性" data-title="ES6新特性" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-ES6新特性" data-title="ES6新特性" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -580,7 +851,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

@@ -6,32 +6,36 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>数据库基本操作一 | 奋斗蚁🐜</title>
+  <title>Vue之路由和请求 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文先来谈谈MYSQL内部SQL语言的基本操作
-   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。
+  <meta name="description" content="Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件vue-router.js，Vue的http请求就是相当于ajax,依赖文件vue-resource.js
 
-先来安装下xampp-&amp;gt;通过网址localhost/phpmyadmin进入m">
+直接贴完成页面
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库基本操作一">
-<meta property="og:url" content="http://Jasonellen.github.io/2016/11/17/数据库基本操作一/index.html">
+<meta property="og:title" content="Vue之路由和请求">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/10/18/Vue之路由和请求/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="本文先来谈谈MYSQL内部SQL语言的基本操作
-   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。
+<meta property="og:description" content="Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件vue-router.js，Vue的http请求就是相当于ajax,依赖文件vue-resource.js
 
-先来安装下xampp-&amp;gt;通过网址localhost/phpmyadmin进入m">
-<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/908edb0egw1fa5c97uo7tj20mk05xta1.jpg">
-<meta property="og:updated_time" content="2016-11-28T11:27:58.000Z">
+直接贴完成页面
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;">
+<meta property="og:updated_time" content="2016-12-07T06:53:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库基本操作一">
-<meta name="twitter:description" content="本文先来谈谈MYSQL内部SQL语言的基本操作
-   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。
+<meta name="twitter:title" content="Vue之路由和请求">
+<meta name="twitter:description" content="Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件vue-router.js，Vue的http请求就是相当于ajax,依赖文件vue-resource.js
 
-先来安装下xampp-&amp;gt;通过网址localhost/phpmyadmin进入m">
-<meta name="twitter:image" content="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg">
+直接贴完成页面
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -248,7 +252,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-数据库基本操作一" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Vue之路由和请求" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -258,7 +262,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      数据库基本操作一
+      Vue之路由和请求
     </h1>
   
 
@@ -266,67 +270,101 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="本文先来谈谈MYSQL内部SQL语言的基本操作"><a href="#本文先来谈谈MYSQL内部SQL语言的基本操作" class="headerlink" title="本文先来谈谈MYSQL内部SQL语言的基本操作"></a>本文先来谈谈MYSQL内部SQL语言的基本操作</h2><blockquote>
-<p>   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。</p>
+        <blockquote>
+<p>Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-router.js" target="_blank" rel="external">vue-router.js</a>，<br>Vue的http请求就是相当于ajax,依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-resource.js" target="_blank" rel="external">vue-resource.js</a></p>
 </blockquote>
-<h3 id="先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统"><a href="#先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统" class="headerlink" title="先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统"></a>先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统</h3><h2 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h2><p><em>数据库的操作无非是增删改查，下面就是针对这几条简单的进行罗列…</em></p>
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre><code>如下所示点击new 然后填入自己的数据库名字，后面的排序规则这里选utf8_general_ci,
-这里选ci的原因是ci是 case insensitive, 即 &quot;大小写不敏感&quot;, a 和 A 会在字符判断中会被当做一样的;方便查询..
-</code></pre><p><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg" alt=""></p>
-<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code>字段数选择比我们要创建的列表书+1，为了设置唯一id，username选择VARCHAR，勾选非空说明可以为空，id一栏勾选A_I注释，然后会弹出一框框，表明自增索引，直接执行就OK了
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg" alt=""></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg" alt=""></p>
-<h3 id="增加数据"><a href="#增加数据" class="headerlink" title="增加数据"></a>增加数据</h3><pre><code>//增加数据
-INSERT INTO 数据表名(字段一，字段二，字段三) VALUES (值一，值二，值三)
-INSERT INTO   users(username,pwd,age) VALUES(&apos;张三&apos;,123,25);
-如下所示，点击SQL，输入SQL语法添加相关数据，点击右下的执行即可创建一条属于你自己的数据
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa5c97uo7tj20mk05xta1.jpg" alt=""></p>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><pre><code>//DELETE FROM 表名  WHERE  条件;  
-DELETE FROM users WHERE username=&apos;李四&apos;;
-</code></pre><h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><pre><code>//修改 
-//UPDATE 表名 SET 设置的内容 WHERE 条件； 
-UPDATE `users` SET `username`=&apos;李四&apos;,`pwd`=11111,`age`=222  WHERE id=1 
-//(注意：最后条件不写会全部都改掉)
-</code></pre><h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><p><code>单表查询：</code></p>
-<pre><code>SELECT 字段 FROM 表名 WHERE 条件语句;
-SELECT username FROM `users` (查询所有的名字)
-SELECT * FROM `users` WHERE username LIKE &apos;%三&apos;  AND age=12  
-//%占位符 找到所有的叫  “某三” 的人(占位符只需要一个就够了)
-SELECT * FROM `users` ORDER BY id DESC;  查询结果DESC倒叙排列
-SELECT * FROM `users` ORDER BY age ASC;  按年龄正序查询
-SELECT * FROM  users LIMIT 2,2;  //分页用的限制查询 从第3条查询2条数据(0是第一条数据)
-SELECT COUNT(*) FROM users  //查询数据条数 
-</code></pre><p><code>联表查询：</code></p>
-<pre><code>//联表查询
-SELECT * FROM 表名1 JOIN 表名2 ON 条件； 
+<p><code>直接贴完成页面</code></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;script src=&quot;vue.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;vue-router.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;vue-resource.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        a{   
+            text-decoration: none;  //因为router-link编译后就是a
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
 
-//把2个表中id相同的展示出来（显示公共部分）
-SELECT * FROM users JOIN product ON users.id = product.id;  
-//这样取值的时候有两个相同的id，会出问题，选择的时候不能用*要像下面这样去
-SELECT users.id,users.age,product.name FROM ...
+&lt;body&gt;
 
-//以JOIN 左边的users为主表，将联合的结果添加到users中，并显示users
-SELECT * FROM users LEFT JOIN product ON users.id = product.id;  
+    &lt;div id=&quot;app&quot;&gt;
+          &lt;h1&gt;Hello App!&lt;/h1&gt;
+          &lt;p&gt;
+            &lt;!-- 使用 router-link 组件来导航. --&gt;
+            &lt;!-- 通过传入 `to` 属性指定链接. --&gt;
+            &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;
+            &lt;router-link to=&quot;/foo&quot;&gt;Go to Foo&lt;/router-link&gt;
+            &lt;router-link to=&quot;/bar&quot;&gt;Go to Bar&lt;/router-link&gt;
+            &lt;!-- 自定义的组件模板 --&gt;
+            &lt;self-component&gt;&lt;/self-component&gt;
+          &lt;/p&gt;
 
-//简写
-SELECT * FROM users AS u JOIN product ASp ON u.id = p.id; 
-</code></pre><h3 id="查询条件"><a href="#查询条件" class="headerlink" title="查询条件"></a>查询条件</h3><p><code>条件可以有 AND OR NOT BETWEEN..AND  IN  &gt; &lt; ...等等很多：</code></p>
-<pre><code>DELETE  FROM `users` WHERE id=4 OR id=6
-DELETE  FROM `users` WHERE id&gt;8
-DELETE  FROM `users` WHERE id IN(5,6)
-...
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+          &lt;!-- 路由出口 --&gt;
+          &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+        &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;div&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+
+    // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 vue.use(vuerouter)
+
+    // 1. 定义（路由）组件。
+    // 也可以从其他文件 import 进来
+    const Foo = { template: &apos;&lt;div&gt;foo&lt;/div&gt;&apos; }
+    const Bar = Vue.component(&apos;self-component&apos;, { template: &apos;&lt;div&gt;bar&lt;/div&gt;&apos; })
+
+    // 2. 定义路由
+    // 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是
+    const routes = [
+      { path: &apos;/foo&apos;, component: Foo },
+      { path: &apos;/bar&apos;, component: Bar }
+    ]
+
+    // 3. 创建 router 实例，然后传 `routes` 配置
+    // 你还可以传别的配置参数, 不过先这么简单着吧。
+    const route1 = new VueRouter({
+      routes, // （缩写）相当于 routes: routes
+    })
+
+    // 4. 创建和挂载根实例。
+    // 记得要通过 router 配置参数注入路由，
+    const app = new Vue({
+        //el:&apos;#app&apos;,  和下面的$mount一样的效果
+      router:route1,
+      mounted:function(){
+          //当然也可以是get和post
+        this.$http.jsonp(&apos;http://rap.taobao.org/mockjsdata/8591/api&apos;,{
+                params: { productCourseId: 234,productId:456} //参数列表
+            })
+            .then(function(response){
+                return response.json();  //这里 == response.body
+            })
+            .then(function(response){
+                console.log(response.data)
+            })
+      }
+    }).$mount(&apos;#app&apos;)
+
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/17/数据库基本操作一/" class="archive-article-date">
-  	<time datetime="2016-11-17T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
+      <a href="/2016/10/18/Vue之路由和请求/" class="archive-article-date">
+  	<time datetime="2016-10-18T06:17:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库基本操作（一）/">数据库基本操作（一）</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue之路由和请求/">Vue之路由和请求</a></li></ul>
 	</div>
 
       
@@ -339,18 +377,18 @@ DELETE  FROM `users` WHERE id IN(5,6)
   
 <nav id="article-nav">
   
-    <a href="/2016/11/20/php入门/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/10/21/16个正则表达式/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          php入门
+          16个正则表达式
         
       </div>
     </a>
   
   
-    <a href="/2016/11/13/日历/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">简版日历📅</div>
+    <a href="/2016/10/14/Vue表单与组件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Vue表单与组件</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -368,7 +406,7 @@ DELETE  FROM `users` WHERE id IN(5,6)
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-数据库基本操作一" data-title="数据库基本操作一" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-Vue之路由和请求" data-title="Vue之路由和请求" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -385,7 +423,7 @@ DELETE  FROM `users` WHERE id IN(5,6)
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-数据库基本操作一" data-title="数据库基本操作一" data-url="http://Jasonellen.github.io/2016/11/17/数据库基本操作一/"></div>
+  <div class="ds-thread" data-thread-key="post-Vue之路由和请求" data-title="Vue之路由和请求" data-url="http://Jasonellen.github.io/2016/10/18/Vue之路由和请求/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
