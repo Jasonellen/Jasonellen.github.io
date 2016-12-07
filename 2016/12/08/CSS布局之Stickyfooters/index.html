@@ -6,14 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: Vue之路由和请求 | 奋斗蚁🐜</title>
+  <title>CSS布局之Stickyfooters | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/Vue之路由和请求/index.html">
+  <meta name="description" content="在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。
+
+这里说2个实现的原理因为兼容性问题，请在手机端使用~
+1.使用CSS取值函数calc()注意运算符的前后一定要➕空格
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS布局之Stickyfooters">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/12/08/CSS布局之Stickyfooters/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。
+
+这里说2个实现的原理因为兼容性问题，请在手机端使用~
+1.使用CSS取值函数calc()注意运算符的前后一定要➕空格
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;">
+<meta property="og:updated_time" content="2016-12-07T09:04:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="CSS布局之Stickyfooters">
+<meta name="twitter:description" content="在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。
+
+这里说2个实现的原理因为兼容性问题，请在手机端使用~
+1.使用CSS取值函数calc()注意运算符的前后一定要➕空格
+&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -230,54 +249,161 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-CSS布局之Stickyfooters" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/18/Vue之路由和请求/" class="archive-article-date">
-  	<time datetime="2016-10-18T06:17:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/18/Vue之路由和请求/">Vue之路由和请求</a>
+    <h1 class="article-title" itemprop="name">
+      CSS布局之Stickyfooters
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。</p>
+</blockquote>
+<h2 id="这里说2个实现的原理"><a href="#这里说2个实现的原理" class="headerlink" title="这里说2个实现的原理"></a>这里说2个实现的原理</h2><pre><code>因为兼容性问题，请在手机端使用~
+</code></pre><h3 id="1-使用CSS取值函数calc"><a href="#1-使用CSS取值函数calc" class="headerlink" title="1.使用CSS取值函数calc()"></a>1.使用CSS取值函数calc()</h3><p><code>注意运算符的前后一定要➕空格</code></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        *{margin:0;}
+        header,footer{
+            height: 50px;
+            color: red;
+            background: #000;
+        }
+        div{
+            background: blue;
+            min-height: calc(100vh - 100px);
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;头部&lt;/header&gt;
+    &lt;div&gt;内容部分&lt;/div&gt;
+    &lt;footer&gt;底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><em>效果就不展示了，自己建一个html运行一下吧…</em></p>
+<h3 id="2-使用flex布局"><a href="#2-使用flex布局" class="headerlink" title="2.使用flex布局"></a>2.使用flex布局</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        *{margin:0;}
+        body{
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;   //给body一个最小的高度
+        }
+        header,footer{
+            height: 50px;
+            color: red;
+            background: #000;
+        }
+        div{
+            background: blue;
+            flex:1;  //头部底部固定，中间占据剩余空间
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;头部&lt;/header&gt;
+    &lt;div&gt;内容部分&lt;/div&gt;
+    &lt;footer&gt;底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h1 id="OVRE"><a href="#OVRE" class="headerlink" title="OVRE"></a>OVRE</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
+  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue之路由和请求/">Vue之路由和请求</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/07/手机端自适应单位换算/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">手机端自适应单位换算</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-CSS布局之Stickyfooters" data-title="CSS布局之Stickyfooters" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-CSS布局之Stickyfooters" data-title="CSS布局之Stickyfooters" data-url="http://Jasonellen.github.io/2016/12/08/CSS布局之Stickyfooters/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
 
 
       </div>
@@ -297,9 +423,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
