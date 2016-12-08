@@ -232,6 +232,199 @@
       <div class="body-wrap">
         
   
+    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/29/弹性球/">弹性球</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
+<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;    
+</code></pre><p><code>CSS</code></p>
+<pre><code>&lt;style&gt;
+    div{
+        width:100px;
+        height:100px;
+        position: absolute;
+        bottom:0;
+        left:200px;
+        background: url(img/ball.png) no-repeat;
+    }
+&lt;/style&gt;
+</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fa814luaqqj202s02sq2s.jpg" alt="ball"></p>
+<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
+<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
+</code></pre><p><code>添加移除事件兼容性处理</code></p>
+<pre><code>function addHandler(element,type,handler){
+    if(element.addEventListener){//检测是否为DOM2级方法
+        element.addEventListener(type, handler, false);
+    }else if (element.attachEvent){//检测是否为IE级方法
+        element.attachEvent(&quot;on&quot; + type, handler);
+    } else {//检测是否为DOM0级方法
+        element[&quot;on&quot; + type] = handler;
+    }
+}
+function removeHandler(element, type, handler){
+    if (element.removeEventListener){
+        element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent){
+        element.detachEvent(&quot;on&quot; + type, handler);
+    } else {
+        element[&quot;on&quot; + type] = null;
+    }
+}         
+</code></pre><p><code>封装函数</code></p>
+<pre><code>function gravBall(obj){
+    var timer = null;
+    var speedX =0, speedY=0,x=0,y=0;
+    var gapX =0, gapY=0;
+
+    // obj.onmousedown = down;
+    addHandler(obj,&apos;mousedown&apos;,down);
+    addHandler(obj,&apos;mouseup&apos;,up);
+
+    function down(ev){           
+        clearInterval(timer); 
+        var ev = ev || window.event;
+        gapX = ev.clientX - obj.offsetLeft;
+        gapY = ev.clientY - obj.offsetTop;
+        addHandler(document,&apos;mousemove&apos;,move);    
+    }
+    function up(){
+        var currentX=0,currentY=0,l=0,t=0;
+        removeHandler(document,&apos;mousemove&apos;,move)
+        clearInterval(timer); 
+        timer = setInterval(function(){
+            speedY +=3;  //一直有一个Y方向的增加，仿重力
+            currentX = window.innerWidth - obj.offsetWidth;
+            currentY = window.innerHeight - obj.offsetHeight;
+            l = obj.offsetLeft + speedX;
+            t = obj.offsetTop + speedY;
+            //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+            if(l &gt; currentX){
+                speedX *= -0.8;
+                l =currentX;
+            }
+            if(l &lt; 0){
+                speedX *= -0.8;
+                l = 0;
+            }
+            if(t &gt; currentY){
+                speedY *= -0.8;
+                speedX *= 0.8;
+                t = currentY;
+            }
+            if(t &lt; 0){
+                speedY *= -0.8;
+                speedX *= 0.8;
+                t = 0;
+            }
+            if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
+                clearInterval(timer);
+            }
+            obj.style.left = l  + &quot;px&quot;;
+            obj.style.top = t  + &quot;px&quot;;
+        },30)
+    }
+
+    function move(ev){
+        var ev = ev || window.event;
+        //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+        speedX = ev.clientX - x - gapX;
+        speedY = ev.clientY - y - gapY;
+        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+        x = obj.offsetLeft;
+        y = obj.offsetTop;
+        var evX = ev.clientX;
+        var evY = ev.clientY;
+        if(ev.clientX&lt;gapX || ev.clientX&gt;window.innerWidth-gapX || ev.clientY&lt;0 || ev.clientY&gt;window.innerHeight){
+            up();
+        }
+        obj.style.left = evX - gapX  + &quot;px&quot;;
+        obj.style.top = evY - gapY  + &quot;px&quot;;
+    }
+}
+</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/29/弹性球/" class="archive-article-date">
+  	<time datetime="2016-09-29T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-弹性球" data-title="弹性球" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-弹性球" data-title="弹性球" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-元素坐标" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -976,7 +1169,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
