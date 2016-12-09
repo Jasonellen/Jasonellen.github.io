@@ -6,14 +6,41 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: 滤镜 | 奋斗蚁🐜</title>
+  <title>ReactNative启动白屏解决 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/滤镜/index.html">
+  <meta name="description" content="下载依赖插件在项目根目录打开终端运行
+npm react-native-splash-screen --save 
+安装(自动安装或手动安装)自动安装终端运行：（推荐）
+react-native link react-native-splash-screen  
+或
+rnpm link react-native-splash-screen  
+手动安装
+1.在你的android/settings.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactNative启动白屏解决">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/12/10/ReactNative启动白屏解决/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="下载依赖插件在项目根目录打开终端运行
+npm react-native-splash-screen --save 
+安装(自动安装或手动安装)自动安装终端运行：（推荐）
+react-native link react-native-splash-screen  
+或
+rnpm link react-native-splash-screen  
+手动安装
+1.在你的android/settings.">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg">
+<meta property="og:updated_time" content="2016-12-09T04:06:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="ReactNative启动白屏解决">
+<meta name="twitter:description" content="下载依赖插件在项目根目录打开终端运行
+npm react-native-splash-screen --save 
+安装(自动安装或手动安装)自动安装终端运行：（推荐）
+react-native link react-native-splash-screen  
+或
+rnpm link react-native-splash-screen  
+手动安装
+1.在你的android/settings.">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -230,54 +257,179 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-ReactNative启动白屏解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/25/filter滤镜/" class="archive-article-date">
-  	<time datetime="2016-10-25T13:44:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/25/filter滤镜/">filter滤镜</a>
+    <h1 class="article-title" itemprop="name">
+      ReactNative启动白屏解决
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="下载依赖插件"><a href="#下载依赖插件" class="headerlink" title="下载依赖插件"></a>下载依赖插件</h2><p><code>在项目根目录打开终端运行</code></p>
+<pre><code>npm react-native-splash-screen --save 
+</code></pre><h2 id="安装-自动安装或手动安装"><a href="#安装-自动安装或手动安装" class="headerlink" title="安装(自动安装或手动安装)"></a>安装(自动安装或手动安装)</h2><p><code>自动安装终端运行：（推荐）</code></p>
+<pre><code>react-native link react-native-splash-screen  
+或
+rnpm link react-native-splash-screen  
+</code></pre><p><code>手动安装</code></p>
+<pre><code>1.在你的android/settings.gradle 文件中添加下列代码:
+include &apos;:react-native-splash-screen&apos;     
+project(&apos;:react-native-splash-screen&apos;).projectDir = new File(rootProject.projectDir, &apos;../node_modules/react-native-splash-screen/android&apos;)  
+
+2.在你的android/app/build.gradle 文件中添加 :react-native-splash-screen：
+...  
+dependencies {  
+        ...  
+    compile project(&apos;:react-native-splash-screen&apos;)  
+}
+
+3.更新你的MainApplication.Java文件，如下:
+public class MainApplication extends Application implements     ReactApplication {  
+
+private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {  
+    @Override  
+    protected boolean getUseDeveloperSupport() {  
+        return BuildConfig.DEBUG;  
+    }  
+
+    @Override  
+    protected List&lt;ReactPackage&gt; getPackages() {  
+        return Arrays.&lt;ReactPackage&gt;asList(  
+                new MainReactPackage(),  
+        new SplashScreenReactPackage()  //添加这一句  
+        );  
+    }  
+};  
+
+@Override  
+public ReactNativeHost getReactNativeHost() {  
+    return mReactNativeHost;  
+}  
+}
+</code></pre><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><code>1.更新你的MainActivity.java 文件如下：</code></p>
+<pre><code>import android.os.Bundle; //需要新添加的？
+import com.facebook.react.ReactActivity; //原来有的
+import com.cboy.rn.splashscreen.SplashScreen; //需要新添加的？
+
+public class MainActivity extends ReactActivity {  
+    //原来有的
+    @Override
+    protected String getMainComponentName() {
+        return &quot;examples&quot;;
+    }
+    //下面是新添加的
+       @Override  
+        protected void onCreate(Bundle savedInstanceState) {  
+               SplashScreen.show(this);    
+            super.onCreate(savedInstanceState);  
+        }  
+    }
+}
+</code></pre><p><code>2.创建一个名为launch_screen.xml 的布局文件来自定义你的启动屏幕</code></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;  
+    android:layout_height=&quot;match_parent&quot;  
+    android:background=&quot;@drawable/launch_screen&quot;&gt;  
+&lt;/LinearLayout&gt;  
+</code></pre><p>创建的文件夹和文件路径如下：<br>splash.png就是你想要设置的启动图图片，<br><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg" alt=""></p>
+<p><code>3.在.js文件中使用</code></p>
+<pre><code>import SplashScreen from &apos;react-native-splash-screen&apos;  
+
+//然后在componentDidMount中调用Splash.hide().
+export default class WelcomePage extends Component {
+    componentDidMount() {
+        SplashScreen.hide();
+    }
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/10/ReactNative启动白屏解决/" class="archive-article-date">
+  	<time datetime="2016-12-10T03:23:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-10</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滤镜/">滤镜</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN启动屏/">RN启动屏</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/09/SVG图标使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SVG图标使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-ReactNative启动白屏解决" data-title="ReactNative启动白屏解决" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-ReactNative启动白屏解决" data-title="ReactNative启动白屏解决" data-url="http://Jasonellen.github.io/2016/12/10/ReactNative启动白屏解决/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
 
 
       </div>
@@ -297,9 +449,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
