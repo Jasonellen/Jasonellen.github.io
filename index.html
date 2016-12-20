@@ -235,6 +235,253 @@
       <div class="body-wrap">
         
   
+    <article id="post-文件拖拽" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/21/文件拖拽/">文件拖拽</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。<code>注意</code>即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；</p>
+</blockquote>
+<h2 id="拖拽API"><a href="#拖拽API" class="headerlink" title="拖拽API"></a>拖拽API</h2><pre><code>draggable ：
+–    设置为true，元素就可以拖拽了
+
+拖拽元素事件 :  事件对象为被拖拽元素
+–    dragstart ,  拖拽前触发 
+–    drag ,拖拽前、拖拽结束之间，连续触发
+–    dragend  , 拖拽结束触发
+
+目标元素事件 :  事件对象为目标元素
+–    dragenter ,  进入目标元素触发，相当于mouseover
+–    dragover  ,进入目标、离开目标之间，连续触发
+–    dragleave ,  离开目标元素触发，相当于mouseout
+–    drop  ,  在目标元素上释放鼠标触发
+</code></pre><h2 id="Demo1-拖拽删除"><a href="#Demo1-拖拽删除" class="headerlink" title="Demo1-拖拽删除"></a>Demo1-拖拽删除</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag1.html" target="_blank" rel="external"><code>效果示例</code></a></p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Untitled Document&lt;/title&gt;
+    &lt;style&gt;
+        li{ list-style:none; width:100px; height:30px; background:yellow; margin:10px;}
+        #div1{ width:100px; height:100px; background:red; margin:200px;}
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;ul&gt;
+        &lt;li draggable=&quot;true&quot;&gt;a&lt;/li&gt;
+        &lt;li draggable=&quot;true&quot;&gt;b&lt;/li&gt;
+        &lt;li draggable=&quot;true&quot;&gt;c&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+    window.onload = function(){
+        var aLi = document.getElementsByTagName(&apos;li&apos;);
+        var oUl=document.getElementsByTagName(&apos;ul&apos;)[0];
+        var oDiv = document.getElementById(&apos;div1&apos;);
+        var oImg = document.getElementById(&apos;img1&apos;);
+
+        for(var i=0;i&lt;aLi.length;i++){
+            aLi[i].index = i;
+            aLi[i].ondragstart = function(ev){
+                ev.dataTransfer.setData(&apos;name&apos;,this.index);
+                this.style.background = &apos;green&apos;;
+                //ev.dataTransfer.setDragImage(this,0,0); //设置拖动时显示的对象和坐标
+            };
+
+            aLi[i].ondrag = function(){  //开始与结束连续触发
+                document.title = i++;
+            };
+
+            aLi[i].ondragend = function(){
+                this.style.background = &apos;yellow&apos;;
+            };
+        }
+
+        oDiv.ondragenter = function(){
+            this.style.background = &apos;blue&apos;;
+        };
+
+        oDiv.ondragover = function(ev){
+            //enter和leave之间连续触发
+            document.title = i++;
+            //要想触发drop事件，就必须在dragover当中阻止默认事件
+            ev.preventDefault();
+        };
+
+        oDiv.ondragleave = function(){
+            this.style.background = &apos;red&apos;;
+        };
+
+        oDiv.ondrop = function(ev){
+            ev.preventDefault();   //阻止默认事件，不然是外部图片就直接打开了
+            var n=ev.dataTransfer.getData(&apos;name&apos;);
+            // ev.dataTransfer.clearData(&quot;name&quot;);
+            oUl.removeChild( aLi[n]); //删除以后要从新算index
+            for(var i=0;i&lt;aLi.length;i++){
+                aLi[i].index = i;
+            }
+            this.style.background = &apos;red&apos;;    
+        };    
+    };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="Demo2-外部文件拖入显示"><a href="#Demo2-外部文件拖入显示" class="headerlink" title="Demo2-外部文件拖入显示"></a>Demo2-外部文件拖入显示</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag2.html" target="_blank" rel="external"><code>效果示例</code></a></p>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Untitled Document&lt;/title&gt;
+    &lt;style&gt;
+    ul,li{ margin:0;padding:0;list-style:none;}
+    div{
+        width:200px; height:200px; background:red; text-align:center;
+    }
+    ul{
+        width:600px; background-color:#000; 
+    }
+    li {
+        margin:10px 20px;
+    }
+    ul:after {
+        content:&apos;&apos;;
+        display:block;
+        clear:both;
+    }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div&gt;把图片拖到这里&lt;/div&gt;
+    &lt;ul&gt;&lt;/ul&gt;
+
+    &lt;script&gt;
+    window.onload=function(){
+        var oDiv = document.querySelector(&apos;div&apos;);
+        var oUl = document.querySelector(&apos;ul&apos;);
+        oDiv.ondragenter=function(){
+            this.innerHTML=&apos;可以松开了哦&apos;;
+        }
+        oDiv.ondragover=function(ev){
+            var ev=ev||event;
+            ev.preventDefault(); 
+        }
+        oDiv.ondragleave=function(){
+            this.innerHTML=&apos;把图片拖到这里&apos;;
+        }
+        oDiv.ondrop=function(ev){
+            var ev=ev||event;
+            ev.preventDefault(); //阻止默认事件，不然是外部图片就直接打开了
+            this.innerHTML=&apos;把图片拖到这里&apos;;
+
+            var fs=ev.dataTransfer.files; //拖拽的文件集合
+            for(var i=0; i&lt;fs.length; i++){
+                if(fs[i].type.indexOf(&apos;image&apos;)!=-1){ //判断拖拽内容的类型是image
+                    var fd=new FileReader();  //创建可以读文件的对象
+                    fd.readAsDataURL(fs[i]);  //读
+                    fd.onload=function(){  //读取成功直接执行onload
+                        var oLi    =document.createElement(&apos;li&apos;);
+                        oLi.style.float=&apos;left&apos;;
+                        var oImg= document.createElement(&apos;img&apos;);
+                        oImg.style.height=&apos;200px&apos;;
+                        oImg.src = this.result;  //地址就是获取到的url信息
+                        oLi.appendChild(oImg);
+                        oUl.appendChild(oLi);
+                    }
+                }else{
+                    alert(&apos;非法图片&apos;);
+                }
+            }
+        }
+    }
+
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/21/文件拖拽/" class="archive-article-date">
+  	<time datetime="2016-12-21T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件拖拽/">文件拖拽</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-图片预览上传" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1586,139 +1833,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-Javascript的this用法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/28/Javascript的this用法/">Javascript的this用法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="this是Javascript语言的一个关键字。"><a href="#this是Javascript语言的一个关键字。" class="headerlink" title="this是Javascript语言的一个关键字。"></a>this是Javascript语言的一个关键字。</h3><h3 id="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"><a href="#它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，" class="headerlink" title="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"></a>它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，</h3><pre><code>function test(){
-    this.x = 1;
-}
-</code></pre><h3 id="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"><a href="#随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。" class="headerlink" title="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"></a>随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</h3><h3 id="下面分四种情况，详细讨论this的用法。"><a href="#下面分四种情况，详细讨论this的用法。" class="headerlink" title="下面分四种情况，详细讨论this的用法。"></a>下面分四种情况，详细讨论this的用法。</h3><h1 id="情况一：纯粹的函数调用"><a href="#情况一：纯粹的函数调用" class="headerlink" title="情况一：纯粹的函数调用"></a>情况一：纯粹的函数调用</h1><h3 id="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"><a href="#这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。" class="headerlink" title="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"></a>这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。</h3><h3 id="请看下面这段代码，它的运行结果是1。"><a href="#请看下面这段代码，它的运行结果是1。" class="headerlink" title="请看下面这段代码，它的运行结果是1。"></a>请看下面这段代码，它的运行结果是1。</h3><pre><code>　function test(){
-    this.x = 1;
-    alert(this.x);
-}
-test(); // 1
-</code></pre><h3 id="为了证明this就是全局对象，我对代码做一些改变："><a href="#为了证明this就是全局对象，我对代码做一些改变：" class="headerlink" title="为了证明this就是全局对象，我对代码做一些改变："></a>为了证明this就是全局对象，我对代码做一些改变：</h3><pre><code>var x = 1;
-function test(){
-    alert(this.x);
-}
-test(); // 1
-</code></pre><h3 id="运行结果还是1。再变一下"><a href="#运行结果还是1。再变一下" class="headerlink" title="运行结果还是1。再变一下"></a>运行结果还是1。再变一下</h3><pre><code>var x = 1;
-function test(){
-    this.x = 0;
-}
-test();
-alert(x); //0
-</code></pre><h1 id="情况二：作为对象方法的调用"><a href="#情况二：作为对象方法的调用" class="headerlink" title="情况二：作为对象方法的调用"></a>情况二：作为对象方法的调用</h1><h3 id="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"><a href="#函数还可以作为某个对象的方法调用，这时this就指这个上级对象。" class="headerlink" title="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"></a>函数还可以作为某个对象的方法调用，这时this就指这个上级对象。</h3><pre><code>function test(){
-    alert(this.x);
-}
-var o = {};
-o.x = 1;
-o.m = test;
-o.m(); // 1
-</code></pre><h1 id="情况三-作为构造函数调用"><a href="#情况三-作为构造函数调用" class="headerlink" title="情况三 作为构造函数调用"></a>情况三 作为构造函数调用</h1><h3 id="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"><a href="#所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。" class="headerlink" title="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"></a>所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。</h3><pre><code>function test(){
-    this.x = 1;
-}
-var o = new test();
-alert(o.x); // 1
-</code></pre><h3 id="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："><a href="#运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：" class="headerlink" title="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："></a>运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：</h3><pre><code>var x = 2;
-function test(){
-    this.x = 1;
-}
-var o = new test();
-alert(x); //2
-</code></pre><h3 id="运行结果为2，表明全局变量x的值根本没变"><a href="#运行结果为2，表明全局变量x的值根本没变" class="headerlink" title="运行结果为2，表明全局变量x的值根本没变"></a>运行结果为2，表明全局变量x的值根本没变</h3><h1 id="情况四-apply调用"><a href="#情况四-apply调用" class="headerlink" title="情况四 apply调用"></a>情况四 apply调用</h1><h3 id="apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"><a href="#apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。" class="headerlink" title="apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"></a>apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。</h3><pre><code>var x = 0;
-function test(){
-    alert(this.x);
-}
-var o={};
-o.x = 1;
-o.m = test;
-o.m.apply(); //0
-</code></pre><h3 id="apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"><a href="#apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。" class="headerlink" title="apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"></a>apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。</h3><h3 id="如果把最后一行代码修改为"><a href="#如果把最后一行代码修改为" class="headerlink" title="如果把最后一行代码修改为"></a>如果把最后一行代码修改为</h3><pre><code>o.m.apply(o); //1
-</code></pre><h3 id="运行结果就变成了1，证明了这时this代表的是对象o。"><a href="#运行结果就变成了1，证明了这时this代表的是对象o。" class="headerlink" title="运行结果就变成了1，证明了这时this代表的是对象o。"></a>运行结果就变成了1，证明了这时this代表的是对象o。</h3>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/28/Javascript的this用法/" class="archive-article-date">
-  	<time datetime="2016-11-28T13:25:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/this用法/">this用法</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-Javascript的this用法" data-title="Javascript的this用法" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-Javascript的this用法" data-title="Javascript的this用法" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1782,7 +1896,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

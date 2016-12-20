@@ -6,14 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Archives: 2016 | 奋斗蚁🐜</title>
+  <title>文件拖拽 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/archives/2016/page/3/index.html">
+  <meta name="description" content="拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。注意即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；
+
+拖拽APIdragga">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件拖拽">
+<meta property="og:url" content="http://Jasonellen.github.io/2016/12/21/文件拖拽/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。注意即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；
+
+拖拽APIdragga">
+<meta property="og:updated_time" content="2016-12-20T12:47:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="文件拖拽">
+<meta name="twitter:description" content="拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。注意即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；
+
+拖拽APIdragga">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -233,314 +243,262 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-文件拖拽" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      文件拖拽
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
+        <blockquote>
+<p>拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。<code>注意</code>即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；</p>
+</blockquote>
+<h2 id="拖拽API"><a href="#拖拽API" class="headerlink" title="拖拽API"></a>拖拽API</h2><pre><code>draggable ：
+–    设置为true，元素就可以拖拽了
+
+拖拽元素事件 :  事件对象为被拖拽元素
+–    dragstart ,  拖拽前触发 
+–    drag ,拖拽前、拖拽结束之间，连续触发
+–    dragend  , 拖拽结束触发
+
+目标元素事件 :  事件对象为目标元素
+–    dragenter ,  进入目标元素触发，相当于mouseover
+–    dragover  ,进入目标、离开目标之间，连续触发
+–    dragleave ,  离开目标元素触发，相当于mouseout
+–    drop  ,  在目标元素上释放鼠标触发
+</code></pre><h2 id="Demo1-拖拽删除"><a href="#Demo1-拖拽删除" class="headerlink" title="Demo1-拖拽删除"></a>Demo1-拖拽删除</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag1.html" target="_blank" rel="external"><code>效果示例</code></a></p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Untitled Document&lt;/title&gt;
+    &lt;style&gt;
+        li{ list-style:none; width:100px; height:30px; background:yellow; margin:10px;}
+        #div1{ width:100px; height:100px; background:red; margin:200px;}
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;ul&gt;
+        &lt;li draggable=&quot;true&quot;&gt;a&lt;/li&gt;
+        &lt;li draggable=&quot;true&quot;&gt;b&lt;/li&gt;
+        &lt;li draggable=&quot;true&quot;&gt;c&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+    window.onload = function(){
+        var aLi = document.getElementsByTagName(&apos;li&apos;);
+        var oUl=document.getElementsByTagName(&apos;ul&apos;)[0];
+        var oDiv = document.getElementById(&apos;div1&apos;);
+        var oImg = document.getElementById(&apos;img1&apos;);
+
+        for(var i=0;i&lt;aLi.length;i++){
+            aLi[i].index = i;
+            aLi[i].ondragstart = function(ev){
+                ev.dataTransfer.setData(&apos;name&apos;,this.index);
+                this.style.background = &apos;green&apos;;
+                //ev.dataTransfer.setDragImage(this,0,0); //设置拖动时显示的对象和坐标
+            };
+
+            aLi[i].ondrag = function(){  //开始与结束连续触发
+                document.title = i++;
+            };
+
+            aLi[i].ondragend = function(){
+                this.style.background = &apos;yellow&apos;;
+            };
+        }
+
+        oDiv.ondragenter = function(){
+            this.style.background = &apos;blue&apos;;
+        };
+
+        oDiv.ondragover = function(ev){
+            //enter和leave之间连续触发
+            document.title = i++;
+            //要想触发drop事件，就必须在dragover当中阻止默认事件
+            ev.preventDefault();
+        };
+
+        oDiv.ondragleave = function(){
+            this.style.background = &apos;red&apos;;
+        };
+
+        oDiv.ondrop = function(ev){
+            ev.preventDefault();   //阻止默认事件，不然是外部图片就直接打开了
+            var n=ev.dataTransfer.getData(&apos;name&apos;);
+            // ev.dataTransfer.clearData(&quot;name&quot;);
+            oUl.removeChild( aLi[n]); //删除以后要从新算index
+            for(var i=0;i&lt;aLi.length;i++){
+                aLi[i].index = i;
+            }
+            this.style.background = &apos;red&apos;;    
+        };    
+    };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="Demo2-外部文件拖入显示"><a href="#Demo2-外部文件拖入显示" class="headerlink" title="Demo2-外部文件拖入显示"></a>Demo2-外部文件拖入显示</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag2.html" target="_blank" rel="external"><code>效果示例</code></a></p>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Untitled Document&lt;/title&gt;
+    &lt;style&gt;
+    ul,li{ margin:0;padding:0;list-style:none;}
+    div{
+        width:200px; height:200px; background:red; text-align:center;
+    }
+    ul{
+        width:600px; background-color:#000; 
+    }
+    li {
+        margin:10px 20px;
+    }
+    ul:after {
+        content:&apos;&apos;;
+        display:block;
+        clear:both;
+    }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div&gt;把图片拖到这里&lt;/div&gt;
+    &lt;ul&gt;&lt;/ul&gt;
+
+    &lt;script&gt;
+    window.onload=function(){
+        var oDiv = document.querySelector(&apos;div&apos;);
+        var oUl = document.querySelector(&apos;ul&apos;);
+        oDiv.ondragenter=function(){
+            this.innerHTML=&apos;可以松开了哦&apos;;
+        }
+        oDiv.ondragover=function(ev){
+            var ev=ev||event;
+            ev.preventDefault(); 
+        }
+        oDiv.ondragleave=function(){
+            this.innerHTML=&apos;把图片拖到这里&apos;;
+        }
+        oDiv.ondrop=function(ev){
+            var ev=ev||event;
+            ev.preventDefault(); //阻止默认事件，不然是外部图片就直接打开了
+            this.innerHTML=&apos;把图片拖到这里&apos;;
+
+            var fs=ev.dataTransfer.files; //拖拽的文件集合
+            for(var i=0; i&lt;fs.length; i++){
+                if(fs[i].type.indexOf(&apos;image&apos;)!=-1){ //判断拖拽内容的类型是image
+                    var fd=new FileReader();  //创建可以读文件的对象
+                    fd.readAsDataURL(fs[i]);  //读
+                    fd.onload=function(){  //读取成功直接执行onload
+                        var oLi    =document.createElement(&apos;li&apos;);
+                        oLi.style.float=&apos;left&apos;;
+                        var oImg= document.createElement(&apos;img&apos;);
+                        oImg.style.height=&apos;200px&apos;;
+                        oImg.src = this.result;  //地址就是获取到的url信息
+                        oLi.appendChild(oImg);
+                        oUl.appendChild(oLi);
+                    }
+                }else{
+                    alert(&apos;非法图片&apos;);
+                }
+            }
+        }
+    }
+
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/14/Vue表单与组件/" class="archive-article-date">
-  	<time datetime="2016-10-14T12:03:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-14</time>
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/21/文件拖拽/" class="archive-article-date">
+  	<time datetime="2016-12-21T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/14/Vue表单与组件/">Vue表单与组件</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue表单与组件/">Vue表单与组件</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件拖拽/">文件拖拽</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
-  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/12/Vue之数据绑定/">Vue数据绑定</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue数据绑定/">Vue数据绑定</a></li></ul>
-	</div>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/19/图片预览上传/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">图片预览上传</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/08/Vue单例webpack配置/" class="archive-article-date">
-  	<time datetime="2016-10-08T06:10:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/08/Vue单例webpack配置/">Vue单例webpack配置</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue单例组件/">Vue单例组件</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/02/JS经典题解析/" class="archive-article-date">
-  	<time datetime="2016-10-02T09:55:18.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/02/JS经典题解析/">JS经典题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS经典题解析/">JS经典题解析</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/29/弹性球/" class="archive-article-date">
-  	<time datetime="2016-09-29T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/29/弹性球/">弹性球</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/27/元素坐标/" class="archive-article-date">
-  	<time datetime="2016-09-27T05:12:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/27/元素坐标/">元素坐标</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js坐标/">js坐标</a></li></ul>
-	</div>
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
 
-          
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-url="http://Jasonellen.github.io/2016/12/21/文件拖拽/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/21/ES6新特性/" class="archive-article-date">
-  	<time datetime="2016-09-21T03:11:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/21/ES6新特性/">ES6新特性</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/15/HEXO搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-15T01:53:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/15/HEXO搭建个人博客/">HEXO搭建个人博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/14/MarkDown/" class="archive-article-date">
-  	<time datetime="2016-09-14T08:54:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/14/MarkDown/">MarkDown 语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/">Markdown</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2016/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/2016/">1</a><a class="page-number" href="/archives/2016/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
-  
 
 
       </div>
@@ -560,8 +518,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
