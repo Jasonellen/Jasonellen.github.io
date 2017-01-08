@@ -22,7 +22,7 @@
 基本使用引入依赖文件
 &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;mobiscroll.custom-2.17.0.min.css&amp;quot;&amp;gt;
 &amp;lt;script src=&amp;apos;jque">
-<meta property="og:updated_time" content="2017-01-02T12:52:17.000Z">
+<meta property="og:updated_time" content="2017-01-08T13:55:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mobiscroll">
 <meta name="twitter:description" content="mobiscroll一款使用简单而强大的JQ插件，依赖文件可以在我的github中找到，这种timepicker在手机端还是非常常见的，实用！
@@ -331,7 +331,180 @@ $(function () {
 &lt;/style&gt;
 </code></pre></blockquote>
 <h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p>不要下手太重，<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/relyOn/blob/master/timepicker/timepicker.html" target="_blank" rel="external">轻轻戳我预览</a>😁</p>
+<h2 id="不只是timepicker"><a href="#不只是timepicker" class="headerlink" title="不只是timepicker"></a>不只是timepicker</h2><p>看一个完整的例子</p>
+<h4 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h4><pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width:device-width,initial-scale=1.0&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;content/Content/mobiscroll-2.13.2.full.min.css&quot;&gt;
+&lt;script src=&apos;jquery.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;content/Scripts/mobiscroll-2.13.2.full.min.js&apos;&gt;&lt;/script&gt;
+</code></pre><h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;style&gt;  
+.mbsc-android-holo .dwv { text-align:left;text-indent:.8em; }  
+&lt;/style&gt;  
+&lt;ul id=&quot;treelist&quot;&gt; 
+  &lt;li&gt;  
+      &lt;span&gt;奥迪&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;奥迪A3&lt;/li&gt;  
+          &lt;li&gt;奥迪A4L&lt;/li&gt;  
+          &lt;li&gt;奥迪A6L&lt;/li&gt;  
+          &lt;li&gt;奥迪Q3&lt;/li&gt;  
+          &lt;li&gt;奥迪Q5&lt;/li&gt;  
+          &lt;li&gt;奥迪A4&lt;/li&gt;  
+          &lt;li&gt;奥迪A6&lt;/li&gt;  
+          &lt;li&gt;奥迪A1&lt;/li&gt;  
+          &lt;li&gt;奥迪A3(进口)&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;  
+  &lt;li&gt;  
+      &lt;span&gt;宝马&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;宝马X1&lt;/li&gt;  
+          &lt;li&gt;宝马i3&lt;/li&gt;  
+          &lt;li&gt;宝马1系&lt;/li&gt;  
+          &lt;li&gt;宝马3系&lt;/li&gt;  
+          &lt;li&gt;宝马5系&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;  
+  &lt;li&gt;  
+      &lt;span&gt;奔驰&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;奔驰A级&lt;/li&gt;  
+          &lt;li&gt;奔驰C级&lt;/li&gt;  
+          &lt;li&gt;奔驰E级&lt;/li&gt;  
+          &lt;li&gt;奔驰S级&lt;/li&gt;  
+          &lt;li&gt;奔驰GLK级&lt;/li&gt;  
+          &lt;li&gt;奔驰CLA级&lt;/li&gt;  
+          &lt;li&gt;奔驰CLS级&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>$(function () {
+  var i = Math.floor($(&apos;#treelist&gt;li&apos;).length / 2),  
+      j = Math.floor($(&apos;#treelist&gt;li&apos;).eq(i).find(&apos;ul li&apos;).length / 2);  
+  $(&quot;#treelist&quot;).mobiscroll().treelist({  
+      theme: &quot;android-ics light&quot;,  
+      lang: &quot;zh&quot;,  
+      defaultValue: [i,j],  
+      cancelText: &apos;取消&apos;,  
+      placeholder: &apos;选择车型&apos;,  
+      headerText: function (valueText) { return &quot;选择车型&quot;; },  
+      formatResult: function (array) { //返回自定义格式结果  
+          return $(&apos;#treelist&gt;li&apos;).eq(array[0]).children(&apos;span&apos;).text() +&apos; --&apos;+ $(&apos;#treelist&gt;li&apos;).eq(array[0]).find(&apos;ul li&apos;).eq(array[1]).text().trim(&apos; &apos;);  
+      }  
+  }); 
+}) 
+</code></pre><h3 id="效果预览-1"><a href="#效果预览-1" class="headerlink" title="效果预览"></a>效果预览</h3><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/relyOn/blob/master/timepicker/%E8%87%AA%E5%AE%9A%E4%B9%89picker.html" target="_blank" rel="external">轻轻戳我预览</a>😁，注意这个自定义用的文件上是<code>mobiscroll-2.13.2.full.min</code>文件哦。</p>
+<h2 id="API参考"><a href="#API参考" class="headerlink" title="API参考"></a>API参考</h2><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><pre><code>theme: &apos;android-ics light&apos;, //皮肤样式
+display: &apos;modal&apos;, //显示方式
+mode:&apos;scroller&apos;,
+dateFormat: &apos;yy-mm-dd&apos;, // 日期格式
+setText: &apos;确定&apos;, //确认按钮名称
+cancelText: &apos;取消&apos;,//取消按钮
+dateOrder: &apos;yymmdd&apos;, //面板中日期排列格式
+headerText: function (valueText) { array = valueText.split(&apos;-&apos;); return array[0] + &quot;年&quot; + array[1] + &quot;月&quot;+array[2]+&quot;日&quot;; }, //自定义弹出框头部格式
+rows:5,//滚动区域内的行数 
+</code></pre><h4 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h4><pre><code>（1）onBeforeClose(valueText, btn, inst)
+描述：在list关闭之前执行，如果返回false则不会关闭list。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onBeforeClose: function (valueText, btn, inst) {
+    }
+});
 
+（2）onBeforeShow(inst)
+描述：在list显示之前执行的事件，一样如果返回false则list不会显示。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onBeforeShow: function (inst) {
+    }
+});
+
+（3）onCancel(valueText, inst)
+描述：当取消按钮被点击的时候执行的事件。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onCancel: function (valueText, inst) {
+    }
+});
+
+（4）onChange(valueText, inst)
+描述：当value值改变的时候执行
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onChange: function (valueText, inst) {
+    }
+});
+
+（5）onClosed(valueText, inst)
+描述：当list关闭的时候执行的回调函数
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onClosed: function (valueText, inst) {
+    }
+});
+
+（6）onDestroy(inst)
+描述：当miboscroll实例被destoroy的时候回调
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onDestroy: function (inst) {
+    }
+});
+
+（7）onHide(inst)
+描述：list 关闭的动画执行完毕后回调
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onHide: function (inst) {
+    }
+});
+
+（8）onInit(inst)
+描述：mobiscroll实例初始化完成后执行
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onInit: function (inst) {
+    }
+});
+
+（9）onMarkupReady(html, inst)
+描述：list的html代码已经生成，但是还没有显示到页面中的时候，这个时候可以进行标签的修改。例如添加自定义元素。它会在定位完成前执行。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onMarkupReady: function (html, inst) {
+    }
+});
+
+（10）onPosition(html, windowWidth, windowHeight, inst)
+描述：list定位完成后调用（包括初始化完成以及大小/方向调整之后）
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onPosition: function (html, windowWidth, windowHeight, inst) {
+    }
+});
+
+（11）onSelect(valueText, inst)
+描述：当value被设置的时候，简单理解就是选择好了原始点击确定之后
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onSelect: function (valueText, inst) {
+    }
+});
+（12）onShow(html, valueText, inst)
+描述：当list出现的时候
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onShow: function (html, valueText, inst) {
+    }
+});
+
+（13）onValueTap(item, inst)
+描述：当用户点击list上面的值是调用
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onValueTap: function (item, inst) {
+    }
+});
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
@@ -476,7 +649,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

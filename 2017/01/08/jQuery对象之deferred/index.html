@@ -6,14 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: SVG图标使用 | 奋斗蚁🐜</title>
+  <title>jQuery对象之deferred | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/SVG图标使用/index.html">
+  <meta name="description" content="什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.
+
+1,ajax操作写法非链式$.ajax({
+   type:&amp;apos;get&amp;apos;
+   url: &amp;quot;test.html&amp;quot;,
+   success:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery对象之deferred">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/01/08/jQuery对象之deferred/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.
+
+1,ajax操作写法非链式$.ajax({
+   type:&amp;apos;get&amp;apos;
+   url: &amp;quot;test.html&amp;quot;,
+   success:">
+<meta property="og:updated_time" content="2017-01-08T14:09:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="jQuery对象之deferred">
+<meta name="twitter:description" content="什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.
+
+1,ajax操作写法非链式$.ajax({
+   type:&amp;apos;get&amp;apos;
+   url: &amp;quot;test.html&amp;quot;,
+   success:">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -233,54 +252,177 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-jQuery对象之deferred" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/09/SVG图标使用/" class="archive-article-date">
-  	<time datetime="2016-12-09T08:11:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/09/SVG图标使用/">SVG图标使用</a>
+    <h1 class="article-title" itemprop="name">
+      jQuery对象之deferred
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.</p>
+</blockquote>
+<h2 id="1-ajax操作写法"><a href="#1-ajax操作写法" class="headerlink" title="1,ajax操作写法"></a>1,ajax操作写法</h2><h3 id="非链式"><a href="#非链式" class="headerlink" title="非链式"></a>非链式</h3><pre><code>$.ajax({
+   type:&apos;get&apos;
+   url: &quot;test.html&quot;,
+   success: function(){
+          alert(&quot;哈哈，成功了！&quot;);
+      },
+      error:function(){
+          alert(&quot;出错啦！&quot;);
+      }
+});
+</code></pre><h3 id="链式"><a href="#链式" class="headerlink" title="链式"></a>链式</h3><p>高于1.5.0版本的jq，<code>ajax()返回的是deferred对象</code>，可以直接进行链式操作。</p>
+<pre><code>$.ajax(&quot;test.html&quot;)
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>可以看到，<code>done()</code>相当于<code>success</code>方法，<code>fail()</code>相当于<code>error</code>方法。采用链式写法以后，代码的可读性大大提高。</p>
+<p>如果ajax操作成功后，除了原来的回调函数，我还想再运行一个回调函数，怎么办？直接在结尾追加就好了，回调函数可以添加任意多个，它们按照添加顺序执行。像酱紫：</p>
+<pre><code>$.ajax(&quot;test.html&quot;)
+.done(function(){ alert(&quot;哈哈，成功了！&quot;);} )
+.fail(function(){ alert(&quot;出错啦！&quot;); } )
+.done(function(){ alert(&quot;第二个回调函数！&quot;);} );
+.done(function(){ alert(&quot;第三个回调函数！&quot;);} );
+</code></pre><h2 id="2-为多个操作指定回调函数"><a href="#2-为多个操作指定回调函数" class="headerlink" title="2,为多个操作指定回调函数"></a>2,为多个操作指定回调函数</h2><pre><code>$.when($.ajax(&quot;test1.html&quot;), $.ajax(&quot;test2.html&quot;))
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>这段代码的意思是，先执行两个操作<code>$.ajax(&quot;test1.html&quot;)</code>和<code>$.ajax(&quot;test2.html&quot;)</code>，如果都成功了，就运行<code>done()</code>指定的回调函数；如果有一个失败或都失败了，就执行<code>fail()</code>指定的回调函数。</p>
+<h2 id="3-回调函数接口实现"><a href="#3-回调函数接口实现" class="headerlink" title="3,回调函数接口实现"></a>3,回调函数接口实现</h2><p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作—-不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。</p>
+<p>假定有一个很耗时的操作wait：</p>
+<pre><code>function wait(){
+    var tasks = function(){
+        alert(&quot;执行完毕！&quot;);
+    };
+    setTimeout(tasks,5000);
+};
+
+为它指定回调函数: 错误❌的写法如下
+
+$.when(wait())
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>上述写法，done()方法会立即执行，起不到回调函数的作用。原因在于<code>$.when()的参数只能是deferred对象</code>，所以必须对wait()进行改写：<br>​<br>    var dtd = $.Deferred(); // 新建一个deferred对象<br>    var wait = function(){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变deferred对象的执行状态为已完成<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise();<br>    };<br>现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。<br>​<br>    $.when(wait())<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
+<blockquote>
+<p>jQuery规定，deferred对象有三种执行状态—-未完成，已完成和已失败。如果执行状态是”已完成”（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是”已失败”，调用fail()方法指定的回调函数；如果执行状态是”未完成”，则继续等待.<br>deferred.reject()方法，作用是将dtd对象的执行状态从”未完成”改为”已失败”，从而触发fail()方法。<br>jQuery提供了deferred.promise()方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被外界改变造成干扰。</p>
+</blockquote>
+<p><code>**********************************</code></p>
+<h2 id="上面说些原理，下面是2种经常使用的回调接口方法"><a href="#上面说些原理，下面是2种经常使用的回调接口方法" class="headerlink" title="上面说些原理，下面是2种经常使用的回调接口方法"></a>上面说些原理，下面是2种经常使用的回调接口方法</h2><p><code>**********************************</code></p>
+<h4 id="1，将deferred对象变成wait-）函数的内部对象。"><a href="#1，将deferred对象变成wait-）函数的内部对象。" class="headerlink" title="1，将deferred对象变成wait(）函数的内部对象。"></a>1，将deferred对象变成wait(）函数的内部对象。</h4><pre><code>function wait(){
+    var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
+    var tasks = function(){
+        alert(&quot;执行完毕！&quot;);
+        dtd.resolve(); // 改变Deferred对象的执行状态
+    };
+    setTimeout(tasks,5000);
+    return dtd.promise(); // 返回promise对象
+};
+$.when(wait())
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><h4 id="2，使用deferred对象的建构函数-Deferred"><a href="#2，使用deferred对象的建构函数-Deferred" class="headerlink" title="2，使用deferred对象的建构函数$.Deferred()"></a>2，使用deferred对象的建构函数$.Deferred()</h4><p>jQuery规定，$.Deferred()可以接受一个函数名<code>（注意，是函数名）--当然也是立即执行该函数</code>作为参数，<code>$.Deferred()所生成的deferred对象将作为这个函数的默认参数</code>。<br>​<br>    function wait(dtd){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变Deferred对象的执行状态<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise(); // 返回promise对象<br>    };<br>    $.Deferred(wait)<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
+<h3 id="小结：deferred对象的方法"><a href="#小结：deferred对象的方法" class="headerlink" title="小结：deferred对象的方法"></a>小结：deferred对象的方法</h3><ol>
+<li>$.Deferred() 生成一个deferred对象。    </li>
+<li>deferred.done() 指定操作成功时的回调函数</li>
+<li>deferred.fail() 指定操作失败时的回调函数</li>
+<li>deferred.promise() 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。</li>
+<li>deferred.resolve() 手动改变deferred对象的运行状态为”已完成”，从而立即触发done()方法。</li>
+<li>deferred.reject() 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法。</li>
+<li>$.when() 为多个操作指定回调函数。<br><br><h4 id="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"><a href="#除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。" class="headerlink" title="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"></a>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。</h4></li>
+<li><p>deferred.then()有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。<br><br><code>$.when($.ajax( &quot;/main.php&quot; ))</code><br><br><code>.then(successFunc, failureFunc );</code><br><br>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。</p>
+</li>
+<li><p>deferred.always()<br>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。<br><br><code>$.ajax( &quot;test.html&quot; )</code><br></p>
+<p><code>.always( function() { alert(&quot;已执行！&quot;);} );</code></p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/08/jQuery对象之deferred/" class="archive-article-date">
+  	<time datetime="2017-01-08T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-08</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SVG图标使用/">SVG图标使用</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery对象之deferred/">jQuery对象之deferred</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">微信小程序</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-jQuery对象之deferred" data-title="jQuery对象之deferred" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-jQuery对象之deferred" data-title="jQuery对象之deferred" data-url="http://Jasonellen.github.io/2017/01/08/jQuery对象之deferred/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
 
 
       </div>
@@ -300,9 +442,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

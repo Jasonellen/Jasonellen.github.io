@@ -235,6 +235,168 @@
       <div class="body-wrap">
         
   
+    <article id="post-jQuery对象之deferred" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/08/jQuery对象之deferred/">jQuery对象之deferred</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.</p>
+</blockquote>
+<h2 id="1-ajax操作写法"><a href="#1-ajax操作写法" class="headerlink" title="1,ajax操作写法"></a>1,ajax操作写法</h2><h3 id="非链式"><a href="#非链式" class="headerlink" title="非链式"></a>非链式</h3><pre><code>$.ajax({
+   type:&apos;get&apos;
+   url: &quot;test.html&quot;,
+   success: function(){
+          alert(&quot;哈哈，成功了！&quot;);
+      },
+      error:function(){
+          alert(&quot;出错啦！&quot;);
+      }
+});
+</code></pre><h3 id="链式"><a href="#链式" class="headerlink" title="链式"></a>链式</h3><p>高于1.5.0版本的jq，<code>ajax()返回的是deferred对象</code>，可以直接进行链式操作。</p>
+<pre><code>$.ajax(&quot;test.html&quot;)
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>可以看到，<code>done()</code>相当于<code>success</code>方法，<code>fail()</code>相当于<code>error</code>方法。采用链式写法以后，代码的可读性大大提高。</p>
+<p>如果ajax操作成功后，除了原来的回调函数，我还想再运行一个回调函数，怎么办？直接在结尾追加就好了，回调函数可以添加任意多个，它们按照添加顺序执行。像酱紫：</p>
+<pre><code>$.ajax(&quot;test.html&quot;)
+.done(function(){ alert(&quot;哈哈，成功了！&quot;);} )
+.fail(function(){ alert(&quot;出错啦！&quot;); } )
+.done(function(){ alert(&quot;第二个回调函数！&quot;);} );
+.done(function(){ alert(&quot;第三个回调函数！&quot;);} );
+</code></pre><h2 id="2-为多个操作指定回调函数"><a href="#2-为多个操作指定回调函数" class="headerlink" title="2,为多个操作指定回调函数"></a>2,为多个操作指定回调函数</h2><pre><code>$.when($.ajax(&quot;test1.html&quot;), $.ajax(&quot;test2.html&quot;))
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>这段代码的意思是，先执行两个操作<code>$.ajax(&quot;test1.html&quot;)</code>和<code>$.ajax(&quot;test2.html&quot;)</code>，如果都成功了，就运行<code>done()</code>指定的回调函数；如果有一个失败或都失败了，就执行<code>fail()</code>指定的回调函数。</p>
+<h2 id="3-回调函数接口实现"><a href="#3-回调函数接口实现" class="headerlink" title="3,回调函数接口实现"></a>3,回调函数接口实现</h2><p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作—-不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。</p>
+<p>假定有一个很耗时的操作wait：</p>
+<pre><code>function wait(){
+    var tasks = function(){
+        alert(&quot;执行完毕！&quot;);
+    };
+    setTimeout(tasks,5000);
+};
+
+为它指定回调函数: 错误❌的写法如下
+
+$.when(wait())
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>上述写法，done()方法会立即执行，起不到回调函数的作用。原因在于<code>$.when()的参数只能是deferred对象</code>，所以必须对wait()进行改写：<br>​<br>    var dtd = $.Deferred(); // 新建一个deferred对象<br>    var wait = function(){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变deferred对象的执行状态为已完成<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise();<br>    };<br>现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。<br>​<br>    $.when(wait())<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
+<blockquote>
+<p>jQuery规定，deferred对象有三种执行状态—-未完成，已完成和已失败。如果执行状态是”已完成”（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是”已失败”，调用fail()方法指定的回调函数；如果执行状态是”未完成”，则继续等待.<br>deferred.reject()方法，作用是将dtd对象的执行状态从”未完成”改为”已失败”，从而触发fail()方法。<br>jQuery提供了deferred.promise()方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被外界改变造成干扰。</p>
+</blockquote>
+<p><code>**********************************</code></p>
+<h2 id="上面说些原理，下面是2种经常使用的回调接口方法"><a href="#上面说些原理，下面是2种经常使用的回调接口方法" class="headerlink" title="上面说些原理，下面是2种经常使用的回调接口方法"></a>上面说些原理，下面是2种经常使用的回调接口方法</h2><p><code>**********************************</code></p>
+<h4 id="1，将deferred对象变成wait-）函数的内部对象。"><a href="#1，将deferred对象变成wait-）函数的内部对象。" class="headerlink" title="1，将deferred对象变成wait(）函数的内部对象。"></a>1，将deferred对象变成wait(）函数的内部对象。</h4><pre><code>function wait(){
+    var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
+    var tasks = function(){
+        alert(&quot;执行完毕！&quot;);
+        dtd.resolve(); // 改变Deferred对象的执行状态
+    };
+    setTimeout(tasks,5000);
+    return dtd.promise(); // 返回promise对象
+};
+$.when(wait())
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><h4 id="2，使用deferred对象的建构函数-Deferred"><a href="#2，使用deferred对象的建构函数-Deferred" class="headerlink" title="2，使用deferred对象的建构函数$.Deferred()"></a>2，使用deferred对象的建构函数$.Deferred()</h4><p>jQuery规定，$.Deferred()可以接受一个函数名<code>（注意，是函数名）--当然也是立即执行该函数</code>作为参数，<code>$.Deferred()所生成的deferred对象将作为这个函数的默认参数</code>。<br>​<br>    function wait(dtd){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变Deferred对象的执行状态<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise(); // 返回promise对象<br>    };<br>    $.Deferred(wait)<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
+<h3 id="小结：deferred对象的方法"><a href="#小结：deferred对象的方法" class="headerlink" title="小结：deferred对象的方法"></a>小结：deferred对象的方法</h3><ol>
+<li>$.Deferred() 生成一个deferred对象。    </li>
+<li>deferred.done() 指定操作成功时的回调函数</li>
+<li>deferred.fail() 指定操作失败时的回调函数</li>
+<li>deferred.promise() 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。</li>
+<li>deferred.resolve() 手动改变deferred对象的运行状态为”已完成”，从而立即触发done()方法。</li>
+<li>deferred.reject() 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法。</li>
+<li>$.when() 为多个操作指定回调函数。<br><br><h4 id="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"><a href="#除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。" class="headerlink" title="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"></a>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。</h4></li>
+<li><p>deferred.then()有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。<br><br><code>$.when($.ajax( &quot;/main.php&quot; ))</code><br><br><code>.then(successFunc, failureFunc );</code><br><br>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。</p>
+</li>
+<li><p>deferred.always()<br>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。<br><br><code>$.ajax( &quot;test.html&quot; )</code><br></p>
+<p><code>.always( function() { alert(&quot;已执行！&quot;);} );</code></p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/08/jQuery对象之deferred/" class="archive-article-date">
+  	<time datetime="2017-01-08T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery对象之deferred/">jQuery对象之deferred</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-jQuery对象之deferred" data-title="jQuery对象之deferred" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-jQuery对象之deferred" data-title="jQuery对象之deferred" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-微信小程序实战，从入门到弃坑（转）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -893,7 +1055,180 @@ $(function () {
 &lt;/style&gt;
 </code></pre></blockquote>
 <h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p>不要下手太重，<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/relyOn/blob/master/timepicker/timepicker.html" target="_blank" rel="external">轻轻戳我预览</a>😁</p>
+<h2 id="不只是timepicker"><a href="#不只是timepicker" class="headerlink" title="不只是timepicker"></a>不只是timepicker</h2><p>看一个完整的例子</p>
+<h4 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h4><pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width:device-width,initial-scale=1.0&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;content/Content/mobiscroll-2.13.2.full.min.css&quot;&gt;
+&lt;script src=&apos;jquery.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;content/Scripts/mobiscroll-2.13.2.full.min.js&apos;&gt;&lt;/script&gt;
+</code></pre><h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;style&gt;  
+.mbsc-android-holo .dwv { text-align:left;text-indent:.8em; }  
+&lt;/style&gt;  
+&lt;ul id=&quot;treelist&quot;&gt; 
+  &lt;li&gt;  
+      &lt;span&gt;奥迪&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;奥迪A3&lt;/li&gt;  
+          &lt;li&gt;奥迪A4L&lt;/li&gt;  
+          &lt;li&gt;奥迪A6L&lt;/li&gt;  
+          &lt;li&gt;奥迪Q3&lt;/li&gt;  
+          &lt;li&gt;奥迪Q5&lt;/li&gt;  
+          &lt;li&gt;奥迪A4&lt;/li&gt;  
+          &lt;li&gt;奥迪A6&lt;/li&gt;  
+          &lt;li&gt;奥迪A1&lt;/li&gt;  
+          &lt;li&gt;奥迪A3(进口)&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;  
+  &lt;li&gt;  
+      &lt;span&gt;宝马&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;宝马X1&lt;/li&gt;  
+          &lt;li&gt;宝马i3&lt;/li&gt;  
+          &lt;li&gt;宝马1系&lt;/li&gt;  
+          &lt;li&gt;宝马3系&lt;/li&gt;  
+          &lt;li&gt;宝马5系&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;  
+  &lt;li&gt;  
+      &lt;span&gt;奔驰&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;奔驰A级&lt;/li&gt;  
+          &lt;li&gt;奔驰C级&lt;/li&gt;  
+          &lt;li&gt;奔驰E级&lt;/li&gt;  
+          &lt;li&gt;奔驰S级&lt;/li&gt;  
+          &lt;li&gt;奔驰GLK级&lt;/li&gt;  
+          &lt;li&gt;奔驰CLA级&lt;/li&gt;  
+          &lt;li&gt;奔驰CLS级&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>$(function () {
+  var i = Math.floor($(&apos;#treelist&gt;li&apos;).length / 2),  
+      j = Math.floor($(&apos;#treelist&gt;li&apos;).eq(i).find(&apos;ul li&apos;).length / 2);  
+  $(&quot;#treelist&quot;).mobiscroll().treelist({  
+      theme: &quot;android-ics light&quot;,  
+      lang: &quot;zh&quot;,  
+      defaultValue: [i,j],  
+      cancelText: &apos;取消&apos;,  
+      placeholder: &apos;选择车型&apos;,  
+      headerText: function (valueText) { return &quot;选择车型&quot;; },  
+      formatResult: function (array) { //返回自定义格式结果  
+          return $(&apos;#treelist&gt;li&apos;).eq(array[0]).children(&apos;span&apos;).text() +&apos; --&apos;+ $(&apos;#treelist&gt;li&apos;).eq(array[0]).find(&apos;ul li&apos;).eq(array[1]).text().trim(&apos; &apos;);  
+      }  
+  }); 
+}) 
+</code></pre><h3 id="效果预览-1"><a href="#效果预览-1" class="headerlink" title="效果预览"></a>效果预览</h3><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/relyOn/blob/master/timepicker/%E8%87%AA%E5%AE%9A%E4%B9%89picker.html" target="_blank" rel="external">轻轻戳我预览</a>😁，注意这个自定义用的文件上是<code>mobiscroll-2.13.2.full.min</code>文件哦。</p>
+<h2 id="API参考"><a href="#API参考" class="headerlink" title="API参考"></a>API参考</h2><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><pre><code>theme: &apos;android-ics light&apos;, //皮肤样式
+display: &apos;modal&apos;, //显示方式
+mode:&apos;scroller&apos;,
+dateFormat: &apos;yy-mm-dd&apos;, // 日期格式
+setText: &apos;确定&apos;, //确认按钮名称
+cancelText: &apos;取消&apos;,//取消按钮
+dateOrder: &apos;yymmdd&apos;, //面板中日期排列格式
+headerText: function (valueText) { array = valueText.split(&apos;-&apos;); return array[0] + &quot;年&quot; + array[1] + &quot;月&quot;+array[2]+&quot;日&quot;; }, //自定义弹出框头部格式
+rows:5,//滚动区域内的行数 
+</code></pre><h4 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h4><pre><code>（1）onBeforeClose(valueText, btn, inst)
+描述：在list关闭之前执行，如果返回false则不会关闭list。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onBeforeClose: function (valueText, btn, inst) {
+    }
+});
 
+（2）onBeforeShow(inst)
+描述：在list显示之前执行的事件，一样如果返回false则list不会显示。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onBeforeShow: function (inst) {
+    }
+});
+
+（3）onCancel(valueText, inst)
+描述：当取消按钮被点击的时候执行的事件。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onCancel: function (valueText, inst) {
+    }
+});
+
+（4）onChange(valueText, inst)
+描述：当value值改变的时候执行
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onChange: function (valueText, inst) {
+    }
+});
+
+（5）onClosed(valueText, inst)
+描述：当list关闭的时候执行的回调函数
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onClosed: function (valueText, inst) {
+    }
+});
+
+（6）onDestroy(inst)
+描述：当miboscroll实例被destoroy的时候回调
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onDestroy: function (inst) {
+    }
+});
+
+（7）onHide(inst)
+描述：list 关闭的动画执行完毕后回调
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onHide: function (inst) {
+    }
+});
+
+（8）onInit(inst)
+描述：mobiscroll实例初始化完成后执行
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onInit: function (inst) {
+    }
+});
+
+（9）onMarkupReady(html, inst)
+描述：list的html代码已经生成，但是还没有显示到页面中的时候，这个时候可以进行标签的修改。例如添加自定义元素。它会在定位完成前执行。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onMarkupReady: function (html, inst) {
+    }
+});
+
+（10）onPosition(html, windowWidth, windowHeight, inst)
+描述：list定位完成后调用（包括初始化完成以及大小/方向调整之后）
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onPosition: function (html, windowWidth, windowHeight, inst) {
+    }
+});
+
+（11）onSelect(valueText, inst)
+描述：当value被设置的时候，简单理解就是选择好了原始点击确定之后
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onSelect: function (valueText, inst) {
+    }
+});
+（12）onShow(html, valueText, inst)
+描述：当list出现的时候
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onShow: function (html, valueText, inst) {
+    }
+});
+
+（13）onValueTap(item, inst)
+描述：当用户点击list上面的值是调用
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onValueTap: function (item, inst) {
+    }
+});
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
@@ -2083,152 +2418,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-CSS布局之Stickyfooters" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/08/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。</p>
-</blockquote>
-<h2 id="这里说2个实现的原理"><a href="#这里说2个实现的原理" class="headerlink" title="这里说2个实现的原理"></a>这里说2个实现的原理</h2><pre><code>因为兼容性问题，请在高端浏览器或手机端使用~
-</code></pre><h3 id="1-使用CSS取值函数calc"><a href="#1-使用CSS取值函数calc" class="headerlink" title="1.使用CSS取值函数calc()"></a>1.使用CSS取值函数calc()</h3><p><code>注意运算符的前后一定要➕空格</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;style&gt;
-        *{margin:0;}
-        header,footer{
-            height: 50px;
-            color: red;
-            background: #000;
-        }
-        div{
-            background: blue;
-            min-height: calc(100vh - 100px);
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;header&gt;头部&lt;/header&gt;
-    &lt;div&gt;内容部分&lt;/div&gt;
-    &lt;footer&gt;底部&lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><em>效果就不展示了，自己建一个html运行一下吧…</em></p>
-<h3 id="2-使用flex布局"><a href="#2-使用flex布局" class="headerlink" title="2.使用flex布局"></a>2.使用flex布局</h3><pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;style&gt;
-        *{margin:0;}
-        body{
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;   //给body一个最小的高度
-        }
-        header,footer{
-            height: 50px;
-            color: red;
-            background: #000;
-        }
-        div{
-            background: blue;
-            flex:1;  //头部底部固定，中间占据剩余空间
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;header&gt;头部&lt;/header&gt;
-    &lt;div&gt;内容部分&lt;/div&gt;
-    &lt;footer&gt;底部&lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h1 id="OVRE"><a href="#OVRE" class="headerlink" title="OVRE"></a>OVRE</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
-  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-CSS布局之Stickyfooters" data-title="CSS布局之Stickyfooters" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-CSS布局之Stickyfooters" data-title="CSS布局之Stickyfooters" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2292,7 +2481,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
