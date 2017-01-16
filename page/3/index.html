@@ -235,6 +235,277 @@
       <div class="body-wrap">
         
   
+    <article id="post-php入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/20/php入门/">php入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本地服务器"><a href="#本地服务器" class="headerlink" title="本地服务器"></a>本地服务器</h1><p><code>1.打开本地服务器</code></p>
+<pre><code>sudo apachectl start
+</code></pre><p><code>2.进入服务器</code></p>
+<pre><code>/jas/资源库/webserver/Documents/    可以改权限
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/005WhkQKgw1fa13dg1visj30wa0c3q6k.jpg" alt=""></p>
+<h4 id="里面放文件访问-打开127-0-0-1"><a href="#里面放文件访问-打开127-0-0-1" class="headerlink" title="里面放文件访问,打开127.0.0.1"></a>里面放文件访问,打开127.0.0.1</h4><p><code>3.结束</code></p>
+<pre><code>sudo apachectl stop
+</code></pre><h1 id="XAMPP服务"><a href="#XAMPP服务" class="headerlink" title="XAMPP服务"></a>XAMPP服务</h1><p><code>1.打开阿帕奇</code><br><img src="http://ww2.sinaimg.cn/mw690/005WhkQKgw1fa13df8379j30ip0d5dh5.jpg" alt=""></p>
+<p><code>2.测试版本,在服务器里放入一个test.php文件</code></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/005WhkQKgw1fa13os08h5j30tu0by77v.jpg" alt=""></p>
+<p><code>3.在test.php文件里写上</code></p>
+<p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13orv94yj30de0ammxp.jpg" alt=""></p>
+<h3 id="出现版本号"><a href="#出现版本号" class="headerlink" title="出现版本号"></a>出现版本号</h3><p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13dfnm1hj30tc08p0x7.jpg" alt=""></p>
+<p><code>4.访问http://localhost/class/test/test.php</code></p>
+<h1 id="php语法入门"><a href="#php语法入门" class="headerlink" title="php语法入门"></a>php语法入门</h1><p><code>1.echo只能打印字符串和数字</code></p>
+<pre><code>echo &quot;hello world!&quot;;
+echo &quot;&lt;br&gt;&quot;;
+echo (111);//数字不加引号可以
+</code></pre><p><code>2.变量声明</code></p>
+<pre><code>$a = &quot;你好&quot;;
+echo $a;
+
+$b=&quot;hello&quot;;
+$hello=&quot;hello jas&quot;;
+echo $$b;                //hello jas
+</code></pre><p><code>3.变量解析，字符串连接使用“.”</code></p>
+<pre><code>$c=&quot;你好&quot;;
+$res1=&quot;张三&quot;;
+echo $c.$res1;  //你好张三
+
+$res2=&quot;张三$c&quot;;//必须双引号才会解析
+$res2=&quot;张三&apos;$c&apos;&quot;;//张三&apos;你好&apos;
+echo $res2;
+</code></pre><p><code>4.自动转换</code></p>
+<pre><code>$d=1;
+$e=&quot;2&quot;;
+echo gettype($d+$e);//整型integer
+echo ($d+$e);//3
+</code></pre><p><code>5.强制转换</code></p>
+<pre><code>echo gettype($e);  //string
+echo gettype((int)$e);//integer
+</code></pre><p><code>6.字符串定义方式二：</code></p>
+<pre><code>// 定界符,一般定义长字符串；注意，结尾顶头写，前后不许有空格
+$str=&lt;&lt;&lt;AAA
+fdffdfdfdfdfdff
+AAA;
+echo $str;//fdffdfdfdfdfdff
+</code></pre><p><code>7.php不会传值</code></p>
+<pre><code>$arr1=[1,2,3];
+$arr2=$arr1;//想传值加&amp;符号
+$arr2[0]=5;
+print_r($arr1);//Array ( [0] =&gt; 1 [1] =&gt; 2 [2] =&gt; 3 )
+
+
+$arr1=[1,2,3];
+$arr3=&amp;$arr1;//想传值加&amp;符号
+$arr3[0]=5;
+print_r($arr1);//Array ( [0] =&gt; 5 [1] =&gt; 2 [2] =&gt; 3 )
+</code></pre><p><code>8.数组定义方式</code></p>
+<pre><code>$arr=array(&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;);//索引数组
+print_r($arr);    //Array ( [0] =&gt; 张三 [1] =&gt; 李四 [2] =&gt; 王二 )
+var_dump();    // array(3) { [0]=&gt; string(6) &quot;张三&quot; [1]=&gt; string(6) &quot;李四&quot; [2]=&gt; string(6) &quot;王二&quot; }
+</code></pre><p><code>数组遍历</code></p>
+<pre><code>//遍历
+echo &quot;&lt;hr/&gt;&quot;; 
+$arr = array(&apos;武汉&apos;=&gt;&apos;三大火炉之一&apos;,&apos;上海&apos;=&gt;&apos;魔都&apos;);
+foreach ($arr as $key =&gt; $value) {
+    echo $key.&apos;:&apos;.$value;
+    echo &quot;&lt;hr/&gt;&quot;; 
+}
+
+$arr2 = array(
+    &apos;电子产品&apos;=&gt;array(&apos;iphone&apos;=&gt;&apos;64g&apos;,&apos;华为&apos;=&gt;&apos;32g&apos;),
+    &apos;食品&apos;=&gt;array(&apos;旺旺&apos;=&gt;&apos;雪饼&apos;,&apos;百事&apos;=&gt;&apos;可乐&apos;),
+);
+
+foreach ($arr2 as $key =&gt; $value) {
+    foreach ($value as $key1 =&gt; $value1) {
+        echo $key.&apos;-&apos;.$key1.&apos;-&apos;.$value1.&quot;&lt;hr/&gt;&quot;;
+    }
+}
+</code></pre><p><code>数组操作</code></p>
+<pre><code>$arr = array(&apos;张三&apos;,&apos;李四&apos;,&apos;王二&apos;);
+unset($arr[0]); //删除arr中的第一个
+print_r($arr); 
+echo &quot;&lt;hr/&gt;&quot;;
+
+//is_type  判断是否是某种类型，会返还boolean值
+echo is_array($arr);
+echo &quot;&lt;hr/&gt;&quot;;
+
+echo in_array(&apos;李四&apos;,$arr); //判断 张三是否在array中
+echo &quot;&lt;hr/&gt;&quot;;
+</code></pre><p><code>运算符等其他操作</code></p>
+<pre><code>//运算符等基本语法和JS基本都是一样的，来列列不同点
+$a = 4;
+echo &apos;$a+=5 ---&apos;.$a+=5;  //9
+echo &apos;&lt;hr&gt;&apos;;
+echo &apos;$a.=5 ---&apos;.$a.=5;  //95
+
+// &amp;&amp; == and(与)   || == or(或)   !(非)  xor(亦或)
+//  !=  ==  &lt;&gt; (不等于)
+echo &apos;&lt;hr&gt;&apos;;
+$a = mt_rand(1,10);  //随机一个1-10的数  包含1和10
+echo $a;
+echo &apos;&lt;hr&gt;&apos;;
+
+$b = $a &lt;= 5 ? &apos;小于5&apos; : &apos;大于5&apos;;  //记得要用一个新的值保存
+echo $b;
+echo &apos;&lt;hr&gt;&apos;;
+
+//有返还至的函数
+// 5！= 5*4*3*2*1   阶乘
+
+function jiechen($num){
+    if($num&gt;0){
+        return jiechen($num-1)*$num;
+    }else{
+        return 1;
+    }
+}
+
+echo jiechen(5);
+
+echo &apos;&lt;hr&gt;&apos;;
+$a = 5;
+function test(){
+    global $a;
+    echo $a;  //不能直接获取到外面的$a 需要用全局变量设置一下,或者传参
+
+    $GLOBALS[&apos;b&apos;] =$a;  //传递函数里面的变量到外面
+}
+test();
+echo &apos;&lt;hr&gt;&apos;;
+echo $GLOBALS[&apos;b&apos;];
+
+echo &apos;&lt;hr&gt;&apos;;
+function digui(){
+    static $a=5;  //静态变量，常驻内存，每次执行函数$a都存在不会被重新赋值
+    if($a&gt;0){
+        echo $a;
+        $a--;
+        digui();
+    }else{
+        return false;
+    }
+}
+digui();
+
+echo &apos;&lt;hr&gt;&apos;;
+$arr = [1,2,3];
+$arr[] =&apos;zhangsan&apos;;  //向数组中添加张三到最后，  也是方式三定义数组
+array_unshift($arr,&apos;lisi&apos;);
+array_push($arr,&apos;wanger&apos;);
+print_r($arr);
+
+$arr =range(1,10);   //生成一个1-10的数组  只能是整数
+count($arr);  //数组长度
+
+echo &apos;&lt;hr&gt;&apos;;
+$str = &apos;a,b,c,d&apos;;
+strlen($str); //字符串长度  注意 一个中文字符站三个字节，长度是三
+$arr=explode(&apos;,&apos;,$str);  //相当于split
+print_r($arr);
+$str = implode(&apos;-&apos;,$arr);
+echo $str;
+
+$arr = [&apos;a&apos;,&apos;c&apos;,&apos;d&apos;,&apos;b&apos;];
+sort($arr); //顺序
+rsort($arr);//倒序
+
+// $res = strops($str,&apos;a&apos;);  //找a出现的位置
+// $res = str_replace(&apos;x&apos;,&apos;y&apos;,$res); // 把$res中 x替换为y
+
+echo &apos;&lt;hr&gt;&apos;;
+$arr = array(1=&gt;&apos;zhangsan&apos;);
+$str = json_encode($arr);   //转为字符串
+echo $str;
+echo &apos;&lt;hr&gt;&apos;;
+$arr = json_decode($str);  //字符串解码为对象
+print_r($arr);
+
+$a = &apos;&lt;h1&gt;这是解析后的好&lt;/h1&gt;&apos;;  //直接输出会以标签的方式显示
+echo htmlspecialchars($a);  //将以字符串的方式返还成实体
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/20/php入门/" class="archive-article-date">
+  	<time datetime="2016-11-20T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php入门/">php入门</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-php入门" data-title="php入门" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-php入门" data-title="php入门" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-数据库基本操作一" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2107,199 +2378,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 <!-- 多说评论框 start -->
   <div class="ds-thread" data-thread-key="post-JS经典题解析" data-title="JS经典题" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
-    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/29/弹性球/">弹性球</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
-<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;    
-</code></pre><p><code>CSS</code></p>
-<pre><code>&lt;style&gt;
-    div{
-        width:100px;
-        height:100px;
-        position: absolute;
-        bottom:0;
-        left:200px;
-        background: url(img/ball.png) no-repeat;
-    }
-&lt;/style&gt;
-</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fa814luaqqj202s02sq2s.jpg" alt="ball"></p>
-<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
-<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
-</code></pre><p><code>添加移除事件兼容性处理</code></p>
-<pre><code>function addHandler(element,type,handler){
-    if(element.addEventListener){//检测是否为DOM2级方法
-        element.addEventListener(type, handler, false);
-    }else if (element.attachEvent){//检测是否为IE级方法
-        element.attachEvent(&quot;on&quot; + type, handler);
-    } else {//检测是否为DOM0级方法
-        element[&quot;on&quot; + type] = handler;
-    }
-}
-function removeHandler(element, type, handler){
-    if (element.removeEventListener){
-        element.removeEventListener(type, handler, false);
-    } else if (element.detachEvent){
-        element.detachEvent(&quot;on&quot; + type, handler);
-    } else {
-        element[&quot;on&quot; + type] = null;
-    }
-}         
-</code></pre><p><code>封装函数</code></p>
-<pre><code>function gravBall(obj){
-    var timer = null;
-    var speedX =0, speedY=0,x=0,y=0;
-    var gapX =0, gapY=0;
-
-    // obj.onmousedown = down;
-    addHandler(obj,&apos;mousedown&apos;,down);
-    addHandler(obj,&apos;mouseup&apos;,up);
-
-    function down(ev){           
-        clearInterval(timer); 
-        var ev = ev || window.event;
-        gapX = ev.clientX - obj.offsetLeft;
-        gapY = ev.clientY - obj.offsetTop;
-        addHandler(document,&apos;mousemove&apos;,move);    
-    }
-    function up(){
-        var currentX=0,currentY=0,l=0,t=0;
-        removeHandler(document,&apos;mousemove&apos;,move)
-        clearInterval(timer); 
-        timer = setInterval(function(){
-            speedY +=3;  //一直有一个Y方向的增加，仿重力
-            currentX = window.innerWidth - obj.offsetWidth;
-            currentY = window.innerHeight - obj.offsetHeight;
-            l = obj.offsetLeft + speedX;
-            t = obj.offsetTop + speedY;
-            //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
-            if(l &gt; currentX){
-                speedX *= -0.8;
-                l =currentX;
-            }
-            if(l &lt; 0){
-                speedX *= -0.8;
-                l = 0;
-            }
-            if(t &gt; currentY){
-                speedY *= -0.8;
-                speedX *= 0.8;
-                t = currentY;
-            }
-            if(t &lt; 0){
-                speedY *= -0.8;
-                speedX *= 0.8;
-                t = 0;
-            }
-            if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
-                clearInterval(timer);
-            }
-            obj.style.left = l  + &quot;px&quot;;
-            obj.style.top = t  + &quot;px&quot;;
-        },30)
-    }
-
-    function move(ev){
-        var ev = ev || window.event;
-        //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
-        speedX = ev.clientX - x - gapX;
-        speedY = ev.clientY - y - gapY;
-        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
-        x = obj.offsetLeft;
-        y = obj.offsetTop;
-        var evX = ev.clientX;
-        var evY = ev.clientY;
-        if(ev.clientX&lt;gapX || ev.clientX&gt;window.innerWidth-gapX || ev.clientY&lt;0 || ev.clientY&gt;window.innerHeight){
-            up();
-        }
-        obj.style.left = evX - gapX  + &quot;px&quot;;
-        obj.style.top = evY - gapY  + &quot;px&quot;;
-    }
-}
-</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/29/弹性球/" class="archive-article-date">
-  	<time datetime="2016-09-29T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-29</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-弹性球" data-title="弹性球" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-弹性球" data-title="弹性球" data-url="undefined"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

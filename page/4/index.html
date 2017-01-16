@@ -235,6 +235,199 @@
       <div class="body-wrap">
         
   
+    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/29/弹性球/">弹性球</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
+<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;    
+</code></pre><p><code>CSS</code></p>
+<pre><code>&lt;style&gt;
+    div{
+        width:100px;
+        height:100px;
+        position: absolute;
+        bottom:0;
+        left:200px;
+        background: url(img/ball.png) no-repeat;
+    }
+&lt;/style&gt;
+</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fa814luaqqj202s02sq2s.jpg" alt="ball"></p>
+<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
+<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
+</code></pre><p><code>添加移除事件兼容性处理</code></p>
+<pre><code>function addHandler(element,type,handler){
+    if(element.addEventListener){//检测是否为DOM2级方法
+        element.addEventListener(type, handler, false);
+    }else if (element.attachEvent){//检测是否为IE级方法
+        element.attachEvent(&quot;on&quot; + type, handler);
+    } else {//检测是否为DOM0级方法
+        element[&quot;on&quot; + type] = handler;
+    }
+}
+function removeHandler(element, type, handler){
+    if (element.removeEventListener){
+        element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent){
+        element.detachEvent(&quot;on&quot; + type, handler);
+    } else {
+        element[&quot;on&quot; + type] = null;
+    }
+}         
+</code></pre><p><code>封装函数</code></p>
+<pre><code>function gravBall(obj){
+    var timer = null;
+    var speedX =0, speedY=0,x=0,y=0;
+    var gapX =0, gapY=0;
+
+    // obj.onmousedown = down;
+    addHandler(obj,&apos;mousedown&apos;,down);
+    addHandler(obj,&apos;mouseup&apos;,up);
+
+    function down(ev){           
+        clearInterval(timer); 
+        var ev = ev || window.event;
+        gapX = ev.clientX - obj.offsetLeft;
+        gapY = ev.clientY - obj.offsetTop;
+        addHandler(document,&apos;mousemove&apos;,move);    
+    }
+    function up(){
+        var currentX=0,currentY=0,l=0,t=0;
+        removeHandler(document,&apos;mousemove&apos;,move)
+        clearInterval(timer); 
+        timer = setInterval(function(){
+            speedY +=3;  //一直有一个Y方向的增加，仿重力
+            currentX = window.innerWidth - obj.offsetWidth;
+            currentY = window.innerHeight - obj.offsetHeight;
+            l = obj.offsetLeft + speedX;
+            t = obj.offsetTop + speedY;
+            //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+            if(l &gt; currentX){
+                speedX *= -0.8;
+                l =currentX;
+            }
+            if(l &lt; 0){
+                speedX *= -0.8;
+                l = 0;
+            }
+            if(t &gt; currentY){
+                speedY *= -0.8;
+                speedX *= 0.8;
+                t = currentY;
+            }
+            if(t &lt; 0){
+                speedY *= -0.8;
+                speedX *= 0.8;
+                t = 0;
+            }
+            if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
+                clearInterval(timer);
+            }
+            obj.style.left = l  + &quot;px&quot;;
+            obj.style.top = t  + &quot;px&quot;;
+        },30)
+    }
+
+    function move(ev){
+        var ev = ev || window.event;
+        //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+        speedX = ev.clientX - x - gapX;
+        speedY = ev.clientY - y - gapY;
+        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+        x = obj.offsetLeft;
+        y = obj.offsetTop;
+        var evX = ev.clientX;
+        var evY = ev.clientY;
+        if(ev.clientX&lt;gapX || ev.clientX&gt;window.innerWidth-gapX || ev.clientY&lt;0 || ev.clientY&gt;window.innerHeight){
+            up();
+        }
+        obj.style.left = evX - gapX  + &quot;px&quot;;
+        obj.style.top = evY - gapY  + &quot;px&quot;;
+    }
+}
+</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/29/弹性球/" class="archive-article-date">
+  	<time datetime="2016-09-29T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹性球/">弹性球</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-弹性球" data-title="弹性球" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-弹性球" data-title="弹性球" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-元素坐标" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -897,111 +1090,6 @@ Markdown 语言，右边会实时的生成预览效果。在Win上推荐使用 M
 
 <!-- 多说评论框 start -->
   <div class="ds-thread" data-thread-key="post-MarkDown" data-title="MarkDown 语法" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
-    <article id="post-开启一个简单的cdn加速" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/16/开启一个简单的cdn加速/">开启一个简单的CDN加速</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度，但是对于大部分的个人网站或者普通企业网站来说，自己建立cdn加速的服务器集群是一笔较高的费用，而且需要专业的技术。这里说一种最简单的网站cdn加速方法。</p>
-</blockquote>
-<p><img src="http://a.hiphotos.baidu.com/exp/w=500/sign=c93d5757c15c1038247ecec28210931c/d4628535e5dde711b08214bba0efce1b9d16612e.jpg" alt=""></p>
-<p><strong>备注：CDN只是在你的服务器给出数据之后，进行加快传输。举个例子，你的服务器响应是10秒，网络传输占2秒，整体是12秒响应。而CDN可以将你的网络传输2秒加速到1秒，但是你的服务器吐出查询数据还是10秒，整体时间是11秒。</strong></p>
-<h2 id="方法-步骤"><a href="#方法-步骤" class="headerlink" title="方法/步骤"></a>方法/步骤</h2><h4 id="1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。"><a href="#1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。" class="headerlink" title="1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。"></a>1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。</h4><p><img src="http://d.hiphotos.baidu.com/exp/w=500/sign=3f0b53d0ccef76093c0b999f1edca301/9825bc315c6034a86d20efcccc134954082376b8.jpg" alt=""></p>
-<h4 id="2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"><a href="#2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。" class="headerlink" title="2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"></a>2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=a65259542af5e0feee1889016c6134e5/6609c93d70cf3bc7c9709ba1d600baa1cd112a0e.jpg" alt=""></p>
-<h4 id="3-进入我的网站管理界面后，点击“添加网站”按钮。"><a href="#3-进入我的网站管理界面后，点击“添加网站”按钮。" class="headerlink" title="3.进入我的网站管理界面后，点击“添加网站”按钮。"></a>3.进入我的网站管理界面后，点击“添加网站”按钮。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=4729466292cad1c8d0bbfc274f3f67c4/0824ab18972bd407429d85b07c899e510fb30920.jpg" alt=""></p>
-<h4 id="4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"><a href="#4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" class="headerlink" title="4.在添加网站页面，输入你的网址（不带http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"></a>4.在添加网站页面，输入你的网址（不带<a href="http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" target="_blank" rel="external">http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”</a></h4><p><img src="http://f.hiphotos.baidu.com/exp/w=500/sign=6d4dfc5f750e0cf3a0f74efb3a47f23d/9213b07eca806538f1c8f55e90dda144ad348259.jpg" alt=""></p>
-<h4 id="5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"><a href="#5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。" class="headerlink" title="5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"></a>5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=c6afe4b63edbb6fd255be5263925aba6/cefc1e178a82b901dde5937e748da9773912ef37.jpg" alt=""></p>
-<h4 id="6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"><a href="#6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。" class="headerlink" title="6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"></a>6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。</h4><p><img src="http://b.hiphotos.baidu.com/exp/w=500/sign=053f52d559df8db1bc2e7c643922dddb/d000baa1cd11728b1e4fdf6fcffcc3cec3fd2c18.jpg" alt=""></p>
-<h4 id="7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"><a href="#7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。" class="headerlink" title="7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"></a>7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=827831339558d109c4e3a9b2e159ccd0/c2cec3fdfc03924589a4b3428094a4c27d1e256d.jpg" alt=""></p>
-<h4 id="8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"><a href="#8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。" class="headerlink" title="8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"></a>8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=29a31cb60d46f21fc9345e53c6256b31/0dd7912397dda144535d3effb5b7d0a20cf48623.jpg" alt=""></p>
-<h4 id="9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"><a href="#9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！" class="headerlink" title="9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"></a>9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！</h4><p><img src="http://e.hiphotos.baidu.com/exp/w=500/sign=b7de0a5f484a20a4311e3cc7a0539847/342ac65c103853430f3ad56c9413b07ecb808882.jpg" alt=""></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li>网站域名备案后才能使用百度云加速的国内CDN加速节点。</li>
-<li>在dns修改并等待生效的时间内，不会影响网站的正常访问。</li>
-</ul>
-<h5 id="转自百度经验"><a href="#转自百度经验" class="headerlink" title="转自百度经验"></a>转自<a href="http://jingyan.baidu.com/article/fedf0737ac414f35ac897704.html" target="_blank" rel="external">百度经验</a></h5>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/01/16/开启一个简单的cdn加速/" class="archive-article-date">
-  	<time datetime="2016-01-16T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开启一个简单的CDN加速/">开启一个简单的CDN加速</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-开启一个简单的cdn加速" data-title="开启一个简单的CDN加速" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-开启一个简单的cdn加速" data-title="开启一个简单的CDN加速" data-url="undefined"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
