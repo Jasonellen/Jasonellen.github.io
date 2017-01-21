@@ -235,6 +235,172 @@
       <div class="body-wrap">
         
   
+    <article id="post-扒一扒jquery的几个技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/21/扒一扒jquery的几个技巧/">扒一扒JQuery的几个技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-jQuery方法-实际上是拥有两个参数的"><a href="#1-jQuery方法-实际上是拥有两个参数的" class="headerlink" title="1.jQuery方法$()实际上是拥有两个参数的"></a>1.jQuery方法$()实际上是拥有两个参数的</h3><h5 id="Create-an-element-The-second-argument-is-an-object-with-jQuery-methods-to-be-called"><a href="#Create-an-element-The-second-argument-is-an-object-with-jQuery-methods-to-be-called" class="headerlink" title="Create an element. The second argument is an object with jQuery methods to be called"></a>Create an element. The second argument is an object with jQuery methods to be called</h5><pre><code>var div = $(&apos;&lt;div&gt;&apos;,{
+    &quot;class&quot;: &quot;bigBlue&quot;,
+    &quot;css&quot;: {
+        &quot;background-color&quot;:&quot;purple&quot;,
+        &quot;width&quot; : 20,
+        &quot;height&quot;: 20,
+    },
+    &quot;animate&quot; : {   // You can use any jQuery method as a property!
+        &quot;width&quot;: 200,
+        &quot;height&quot;:50
+    }
+});
+
+div.appendTo(&apos;#eleID&apos;);
+</code></pre><h3 id="2-使用js给多个元素添加样式时更好的做法是创建一个style元素。"><a href="#2-使用js给多个元素添加样式时更好的做法是创建一个style元素。" class="headerlink" title="2.使用js给多个元素添加样式时更好的做法是创建一个style元素。"></a>2.使用js给多个元素添加样式时更好的做法是创建一个style元素。</h3><pre><code>var style = $(&apos;&lt;style&gt;&apos;);
+// Try commenting out this line, or change the color:
+style.text(&apos;.div{ color:red;}&apos;);
+style.prependTo(&apos;body&apos;);
+</code></pre><h3 id="3-阻止contextmenu默认事件。（右键菜单）"><a href="#3-阻止contextmenu默认事件。（右键菜单）" class="headerlink" title="3.阻止contextmenu默认事件。（右键菜单）"></a>3.阻止contextmenu默认事件。（右键菜单）</h3><pre><code>$(document).on(&quot;contextmenu&quot;,function(e){
+    e.preventDefault();
+});
+</code></pre><h3 id="4-监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。"><a href="#4-监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。" class="headerlink" title="4.监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。"></a>4.监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。</h3><pre><code>var list = $(&apos;#testList&apos;);
+// Binding an event on the list, but listening for events on the li items:
+list.on(&apos;click&apos;,&apos;li&apos;,function(){
+    $(this).remove();
+});
+// This allows us to create li elements at a later time,
+// while keeping the functionality(功能) in the event listener
+list.append(&apos;&lt;li&gt;New item (click me!)&lt;/li&gt;&apos;);
+</code></pre><h3 id="5-使用trigger模拟触发一个click等事件或其他自定义事件。"><a href="#5-使用trigger模拟触发一个click等事件或其他自定义事件。" class="headerlink" title="5.使用trigger模拟触发一个click等事件或其他自定义事件。"></a>5.使用trigger模拟触发一个click等事件或其他自定义事件。</h3><pre><code>// Just a regular event listener:
+press.on(&apos;click&apos;,function(e, how){
+    how = how || &apos;&apos;;
+    alert(&apos;The buton was clicked &apos; + how + &apos;!&apos;);
+});
+
+// Trigger the click event
+press.trigger(&apos;click&apos;);
+
+// Trigger it with an argument   也可以自定义事件
+press.trigger(&apos;click&apos;,[&apos;fast&apos;]);
+</code></pre><h3 id="6-传递参数到e-data执行供执行的函数使用"><a href="#6-传递参数到e-data执行供执行的函数使用" class="headerlink" title="6.传递参数到e.data执行供执行的函数使用"></a>6.传递参数到e.data执行供执行的函数使用</h3><pre><code>//参数只会之心过一次，所以下面的random不管自行几次都是相同的结果
+$(document).on(&apos;click&apos;, Math.round(Math.random()*20), function(e){
+    // This will print the same number over and over again,
+    // as the random number above is generated only once:
+    console.log(&apos;Random number: &apos; + e.data,e.target);
+});
+</code></pre><h3 id="7-Using-event-delegation-事件代理"><a href="#7-Using-event-delegation-事件代理" class="headerlink" title="7.Using event delegation 事件代理"></a>7.Using event delegation 事件代理</h3><pre><code>$(&apos;#holder&apos;).on(&apos;click&apos;, &apos;#clear&apos;, function(){
+    clear();
+});
+</code></pre><h3 id="8-绑定多个事件"><a href="#8-绑定多个事件" class="headerlink" title="8.绑定多个事件"></a>8.绑定多个事件</h3><pre><code>clear.on(&apos;mouseup click&apos;,function(){
+    //...
+})
+
+clear.on({
+    &apos;mousedown&apos;:function(){
+       // ...
+    },
+    &apos;mouseup&apos;:function(){
+        // ...
+    }
+});
+</code></pre><h3 id="9-阻止默认事件"><a href="#9-阻止默认事件" class="headerlink" title="9.阻止默认事件"></a>9.阻止默认事件</h3><h5 id="更快地阻止默认事件行为。"><a href="#更快地阻止默认事件行为。" class="headerlink" title="更快地阻止默认事件行为。"></a>更快地阻止默认事件行为。</h5><pre><code>$(&apos;#goToGoogle&apos;).click(false);
+</code></pre><h5 id="函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，-链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。"><a href="#函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，-链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。" class="headerlink" title="函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，\链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。"></a>函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，\<a>链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。</a></h5><pre><code>$(&apos;#goToGoogle&apos;).click(function(){
+    return false;
+});
+</code></pre><h3 id="10-平行的运行多个Ajax请求。"><a href="#10-平行的运行多个Ajax请求。" class="headerlink" title="10.平行的运行多个Ajax请求。"></a>10.平行的运行多个Ajax请求。</h3><h5 id="当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。"><a href="#当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。" class="headerlink" title="当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。"></a>当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。</h5><pre><code>// The trick is in the $.when() function:
+$.when($.get(&apos;assets/misc/1.json&apos;), $.get(&apos;assets/misc/2.json&apos;)).then(function(r1, r2){
+    log(r1[0].message + &quot; &quot; + r2[0].message);
+});
+</code></pre><h3 id="11-jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。"><a href="#11-jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。" class="headerlink" title="11.jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。"></a>11.jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。</h3><pre><code>&lt;p class=&quot;content&quot;&gt;&lt;/p&gt; &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;
+var contentDivs = $(&apos;.content&apos;);
+// Fetch the contents of a text file:
+contentDivs.eq(0).load(&apos;1.txt&apos;);
+// Fetch the contents of a HTML file, and display a specific element:
+contentDivs.eq(1).load(&apos;1.html #header&apos;);
+</code></pre><h3 id="12-JQuery扩展"><a href="#12-JQuery扩展" class="headerlink" title="12.JQuery扩展"></a>12.JQuery扩展</h3><h5 id="jQuery-prototype-jQuery-fn-jQuery-fn-init-prototype"><a href="#jQuery-prototype-jQuery-fn-jQuery-fn-init-prototype" class="headerlink" title="jQuery.prototype = jQuery.fn = jQuery.fn.init.prototype"></a>jQuery.prototype = jQuery.fn = jQuery.fn.init.prototype</h5><pre><code>$.fn.abs=function(){
+    console.log(&apos;abs&apos;)
+}
+$(document).abs();
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/21/扒一扒jquery的几个技巧/" class="archive-article-date">
+  	<time datetime="2017-01-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/扒一扒JQuery的几个技巧/">扒一扒JQuery的几个技巧</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-扒一扒jquery的几个技巧" data-title="扒一扒JQuery的几个技巧" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-扒一扒jquery的几个技巧" data-title="扒一扒JQuery的几个技巧" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-开启一个简单的cdn加速" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2240,171 +2406,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-ReactNative启动白屏解决" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/10/ReactNative启动白屏解决/">ReactNative启动白屏解决</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本文主要设置andriod的启动屏，ios的感觉不需要这个插件"><a href="#本文主要设置andriod的启动屏，ios的感觉不需要这个插件" class="headerlink" title="本文主要设置andriod的启动屏，ios的感觉不需要这个插件.."></a>本文主要设置andriod的启动屏，ios的感觉不需要这个插件..</h1><h2 id="下载依赖插件"><a href="#下载依赖插件" class="headerlink" title="下载依赖插件"></a>下载依赖插件</h2><p><code>在项目根目录打开终端运行</code></p>
-<pre><code>npm react-native-splash-screen --save 
-</code></pre><h2 id="安装-自动安装或手动安装"><a href="#安装-自动安装或手动安装" class="headerlink" title="安装(自动安装或手动安装)"></a>安装(自动安装或手动安装)</h2><p><code>自动安装终端运行：（推荐）</code></p>
-<pre><code>react-native link react-native-splash-screen  
-或
-rnpm link react-native-splash-screen  
-</code></pre><p><code>手动安装</code></p>
-<pre><code>1.在你的android/settings.gradle 文件中添加下列代码:
-include &apos;:react-native-splash-screen&apos;     
-project(&apos;:react-native-splash-screen&apos;).projectDir = new File(rootProject.projectDir, &apos;../node_modules/react-native-splash-screen/android&apos;)  
-
-2.在你的android/app/build.gradle 文件中添加 :react-native-splash-screen：
-...  
-dependencies {  
-        ...  
-    compile project(&apos;:react-native-splash-screen&apos;)  
-}
-
-3.更新你的MainApplication.Java文件，如下:
-public class MainApplication extends Application implements     ReactApplication {  
-
-private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {  
-    @Override  
-    protected boolean getUseDeveloperSupport() {  
-        return BuildConfig.DEBUG;  
-    }  
-
-    @Override  
-    protected List&lt;ReactPackage&gt; getPackages() {  
-        return Arrays.&lt;ReactPackage&gt;asList(  
-                new MainReactPackage(),  
-        new SplashScreenReactPackage()  //添加这一句  
-        );  
-    }  
-};  
-
-@Override  
-public ReactNativeHost getReactNativeHost() {  
-    return mReactNativeHost;  
-}  
-}
-</code></pre><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><code>1.更新你的MainActivity.java 文件如下：</code></p>
-<pre><code>import android.os.Bundle; //需要新添加的？
-import com.facebook.react.ReactActivity; //原来有的
-import com.cboy.rn.splashscreen.SplashScreen; //需要新添加的？
-
-public class MainActivity extends ReactActivity {  
-    //原来有的
-    @Override
-    protected String getMainComponentName() {
-        return &quot;examples&quot;;
-    }
-    //下面是新添加的
-       @Override  
-        protected void onCreate(Bundle savedInstanceState) {  
-               SplashScreen.show(this);    
-            super.onCreate(savedInstanceState);  
-        }  
-    }
-}
-</code></pre><p><code>2.创建一个名为launch_screen.xml 的布局文件来自定义你的启动屏幕</code></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
-    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;  
-    android:layout_height=&quot;match_parent&quot;  
-    android:background=&quot;@drawable/launch_screen&quot;&gt;  
-&lt;/LinearLayout&gt;  
-</code></pre><p>创建的文件夹和文件路径如下：<br>splash.png就是你想要设置的启动图图片，<br><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg" alt=""></p>
-<p><code>3.在.js文件中使用</code></p>
-<pre><code>import SplashScreen from &apos;react-native-splash-screen&apos;  
-
-//然后在componentDidMount中调用Splash.hide().
-export default class WelcomePage extends Component {
-    componentDidMount() {
-        SplashScreen.hide();
-    }
-}
-</code></pre><p>参考网址：<a href="https://github.com/crazycodeboy/react-native-splash-screen" target="_blank" rel="external">https://github.com/crazycodeboy/react-native-splash-screen</a></p>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/10/ReactNative启动白屏解决/" class="archive-article-date">
-  	<time datetime="2016-12-10T03:23:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN启动屏/">RN启动屏</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-ReactNative启动白屏解决" data-title="ReactNative启动白屏解决" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-ReactNative启动白屏解决" data-title="ReactNative启动白屏解决" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2468,7 +2469,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

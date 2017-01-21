@@ -235,6 +235,171 @@
       <div class="body-wrap">
         
   
+    <article id="post-ReactNative启动白屏解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/10/ReactNative启动白屏解决/">ReactNative启动白屏解决</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文主要设置andriod的启动屏，ios的感觉不需要这个插件"><a href="#本文主要设置andriod的启动屏，ios的感觉不需要这个插件" class="headerlink" title="本文主要设置andriod的启动屏，ios的感觉不需要这个插件.."></a>本文主要设置andriod的启动屏，ios的感觉不需要这个插件..</h1><h2 id="下载依赖插件"><a href="#下载依赖插件" class="headerlink" title="下载依赖插件"></a>下载依赖插件</h2><p><code>在项目根目录打开终端运行</code></p>
+<pre><code>npm react-native-splash-screen --save 
+</code></pre><h2 id="安装-自动安装或手动安装"><a href="#安装-自动安装或手动安装" class="headerlink" title="安装(自动安装或手动安装)"></a>安装(自动安装或手动安装)</h2><p><code>自动安装终端运行：（推荐）</code></p>
+<pre><code>react-native link react-native-splash-screen  
+或
+rnpm link react-native-splash-screen  
+</code></pre><p><code>手动安装</code></p>
+<pre><code>1.在你的android/settings.gradle 文件中添加下列代码:
+include &apos;:react-native-splash-screen&apos;     
+project(&apos;:react-native-splash-screen&apos;).projectDir = new File(rootProject.projectDir, &apos;../node_modules/react-native-splash-screen/android&apos;)  
+
+2.在你的android/app/build.gradle 文件中添加 :react-native-splash-screen：
+...  
+dependencies {  
+        ...  
+    compile project(&apos;:react-native-splash-screen&apos;)  
+}
+
+3.更新你的MainApplication.Java文件，如下:
+public class MainApplication extends Application implements     ReactApplication {  
+
+private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {  
+    @Override  
+    protected boolean getUseDeveloperSupport() {  
+        return BuildConfig.DEBUG;  
+    }  
+
+    @Override  
+    protected List&lt;ReactPackage&gt; getPackages() {  
+        return Arrays.&lt;ReactPackage&gt;asList(  
+                new MainReactPackage(),  
+        new SplashScreenReactPackage()  //添加这一句  
+        );  
+    }  
+};  
+
+@Override  
+public ReactNativeHost getReactNativeHost() {  
+    return mReactNativeHost;  
+}  
+}
+</code></pre><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><code>1.更新你的MainActivity.java 文件如下：</code></p>
+<pre><code>import android.os.Bundle; //需要新添加的？
+import com.facebook.react.ReactActivity; //原来有的
+import com.cboy.rn.splashscreen.SplashScreen; //需要新添加的？
+
+public class MainActivity extends ReactActivity {  
+    //原来有的
+    @Override
+    protected String getMainComponentName() {
+        return &quot;examples&quot;;
+    }
+    //下面是新添加的
+       @Override  
+        protected void onCreate(Bundle savedInstanceState) {  
+               SplashScreen.show(this);    
+            super.onCreate(savedInstanceState);  
+        }  
+    }
+}
+</code></pre><p><code>2.创建一个名为launch_screen.xml 的布局文件来自定义你的启动屏幕</code></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;  
+    android:layout_height=&quot;match_parent&quot;  
+    android:background=&quot;@drawable/launch_screen&quot;&gt;  
+&lt;/LinearLayout&gt;  
+</code></pre><p>创建的文件夹和文件路径如下：<br>splash.png就是你想要设置的启动图图片，<br><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg" alt=""></p>
+<p><code>3.在.js文件中使用</code></p>
+<pre><code>import SplashScreen from &apos;react-native-splash-screen&apos;  
+
+//然后在componentDidMount中调用Splash.hide().
+export default class WelcomePage extends Component {
+    componentDidMount() {
+        SplashScreen.hide();
+    }
+}
+</code></pre><p>参考网址：<a href="https://github.com/crazycodeboy/react-native-splash-screen" target="_blank" rel="external">https://github.com/crazycodeboy/react-native-splash-screen</a></p>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/10/ReactNative启动白屏解决/" class="archive-article-date">
+  	<time datetime="2016-12-10T03:23:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN启动屏/">RN启动屏</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-ReactNative启动白屏解决" data-title="ReactNative启动白屏解决" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-ReactNative启动白屏解决" data-title="ReactNative启动白屏解决" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-SVG图标使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1664,181 +1829,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-php文件操作" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/21/php文件操作/">php文件操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>文件操作，</li>
-<li>目录操作(文件夹操作)</li>
-</ol>
-<p><code>1.文件的读取</code></p>
-<pre><code>$res = file_get_contents(&apos;php3.txt&apos;);  //读  一般配合 file_put_contents 写使用
-
-// $res =file_get_contents(&apos;http://www.baidu.com&apos;);
-</code></pre><p><code>2.文件的写入</code></p>
-<pre><code>$a = file_get_contents(&apos;http://www.baidu.com&apos;); //或者其他文件
-$res =file_put_contents(&apos;php3.txt&apos;,&apos;写入方式二 常用&apos;);  //从头写入，覆盖  也可以是上面的$a
-if($res){
-    echo &apos;写入成功&apos;;
-}else{
-    echo &apos;写入失败&apos;;
-}
-</code></pre><p><code>3.文件的删除</code></p>
-<pre><code>// $res = unlink(&apos;6.txt&apos;);
-// if($res){
-//     echo &apos;删除成功&apos;;
-// }else{
-//     echo &apos;删除失败&apos;;
-// }
-</code></pre><p><code>php文件夹操作</code></p>
-<pre><code>//创建文件夹📂
-// $rem = mkdir(&apos;test1&apos;);
-// if($res){
-//     echo &apos;创建成功&apos;;
-// }else{
-//     echo &apos;创建失败&apos;;
-// }
-</code></pre><p><code>读取文件夹📂</code></p>
-<pre><code>$xx = scandir(&apos;test&apos;); //读取文件夹，以数组形式返回
-foreach ($xx as $key =&gt; $value) {
-    // $xx[$key] = iconv(&apos;gbk&apos;,&quot;utf-8&quot;,$value); //如果中文文件夹乱码加上这个就好了
-    $url = &quot;test/&quot;.$value;
-    if(is_file($url)){
-        echo &quot;&lt;font color=&apos;red&apos;&gt;&quot;.$value.&apos;&lt;/font&gt;&lt;br&gt;&apos;;
-    }else{
-        echo &quot;&lt;font color=&apos;green&apos;&gt;&quot;.$value.&apos;&lt;/font&gt;&lt;br&gt;&apos;;
-    }
-}
-// print_r ($xx);
-</code></pre><p><code>删除文件夹</code></p>
-<pre><code>// $res = rmdir(&apos;test1&apos;);  //这个只能删除空文件夹
-
-
-//删除文件夹及内部文件
-function removeDir($path){
-    $arr = scandir($path);
-//    print_r($arr);die;
-    if(count($arr)&gt;2){
-        //目录不为空
-        for($i=2;$i&lt;count($arr);$i++){
-             $url = $path.&apos;/&apos;.$arr[$i];
-            //$arr[$i] = 1.txt  test1
-             if(is_dir($url)){
-                 //为目录. 
-                 removeDir($url);
-             }else{
-                 //是文件
-                unlink($url);
-             }
-        }
-    }
-    $res = rmdir($path);
-    return $res;
-}
-// removeDir($path)
-</code></pre><p><code>获取文件的最后创建时间</code></p>
-<pre><code>//$res = filectime(&apos;1.txt&apos;)  //返回时间戳
-//echo date(&apos;Y-m-d H:i:s&apos;,$res)
-
-//file_exists: 判断文件是否存在；
-if(!file_exists(&apos;test&apos;)){
-    mkdir(&apos;test&apos;);
-}
-
-//判断是否可读
-is_readable(filename);
-//判断是否可写
-is_writable(filename);
-</code></pre><p><code>修改目录权限</code></p>
-<pre><code>chmod(&apos;test&apos;, 0755); //7=1+4+2   5=1+4  
-// 1.执行权限(1)  2.读取(4) 3.可写(2)
-//如果是手动创建的是不能用代码来更改权限的
-</code></pre><p><code>页面跳转</code></p>
-<pre><code>header(&apos;Location:file.php&apos;) //跳转显示file.php文件
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/21/php文件操作/" class="archive-article-date">
-  	<time datetime="2016-11-21T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php文件操作/">php文件操作</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-php文件操作" data-title="php文件操作" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-php文件操作" data-title="php文件操作" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1902,7 +1892,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

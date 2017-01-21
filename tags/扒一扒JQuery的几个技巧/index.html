@@ -6,51 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Vue单例webpack配置 | 奋斗蚁🐜</title>
+  <title>Tag: 扒一扒JQuery的几个技巧 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目录结构-APP
-    -dest
-        +css
-        +html
-        +img
-        +js
-    +node_modules
-    +component
-    +src
-package.json{
-  &amp;quot;name&amp;quot;: &amp;quot;guoxing&amp;quot;,
-  &amp;quot;version&amp;quot;: &amp;quot;1.0">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Vue单例webpack配置">
-<meta property="og:url" content="http://Jasonellen.github.io/2016/10/08/Vue单例webpack配置/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="奋斗蚁🐜">
+<meta property="og:url" content="http://Jasonellen.github.io/tags/扒一扒JQuery的几个技巧/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="目录结构-APP
-    -dest
-        +css
-        +html
-        +img
-        +js
-    +node_modules
-    +component
-    +src
-package.json{
-  &amp;quot;name&amp;quot;: &amp;quot;guoxing&amp;quot;,
-  &amp;quot;version&amp;quot;: &amp;quot;1.0">
-<meta property="og:updated_time" content="2016-11-24T14:51:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue单例webpack配置">
-<meta name="twitter:description" content="目录结构-APP
-    -dest
-        +css
-        +html
-        +img
-        +js
-    +node_modules
-    +component
-    +src
-package.json{
-  &amp;quot;name&amp;quot;: &amp;quot;guoxing&amp;quot;,
-  &amp;quot;version&amp;quot;: &amp;quot;1.0">
+<meta name="twitter:title" content="奋斗蚁🐜">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -270,236 +233,54 @@ package.json{
 </nav>
 
       <div class="body-wrap">
-        <article id="post-Vue单例webpack配置" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      Vue单例webpack配置
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/01/21/扒一扒jquery的几个技巧/" class="archive-article-date">
+  	<time datetime="2017-01-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-21</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/01/21/扒一扒jquery的几个技巧/">扒一扒JQuery的几个技巧</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><pre><code>-APP
-    -dest
-        +css
-        +html
-        +img
-        +js
-    +node_modules
-    +component
-    +src
-</code></pre><h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><pre><code>{
-  &quot;name&quot;: &quot;guoxing&quot;,
-  &quot;version&quot;: &quot;1.0.0&quot;,
-   &quot;description&quot;: &quot;&quot;,
-  &quot;main&quot;: &quot;index.js&quot;,
-  &quot;scripts&quot;: {
-    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
-    &quot;start&quot;: &quot;webpack-dev-server --inline&quot;
-   },
-   &quot;author&quot;: &quot;&quot;,
-   &quot;license&quot;: &quot;ISC&quot;,
-   &quot;devDependencies&quot;: {
-     &quot;autoprefixer-loader&quot;: &quot;^2.0.0&quot;,
-     &quot;babel&quot;: &quot;^6.3.13&quot;,
-     &quot;babel-core&quot;: &quot;^6.3.21&quot;,
-     &quot;babel-loader&quot;: &quot;^6.2.0&quot;,
-     &quot;babel-plugin-transform-runtime&quot;: &quot;^6.3.13&quot;,
-     &quot;babel-preset-es2015&quot;: &quot;^6.3.13&quot;,
-     &quot;babel-runtime&quot;: &quot;^5.8.34&quot;,
-     &quot;css-loader&quot;: &quot;^0.25.0&quot;,
-     &quot;file-loader&quot;: &quot;^0.9.0&quot;,
-     &quot;html-loader&quot;: &quot;^0.3.0&quot;,
-     &quot;node-sass&quot;: &quot;^3.4.2&quot;,
-     &quot;sass-loader&quot;: &quot;^3.2.0&quot;,
-     &quot;style-loader&quot;: &quot;^0.13.1&quot;,
-     &quot;url-loader&quot;: &quot;^0.5.7&quot;,
-     &quot;vue-loader&quot;: &quot;^7.2.0&quot;,
-     &quot;webpack&quot;: &quot;^1.13.3&quot;,
-     &quot;webpack-dev-server&quot;: &quot;^1.14.0&quot;
-   },
-   &quot;dependencies&quot;: {
-     &quot;vue&quot;: &quot;^2.0.3&quot;
-   }
-}
-</code></pre><h1 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h1><pre><code>var path = require(&apos;path&apos;);
-var webpack = require(&apos;webpack&apos;)
-// NodeJS中的Path对象，用于处理目录的对象，提高开发效率。
-// 模块导入
-module.exports = {
-    // 入口文件地址，不需要写完，会自动查找
-    // entry: [&apos;./src/index&apos;,&apos;./src/manor&apos;], //只能生成一个out文件
-
-entry:{   //生成多个out文件，文件名就是属性名
-    index: &apos;./src/index&apos;,
-    manor: &apos;./src/manor&apos;,
-    news: &apos;./src/news&apos;,
-    product: &apos;./src/product&apos;,
-    grape: &apos;./src/grape&apos;,
-    technology: &apos;./src/technology&apos;,
-    message: &apos;./src/message&apos;,
-    concat: &apos;./src/concat&apos;,
-
-},
-// 输出
-output: {
-    path: path.join(__dirname, &apos;dest/js&apos;),
-    //path:__dirname+&apos;/dist/&apos;,
-    // 文件地址，使用绝对路径形式
-    filename: &apos;[name].js&apos;,// 主要用于多个入口点--对应多个出口点
-    //[name]这里是webpack提供的根据路口文件自动生成的名字
-
-    //就是因为url-loader路径的问题，项目安排目录结构都在dest中
-    //publicPath: &apos;dest/&apos;
-
-},
-// 加载器
-module: {
-    // 加载器
-    loaders: [
-        // 解析.vue文件
-        { test: /\.vue$/, loader: &apos;vue&apos; },
-        // 转化ES6的语法
-        { test: /\.js$/, loader: &apos;babel&apos;, exclude: /node_modules/ },
-        // 编译css并自动添加css前缀
-        { test: /\.css$/, loader: &apos;style!css!autoprefixer&apos;},
-        //.scss 文件想要编译，scss就需要这些东西！来编译处理
-        //install css-loader style-loader sass-loader node-sass --save-dev
-        { test: /\.scss$/, loader: &apos;style!css!sass?sourceMap&apos;},
-        // 图片转化，小于32K自动转化为base64的编码 因为IE8最大支持32K 的base64
-        { test: /\.(png|jpg|gif)$/, loader: &apos;url-loader?limit=32000&amp;name=../img/[name].[ext]&apos;}, //相对于上面的outpath
-        //html模板编译？
-        { test: /\.(html|tpl)$/, loader: &apos;html-loader&apos; },
-    ]
-},
-
-// 转化成es5的语法
-babel: {
-    presets: [&apos;es2015&apos;],
-    plugins: [&apos;transform-runtime&apos;]
-},
-
- // 启用观察  不用-w了
-watch: true, // boolean
-
-resolve: {
-    // import require时省略的扩展名，如：require(&apos;module&apos;) 不需要module.js
-    extensions: [&apos;&apos;, &apos;.js&apos;, &apos;.vue&apos;],
-    // 别名，可以直接使用别名来代表设定的路径以及其他  感觉不加更好点？？
-    alias: {
-        &apos;vue$&apos;: &apos;vue/dist/vue.js&apos;,   //给vue/dist/vue.js起个别名vue   然后后面才可以直接import Vue from &quot;vue&quot;;
-        filter: path.join(__dirname, &apos;./src/filters&apos;),
-        components: path.join(__dirname, &apos;./src/components&apos;)
-    }
-},
-// plugins: [    //强制以压缩格式转化js文件 “监听慢” 最后最后需要压缩时再使用
-//     // 抑制压缩后语法不规范的警告提示
-//     new webpack.optimize.UglifyJsPlugin({
-//       minimize: true,
-//       compress: {
-//         warnings: false,
-//       },
-//     }),
-// ]
-
-};
-</code></pre><p><code>直接命令工具运行 webpack 就OK了</code></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/08/Vue单例webpack配置/" class="archive-article-date">
-  	<time datetime="2016-10-08T06:10:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-08</time>
-</a>
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue单例组件/">Vue单例组件</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/扒一扒JQuery的几个技巧/">扒一扒JQuery的几个技巧</a></li></ul>
 	</div>
 
-      
+          
 
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2016/10/12/Vue之数据绑定/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Vue数据绑定
-        
-      </div>
-    </a>
   
   
-    <a href="/2016/10/02/JS经典题解析/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JS经典题</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-Vue单例webpack配置" data-title="Vue单例webpack配置" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-Vue单例webpack配置" data-title="Vue单例webpack配置" data-url="http://Jasonellen.github.io/2016/10/08/Vue单例webpack配置/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
+    
 
 
       </div>
@@ -519,9 +300,9 @@ var duoshuoQuery = {short_name:"jasonellen"};
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
