@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: Vue单例组件 | 奋斗蚁🐜</title>
+  <title>canvas截图上传(Blob) | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/Vue单例组件/index.html">
+  <meta name="description" content="canvas截图上传(Blob)
+很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
+
+基本原理如下1.读取文件，并生成 Image 元素通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="canvas截图上传(Blob)">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/01/23/canvas截图上传(blob)/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="canvas截图上传(Blob)
+很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
+
+基本原理如下1.读取文件，并生成 Image 元素通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示">
+<meta property="og:updated_time" content="2017-01-22T15:31:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="canvas截图上传(Blob)">
+<meta name="twitter:description" content="canvas截图上传(Blob)
+很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
+
+基本原理如下1.读取文件，并生成 Image 元素通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -233,54 +246,166 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-canvas截图上传(blob)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/08/Vue单例webpack配置/" class="archive-article-date">
-  	<time datetime="2016-10-08T06:10:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/08/Vue单例webpack配置/">Vue单例webpack配置</a>
+    <h1 class="article-title" itemprop="name">
+      canvas截图上传(Blob)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="canvas截图上传-Blob"><a href="#canvas截图上传-Blob" class="headerlink" title="canvas截图上传(Blob)"></a>canvas截图上传(Blob)</h1><blockquote>
+<p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
+</blockquote>
+<h1 id="基本原理如下"><a href="#基本原理如下" class="headerlink" title="基本原理如下"></a>基本原理如下</h1><h2 id="1-读取文件，并生成-Image-元素"><a href="#1-读取文件，并生成-Image-元素" class="headerlink" title="1.读取文件，并生成 Image 元素"></a>1.读取文件，并生成 Image 元素</h2><h4 id="通过-FileReader-我们可以将图片文件转化成-DataURL，就是以-data-image-png-base64-开头的一种URL-然后可以直接放在-image-src-里，这样本地图片就显示出来了。"><a href="#通过-FileReader-我们可以将图片文件转化成-DataURL，就是以-data-image-png-base64-开头的一种URL-然后可以直接放在-image-src-里，这样本地图片就显示出来了。" class="headerlink" title="通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示出来了。"></a>通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示出来了。</h4><pre><code>$(&apos;input[type=file]&apos;).change(function(){
+    var file=this.files[0]; //这里如果是$(this)就要改为$(this)[0].files[0]; 
+
+    var reader=new FileReader(); 
+    reader.onload=function(){
+        // 通过 reader.result 来访问生成的 DataURL
+        var image=new Image();
+        image.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+});
+</code></pre><p><code>Image</code> 就是在 <code>html</code> 里的 <code>&lt;img&gt;</code> 标签，所以可以直接插入到文档流里。</p>
+<h2 id="2-裁剪图片"><a href="#2-裁剪图片" class="headerlink" title="2.裁剪图片"></a>2.裁剪图片</h2><h4 id="这是时候我们就需要用到-canvas-了，canvas-和图片一样，所以新建-canvas-时就要确定其高宽。这里我们还可以用-image-naturalHeight-和-image-naturalWidth-这两个属性来获取图片原始尺寸。"><a href="#这是时候我们就需要用到-canvas-了，canvas-和图片一样，所以新建-canvas-时就要确定其高宽。这里我们还可以用-image-naturalHeight-和-image-naturalWidth-这两个属性来获取图片原始尺寸。" class="headerlink" title="这是时候我们就需要用到 canvas 了，canvas 和图片一样，所以新建 canvas 时就要确定其高宽。这里我们还可以用 image.naturalHeight 和 image.naturalWidth 这两个属性来获取图片原始尺寸。"></a>这是时候我们就需要用到 canvas 了，canvas 和图片一样，所以新建 canvas 时就要确定其高宽。这里我们还可以用 image.naturalHeight 和 image.naturalWidth 这两个属性来获取图片原始尺寸。</h4><pre><code>// 以下四个参数由第三步获得
+var x,  
+    y,
+    width,
+    height;
+
+var canvas=$(&apos;&lt;canvas width=&quot;&apos;+width+&apos;&quot; height=&quot;&apos;+height+&apos;&quot;&gt;&lt;/canvas&gt;&apos;)[0],
+    ctx=canvas.getContext(&apos;2d&apos;);
+
+ctx.drawImage(image,x,y,width,height,0,0,width,height);
+$(document.body).append(canvas);
+</code></pre><h2 id="3-读取裁剪后图片到Blob"><a href="#3-读取裁剪后图片到Blob" class="headerlink" title="3.读取裁剪后图片到Blob"></a>3.读取裁剪后图片到Blob</h2><p>这时我们要获取 <code>canvas</code> 中图片的信息，用 <code>toDataURL</code> 就完成转换 。 然后取出其中 <code>base64</code> 信息，再用 <code>window.atob</code> 转换成由二进制字符串。但 <code>window.atob</code> 转换后的结果仍然是字符串，直接给 <code>Blob</code> 还是会出错。所以又要用 <code>Uint8Array</code> 转换一下。</p>
+<pre><code>function dataURItoBlob (base64Data) {  
+    var byteString;
+    if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)  
+        byteString = atob(base64Data.split(&apos;,&apos;)[1]);  
+    else  
+        byteString = unescape(base64Data.split(&apos;,&apos;)[1]);  
+    var mimeString = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];  
+    var ia = new Uint8Array(byteString.length);  
+    for (var i = 0; i &lt; byteString.length; i++) {  
+        ia[i] = byteString.charCodeAt(i);  
+    }  
+    // canvas.toDataURL 返回的默认格式是 image/png
+    return new Blob([ia], {type: mimeString});  //type:&quot;image/png&quot;
+}
+
+var data=canvas.toDataURL();
+dataURItoBlob(data)
+</code></pre><h2 id="4-完成图片上传"><a href="#4-完成图片上传" class="headerlink" title="4.完成图片上传"></a>4.完成图片上传</h2><p>经过裁剪后的文件就储存在 <code>blob</code> 里了,我们可以把它当作是普通文件一样，加入到 <code>FormData</code> 里，并上传至服务器了。<code>FormData</code>最大的特点就是可以手工添加文件或者 <code>Blob</code> 类型的数据，<code>Blob</code> 数据也会被当作文件来处理。</p>
+<pre><code>var fd=new FormData();
+fd.append(&apos;file&apos;,blob);
+$.ajax({
+    url:&quot;your.server.com&quot;,
+    type:&quot;POST&quot;,
+    data:fd,
+    processData: false,
+    contentType: false,
+    success:function(){}
+});
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/23/canvas截图上传(blob)/" class="archive-article-date">
+  	<time datetime="2017-01-23T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-23</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue单例组件/">Vue单例组件</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas截图上传-Blob/">canvas截图上传(Blob)</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2017/01/24/vuex/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          vuex
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/01/21/扒一扒jquery的几个技巧/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">扒一扒JQuery的几个技巧</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-canvas截图上传(blob)" data-title="canvas截图上传(Blob)" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-canvas截图上传(blob)" data-title="canvas截图上传(Blob)" data-url="http://Jasonellen.github.io/2017/01/23/canvas截图上传(blob)/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
 
 
       </div>
@@ -300,9 +425,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

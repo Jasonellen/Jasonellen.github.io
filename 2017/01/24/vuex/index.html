@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: Vue单例组件 | 奋斗蚁🐜</title>
+  <title>vuex | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/Vue单例组件/index.html">
+  <meta name="description" content="关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..
+
+什么是vuex,作用又是什么？
+Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuex">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/01/24/vuex/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..
+
+什么是vuex,作用又是什么？
+Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组">
+<meta property="og:updated_time" content="2017-01-22T15:31:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="vuex">
+<meta name="twitter:description" content="关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..
+
+什么是vuex,作用又是什么？
+Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -233,54 +246,187 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/08/Vue单例webpack配置/" class="archive-article-date">
-  	<time datetime="2016-10-08T06:10:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/08/Vue单例webpack配置/">Vue单例webpack配置</a>
+    <h1 class="article-title" itemprop="name">
+      vuex
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..</p>
+</blockquote>
+<h1 id="什么是vuex-作用又是什么？"><a href="#什么是vuex-作用又是什么？" class="headerlink" title="什么是vuex,作用又是什么？"></a>什么是vuex,作用又是什么？</h1><blockquote>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组件之间通讯的，而现在有了vuex，就组件就都和store通讯了</p>
+<h3 id="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"><a href="#简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件" class="headerlink" title="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"></a>简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件</h3><p><code>应用场景：</code><br></p>
+<ul>
+<li>多个组件依赖于同一状态。传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。</li>
+<li>来自不同组件的行为需要变更同一状态。我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><strong>当我们需要制作一个加一，减一操作按钮的时候，用下面两个demo做一个演示</strong><h3 id="未使用vuex"><a href="#未使用vuex" class="headerlink" title="未使用vuex"></a>未使用vuex</h3></li>
+<li>单纯依赖于vue.js</li>
+</ul>
+</blockquote>
+<pre><code>&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;app&quot;&gt;
+      &lt;p&gt;{{count}}
+            &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
+            &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
+      &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+  new Vue({
+    el:&apos;#app&apos;,
+    data () {
+      return {
+        count: 0
+      }
+    },
+    methods: {
+      inc () {
+        this.count++
+      },
+      dec () {
+        this.count--
+      }
+    }
+  })
+  &lt;/script&gt;
+</code></pre><p>  整个代码结构非常清晰，代码是代码，数据是数据，代码就是放在methods数组内的两个函数inc、dec，被指令@click关联到button上。而data内返回一个属性count，此属性通过绑定到标签p内。从而可以动态的改为count的值。</p>
+<h2 id="使用vuex"><a href="#使用vuex" class="headerlink" title="使用vuex"></a>使用vuex</h2><ul>
+<li><p>依赖vue.js，也使用了vuex技术</p>
+<pre><code>&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/vuex@next&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;{{count}}
+        &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
+        &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const store = new Vuex.Store({
+        state: {
+          count: 0
+        },
+        mutations: {
+            inc: state =&gt; state.count++,
+          dec: state =&gt; state.count--
+        }
+    })
+      const app = new Vue({
+        el: &apos;#app&apos;,
+        computed: {
+          count () {
+             return store.state.count
+          }
+        },
+        methods: {
+          inc () {
+                store.commit(&apos;inc&apos;) //执行store.inc放大
+          },
+          dec () {
+              store.commit(&apos;dec&apos;)
+          }
+        }
+    })
+&lt;/script&gt;
+</code></pre><h4 id="我们先看到有哪些重要的变化："><a href="#我们先看到有哪些重要的变化：" class="headerlink" title="我们先看到有哪些重要的变化："></a>我们先看到有哪些重要的变化：</h4></li>
+</ul>
+<ol>
+<li>新的代码添加了对vuex@next脚本的依赖。这是当然的，因为你需要使用vuex的技术，当然需要引用它</li>
+<li>methods数组还是这两个方法，这和demo1是一样的；但是方法内的计算逻辑，不再是在函数内进行，而是提交给store对象！这是一个新的对象！</li>
+<li>count数据也不再是一个data函数返回的对象的属性；而是通过计算字段来返回，并且在计算字段内的代码也不是自己算的，而是转发给store对象</li>
+<li>store对象是Vuex.Store的实例。在store内有分为state对象和mutations对象，其中的state放置 状态 ,mutations则是一个会引发状态改变的所有方法。正如我们看到的，目前的state对象，其中的状态就只有一个count。而mutations有两个成员，它们参数为state，在函数体内对state内的count成员做加1和减1的操作。</li>
+</ol>
+<p><strong>总结：</strong>就是说，之前在vue实例内做的操作和数据的计算现在都不再自己做了，而是交由对象store来做了。</p>
+<h4 id="用了vuex感觉更复杂了？"><a href="#用了vuex感觉更复杂了？" class="headerlink" title="用了vuex感觉更复杂了？"></a>用了<code>vuex</code>感觉更复杂了？</h4><p>你的感觉没错，这就是为什么官网再次会提到Vuex构建大型应用的价值。 如果您不打算开发大型单页应用，使用 Vuex 可能是繁琐冗余的。确实是如此——如果您的应用够简单，您最好不要使用 Vuex 。</p>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/24/vuex/" class="archive-article-date">
+  	<time datetime="2017-01-24T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-24</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue单例组件/">Vue单例组件</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vuex/">vuex</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/23/canvas截图上传(blob)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">canvas截图上传(Blob)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-vuex" data-title="vuex" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-vuex" data-title="vuex" data-url="http://Jasonellen.github.io/2017/01/24/vuex/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
 
 
       </div>
@@ -300,9 +446,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

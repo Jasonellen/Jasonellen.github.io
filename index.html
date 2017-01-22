@@ -235,6 +235,320 @@
       <div class="body-wrap">
         
   
+    <article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/24/vuex/">vuex</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..</p>
+</blockquote>
+<h1 id="什么是vuex-作用又是什么？"><a href="#什么是vuex-作用又是什么？" class="headerlink" title="什么是vuex,作用又是什么？"></a>什么是vuex,作用又是什么？</h1><blockquote>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组件之间通讯的，而现在有了vuex，就组件就都和store通讯了</p>
+<h3 id="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"><a href="#简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件" class="headerlink" title="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"></a>简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件</h3><p><code>应用场景：</code><br></p>
+<ul>
+<li>多个组件依赖于同一状态。传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。</li>
+<li>来自不同组件的行为需要变更同一状态。我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><strong>当我们需要制作一个加一，减一操作按钮的时候，用下面两个demo做一个演示</strong><h3 id="未使用vuex"><a href="#未使用vuex" class="headerlink" title="未使用vuex"></a>未使用vuex</h3></li>
+<li>单纯依赖于vue.js</li>
+</ul>
+</blockquote>
+<pre><code>&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;app&quot;&gt;
+      &lt;p&gt;{{count}}
+            &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
+            &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
+      &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+  new Vue({
+    el:&apos;#app&apos;,
+    data () {
+      return {
+        count: 0
+      }
+    },
+    methods: {
+      inc () {
+        this.count++
+      },
+      dec () {
+        this.count--
+      }
+    }
+  })
+  &lt;/script&gt;
+</code></pre><p>  整个代码结构非常清晰，代码是代码，数据是数据，代码就是放在methods数组内的两个函数inc、dec，被指令@click关联到button上。而data内返回一个属性count，此属性通过绑定到标签p内。从而可以动态的改为count的值。</p>
+<h2 id="使用vuex"><a href="#使用vuex" class="headerlink" title="使用vuex"></a>使用vuex</h2><ul>
+<li><p>依赖vue.js，也使用了vuex技术</p>
+<pre><code>&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/vuex@next&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;{{count}}
+        &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
+        &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const store = new Vuex.Store({
+        state: {
+          count: 0
+        },
+        mutations: {
+            inc: state =&gt; state.count++,
+          dec: state =&gt; state.count--
+        }
+    })
+      const app = new Vue({
+        el: &apos;#app&apos;,
+        computed: {
+          count () {
+             return store.state.count
+          }
+        },
+        methods: {
+          inc () {
+                store.commit(&apos;inc&apos;) //执行store.inc放大
+          },
+          dec () {
+              store.commit(&apos;dec&apos;)
+          }
+        }
+    })
+&lt;/script&gt;
+</code></pre><h4 id="我们先看到有哪些重要的变化："><a href="#我们先看到有哪些重要的变化：" class="headerlink" title="我们先看到有哪些重要的变化："></a>我们先看到有哪些重要的变化：</h4></li>
+</ul>
+<ol>
+<li>新的代码添加了对vuex@next脚本的依赖。这是当然的，因为你需要使用vuex的技术，当然需要引用它</li>
+<li>methods数组还是这两个方法，这和demo1是一样的；但是方法内的计算逻辑，不再是在函数内进行，而是提交给store对象！这是一个新的对象！</li>
+<li>count数据也不再是一个data函数返回的对象的属性；而是通过计算字段来返回，并且在计算字段内的代码也不是自己算的，而是转发给store对象</li>
+<li>store对象是Vuex.Store的实例。在store内有分为state对象和mutations对象，其中的state放置 状态 ,mutations则是一个会引发状态改变的所有方法。正如我们看到的，目前的state对象，其中的状态就只有一个count。而mutations有两个成员，它们参数为state，在函数体内对state内的count成员做加1和减1的操作。</li>
+</ol>
+<p><strong>总结：</strong>就是说，之前在vue实例内做的操作和数据的计算现在都不再自己做了，而是交由对象store来做了。</p>
+<h4 id="用了vuex感觉更复杂了？"><a href="#用了vuex感觉更复杂了？" class="headerlink" title="用了vuex感觉更复杂了？"></a>用了<code>vuex</code>感觉更复杂了？</h4><p>你的感觉没错，这就是为什么官网再次会提到Vuex构建大型应用的价值。 如果您不打算开发大型单页应用，使用 Vuex 可能是繁琐冗余的。确实是如此——如果您的应用够简单，您最好不要使用 Vuex 。</p>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/24/vuex/" class="archive-article-date">
+  	<time datetime="2017-01-24T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vuex/">vuex</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-vuex" data-title="vuex" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-vuex" data-title="vuex" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-canvas截图上传(blob)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/23/canvas截图上传(blob)/">canvas截图上传(Blob)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="canvas截图上传-Blob"><a href="#canvas截图上传-Blob" class="headerlink" title="canvas截图上传(Blob)"></a>canvas截图上传(Blob)</h1><blockquote>
+<p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
+</blockquote>
+<h1 id="基本原理如下"><a href="#基本原理如下" class="headerlink" title="基本原理如下"></a>基本原理如下</h1><h2 id="1-读取文件，并生成-Image-元素"><a href="#1-读取文件，并生成-Image-元素" class="headerlink" title="1.读取文件，并生成 Image 元素"></a>1.读取文件，并生成 Image 元素</h2><h4 id="通过-FileReader-我们可以将图片文件转化成-DataURL，就是以-data-image-png-base64-开头的一种URL-然后可以直接放在-image-src-里，这样本地图片就显示出来了。"><a href="#通过-FileReader-我们可以将图片文件转化成-DataURL，就是以-data-image-png-base64-开头的一种URL-然后可以直接放在-image-src-里，这样本地图片就显示出来了。" class="headerlink" title="通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示出来了。"></a>通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示出来了。</h4><pre><code>$(&apos;input[type=file]&apos;).change(function(){
+    var file=this.files[0]; //这里如果是$(this)就要改为$(this)[0].files[0]; 
+
+    var reader=new FileReader(); 
+    reader.onload=function(){
+        // 通过 reader.result 来访问生成的 DataURL
+        var image=new Image();
+        image.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+});
+</code></pre><p><code>Image</code> 就是在 <code>html</code> 里的 <code>&lt;img&gt;</code> 标签，所以可以直接插入到文档流里。</p>
+<h2 id="2-裁剪图片"><a href="#2-裁剪图片" class="headerlink" title="2.裁剪图片"></a>2.裁剪图片</h2><h4 id="这是时候我们就需要用到-canvas-了，canvas-和图片一样，所以新建-canvas-时就要确定其高宽。这里我们还可以用-image-naturalHeight-和-image-naturalWidth-这两个属性来获取图片原始尺寸。"><a href="#这是时候我们就需要用到-canvas-了，canvas-和图片一样，所以新建-canvas-时就要确定其高宽。这里我们还可以用-image-naturalHeight-和-image-naturalWidth-这两个属性来获取图片原始尺寸。" class="headerlink" title="这是时候我们就需要用到 canvas 了，canvas 和图片一样，所以新建 canvas 时就要确定其高宽。这里我们还可以用 image.naturalHeight 和 image.naturalWidth 这两个属性来获取图片原始尺寸。"></a>这是时候我们就需要用到 canvas 了，canvas 和图片一样，所以新建 canvas 时就要确定其高宽。这里我们还可以用 image.naturalHeight 和 image.naturalWidth 这两个属性来获取图片原始尺寸。</h4><pre><code>// 以下四个参数由第三步获得
+var x,  
+    y,
+    width,
+    height;
+
+var canvas=$(&apos;&lt;canvas width=&quot;&apos;+width+&apos;&quot; height=&quot;&apos;+height+&apos;&quot;&gt;&lt;/canvas&gt;&apos;)[0],
+    ctx=canvas.getContext(&apos;2d&apos;);
+
+ctx.drawImage(image,x,y,width,height,0,0,width,height);
+$(document.body).append(canvas);
+</code></pre><h2 id="3-读取裁剪后图片到Blob"><a href="#3-读取裁剪后图片到Blob" class="headerlink" title="3.读取裁剪后图片到Blob"></a>3.读取裁剪后图片到Blob</h2><p>这时我们要获取 <code>canvas</code> 中图片的信息，用 <code>toDataURL</code> 就完成转换 。 然后取出其中 <code>base64</code> 信息，再用 <code>window.atob</code> 转换成由二进制字符串。但 <code>window.atob</code> 转换后的结果仍然是字符串，直接给 <code>Blob</code> 还是会出错。所以又要用 <code>Uint8Array</code> 转换一下。</p>
+<pre><code>function dataURItoBlob (base64Data) {  
+    var byteString;
+    if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)  
+        byteString = atob(base64Data.split(&apos;,&apos;)[1]);  
+    else  
+        byteString = unescape(base64Data.split(&apos;,&apos;)[1]);  
+    var mimeString = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];  
+    var ia = new Uint8Array(byteString.length);  
+    for (var i = 0; i &lt; byteString.length; i++) {  
+        ia[i] = byteString.charCodeAt(i);  
+    }  
+    // canvas.toDataURL 返回的默认格式是 image/png
+    return new Blob([ia], {type: mimeString});  //type:&quot;image/png&quot;
+}
+
+var data=canvas.toDataURL();
+dataURItoBlob(data)
+</code></pre><h2 id="4-完成图片上传"><a href="#4-完成图片上传" class="headerlink" title="4.完成图片上传"></a>4.完成图片上传</h2><p>经过裁剪后的文件就储存在 <code>blob</code> 里了,我们可以把它当作是普通文件一样，加入到 <code>FormData</code> 里，并上传至服务器了。<code>FormData</code>最大的特点就是可以手工添加文件或者 <code>Blob</code> 类型的数据，<code>Blob</code> 数据也会被当作文件来处理。</p>
+<pre><code>var fd=new FormData();
+fd.append(&apos;file&apos;,blob);
+$.ajax({
+    url:&quot;your.server.com&quot;,
+    type:&quot;POST&quot;,
+    data:fd,
+    processData: false,
+    contentType: false,
+    success:function(){}
+});
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/23/canvas截图上传(blob)/" class="archive-article-date">
+  	<time datetime="2017-01-23T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas截图上传-Blob/">canvas截图上传(Blob)</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-canvas截图上传(blob)" data-title="canvas截图上传(Blob)" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-canvas截图上传(blob)" data-title="canvas截图上传(Blob)" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-扒一扒jquery的几个技巧" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2138,274 +2452,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-图片预览上传" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/图片预览上传/">图片预览上传</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>上传图片之前应该让用户可以预览一下刚才选中的图片，这对于优化用户体验非常重要，本文主要介绍一下简单的图片预览的效果及ajax的formData上传和php接收添加数据库的基本操作</p>
-</blockquote>
-<p><code>直接上代码</code></p>
-<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><pre><code>&lt;style&gt;
-  button{
-    margin-top: 50px;
-  }
-&lt;/style&gt;
-&lt;body&gt; 
-    &lt;label for=&quot;username&quot;&gt;用户名：&lt;/label&gt;
-    &lt;input type=&quot;text&quot; placeholder=&quot;请输入用户名&quot; id=&quot;username&quot;&gt;
-    &lt;!--这里限制了可以上传的文件只能是图片，且可以一次上传多张图片--&gt;
-      &lt;input type=&quot;file&quot; id=&quot;file&quot; accept=&quot;image/gif,image/jpeg,image/jpg,image/png&quot; multiple&gt;&lt;br/&gt;
-      &lt;button&gt;上传&lt;/button&gt;
-      &lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt; 
-&lt;/body&gt;
-</code></pre><h2 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h2><pre><code>$(function(){
-    //图片预览
-    var FileReader = window.FileReader;   //创建文件读取对象
-    $(&quot;#file&quot;).change(function() {  
-        if (FileReader) {                 //chrome浏览器处理  
-            var file = this.files;        //获取一次上传的全部文件
-            var length = file.length; 
-            for(var i=0; i&lt;length;i++){
-                upload(this,i)            //逐个上传
-            } 
-        }  
-        else {//其他浏览器处理
-           var path = $(this).val();  
-            if (/&quot;\w\W&quot;/.test(path)) {  
-                path = path.slice(1,-1);  
-            }  
-            $(&quot;#image&quot;).attr(&quot;src&quot;,path);
-        }  
-    });  
-
-    function upload(obj,i){
-        var reader = new FileReader();
-        var file = obj.files;
-        reader.readAsDataURL(file[i]);   //读取文件路径
-        reader.onload = function(e) {  
-            var Img = new Image()
-            Img.src=e.target.result;     //将读取到的文件给到新创建的image
-            Img.width=100;
-            Img.height=100;
-            document.body.appendChild(Img);//这里是把图片转成64位数据存入&lt;img&gt;中的src里
-        };  
-    }  
-
-    //图片上传
-    $(&apos;button&apos;).click(function(){
-        var username =$(&apos;#username&apos;).val();
-        var form = new FormData();
-        var file = $(&apos;#file&apos;)[0][&apos;files&apos;][0]; //点击提交的时候获取图片地址    
-        form.append(&apos;username&apos;,username);
-        form.append(&apos;file&apos;,file);     
-        $.ajax({
-            type:&apos;post&apos;,
-            url:&apos;../php/add.php&apos;,
-            data:form,
-            processData:false,   //ajax 提交的时候不会序列化data，而是直接使用data
-            contentType:false,   //发送信息至服务器时内容编码类型设置为不需要编码
-            success:function(data){
-                alert(data)
-            }
-        })
-
-    })
-})
-</code></pre><h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><pre><code>if(!empty($_POST[&apos;username&apos;])){
-    $username = $_POST[&apos;username&apos;];
-}    
-//处理文件
-if(!file_exists(&apos;../uploads&apos;)){
-    mkdir(&apos;../uploads&apos;);  //创建文件夹接收图片
-}
-$file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
-$newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
-$res = move_uploaded_file($file,&quot;../uploads/{$newName}&quot;); //原名上传到指定文件夹
-if($res){
-    $url=&quot;../uploads/{$newName}&quot;;
-}
-
-$sql =&quot;INSERT INTO addmore (username,url) VALUES(&apos;$username&apos;,&apos;$url&apos;)&quot;;
-$res =add($sql);
-
-//增加数据
-function add($sql){
-    $mysqli = new mysqli(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mybook&apos;);
-    //设置编码
-    $mysqli-&gt;query(&apos;set names utf8&apos;);
-    $res = $mysqli-&gt;query($sql);
-    if($res){
-        echo &apos;添加成功&apos;;
-    }else{
-        echo &apos;添加失败&apos;;
-    }
-}
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/19/图片预览上传/" class="archive-article-date">
-  	<time datetime="2016-12-19T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片预览上传/">图片预览上传</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-图片预览上传" data-title="图片预览上传" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-图片预览上传" data-title="图片预览上传" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
-    <article id="post-React-native之ref引用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/11/React-native之ref引用/">React-native之ref引用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/11/React-native之ref引用/" class="archive-article-date">
-  	<time datetime="2016-12-11T12:24:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-11</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-React-native之ref引用" data-title="React-native之ref引用" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-React-native之ref引用" data-title="React-native之ref引用" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2469,7 +2515,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
