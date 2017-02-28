@@ -235,6 +235,576 @@
       <div class="body-wrap">
         
   
+    <article id="post-彻底弄懂事件委托" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/彻底弄懂事件委托/">彻底弄懂事件委托</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>事件委托又叫事件代理，JavaScript高级程序设计上讲：事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理<code>某一类型</code>的所有事件。何为事件冒泡呢？就是事件从最深的节点开始，然后逐步向上传播事件，举个例子：页面上有这么一个节点树，div&gt;ul&gt;li&gt;a;比如给最里面的a加一个click点击事件，那么这个事件就会一层一层的往外执行，执行顺序a&gt;li&gt;ul&gt;div，有这样一个机制，那么我们给最外面的div加点击事件，那么里面的ul，li，a做点击事件的时候，都会冒泡到最外层的div上，所以都会触发，这就是事件委托，委托它们父级代为执行事件。</p>
+</blockquote>
+<h2 id="举例说明："><a href="#举例说明：" class="headerlink" title="举例说明："></a>举例说明：</h2><p>有三个同事预计会在周一收到快递。为签收快递，有两种办法：一是三个人在公司门口等快递；二是委托给前台MM代为签收。现实当中，我们大都采用委托的方案。前台MM收到快递后，她会判断收件人是谁，然后按照收件人的要求签收，甚至代为付款。这种方案还有一个<code>优势，那就是即使公司里来了新员工（不管多少），前台MM也会在收到寄给新员工的快递后核实并代为签收</code>。</p>
+<h2 id="Why-we-use❓"><a href="#Why-we-use❓" class="headerlink" title="Why we use❓"></a>Why we use❓</h2><h4 id="先看一段代码"><a href="#先看一段代码" class="headerlink" title="先看一段代码"></a>先看一段代码</h4><pre><code>&lt;ul id=&quot;ul1&quot;&gt;
+    &lt;li&gt;111&lt;/li&gt;
+    &lt;li&gt;222&lt;/li&gt;
+    &lt;li&gt;333&lt;/li&gt;
+    &lt;li&gt;444&lt;/li&gt;
+&lt;/ul&gt;
+
+window.onload = function(){
+    var oUl = document.getElementById(&quot;ul1&quot;);
+    var aLi = oUl.getElementsByTagName(&apos;li&apos;);
+    for(var i=0;i&lt;aLi.length;i++){
+        aLi[i].onclick = function(){
+            alert(123);
+        }
+    }
+}
+</code></pre><p>看看有多少次的dom操作，首先要找到ul，然后遍历li，然后点击li的时候，又要找一次目标的li的位置，才能执行最后的操作，每次点击都要找一次li</p>
+<p><hr><br>当然，这是常规的做法，一般来说，dom需要有事件处理程序，我们都会直接给它设事件处理程序就好了，那如果是很多的dom需要添加事件处理呢？比如我们有100个li，1000个li,每个li都有相同的click点击事件，可能我们会用for循环的方法，来遍历所有的li，然后给它们添加事件，那这么做会存在什么影响呢？</p>
+<blockquote>
+<p>在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能，因为需要不断的与dom节点进行交互，访问dom的次数越多，引起浏览器重绘与重排的次数也就越多，就会延长整个页面的交互就绪时间，这就是为什么性能优化的主要思想之一就是减少DOM操作的原因；如果要用事件委托，就会将所有的操作放到js程序里面，与dom的操作就只需要交互一次，这样就能大大的减少与dom的交互次数，提高性能；</p>
+</blockquote>
+<h4 id="事件委托触发相同事件"><a href="#事件委托触发相同事件" class="headerlink" title="事件委托触发相同事件"></a>事件委托触发相同事件</h4><pre><code>window.onload = function(){
+    var oUl = document.getElementById(&quot;ul1&quot;);
+    oUl.onclick = function(){
+        alert(123);
+    }
+}
+</code></pre><p>这里用父级ul做事件处理，当li被点击时，由于冒泡原理，事件就会冒泡到ul上，因为ul上有点击事件，所以事件就会触发，这里是用ul的点击达到同样的效果<code>那么问题来了，如果单纯的点击ul也会触发li本该触发的事件，更精确点，我们只想要li点击时才触发事件怎么办？继续往下走...</code><br><br></p>
+<blockquote>
+<p>Event对象提供了一个属性叫target，可以返回事件的目标节点，我们称为事件源，也就是说，target就可以表示为当前的事件操作的dom，当然，这个是有兼容性的，标准浏览器用ev.target，IE浏览器用event.srcElement，此时只是获取了当前节点的位置，并不知道是什么节点名称，这里我们用nodeName来获取具体是什么标签名，这个返回的是一个大写的，我们需要转成小写再做比较(强迫症是很难改的…)</p>
+</blockquote>
+<pre><code>window.onload = function(){
+    var oUl = document.getElementById(&quot;ul1&quot;);
+    oUl.onclick = function(ev){
+        var ev = ev || window.event;
+        var target = ev.target || ev.srcElement;
+        if(target.nodeName.toLowerCase() == &apos;li&apos;){
+            alert(123);
+            alert(target.innerHTML);
+        }
+    }
+}
+</code></pre><p>这样改下就只有点击li会触发事件了，且每次只执行一次dom操作，如果li数量很多的话，将大大减少dom的操作，优化的性能可想而知！</p>
+<hr>
+
+<h4 id="事件委托触发不同事件"><a href="#事件委托触发不同事件" class="headerlink" title="事件委托触发不同事件"></a>事件委托触发不同事件</h4><p>上面的例子是说li操作的是同样的效果，要是每个li被点击的效果都不一样，那么用事件委托还有用吗？答案是肯定的，如果有标记的话😁<br>​<br><code>未使用委托：4个按钮，点击每一个做不同的操作，那么至少需要4次dom操作，</code></p>
+<pre><code>&lt;div id=&quot;box&quot;&gt;
+    &lt;input type=&quot;button&quot; id=&quot;add&quot; value=&quot;添加&quot; /&gt;
+    &lt;input type=&quot;button&quot; id=&quot;remove&quot; value=&quot;删除&quot; /&gt;
+    &lt;input type=&quot;button&quot; id=&quot;move&quot; value=&quot;移动&quot; /&gt;
+    &lt;input type=&quot;button&quot; id=&quot;select&quot; value=&quot;选择&quot; /&gt;
+&lt;/div&gt;
+
+window.onload = function(){
+   var Add = document.getElementById(&quot;add&quot;);
+   var Remove = document.getElementById(&quot;remove&quot;);
+   var Move = document.getElementById(&quot;move&quot;);
+   var Select = document.getElementById(&quot;select&quot;);
+
+   Add.onclick = function(){
+       alert(&apos;添加&apos;);
+   };
+   Remove.onclick = function(){
+       alert(&apos;删除&apos;);
+   };
+   Move.onclick = function(){
+       alert(&apos;移动&apos;);
+   };
+   Select.onclick = function(){
+       alert(&apos;选择&apos;);
+   }
+
+}
+</code></pre><p><code>使用委托：可以只用一次dom操作就能实现所有的效果</code></p>
+<pre><code>window.onload = function(){
+        var oBox = document.getElementById(&quot;box&quot;);
+        oBox.onclick = function (ev) {
+            var ev = ev || window.event;
+            var target = ev.target || ev.srcElement;
+            if(target.nodeName.toLocaleLowerCase() == &apos;input&apos;){
+                switch(target.id){
+                    case &apos;add&apos; :
+                        alert(&apos;添加&apos;);
+                        break;
+                    case &apos;remove&apos; :
+                        alert(&apos;删除&apos;);
+                        break;
+                    case &apos;move&apos; :
+                        alert(&apos;移动&apos;);
+                        break;
+                    case &apos;select&apos; :
+                        alert(&apos;选择&apos;);
+                        break;
+                }
+            }
+        }
+
+    }
+</code></pre><h3 id="关于动态添加新元素"><a href="#关于动态添加新元素" class="headerlink" title="关于动态添加新元素"></a>关于动态添加新元素</h3><p><code>未使用事件委托</code></p>
+<pre><code>for(var i=0; i&lt;aLi.length;i++){
+    aLi[i].onclick = function(){
+        this.style.background = &apos;red&apos;;
+    };
+}
+//添加新节点
+oBtn.onclick = function(){
+    var oLi = document.createElement(&apos;li&apos;);
+    oLi.innerHTML = 111*num;
+    oUl.appendChild(oLi);
+};
+</code></pre><p>这是一般的做法，你会发现，新增的li是没有点击事件的</p>
+<p><code>使用事件委托</code></p>
+<pre><code>oUl.onclick = function(ev){
+  var ev = ev || window.event;
+  var target = ev.target || ev.srcElement;
+  if(target.nodeName.toLowerCase() == &apos;li&apos;){
+      target.style.background = &quot;red&quot;;
+  }
+};
+oBtn.onclick = function(){
+  var oLi = document.createElement(&apos;li&apos;);
+  oLi.innerHTML = 111*num;
+  oUl.appendChild(oLi);
+};
+</code></pre><p>这里你会发现，新添加的li元素无需做其他操作，已有点击事件</p>
+<hr>
+
+
+<h1 id="事件委托适用场景"><a href="#事件委托适用场景" class="headerlink" title="事件委托适用场景"></a>事件委托适用场景</h1><ul>
+<li>适合用事件委托的事件：click，mousedown，mouseup，keydown，keyup，keypress。</li>
+<li>不适合使用的事件：mouseover,mouseout和mousemove,因为不是单纯地点击等操作，每次触发都需要重新计算一下位置，处理起来也不是很方便，就不用喽</li>
+<li>focus，blur之类的，本身就没用冒泡的特性，自然就不能用事件委托了。</li>
+</ul>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/23/彻底弄懂事件委托/" class="archive-article-date">
+  	<time datetime="2016-12-23T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/彻底弄懂事件委托/">彻底弄懂事件委托</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-彻底弄懂事件委托" data-title="彻底弄懂事件委托" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-彻底弄懂事件委托" data-title="彻底弄懂事件委托" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-博观而约取，厚积而薄发" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/22/博观而约取，厚积而薄发/">博观而约取，厚积而薄发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>出自宋代诗人苏轼的《杂说送张琥》</p>
+</blockquote>
+<h3 id="博观而约取，厚积而薄发，吾告子止于此矣。"><a href="#博观而约取，厚积而薄发，吾告子止于此矣。" class="headerlink" title="博观而约取，厚积而薄发，吾告子止于此矣。"></a>博观而约取，厚积而薄发，吾告子止于此矣。</h3><pre><code>多读书，取其精华，去其糟粕，我认为人生也是如此，应该记着开心的，忘掉烦心的。
+
+无论知识，还是其他都是需要积累的，人要一步一个脚印，只有脚踏实地，才能仰望苍穹。
+</code></pre><p><img src="http://ww1.sinaimg.cn/mw690/908edb0ejw1fayrfiu3x8j204b0640sm.jpg" alt=""></p>
+<p><em>博观：指大量的看书，多多阅读，了解事物;约取：指少量的慢慢的拿出来。 厚积：指大量地、充分地积蓄;薄发：指少量地、慢慢地放出。多多积蓄，慢慢放出。形容只有准备充分才能办好事情。 其实上面两句话的意思差不多，总的意思就是指要经过长时间有准备的积累即将大有可为，施展作为。</em><br><br><br><br><br><br></p>
+<h1 id="左耳是靠近心脏最近的地方，甜言蜜语要说给左耳听"><a href="#左耳是靠近心脏最近的地方，甜言蜜语要说给左耳听" class="headerlink" title="左耳是靠近心脏最近的地方，甜言蜜语要说给左耳听"></a>左耳是靠近心脏最近的地方，甜言蜜语要说给左耳听</h1><p><img src="http://ww2.sinaimg.cn/mw690/908edb0egw1fayivy45s9j2064064gle.jpg" alt=""></p>
+<p><br><br><br><br><br></p>
+<h1 id="踮起脚尖，离阳光更近一点"><a href="#踮起脚尖，离阳光更近一点" class="headerlink" title="踮起脚尖，离阳光更近一点"></a>踮起脚尖，离阳光更近一点</h1><p><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fayiyya74ij206c064zk6.jpg" alt=""><br><br><br><br><br><br></p>
+<h1 id="会有人想你的那个地方，就是你回去的地方"><a href="#会有人想你的那个地方，就是你回去的地方" class="headerlink" title="会有人想你的那个地方，就是你回去的地方"></a>会有人想你的那个地方，就是你回去的地方</h1><p><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fayj6cmia2j21kw23u7wh.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/22/博观而约取，厚积而薄发/" class="archive-article-date">
+  	<time datetime="2016-12-22T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博观而约取，厚积而薄发/">博观而约取，厚积而薄发</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-博观而约取，厚积而薄发" data-title="博观而约取，厚积而薄发" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-博观而约取，厚积而薄发" data-title="博观而约取，厚积而薄发" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-文件拖拽" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/21/文件拖拽/">文件拖拽</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。<code>注意</code>即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；</p>
+</blockquote>
+<h2 id="拖拽API"><a href="#拖拽API" class="headerlink" title="拖拽API"></a>拖拽API</h2><pre><code>draggable ：
+–    设置为true，元素就可以拖拽了
+
+拖拽元素事件 :  事件对象为被拖拽元素
+–    dragstart ,  拖拽前触发 
+–    drag ,拖拽前、拖拽结束之间，连续触发
+–    dragend  , 拖拽结束触发
+
+目标元素事件 :  事件对象为目标元素
+–    dragenter ,  进入目标元素触发，相当于mouseover
+–    dragover  ,进入目标、离开目标之间，连续触发
+–    dragleave ,  离开目标元素触发，相当于mouseout
+–    drop  ,  在目标元素上释放鼠标触发
+</code></pre><h2 id="Demo1-拖拽删除"><a href="#Demo1-拖拽删除" class="headerlink" title="Demo1-拖拽删除"></a>Demo1-拖拽删除</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag1.html" target="_blank" rel="external"><code>效果示例</code></a></p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Untitled Document&lt;/title&gt;
+    &lt;style&gt;
+        li{ list-style:none; width:100px; height:30px; background:yellow; margin:10px;}
+        #div1{ width:100px; height:100px; background:red; margin:200px;}
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;ul&gt;
+        &lt;li draggable=&quot;true&quot;&gt;a&lt;/li&gt;
+        &lt;li draggable=&quot;true&quot;&gt;b&lt;/li&gt;
+        &lt;li draggable=&quot;true&quot;&gt;c&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+    window.onload = function(){
+        var aLi = document.getElementsByTagName(&apos;li&apos;);
+        var oUl=document.getElementsByTagName(&apos;ul&apos;)[0];
+        var oDiv = document.getElementById(&apos;div1&apos;);
+        var oImg = document.getElementById(&apos;img1&apos;);
+
+        for(var i=0;i&lt;aLi.length;i++){
+            aLi[i].index = i;
+            aLi[i].ondragstart = function(ev){
+                ev.dataTransfer.setData(&apos;name&apos;,this.index);
+                this.style.background = &apos;green&apos;;
+                //ev.dataTransfer.setDragImage(this,0,0); //设置拖动时显示的对象和坐标
+            };
+
+            aLi[i].ondrag = function(){  //开始与结束连续触发
+                document.title = i++;
+            };
+
+            aLi[i].ondragend = function(){
+                this.style.background = &apos;yellow&apos;;
+            };
+        }
+
+        oDiv.ondragenter = function(){
+            this.style.background = &apos;blue&apos;;
+        };
+
+        oDiv.ondragover = function(ev){
+            //enter和leave之间连续触发
+            document.title = i++;
+            //要想触发drop事件，就必须在dragover当中阻止默认事件
+            ev.preventDefault();
+        };
+
+        oDiv.ondragleave = function(){
+            this.style.background = &apos;red&apos;;
+        };
+
+        oDiv.ondrop = function(ev){
+            ev.preventDefault();   //阻止默认事件，不然是外部图片就直接打开了
+            var n=ev.dataTransfer.getData(&apos;name&apos;);
+            // ev.dataTransfer.clearData(&quot;name&quot;);
+            oUl.removeChild( aLi[n]); //删除以后要从新算index
+            for(var i=0;i&lt;aLi.length;i++){
+                aLi[i].index = i;
+            }
+            this.style.background = &apos;red&apos;;    
+        };    
+    };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="Demo2-外部文件拖入显示"><a href="#Demo2-外部文件拖入显示" class="headerlink" title="Demo2-外部文件拖入显示"></a>Demo2-外部文件拖入显示</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag2.html" target="_blank" rel="external"><code>效果示例</code></a></p>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Untitled Document&lt;/title&gt;
+    &lt;style&gt;
+    ul,li{ margin:0;padding:0;list-style:none;}
+    div{
+        width:200px; height:200px; background:red; text-align:center;
+    }
+    ul{
+        width:600px; background-color:#000; 
+    }
+    li {
+        margin:10px 20px;
+    }
+    ul:after {
+        content:&apos;&apos;;
+        display:block;
+        clear:both;
+    }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div&gt;把图片拖到这里&lt;/div&gt;
+    &lt;ul&gt;&lt;/ul&gt;
+
+    &lt;script&gt;
+    window.onload=function(){
+        var oDiv = document.querySelector(&apos;div&apos;);
+        var oUl = document.querySelector(&apos;ul&apos;);
+        oDiv.ondragenter=function(){
+            this.innerHTML=&apos;可以松开了哦&apos;;
+        }
+        oDiv.ondragover=function(ev){
+            var ev=ev||event;
+            ev.preventDefault(); 
+        }
+        oDiv.ondragleave=function(){
+            this.innerHTML=&apos;把图片拖到这里&apos;;
+        }
+        oDiv.ondrop=function(ev){
+            var ev=ev||event;
+            ev.preventDefault(); //阻止默认事件，不然是外部图片就直接打开了
+            this.innerHTML=&apos;把图片拖到这里&apos;;
+
+            var fs=ev.dataTransfer.files; //拖拽的文件集合
+            for(var i=0; i&lt;fs.length; i++){
+                if(fs[i].type.indexOf(&apos;image&apos;)!=-1){ //判断拖拽内容的类型是image
+                    var fd=new FileReader();  //创建可以读文件的对象
+                    fd.readAsDataURL(fs[i]);  //读
+                    fd.onload=function(){  //读取成功直接执行onload
+                        var oLi    =document.createElement(&apos;li&apos;);
+                        oLi.style.float=&apos;left&apos;;
+                        var oImg= document.createElement(&apos;img&apos;);
+                        oImg.style.height=&apos;200px&apos;;
+                        oImg.src = this.result;  //地址就是获取到的url信息
+                        oLi.appendChild(oImg);
+                        oUl.appendChild(oLi);
+                    }
+                }else{
+                    alert(&apos;非法图片&apos;);
+                }
+            }
+        }
+    }
+
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/21/文件拖拽/" class="archive-article-date">
+  	<time datetime="2016-12-21T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件拖拽/">文件拖拽</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-图片预览上传" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1292,436 +1862,9 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="javascript-面向对象编程（一）：封装" class="article article-type-javascript" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/02/面向对象编程（一）：封装/">面向对象编程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。"><a href="#Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。" class="headerlink" title="Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。"></a>Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有<code>class</code>（类）。</h4><h4 id="那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？"><a href="#那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？" class="headerlink" title="那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？"></a>那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？</h4><h1 id="一、-生成实例对象的原始模式"><a href="#一、-生成实例对象的原始模式" class="headerlink" title="一、 生成实例对象的原始模式"></a>一、 生成实例对象的原始模式</h1><h4 id="一、-生成实例对象的原始模式-1"><a href="#一、-生成实例对象的原始模式-1" class="headerlink" title="一、 生成实例对象的原始模式"></a>一、 生成实例对象的原始模式</h4><pre><code>var Cat = {
-    name : &apos;&apos;,
-    color : &apos;&apos;
-}
-</code></pre><h4 id="现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。"><a href="#现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。" class="headerlink" title="现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。"></a>现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。</h4><pre><code>var cat1 = {}; // 创建一个空对象
-    cat1.name = &quot;大毛&quot;; // 按照原型对象的属性赋值
-    cat1.color = &quot;黄色&quot;;
-var cat2 = {};
-    cat2.name = &quot;二毛&quot;;
-    cat2.color = &quot;黑色&quot;;
-</code></pre><h4 id="好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。"><a href="#好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。" class="headerlink" title="好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。"></a>好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。</h4><h1 id="二、-原始模式的改进"><a href="#二、-原始模式的改进" class="headerlink" title="二、 原始模式的改进"></a>二、 原始模式的改进</h1><h4 id="我们可以写一个函数，解决代码重复的问题。"><a href="#我们可以写一个函数，解决代码重复的问题。" class="headerlink" title="我们可以写一个函数，解决代码重复的问题。"></a>我们可以写一个函数，解决代码重复的问题。</h4><pre><code>function Cat(name,color) {
-    return {
-        name:name,
-        color:color
-    }
-}
-</code></pre><h4 id="然后生成实例对象，就等于是在调用函数："><a href="#然后生成实例对象，就等于是在调用函数：" class="headerlink" title="然后生成实例对象，就等于是在调用函数："></a>然后生成实例对象，就等于是在调用函数：</h4><pre><code>var cat1 = Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = Cat(&quot;二毛&quot;,&quot;黑色&quot;);
-</code></pre><h4 id="这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。"><a href="#这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。" class="headerlink" title="这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。"></a>这种方法的问题依然是，<code>cat1</code>和<code>cat2</code>之间没有内在的联系，不能反映出它们是同一个原型对象的实例。</h4><h1 id="三、-构造函数模式"><a href="#三、-构造函数模式" class="headerlink" title="三、 构造函数模式"></a>三、 构造函数模式</h1><h4 id="为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。"><a href="#为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。" class="headerlink" title="为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。"></a>为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。</h4><h4 id="所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。"><a href="#所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。" class="headerlink" title="所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。"></a>所谓”构造函数”，其实就是一个普通函数，但是内部使用了<code>this</code>变量。对构造函数使用<code>new</code>运算符，就能生成实例，并且<code>this</code>变量会绑定在实例对象上。</h4><h4 id="比如，猫的原型对象现在可以这样写，"><a href="#比如，猫的原型对象现在可以这样写，" class="headerlink" title="比如，猫的原型对象现在可以这样写，"></a>比如，猫的原型对象现在可以这样写，</h4><pre><code>function Cat(name,color){
-    this.name=name;
-    this.color=color;
-}
-</code></pre><h4 id="我们现在就可以生成实例对象了。"><a href="#我们现在就可以生成实例对象了。" class="headerlink" title="我们现在就可以生成实例对象了。"></a>我们现在就可以生成实例对象了。</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);
-alert(cat1.name); // 大毛
-alert(cat1.color); // 黄色
-</code></pre><h4 id="这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。"><a href="#这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。" class="headerlink" title="这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。"></a>这时<code>cat1</code>和<code>cat2</code>会自动含有一个<code>constructor</code>属性，指向它们的构造函数。</h4><pre><code>alert(cat1.constructor == Cat); //true
-alert(cat2.constructor == Cat); //true
-</code></pre><h4 id="Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。"><a href="#Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。" class="headerlink" title="Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。"></a>Javascript还提供了一个<code>instanceof</code>运算符，验证原型对象与实例对象之间的关系。</h4><h1 id="四、构造函数模式的问题"><a href="#四、构造函数模式的问题" class="headerlink" title="四、构造函数模式的问题"></a>四、构造函数模式的问题</h1><h4 id="构造函数方法很好用，但是存在一个浪费内存的问题。"><a href="#构造函数方法很好用，但是存在一个浪费内存的问题。" class="headerlink" title="构造函数方法很好用，但是存在一个浪费内存的问题。"></a>构造函数方法很好用，但是存在一个浪费内存的问题。</h4><h4 id="请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样："><a href="#请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样：" class="headerlink" title="请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样："></a>请看，我们现在为<code>Cat</code>对象添加一个不变的属性<code>type</code>（种类），再添加一个方法<code>eat</code>（吃）。那么，原型对象Cat就变成了下面这样：</h4><pre><code>function Cat(name,color){
-    this.name = name;
-    this.color = color;
-    this.type = &quot;猫科动物&quot;;
-    this.eat = function(){alert(&quot;吃老鼠&quot;);};
-}
-</code></pre><h4 id="还是采用同样的方法，生成实例："><a href="#还是采用同样的方法，生成实例：" class="headerlink" title="还是采用同样的方法，生成实例："></a>还是采用同样的方法，生成实例：</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = new Cat (&quot;二毛&quot;,&quot;黑色&quot;);
-alert(cat1.type); // 猫科动物
-cat1.eat(); // 吃老鼠
-</code></pre><h4 id="表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat-方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。"><a href="#表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat-方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。" class="headerlink" title="表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat()方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。"></a>表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，<code>type</code>属性和<code>eat()</code>方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。</h4><pre><code>alert(cat1.eat == cat2.eat); //false
-</code></pre><h4 id="能不能让type属性和eat-方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。"><a href="#能不能让type属性和eat-方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。" class="headerlink" title="能不能让type属性和eat()方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。"></a>能不能让<code>type</code>属性和<code>eat()</code>方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。</h4><h1 id="五、-Prototype模式"><a href="#五、-Prototype模式" class="headerlink" title="五、 Prototype模式"></a>五、 Prototype模式</h1><h4 id="Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。"><a href="#Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。" class="headerlink" title="Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。"></a>Javascript规定，每一个构造函数都有一个<code>prototype</code>属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。</h4><h4 id="这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。"><a href="#这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。" class="headerlink" title="这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。"></a>这意味着，我们可以把那些不变的属性和方法，直接定义在<code>prototype</code>对象上。</h4><pre><code>function Cat(name,color){
-    this.name = name;
-    this.color = color;
-}
-Cat.prototype.type = &quot;猫科动物&quot;;
-Cat.prototype.eat = function(){alert(&quot;吃老鼠&quot;)};
-</code></pre><h4 id="然后，生成实例"><a href="#然后，生成实例" class="headerlink" title="然后，生成实例"></a>然后，生成实例</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);
-alert(cat1.type); // 猫科动物
-cat1.eat(); // 吃老鼠
-</code></pre><h4 id="这时所有实例的type属性和eat-方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率"><a href="#这时所有实例的type属性和eat-方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率" class="headerlink" title="这时所有实例的type属性和eat()方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率"></a>这时所有实例的<code>type</code>属性和<code>eat()</code>方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率</h4><pre><code>　　alert(cat1.eat == cat2.eat); //true
-</code></pre><h1 id="六、-Prototype模式的验证方法"><a href="#六、-Prototype模式的验证方法" class="headerlink" title="六、 Prototype模式的验证方法"></a>六、 Prototype模式的验证方法</h1><h4 id="为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。"><a href="#为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。" class="headerlink" title="为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。"></a>为了配合<code>prototype</code>属性，Javascript定义了一些辅助方法，帮助我们使用它。</h4><h2 id="6-1-isPrototypeOf"><a href="#6-1-isPrototypeOf" class="headerlink" title="6.1 isPrototypeOf()"></a>6.1 isPrototypeOf()</h2><h4 id="这个方法用来判断，某个proptotype对象和某个实例之间的关系。"><a href="#这个方法用来判断，某个proptotype对象和某个实例之间的关系。" class="headerlink" title="这个方法用来判断，某个proptotype对象和某个实例之间的关系。"></a>这个方法用来判断，某个<code>proptotype</code>对象和某个实例之间的关系。</h4><pre><code>alert(Cat.prototype.isPrototypeOf(cat1)); //true
-alert(Cat.prototype.isPrototypeOf(cat2)); //true
-</code></pre><h2 id="6-2-hasOwnProperty"><a href="#6-2-hasOwnProperty" class="headerlink" title="6.2 hasOwnProperty()"></a>6.2 hasOwnProperty()</h2><h4 id="每个实例对象都有一个hasOwnProperty-方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。"><a href="#每个实例对象都有一个hasOwnProperty-方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。" class="headerlink" title="每个实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。"></a>每个实例对象都有一个<code>hasOwnProperty()</code>方法，用来判断某一个属性到底是本地属性，还是继承自<code>prototype</code>对象的属性。</h4><pre><code>alert(cat1.hasOwnProperty(&quot;name&quot;)); // true
-alert(cat1.hasOwnProperty(&quot;type&quot;)); // false
-</code></pre><h2 id="6-3-in运算符"><a href="#6-3-in运算符" class="headerlink" title="6.3 in运算符"></a>6.3 in运算符</h2><h4 id="in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。"><a href="#in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。" class="headerlink" title="in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。"></a><code>in</code>运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。</h4><pre><code>alert(&quot;name&quot; in cat1); // true
-alert(&quot;type&quot; in cat1); // true
-</code></pre><h4 id="in运算符还可以用来遍历某个对象的所有属性。"><a href="#in运算符还可以用来遍历某个对象的所有属性。" class="headerlink" title="in运算符还可以用来遍历某个对象的所有属性。"></a><code>in</code>运算符还可以用来遍历某个对象的所有属性。</h4><pre><code>for(var prop in cat1) { alert(&quot;cat1[&quot;+prop+&quot;]=&quot;+cat1[prop]); }
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/02/面向对象编程（一）：封装/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:38:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面向对象编程/">面向对象编程</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="javascript-面向对象编程（一）：封装" data-title="面向对象编程" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="javascript-面向对象编程（一）：封装" data-title="面向对象编程" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
-    <article id="post-学习Javascript闭包" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/30/学习Javascript闭包/">学习Javascript闭包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。"><a href="#闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。" class="headerlink" title="闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。"></a>闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。</h2><h2 id="下面就是我的学习笔记，对于Javascript初学者应该是很有用的。"><a href="#下面就是我的学习笔记，对于Javascript初学者应该是很有用的。" class="headerlink" title="下面就是我的学习笔记，对于Javascript初学者应该是很有用的。"></a>下面就是我的学习笔记，对于Javascript初学者应该是很有用的。</h2><p><code>1. 变量的作用域</code></p>
-<h4 id="要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。"><a href="#要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。" class="headerlink" title="要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。"></a>要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。</h4><pre><code>var n=999;
-function fn(){
-alert(n)
-}
-fn()
-</code></pre><h4 id="另一方面，在函数外部自然无法读取函数内的局部变量。"><a href="#另一方面，在函数外部自然无法读取函数内的局部变量。" class="headerlink" title="另一方面，在函数外部自然无法读取函数内的局部变量。"></a>另一方面，在函数外部自然无法读取函数内的局部变量。</h4><pre><code>function f1(){
-var n=999;
-}
-alert(n); // error
-</code></pre><h4 id="这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！"><a href="#这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！" class="headerlink" title="这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！"></a>这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！</h4><pre><code>function f1(){
-n=999;
-}
-f1();    
-alert(n); // 999
-</code></pre><p><code>2. 如何从外部读取局部变量？</code></p>
-<pre><code>function f1(){
-
-    var n=999;
-
-    function f2(){
-        alert(n);//999
-    }
-
-}
-</code></pre><h4 id="在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain-scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。"><a href="#在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain-scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。" class="headerlink" title="在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。"></a>在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。</h4><h4 id="既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！"><a href="#既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！" class="headerlink" title="既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！"></a>既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！</h4><pre><code>function f1(){
-
-    var n=999;
-
-    function f2(){
-        alert(n); 
-    }
-
-    return f2;
-
-}
-
-var result=f1();
-
-result(); // 999
-</code></pre><p><code>3. 闭包的概念</code></p>
-<h4 id="各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。"><a href="#各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。" class="headerlink" title="各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。"></a>各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。</h4><h4 id="由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。"><a href="#由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。" class="headerlink" title="由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。"></a>由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。</h4><h4 id="所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。"><a href="#所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。" class="headerlink" title="所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。"></a>所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。</h4><p><code>4. 闭包的用途</code></p>
-<h4 id="闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。"><a href="#闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。" class="headerlink" title="闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。"></a>闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。</h4><pre><code>function f1(){
-
-var n=999;
-
-nAdd=function(){n+=1}
-
-function f2(){
-    alert(n);
-}
-
-return f2;
-
-}
-
-var result=f1();
-
-result(); // 999
-
-nAdd();
-
-result(); // 1000
-</code></pre><h4 id="在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。"><a href="#在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。" class="headerlink" title="在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。"></a>在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。</h4><h4 id="为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage-collection）回收。"><a href="#为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage-collection）回收。" class="headerlink" title="为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。"></a>为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。</h4><h4 id="这段代码中另一个值得注意的地方，就是”nAdd-function-n-1-”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous-function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。"><a href="#这段代码中另一个值得注意的地方，就是”nAdd-function-n-1-”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous-function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。" class="headerlink" title="这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。"></a>这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。</h4>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/30/学习Javascript闭包/" class="archive-article-date">
-  	<time datetime="2016-11-30T06:37:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面向对象编程/">面向对象编程</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-学习Javascript闭包" data-title="学习Javascript闭包" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-学习Javascript闭包" data-title="学习Javascript闭包" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
-    <article id="post-Javascript的this用法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/28/Javascript的this用法/">Javascript的this用法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="this是Javascript语言的一个关键字。"><a href="#this是Javascript语言的一个关键字。" class="headerlink" title="this是Javascript语言的一个关键字。"></a>this是Javascript语言的一个关键字。</h3><h3 id="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"><a href="#它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，" class="headerlink" title="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"></a>它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，</h3><pre><code>function test(){
-    this.x = 1;
-}
-</code></pre><h3 id="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"><a href="#随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。" class="headerlink" title="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"></a>随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</h3><h3 id="下面分四种情况，详细讨论this的用法。"><a href="#下面分四种情况，详细讨论this的用法。" class="headerlink" title="下面分四种情况，详细讨论this的用法。"></a>下面分四种情况，详细讨论this的用法。</h3><h1 id="情况一：纯粹的函数调用"><a href="#情况一：纯粹的函数调用" class="headerlink" title="情况一：纯粹的函数调用"></a>情况一：纯粹的函数调用</h1><h3 id="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"><a href="#这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。" class="headerlink" title="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"></a>这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。</h3><h3 id="请看下面这段代码，它的运行结果是1。"><a href="#请看下面这段代码，它的运行结果是1。" class="headerlink" title="请看下面这段代码，它的运行结果是1。"></a>请看下面这段代码，它的运行结果是1。</h3><pre><code>　function test(){
-    this.x = 1;
-    alert(this.x);
-}
-test(); // 1
-</code></pre><h3 id="为了证明this就是全局对象，我对代码做一些改变："><a href="#为了证明this就是全局对象，我对代码做一些改变：" class="headerlink" title="为了证明this就是全局对象，我对代码做一些改变："></a>为了证明this就是全局对象，我对代码做一些改变：</h3><pre><code>var x = 1;
-function test(){
-    alert(this.x);
-}
-test(); // 1
-</code></pre><h3 id="运行结果还是1。再变一下"><a href="#运行结果还是1。再变一下" class="headerlink" title="运行结果还是1。再变一下"></a>运行结果还是1。再变一下</h3><pre><code>var x = 1;
-function test(){
-    this.x = 0;
-}
-test();
-alert(x); //0
-</code></pre><h1 id="情况二：作为对象方法的调用"><a href="#情况二：作为对象方法的调用" class="headerlink" title="情况二：作为对象方法的调用"></a>情况二：作为对象方法的调用</h1><h3 id="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"><a href="#函数还可以作为某个对象的方法调用，这时this就指这个上级对象。" class="headerlink" title="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"></a>函数还可以作为某个对象的方法调用，这时this就指这个上级对象。</h3><pre><code>function test(){
-    alert(this.x);
-}
-var o = {};
-o.x = 1;
-o.m = test;
-o.m(); // 1
-</code></pre><h1 id="情况三-作为构造函数调用"><a href="#情况三-作为构造函数调用" class="headerlink" title="情况三 作为构造函数调用"></a>情况三 作为构造函数调用</h1><h3 id="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"><a href="#所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。" class="headerlink" title="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"></a>所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。</h3><pre><code>function test(){
-    this.x = 1;
-}
-var o = new test();
-alert(o.x); // 1
-</code></pre><h3 id="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："><a href="#运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：" class="headerlink" title="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："></a>运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：</h3><pre><code>var x = 2;
-function test(){
-    this.x = 1;
-}
-var o = new test();
-alert(x); //2
-</code></pre><h3 id="运行结果为2，表明全局变量x的值根本没变"><a href="#运行结果为2，表明全局变量x的值根本没变" class="headerlink" title="运行结果为2，表明全局变量x的值根本没变"></a>运行结果为2，表明全局变量x的值根本没变</h3><h1 id="情况四-apply调用"><a href="#情况四-apply调用" class="headerlink" title="情况四 apply调用"></a>情况四 apply调用</h1><h3 id="apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"><a href="#apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。" class="headerlink" title="apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"></a>apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。</h3><pre><code>var x = 0;
-function test(){
-    alert(this.x);
-}
-var o={};
-o.x = 1;
-o.m = test;
-o.m.apply(); //0
-</code></pre><h3 id="apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"><a href="#apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。" class="headerlink" title="apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"></a>apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。</h3><h3 id="如果把最后一行代码修改为"><a href="#如果把最后一行代码修改为" class="headerlink" title="如果把最后一行代码修改为"></a>如果把最后一行代码修改为</h3><pre><code>o.m.apply(o); //1
-</code></pre><h3 id="运行结果就变成了1，证明了这时this代表的是对象o。"><a href="#运行结果就变成了1，证明了这时this代表的是对象o。" class="headerlink" title="运行结果就变成了1，证明了这时this代表的是对象o。"></a>运行结果就变成了1，证明了这时this代表的是对象o。</h3>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/28/Javascript的this用法/" class="archive-article-date">
-  	<time datetime="2016-11-28T13:25:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/this用法/">this用法</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-Javascript的this用法" data-title="Javascript的this用法" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-Javascript的this用法" data-title="Javascript的this用法" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1782,7 +1925,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>redux入门 | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍
+
+Redux 基础概念StateState 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
+ActionAction 用来描述一个行为，并负载相应的信息。
+ReducerReducer 接收两个参数，第一个参数是当前状态，而第二参">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redux入门">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/02/21/redux入门/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍
+
+Redux 基础概念StateState 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
+ActionAction 用来描述一个行为，并负载相应的信息。
+ReducerReducer 接收两个参数，第一个参数是当前状态，而第二参">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg">
+<meta property="og:updated_time" content="2017-02-28T14:59:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redux入门">
+<meta name="twitter:description" content="个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍
+
+Redux 基础概念StateState 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
+ActionAction 用来描述一个行为，并负载相应的信息。
+ReducerReducer 接收两个参数，第一个参数是当前状态，而第二参">
+<meta name="twitter:image" content="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redux入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍</p>
+</blockquote>
+<h1 id="Redux-基础概念"><a href="#Redux-基础概念" class="headerlink" title="Redux 基础概念"></a>Redux 基础概念</h1><h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><pre><code>State 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
+</code></pre><h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><pre><code>Action 用来描述一个行为，并负载相应的信息。
+</code></pre><h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><pre><code>Reducer 接收两个参数，第一个参数是当前状态，而第二参数是 action, 返回更新后的状态。
+用来执行store触发的Action对应的方法
+</code></pre><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><pre><code>Store 是管理应用程序 state 的容器
+
+store = {
+    getState,
+    dispatch,
+    subscribe,
+    replaceReducer
+}
+</code></pre><h4 id="如上，store共有4个API"><a href="#如上，store共有4个API" class="headerlink" title="如上，store共有4个API,"></a>如上，store共有4个API,</h4><pre><code>getState: (数据接口)
+使用方式: store.getState()
+功能点: redux对外导出数据的接口(getter)
+
+subscribe: (订阅接口)
+使用方式: store.subscribe(回调函数)
+功能点: 在每次执行dispatch的时候，用于执行自定义的回调函数操作
+
+dispatch: (执行接口)
+使用方式: store.dispatch(action)
+功能点: 在执行redux的state更新的同时，执行所有subscribe过的回调函数
+
+replaceReducer: (重置store接口)
+使用方式: store.replaceReducer(nextReducer)
+功能点: 重置redux的reducer，重新启动store流程
+</code></pre><h3 id="流程图如下"><a href="#流程图如下" class="headerlink" title="流程图如下"></a>流程图如下</h3><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg" alt=""></p>
+<h2 id="项目实战："><a href="#项目实战：" class="headerlink" title="项目实战："></a>项目实战：</h2><p><strong>首先安装redux到项目中</strong></p>
+<pre><code>npm install --save redux
+</code></pre><p><strong>代码编写</strong></p>
+<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;p&gt;
+    Clicked: &lt;span id=&quot;value&quot;&gt;0&lt;/span&gt;
+    &lt;button id=&quot;increment&quot;&gt;+&lt;/button&gt;
+    &lt;button id=&quot;decrement&quot;&gt;-&lt;/button&gt;
+&lt;/p&gt;
+</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>//导入createStroe
+import { createStore } from &apos;redux&apos;
+
+//初始化状态
+let initState = {
+      count: 0,
+      score: 0,
+      description:&apos;描述&apos;
+}
+
+//创建一个Reducer
+function counter(state = initState, action) {
+    switch (action.type) {
+        case &apos;INCREMENT&apos;:
+              return{
+                  count:state.count + 1,
+                score:state.score + 2,
+                description:action.data
+              } 
+        case &apos;DECREMENT&apos;:
+              return{
+                  count:state.count - 1,
+                score:state.score - 2,
+                description:action.data
+              } 
+        default:
+              return state;
+          }
+    }
+
+//将创建好的Reducer传入创建Store
+let store = Redux.createStore(counter);
+
+//获取元素节点，并绑定点击事件，点击后store将触发相应的动作Action
+let valueEl = document.getElementById(&apos;value&apos;);
+document.getElementById(&apos;increment&apos;).addEventListener(&apos;click&apos;, function() {
+    store.dispatch({
+          type: &apos;INCREMENT&apos;,
+          data:&apos;增加的&apos;
+    })
+})
+document.getElementById(&apos;decrement&apos;).addEventListener(&apos;click&apos;, function() {
+    store.dispatch({
+          type: &apos;DECREMENT&apos;,
+          data:&apos;减少的&apos;,
+    })
+})
+
+//写一个render方法，在这里动态改变元素的内容
+function render() {
+    valueEl.innerHTML = &apos;点击&apos;+store.getState().count.toString()+&apos;次-得        分&apos;+store.getState().score.toString()+store.getState().description;
+}
+
+//执行render方法
+render();
+
+//绑定subscribe回调
+store.subscribe(render);
+</code></pre><h5 id="上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render"><a href="#上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render" class="headerlink" title="上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()"></a>上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/redux入门/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux入门/">redux入门</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/02/21/import/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">import</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-redux入门" data-title="redux入门" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-redux入门" data-title="redux入门" data-url="http://Jasonellen.github.io/2017/02/21/redux入门/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
