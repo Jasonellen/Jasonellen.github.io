@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>配置相关—npm | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介npm有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为npmjs.org。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。
+npm不需要单独安装。在安装Node的时候，会连带一起安装npm。但是，Node附带的npm可能不是最新版本，最好用下面的命令，更新到最新版本。
+1$ npm install npm@latest -g
+上面的命令中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置相关—npm">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/03/09/配置相关—npm/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="简介npm有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为npmjs.org。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。
+npm不需要单独安装。在安装Node的时候，会连带一起安装npm。但是，Node附带的npm可能不是最新版本，最好用下面的命令，更新到最新版本。
+1$ npm install npm@latest -g
+上面的命令中">
+<meta property="og:updated_time" content="2017-03-07T14:24:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置相关—npm">
+<meta name="twitter:description" content="简介npm有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为npmjs.org。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。
+npm不需要单独安装。在安装Node的时候，会连带一起安装npm。但是，Node附带的npm可能不是最新版本，最好用下面的命令，更新到最新版本。
+1$ npm install npm@latest -g
+上面的命令中">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-配置相关—npm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      配置相关—npm
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>npm</code>有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为<a href="http://npmjs.org" target="_blank" rel="external">npmjs.org</a>。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。</p>
+<p><code>npm</code>不需要单独安装。在安装Node的时候，会连带一起安装<code>npm</code>。但是，Node附带的<code>npm</code>可能不是最新版本，最好用下面的命令，更新到最新版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install npm@latest -g</div></pre></td></tr></table></figure>
+<p>上面的命令中，<code>@latest</code>表示最新版本，<code>-g</code>表示全局安装。所以，命令的主干是<code>npm install npm</code>，也就是使用<code>npm</code>安装自己。之所以可以这样，是因为<code>npm</code>本身与Node的其他模块没有区别。</p>
+<p>然后，运行下面的命令，查看各种信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 查看 npm 命令列表</div><div class="line">$ npm help</div><div class="line"></div><div class="line"># 查看各个命令的简单用法</div><div class="line">$ npm -l</div><div class="line"></div><div class="line"># 查看 npm 的版本</div><div class="line">$ npm -v</div><div class="line"></div><div class="line"># 查看 npm 的配置</div><div class="line">$ npm config list -l</div></pre></td></tr></table></figure>
+<h2 id="npm-init"><a href="#npm-init" class="headerlink" title="npm init"></a>npm init</h2><p><code>npm init</code>用来初始化生成一个新的<code>package.json</code>文件。它会向用户提问一系列问题，如果你觉得不用修改默认配置，一路回车就可以了。</p>
+<p>如果使用了<code>-f</code>（代表force）、<code>-y</code>（代表yes），则跳过提问阶段，直接生成一个新的<code>package.json</code>文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init -y</div></pre></td></tr></table></figure>
+<h2 id="npm-set"><a href="#npm-set" class="headerlink" title="npm set"></a>npm set</h2><p><code>npm set</code>用来设置环境变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm set init-author-name &apos;Your name&apos;</div><div class="line">$ npm set init-author-email &apos;Your email&apos;</div><div class="line">$ npm set init-author-url &apos;http://yourdomain.com&apos;</div><div class="line">$ npm set init-license &apos;MIT&apos;</div></pre></td></tr></table></figure>
+<p>上面命令等于为<code>npm init</code>设置了默认值，以后执行<code>npm init</code>的时候，<code>package.json</code>的作者姓名、邮件、主页、许可证字段就会自动写入预设的值。这些信息会存放在用户主目录的 <code>~/.npmrc</code>文件，使得用户不用每个项目都输入。如果某个项目有不同的设置，可以针对该项目运行<code>npm config</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm set save-exact true</div></pre></td></tr></table></figure>
+<p>上面命令设置加入模块时，<code>package.json</code>将记录模块的确切版本，而不是一个可选的版本范围。</p>
+<h2 id="npm-config"><a href="#npm-config" class="headerlink" title="npm config"></a>npm config</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm config set prefix $dir</div></pre></td></tr></table></figure>
+<p>上面的命令将指定的<code>$dir</code>目录，设为模块的全局安装目录。如果当前有这个目录的写权限，那么运行<code>npm install</code>的时候，就不再需要<code>sudo</code>命令授权了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm config set save-prefix ~</div></pre></td></tr></table></figure>
+<p>上面的命令使得<code>npm install --save</code>和<code>npm install --save-dev</code>安装新模块时，允许的版本范围从克拉符号（<code>^</code>）改成波浪号（<code>~</code>），即从允许小版本升级，变成只允许补丁包的升级。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm config set init.author.name $name</div><div class="line">$ npm config set init.author.email $email</div></pre></td></tr></table></figure>
+<p>上面命令指定使用<code>npm init</code>时，生成的<code>package.json</code>文件的字段默认值。</p>
+<h2 id="npm-info"><a href="#npm-info" class="headerlink" title="npm info"></a>npm info</h2><p><code>npm info</code>命令可以查看每个模块的具体信息。比如，查看underscore模块的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">$ npm info underscore</div><div class="line">&#123; name: &apos;underscore&apos;,</div><div class="line">  description: &apos;JavaScript\&apos;s functional programming helper library.&apos;,</div><div class="line">  &apos;dist-tags&apos;: &#123; latest: &apos;1.5.2&apos;, stable: &apos;1.5.2&apos; &#125;,</div><div class="line">  repository:</div><div class="line">   &#123; type: &apos;git&apos;,</div><div class="line">     url: &apos;git://github.com/jashkenas/underscore.git&apos; &#125;,</div><div class="line">  homepage: &apos;http://underscorejs.org&apos;,</div><div class="line">  main: &apos;underscore.js&apos;,</div><div class="line">  version: &apos;1.5.2&apos;,</div><div class="line">  devDependencies: &#123; phantomjs: &apos;1.9.0-1&apos; &#125;,</div><div class="line">  licenses:</div><div class="line">   &#123; type: &apos;MIT&apos;,</div><div class="line">     url: &apos;https://raw.github.com/jashkenas/underscore/master/LICENSE&apos; &#125;,</div><div class="line">  files:</div><div class="line">   [ &apos;underscore.js&apos;,</div><div class="line">     &apos;underscore-min.js&apos;,</div><div class="line">     &apos;LICENSE&apos; ],</div><div class="line">  readmeFilename: &apos;README.md&apos;&#125;</div></pre></td></tr></table></figure>
+<p>上面命令返回一个JavaScript对象，包含了underscore模块的详细信息。这个对象的每个成员，都可以直接从info命令查询。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ npm info underscore description</div><div class="line">JavaScript&apos;s functional programming helper library.</div><div class="line"></div><div class="line">$ npm info underscore homepage</div><div class="line">http://underscorejs.org</div><div class="line"></div><div class="line">$ npm info underscore version</div><div class="line">1.5.2</div></pre></td></tr></table></figure>
+<h2 id="npm-search"><a href="#npm-search" class="headerlink" title="npm search"></a>npm search</h2><p><code>npm search</code>命令用于搜索npm仓库，它后面可以跟字符串，也可以跟正则表达式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm search &lt;搜索词&gt;</div></pre></td></tr></table></figure>
+<p>下面是一个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ npm search node-gyp</div><div class="line">// NAME                  DESCRIPTION</div><div class="line">// autogypi              Autogypi handles dependencies for node-gyp projects.</div><div class="line">// grunt-node-gyp        Run node-gyp commands from Grunt.</div><div class="line">// gyp-io                Temporary solution to let node-gyp run `rebuild` under…</div><div class="line">// ...</div></pre></td></tr></table></figure>
+<h2 id="npm-list"><a href="#npm-list" class="headerlink" title="npm list"></a>npm list</h2><p><code>npm list</code>命令以树型结构列出当前项目安装的所有模块，以及它们依赖的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm list</div></pre></td></tr></table></figure>
+<p>加上global参数，会列出全局安装的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm list -global</div></pre></td></tr></table></figure>
+<p><code>npm list</code>命令也可以列出单个模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm list underscore</div></pre></td></tr></table></figure>
+<h2 id="npm-install"><a href="#npm-install" class="headerlink" title="npm install"></a>npm install</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>Node模块采用<code>npm install</code>命令安装。</p>
+<p>每个模块可以“全局安装”，也可以“本地安装”。“全局安装”指的是将一个模块安装到系统目录中，各个项目都可以调用。一般来说，全局安装只适用于工具模块，比如<code>eslint</code>和<code>gulp</code>。“本地安装”指的是将一个模块下载到当前项目的<code>node_modules</code>子目录，然后只有在项目目录之中，才能调用这个模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 本地安装</div><div class="line">$ npm install &lt;package name&gt;</div><div class="line"></div><div class="line"># 全局安装</div><div class="line">$ sudo npm install -global &lt;package name&gt;</div><div class="line">$ sudo npm install -g &lt;package name&gt;</div></pre></td></tr></table></figure>
+<p><code>npm install</code>也支持直接输入Github代码库地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm install git://github.com/package/path.git</div><div class="line">$ npm install git://github.com/package/path.git#0.1.0</div></pre></td></tr></table></figure>
+<p>安装之前，<code>npm install</code>会先检查，<code>node_modules</code>目录之中是否已经存在指定模块。如果存在，就不再重新安装了，即使远程仓库已经有了一个新版本，也是如此。</p>
+<p>如果你希望，一个模块不管是否安装过，npm 都要强制重新安装，可以使用<code>-f</code>或<code>--force</code>参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install &lt;packageName&gt; --force</div></pre></td></tr></table></figure>
+<p>如果你希望，所有模块都要强制重新安装，那就删除<code>node_modules</code>目录，重新执行<code>npm install</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ rm -rf node_modules</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<h3 id="安装不同版本"><a href="#安装不同版本" class="headerlink" title="安装不同版本"></a>安装不同版本</h3><p>install命令总是安装模块的最新版本，如果要安装模块的特定版本，可以在模块名后面加上@和版本号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install sax@latest</div><div class="line">$ npm install sax@0.1.1</div><div class="line">$ npm install sax@&quot;&gt;=0.1.0 &lt;0.2.0&quot;</div></pre></td></tr></table></figure>
+<p>如果使用<code>--save-exact</code>参数，会在package.json文件指定安装模块的确切版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install readable-stream --save --save-exact</div></pre></td></tr></table></figure>
+<p>install命令可以使用不同参数，指定所安装的模块属于哪一种性质的依赖关系，即出现在packages.json文件的哪一项中。</p>
+<ul>
+<li>–save：模块名将被添加到dependencies，可以简化为参数<code>-S</code>。</li>
+<li>–save-dev: 模块名将被添加到devDependencies，可以简化为参数<code>-D</code>。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ npm install sax --save</div><div class="line">$ npm install node-tap --save-dev</div><div class="line"># 或者</div><div class="line">$ npm install sax -S</div><div class="line">$ npm install node-tap -D</div></pre></td></tr></table></figure>
+<p>如果要安装beta版本的模块，需要使用下面的命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 安装最新的beta版</div><div class="line">$ npm install &lt;module-name&gt;@beta (latest beta)</div><div class="line"></div><div class="line"># 安装指定的beta版</div><div class="line">$ npm install &lt;module-name&gt;@1.3.1-beta.3</div></pre></td></tr></table></figure>
+<p><code>npm install</code>默认会安装<code>dependencies</code>字段和<code>devDependencies</code>字段中的所有模块，如果使用<code>--production</code>参数，可以只安装<code>dependencies</code>字段的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install --production</div><div class="line"># 或者</div><div class="line">$ NODE_ENV=production npm install</div></pre></td></tr></table></figure>
+<p>一旦安装了某个模块，就可以在代码中用<code>require</code>命令加载这个模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var backbone = require(&apos;backbone&apos;)</div><div class="line">console.log(backbone.VERSION)</div></pre></td></tr></table></figure>
+<h2 id="避免系统权限"><a href="#避免系统权限" class="headerlink" title="避免系统权限"></a>避免系统权限</h2><p>默认情况下，Npm全局模块都安装在系统目录（比如<code>/usr/local/lib/</code>），普通用户没有写入权限，需要用到<code>sudo</code>命令。这不是很方便，我们可以在没有root权限的情况下，安装全局模块。</p>
+<p>首先，在主目录下新建配置文件<code>.npmrc</code>，然后在该文件中将<code>prefix</code>变量定义到主目录下面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">prefix = /home/yourUsername/npm</div></pre></td></tr></table></figure>
+<p>然后在主目录下新建<code>npm</code>子目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir ~/npm</div></pre></td></tr></table></figure>
+<p>此后，全局安装的模块都会安装在这个子目录中，npm也会到<code>~/npm/bin</code>目录去寻找命令。</p>
+<p>最后，将这个路径在<code>.bash_profile</code>文件（或<code>.bashrc</code>文件）中加入PATH变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PATH=~/npm/bin:$PATH</div></pre></td></tr></table></figure>
+<h2 id="npm-update，npm-uninstall"><a href="#npm-update，npm-uninstall" class="headerlink" title="npm update，npm uninstall"></a>npm update，npm uninstall</h2><p><code>npm update</code>命令可以更新本地安装的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 升级当前项目的指定模块</div><div class="line">$ npm update [package name]</div><div class="line"></div><div class="line"># 升级全局安装的模块</div><div class="line">$ npm update -global [package name]</div></pre></td></tr></table></figure>
+<p>它会先到远程仓库查询最新版本，然后查询本地版本。如果本地版本不存在，或者远程版本较新，就会安装。</p>
+<p>使用<code>-S</code>或<code>--save</code>参数，可以在安装的时候更新<code>package.json</code>里面模块的版本号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 更新之前的package.json</div><div class="line">dependencies: &#123;</div><div class="line">  dep1: &quot;^1.1.1&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 更新之后的package.json</div><div class="line">dependencies: &#123;</div><div class="line">  dep1: &quot;^1.2.2&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意，从npm v2.6.1 开始，<code>npm update</code>只更新顶层模块，而不更新依赖的依赖，以前版本是递归更新的。如果想取到老版本的效果，要使用下面的命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm --depth 9999 update</div></pre></td></tr></table></figure>
+<p><code>npm uninstall</code>命令，卸载已安装的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm uninstall [package name]</div><div class="line"></div><div class="line"># 卸载全局模块</div><div class="line">$ npm uninstall [package name] -global</div></pre></td></tr></table></figure>
+<h2 id="npm-run"><a href="#npm-run" class="headerlink" title="npm run"></a>npm run</h2><p><code>npm</code>不仅可以用于模块管理，还可以用于执行脚本。<code>package.json</code>文件有一个<code>scripts</code>字段，可以用于指定脚本命令，供<code>npm</code>直接调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;myproject&quot;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;jshint&quot;: &quot;latest&quot;,</div><div class="line">    &quot;browserify&quot;: &quot;latest&quot;,</div><div class="line">    &quot;mocha&quot;: &quot;latest&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;lint&quot;: &quot;jshint **.js&quot;,</div><div class="line">    &quot;test&quot;: &quot;mocha test/&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，<code>scripts</code>字段指定了两项命令<code>lint</code>和<code>test</code>。命令行输入<code>npm run-script lint</code>或者<code>npm run lint</code>，就会执行<code>jshint **.js</code>，输入<code>npm run-script test</code>或者<code>npm run test</code>，就会执行<code>mocha test/</code>。<code>npm run</code>是<code>npm run-script</code>的缩写，一般都使用前者，但是后者可以更好地反应这个命令的本质。</p>
+<p><code>npm run</code>命令会自动在环境变量<code>$PATH</code>添加<code>node_modules/.bin</code>目录，所以<code>scripts</code>字段里面调用命令时不用加上路径，这就避免了全局安装NPM模块。</p>
+<p><code>npm run</code>如果不加任何参数，直接运行，会列出<code>package.json</code>里面所有可以执行的脚本命令。</p>
+<p>npm内置了两个命令简写，<code>npm test</code>等同于执行<code>npm run test</code>，<code>npm start</code>等同于执行<code>npm run start</code>。</p>
+<p><code>npm run</code>会创建一个Shell，执行指定的命令，并临时将<code>node_modules/.bin</code>加入PATH变量，这意味着本地模块可以直接运行。</p>
+<p>举例来说，你执行ESLint的安装命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm i eslint --save-dev</div></pre></td></tr></table></figure>
+<p>运行上面的命令以后，会产生两个结果。首先，ESLint被安装到当前目录的<code>node_modules</code>子目录；其次，<code>node_modules/.bin</code>目录会生成一个符号链接<code>node_modules/.bin/eslint</code>，指向ESLint模块的可执行脚本。</p>
+<p>然后，你就可以在<code>package.json</code>的<code>script</code>属性里面，不带路径的引用<code>eslint</code>这个脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;Test Project&quot;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;eslint&quot;: &quot;^1.10.3&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;lint&quot;: &quot;eslint .&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>等到运行<code>npm run lint</code>的时候，它会自动执行<code>./node_modules/.bin/eslint .</code>。</p>
+<p>如果直接运行<code>npm run</code>不给出任何参数，就会列出<code>scripts</code>属性下所有命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ npm run</div><div class="line">Available scripts in the user-service package:</div><div class="line">  lint</div><div class="line">     jshint **.js</div><div class="line">  test</div><div class="line">    mocha test/</div></pre></td></tr></table></figure>
+<p>下面是另一个<code>package.json</code>文件的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;watch&quot;: &quot;watchify client/main.js -o public/app.js -v&quot;,</div><div class="line">  &quot;build&quot;: &quot;browserify client/main.js -o public/app.js&quot;,</div><div class="line">  &quot;start&quot;: &quot;npm run watch &amp; nodemon server.js&quot;,</div><div class="line">  &quot;test&quot;: &quot;node test/all.js&quot;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>上面代码在<code>scripts</code>项，定义了四个别名，每个别名都有对应的脚本命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm run watch</div><div class="line">$ npm run build</div><div class="line">$ npm run start</div><div class="line">$ npm run test</div></pre></td></tr></table></figure>
+<p>其中，<code>start</code>和<code>test</code>属于特殊命令，可以省略<code>run</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm start</div><div class="line">$ npm test</div></pre></td></tr></table></figure>
+<p>如果希望一个操作的输出，是另一个操作的输入，可以借用Linux系统的管道命令，将两个操作连在一起。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;build-js&quot;: &quot;browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js&quot;</div></pre></td></tr></table></figure>
+<p>但是，更方便的写法是引用其他<code>npm run</code>命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;build&quot;: &quot;npm run build-js &amp;&amp; npm run build-css&quot;</div></pre></td></tr></table></figure>
+<p>上面的写法是先运行<code>npm run build-js</code>，然后再运行<code>npm run build-css</code>，两个命令中间用<code>&amp;&amp;</code>连接。如果希望两个命令同时平行执行，它们中间可以用<code>&amp;</code>连接。</p>
+<p>下面是一个流操作的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&quot;devDependencies&quot;: &#123;</div><div class="line">  &quot;autoprefixer&quot;: &quot;latest&quot;,</div><div class="line">  &quot;cssmin&quot;: &quot;latest&quot;</div><div class="line">&#125;,</div><div class="line"></div><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;build:css&quot;: &quot;autoprefixer -b &apos;last 2 versions&apos; &lt; assets/styles/main.css | cssmin &gt; dist/main.css&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>写在<code>scripts</code>属性中的命令，也可以在<code>node_modules/.bin</code>目录中直接写成bash脚本。下面是一个bash脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">cd site/main</div><div class="line">browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js</div></pre></td></tr></table></figure>
+<p>假定上面的脚本文件名为build.sh，并且权限为可执行，就可以在scripts属性中引用该文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;build-js&quot;: &quot;bin/build.sh&quot;</div></pre></td></tr></table></figure>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p><code>npm run</code>命令还可以添加参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;test&quot;: &quot;mocha test/&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码指定<code>npm test</code>，实际运行<code>mocha test/</code>。如果要通过<code>npm test</code>命令，将参数传到mocha，则参数之前要加上两个连词线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm run test -- anothertest.js</div><div class="line"># 等同于</div><div class="line">$ mocha test/ anothertest.js</div></pre></td></tr></table></figure>
+<p>上面命令表示，mocha要运行所有<code>test</code>子目录的测试脚本，以及另外一个测试脚本<code>anothertest.js</code>。</p>
+<p><code>npm run</code>本身有一个参数<code>-s</code>，表示关闭npm本身的输出，只输出脚本产生的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 输出npm命令头</div><div class="line">$ npm run test</div><div class="line"></div><div class="line">// 不输出npm命令头</div><div class="line">$ npm run -s test</div></pre></td></tr></table></figure>
+<h3 id="scripts脚本命令最佳实践"><a href="#scripts脚本命令最佳实践" class="headerlink" title="scripts脚本命令最佳实践"></a>scripts脚本命令最佳实践</h3><p><code>scripts</code>字段的脚本命令，有一些最佳实践，可以方便开发。首先，安装<code>npm-run-all</code>模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install npm-run-all --save-dev</div></pre></td></tr></table></figure>
+<p>这个模块用于运行多个<code>scripts</code>脚本命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># 继发执行</div><div class="line">$ npm-run-all build:html build:js</div><div class="line"># 等同于</div><div class="line">$ npm run build:html &amp;&amp; npm run build:js</div><div class="line"></div><div class="line"># 并行执行</div><div class="line">$ npm-run-all --parallel watch:html watch:js</div><div class="line"># 等同于</div><div class="line">$ npm run watch:html &amp; npm run watch:js</div><div class="line"></div><div class="line"># 混合执行</div><div class="line">$ npm-run-all clean lint --parallel watch:html watch:js</div><div class="line"># 等同于</div><div class="line">$ npm-run-all clean lint</div><div class="line">$ npm-run-all --parallel watch:html watch:js</div><div class="line"></div><div class="line"># 通配符</div><div class="line">$ npm-run-all --parallel watch:*</div></pre></td></tr></table></figure>
+<p>（1）start脚本命令</p>
+<p><code>start</code>脚本命令，用于启动应用程序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;start&quot;: &quot;npm-run-all --parallel dev serve&quot;</div></pre></td></tr></table></figure>
+<p>上面命令并行执行<code>dev</code>脚本命令和<code>serve</code>脚本命令，等同于下面的形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run dev &amp; npm run serve</div></pre></td></tr></table></figure>
+<p>如果start脚本没有配置，<code>npm start</code>命令默认执行下面的脚本，前提是模块的根目录存在一个server.js文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node server.js</div></pre></td></tr></table></figure>
+<p>（2）dev脚本命令</p>
+<p><code>dev</code>脚本命令，规定开发阶段所要做的处理，比如构建网页资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;dev&quot;: &quot;npm-run-all dev:*&quot;</div></pre></td></tr></table></figure>
+<p>上面命令用于继发执行所有<code>dev</code>的子命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;predev:sass&quot;: &quot;node-sass --source-map src/css/hoodie.css.map --output-style nested src/sass/base.scss src/css/hoodie.css&quot;</div></pre></td></tr></table></figure>
+<p>上面命令将sass文件编译为css文件，并生成source map文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;dev:sass&quot;: &quot;node-sass --source-map src/css/hoodie.css.map --watch --output-style nested src/sass/base.scss src/css/hoodie.css&quot;</div></pre></td></tr></table></figure>
+<p>上面命令会监视sass文件的变动，只要有变动，就自动将其编译为css文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;dev:autoprefix&quot;: &quot;postcss --use autoprefixer --autoprefixer.browsers \&quot;&gt; 5%\&quot; --output src/css/hoodie.css src/css/hoodie.css&quot;</div></pre></td></tr></table></figure>
+<p>上面命令为css文件加上浏览器前缀，限制条件是只考虑市场份额大于5%的浏览器。</p>
+<p>（3）serve脚本命令</p>
+<p><code>serve</code>脚本命令用于启动服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;serve&quot;: &quot;live-server dist/ --port=9090&quot;</div></pre></td></tr></table></figure>
+<p>上面命令启动服务，用的是<a href="http://npmjs.com/package/live-server" target="_blank" rel="external">live-server</a>模块，将服务启动在9090端口，展示<code>dist</code>子目录。</p>
+<p><code>live-server</code>模块有三个功能。</p>
+<ul>
+<li>启动一个HTTP服务器，展示指定目录的<code>index.html</code>文件，通过该文件加载各种网络资源，这是<code>file://</code>协议做不到的。</li>
+<li>添加自动刷新功能。只要指定目录之中，文件有任何变化，它就会刷新页面。</li>
+<li><code>npm run serve</code>命令执行以后，自动打开浏览器。、</li>
+</ul>
+<p>以前，上面三个功能需要三个模块来完成：<code>http-server</code>、<code>live-reload</code>和<code>opener</code>，现在只要<code>live-server</code>一个模块就够了。</p>
+<p>（4）test脚本命令</p>
+<p><code>test</code>脚本命令用于执行测试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&quot;test&quot;: &quot;npm-run-all test:*&quot;,</div><div class="line">&quot;test:lint&quot;: &quot;sass-lint --verbose --config .sass-lint.yml src/sass/*&quot;</div></pre></td></tr></table></figure>
+<p>上面命令规定，执行测试时，运行<code>lint</code>脚本，检查脚本之中的语法错误。</p>
+<p>（5）prod脚本命令</p>
+<p><code>prod</code>脚本命令，规定进入生产环境时需要做的处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;prod&quot;: &quot;npm-run-all prod:*&quot;,</div><div class="line">&quot;prod:sass&quot;: &quot;node-sass --output-style compressed src/sass/base.scss src/css/prod/hoodie.min.css&quot;,</div><div class="line">&quot;prod:autoprefix&quot;: &quot;postcss --use autoprefixer --autoprefixer.browsers &quot;&gt; 5%&quot; --output src/css/prod/hoodie.min.css src/css/prod/hoodie.min.css&quot;</div></pre></td></tr></table></figure>
+<p>上面命令将sass文件转为css文件，并加上浏览器前缀。</p>
+<p>（6）help脚本命令</p>
+<p><code>help</code>脚本命令用于展示帮助信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;help&quot;: &quot;markdown-chalk --input DEVELOPMENT.md&quot;</div></pre></td></tr></table></figure>
+<p>上面命令之中，<code>markdown-chalk</code>模块用于将指定的markdown文件，转为彩色文本显示在终端之中。</p>
+<p>（7）docs脚本命令</p>
+<p><code>docs</code>脚本命令用于生成文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;docs&quot;: &quot;kss-node --source src/sass --homepage ../../styleguide.md&quot;</div></pre></td></tr></table></figure>
+<p>上面命令使用<code>kss-node</code>模块，提供源码的注释生成markdown格式的文档。</p>
+<h3 id="pre-和-post-脚本"><a href="#pre-和-post-脚本" class="headerlink" title="pre- 和 post- 脚本"></a>pre- 和 post- 脚本</h3><p><code>npm run</code>为每条命令提供了<code>pre-</code>和<code>post-</code>两个钩子（hook）。以<code>npm run lint</code>为例，执行这条命令之前，npm会先查看有没有定义prelint和postlint两个钩子，如果有的话，就会先执行<code>npm run prelint</code>，然后执行<code>npm run lint</code>，最后执行<code>npm run postlint</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;myproject&quot;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;eslint&quot;: &quot;latest&quot;</div><div class="line">    &quot;karma&quot;: &quot;latest&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;lint&quot;: &quot;eslint --cache --ext .js --ext .jsx src&quot;,</div><div class="line">    &quot;test&quot;: &quot;karma start --log-leve=error karma.config.js --single-run=true&quot;,</div><div class="line">    &quot;pretest&quot;: &quot;npm run lint&quot;,</div><div class="line">    &quot;posttest&quot;: &quot;echo &apos;Finished running tests&apos;&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码是一个<code>package.json</code>文件的例子。如果执行<code>npm test</code>，会按下面的顺序执行相应的命令。</p>
+<ol>
+<li><code>pretest</code></li>
+<li><code>test</code></li>
+<li><code>posttest</code></li>
+</ol>
+<p>如果执行过程出错，就不会执行排在后面的脚本，即如果prelint脚本执行出错，就不会接着执行lint和postlint脚本。</p>
+<p>下面是一个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;test&quot;: &quot;karma start&quot;,</div><div class="line">  &quot;test:lint&quot;: &quot;eslint . --ext .js --ext .jsx&quot;,</div><div class="line">  &quot;pretest&quot;: &quot;npm run test:lint&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，在运行<code>npm run test</code>之前，会自动检查代码，即运行<code>npm run test:lint</code>命令。</p>
+<p>下面是一些常见的<code>pre-</code>和<code>post-</code>脚本。</p>
+<ul>
+<li><code>prepublish</code>：发布一个模块前执行。</li>
+<li><code>postpublish</code>：发布一个模块后执行。</li>
+<li><code>preinstall</code>：用户执行<code>npm install</code>命令时，先执行该脚本。</li>
+<li><code>postinstall</code>：用户执行<code>npm install</code>命令时，安装结束后执行该脚本，通常用于将下载的源码编译成用户需要的格式，比如有些模块需要在用户机器上跟本地的C++模块一起编译。</li>
+<li><code>preuninstall</code>：卸载一个模块前执行。</li>
+<li><code>postuninstall</code>：卸载一个模块后执行。</li>
+<li><code>preversion</code>：更改模块版本前执行。</li>
+<li><code>postversion</code>：更改模块版本后执行。</li>
+<li><code>pretest</code>：运行<code>npm test</code>命令前执行。</li>
+<li><code>posttest</code>：运行<code>npm test</code>命令后执行。</li>
+<li><code>prestop</code>：运行<code>npm stop</code>命令前执行。</li>
+<li><code>poststop</code>：运行<code>npm stop</code>命令后执行。</li>
+<li><code>prestart</code>：运行<code>npm start</code>命令前执行。</li>
+<li><code>poststart</code>：运行<code>npm start</code>命令后执行。</li>
+<li><code>prerestart</code>：运行<code>npm restart</code>命令前执行。</li>
+<li><code>postrestart</code>：运行<code>npm restart</code>命令后执行。</li>
+</ul>
+<p>对于最后一个<code>npm restart</code>命令，如果没有设置<code>restart</code>脚本，<code>prerestart</code>和<code>postrestart</code>会依次执行stop和start脚本。</p>
+<p>另外，不能在<code>pre</code>脚本之前再加<code>pre</code>，即<code>prepretest</code>脚本不起作用。</p>
+<p>注意，即使Npm可以自动运行<code>pre</code>和<code>post</code>脚本，也可以手动执行它们。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run prepublish</div></pre></td></tr></table></figure>
+<p>下面是<code>post install</code>的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;postinstall&quot;: &quot;node lib/post_install.js&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的这个命令，主要用于处理从Git仓库拉下来的源码。比如，有些源码是用TypeScript写的，可能需要转换一下。</p>
+<p>下面是<code>publish</code>钩子的一个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;dist:modules&quot;: &quot;babel ./src --out-dir ./dist-modules&quot;,</div><div class="line">  &quot;gh-pages&quot;: &quot;webpack&quot;,</div><div class="line">  &quot;gh-pages:deploy&quot;: &quot;gh-pages -d gh-pages&quot;,</div><div class="line">  &quot;prepublish&quot;: &quot;npm run dist:modules&quot;,</div><div class="line">  &quot;postpublish&quot;: &quot;npm run gh-pages &amp;&amp; npm run gh-pages:deploy&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面命令在运行<code>npm run publish</code>时，会先执行Babel编译，然后调用Webpack构建，最后发到Github Pages上面。</p>
+<p>以上都是npm相关操作的钩子，如果安装某些模块，还能支持Git相关的钩子。下面以<a href="https://github.com/typicode/husky" target="_blank" rel="external">husky</a>模块为例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install husky --save-dev</div></pre></td></tr></table></figure>
+<p>安装以后，就能在<code>package.json</code>添加<code>precommit</code>、<code>prepush</code>等钩子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;scripts&quot;: &#123;</div><div class="line">        &quot;lint&quot;: &quot;eslint yourJsFiles.js&quot;,</div><div class="line">        &quot;precommit&quot;: &quot;npm run test &amp;&amp; npm run lint&quot;,</div><div class="line">        &quot;prepush&quot;: &quot;npm run test &amp;&amp; npm run lint&quot;,</div><div class="line">        &quot;...&quot;: &quot;...&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>类似作用的模块还有<code>pre-commit</code>、<code>precommit-hook</code>等。</p>
+<h3 id="内部变量-script字段和config字段"><a href="#内部变量-script字段和config字段" class="headerlink" title="内部变量(script字段和config字段)"></a>内部变量(script字段和config字段)</h3><p>scripts字段可以使用一些内部变量，主要是package.json的各种字段。</p>
+<p>比如，package.json的内容是<code>{&quot;name&quot;:&quot;foo&quot;, &quot;version&quot;:&quot;1.2.5&quot;}</code>，那么变量<code>npm_package_name</code>的值是<code>foo</code>，变量<code>npm_package_version</code>的值是1.2.5。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;scripts&quot;:&#123;</div><div class="line">    &quot;bundle&quot;: &quot;mkdir -p build/$npm_package_version/&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行<code>npm run bundle</code>以后，将会生成<code>build/1.2.5/</code>子目录。</p>
+<p><code>config</code>字段也可以用于设置内部字段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&quot;name&quot;: &quot;fooproject&quot;,</div><div class="line">&quot;config&quot;: &#123;</div><div class="line">  &quot;reporter&quot;: &quot;xunit&quot;</div><div class="line">&#125;,</div><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;test&quot;: &quot;mocha test/ --reporter $npm_package_config_reporter&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，变量<code>npm_package_config_reporter</code>对应的就是reporter。</p>
+<h3 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h3><p>npm的通配符的规则如下。</p>
+<ul>
+<li><code>*</code> 匹配0个或多个字符</li>
+<li><code>?</code> 匹配1个字符</li>
+<li><code>[...]</code> 匹配某个范围的字符。如果该范围的第一个字符是<code>!</code>或<code>^</code>，则匹配不在该范围的字符。</li>
+<li><code>!(pattern|pattern|pattern)</code> 匹配任何不符合给定的模式</li>
+<li><code>?(pattern|pattern|pattern)</code> 匹配0个或1个给定的模式</li>
+<li><code>+(pattern|pattern|pattern)</code> 匹配1个或多个给定的模式</li>
+<li><code>*(a|b|c)</code> 匹配0个或多个给定的模式</li>
+<li><code>@(pattern|pat*|pat?erN)</code> 只匹配给定模式之一</li>
+<li><code>**</code> 如果出现在路径部分，表示0个或多个子目录。</li>
+</ul>
+<h2 id="npm-link"><a href="#npm-link" class="headerlink" title="npm link"></a>npm link</h2><p>开发NPM模块的时候，有时我们会希望，边开发边试用，比如本地调试的时候，<code>require(&#39;myModule&#39;)</code>会自动加载本机开发中的模块。Node规定，使用一个模块时，需要将其安装到全局的或项目的<code>node_modules</code>目录之中。对于开发中的模块，解决方法就是在全局的<code>node_modules</code>目录之中，生成一个符号链接，指向模块的本地目录。</p>
+<p><code>npm link</code>就能起到这个作用，会自动建立这个符号链接。</p>
+<p>请设想这样一个场景，你开发了一个模块<code>myModule</code>，目录为<code>src/myModule</code>，你自己的项目<code>myProject</code>要用到这个模块，项目目录为<code>src/myProject</code>。首先，在模块目录（<code>src/myModule</code>）下运行<code>npm link</code>命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myModule$ npm link</div></pre></td></tr></table></figure>
+<p>上面的命令会在NPM的全局模块目录内，生成一个符号链接文件，该文件的名字就是<code>package.json</code>文件中指定的模块名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/path/to/global/node_modules/myModule -&gt; src/myModule</div></pre></td></tr></table></figure>
+<p>这个时候，已经可以全局调用<code>myModule</code>模块了。但是，如果我们要让这个模块安装在项目内，还要进行下面的步骤。</p>
+<p>切换到项目目录，再次运行<code>npm link</code>命令，并指定模块名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myProject$ npm link myModule</div></pre></td></tr></table></figure>
+<p>上面命令等同于生成了本地模块的符号链接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myProject/node_modules/myModule -&gt; /path/to/global/node_modules/myModule</div></pre></td></tr></table></figure>
+<p>然后，就可以在你的项目中，加载该模块了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var myModule = require(&apos;myModule&apos;);</div></pre></td></tr></table></figure>
+<p>这样一来，<code>myModule</code>的任何变化，都可以直接反映在<code>myProject</code>项目之中。但是，这样也出现了风险，任何在<code>myProject</code>目录中对<code>myModule</code>的修改，都会反映到模块的源码中。</p>
+<p>如果你的项目不再需要该模块，可以在项目目录内使用<code>npm unlink</code>命令，删除符号链接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myProject$ npm unlink myModule</div></pre></td></tr></table></figure>
+<h2 id="npm-bin"><a href="#npm-bin" class="headerlink" title="npm bin"></a>npm bin</h2><p><code>npm bin</code>命令显示相对于当前目录的Node模块的可执行脚本所在的目录（即<code>.bin</code>目录）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 项目根目录下执行</div><div class="line">$ npm bin</div><div class="line">./node_modules/.bin</div></pre></td></tr></table></figure>
+<h2 id="npm-adduser"><a href="#npm-adduser" class="headerlink" title="npm adduser"></a>npm adduser</h2><p><code>npm adduser</code>用于在npmjs.com注册一个用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm adduser</div><div class="line">Username: YOUR_USER_NAME</div><div class="line">Password: YOUR_PASSWORD</div><div class="line">Email: YOUR_EMAIL@domain.com</div></pre></td></tr></table></figure>
+<h2 id="npm-publish"><a href="#npm-publish" class="headerlink" title="npm publish"></a>npm publish</h2><p><code>npm publish</code>用于将当前模块发布到<code>npmjs.com</code>。执行之前，需要向<code>npmjs.com</code>申请用户名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm adduser</div></pre></td></tr></table></figure>
+<p>如果已经注册过，就使用下面的命令登录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm login</div></pre></td></tr></table></figure>
+<p>登录以后，就可以使用<code>npm publish</code>命令发布。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm publish</div></pre></td></tr></table></figure>
+<p>如果当前模块是一个beta版，比如<code>1.3.1-beta.3</code>，那么发布的时候需要使用<code>tag</code>参数，将其发布到指定标签，默认的发布标签是<code>latest</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm publish --tag beta</div></pre></td></tr></table></figure>
+<p>如果发布私有模块，模块初始化的时候，需要加上<code>scope</code>参数。只有npm的付费用户才能发布私有模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init --scope=&lt;yourscope&gt;</div></pre></td></tr></table></figure>
+<p>如果你的模块是用ES6写的，那么发布的时候，最好转成ES5。首先，需要安装Babel。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install --save-dev babel-cli@6 babel-preset-es2015@6</div></pre></td></tr></table></figure>
+<p>然后，在<code>package.json</code>里面写入<code>build</code>脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;build&quot;: &quot;babel source --presets babel-preset-es2015 --out-dir distribution&quot;,</div><div class="line">  &quot;prepublish&quot;: &quot;npm run build&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行上面的脚本，会将<code>source</code>目录里面的ES6源码文件，转为<code>distribution</code>目录里面的ES5源码文件。然后，在项目根目录下面创建两个文件<code>.npmignore</code>和<code>.gitignore</code>，分别写入以下内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// .npmignore</div><div class="line">source</div><div class="line"></div><div class="line">// .gitignore</div><div class="line">node_modules</div><div class="line">distribution</div></pre></td></tr></table></figure>
+<h2 id="npm-deprecate"><a href="#npm-deprecate" class="headerlink" title="npm deprecate"></a>npm deprecate</h2><p>如果想废弃某个版本的模块，可以使用<code>npm deprecate</code>命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm deprecate my-thing@&quot;&lt; 0.2.3&quot; &quot;critical bug fixed in v0.2.3&quot;</div></pre></td></tr></table></figure>
+<p>运行上面的命令以后，小于<code>0.2.3</code>版本的模块的<code>package.json</code>都会写入一行警告，用户安装这些版本时，这行警告就会在命令行显示。</p>
+<h2 id="npm-owner"><a href="#npm-owner" class="headerlink" title="npm owner"></a>npm owner</h2><p>模块的维护者可以发布新版本。<code>npm owner</code>命令用于管理模块的维护者。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 列出指定模块的维护者</div><div class="line">$ npm owner ls &lt;package name&gt;</div><div class="line"></div><div class="line"># 新增维护者</div><div class="line">$ npm owner add &lt;user&gt; &lt;package name&gt;</div><div class="line"></div><div class="line"># 删除维护者</div><div class="line">$ npm owner rm &lt;user&gt; &lt;package name&gt;</div></pre></td></tr></table></figure>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><h3 id="npm-home，npm-repo"><a href="#npm-home，npm-repo" class="headerlink" title="npm home，npm repo"></a>npm home，npm repo</h3><p><code>npm home</code>命令可以打开一个模块的主页，<code>npm repo</code>命令则是打开一个模块的代码仓库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm home $package</div><div class="line">$ npm repo $package</div></pre></td></tr></table></figure>
+<p>这两个命令不需要模块先安装。</p>
+<h3 id="npm-outdated"><a href="#npm-outdated" class="headerlink" title="npm outdated"></a>npm outdated</h3><p><code>npm outdated</code>命令检查当前项目所依赖的模块，是否已经有新版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm outdated</div></pre></td></tr></table></figure>
+<p>它会输出当前版本（current version）、应当安装的版本（wanted version）和最新发布的版本（latest version）。</p>
+<h3 id="npm-prune"><a href="#npm-prune" class="headerlink" title="npm prune"></a>npm prune</h3><p><code>npm prune</code>检查当前项目的<code>node_modules</code>目录中，是否有<code>package.json</code>里面没有提到的模块，然后将所有这些模块输出在命令行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm prune</div></pre></td></tr></table></figure>
+<h3 id="npm-shrinkwrap"><a href="#npm-shrinkwrap" class="headerlink" title="npm shrinkwrap"></a>npm shrinkwrap</h3><p><code>npm shrinkwrap</code>的作用是锁定当前项目的以来模块的版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm shrinkwrap</div></pre></td></tr></table></figure>
+<p>运行该命令后，会在当前项目的根目录下生成一个<code>npm-shrinkwrap.json</code>文件，内容是<code>node_modules</code>目录下所有已经安装模块的版本。</p>
+<p>下次运行<code>npm install</code>命令时，<code>npm</code>发现当前目录下有<code>npm-shrinkwrap.json</code>文件，就会只安装里面提到的模块，且版本也会保持一致。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/09/配置相关—npm/" class="archive-article-date">
+  	<time datetime="2017-03-09T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/配置相关—npm/">配置相关—npm</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/03/11/package/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          配置相关—package.json
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/21/import/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">import</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-配置相关—npm" data-title="配置相关—npm" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-配置相关—npm" data-title="配置相关—npm" data-url="http://Jasonellen.github.io/2017/03/09/配置相关—npm/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
