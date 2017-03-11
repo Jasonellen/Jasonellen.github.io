@@ -829,7 +829,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-react-redux,applyMiddleware" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -839,7 +839,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/import/">import</a>
+      <a class="article-title" href="/2017/02/27/react-redux,applyMiddleware/">react-redux,applyMiddleware</a>
     </h1>
   
 
@@ -848,30 +848,73 @@ var duoshuoQuery = {short_name:"jasonellen"};
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
+<p>react-redux详细教程请参考阮一峰的文章:<a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html" target="_blank" rel="external">react-redux</a>,这里只是介绍一些基本用法，及自己遇到的一点痛点，<code>applyMiddleware</code>先介绍 两个常用的<code>redux-thunk</code>和<code>redux-logger</code></p>
 </blockquote>
-<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
-</code></pre><p>​    </p>
-<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
-</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
-<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
-</code></pre><p>​    </p>
-<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
-</code></pre><p>​    </p>
-<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
-</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
+<h2 id="统一整理-想到哪写到哪…"><a href="#统一整理-想到哪写到哪…" class="headerlink" title="统一整理(想到哪写到哪…)"></a>统一整理(想到哪写到哪…)</h2><h3 id="一，react-redux有什么用？"><a href="#一，react-redux有什么用？" class="headerlink" title="一，react-redux有什么用？"></a>一，<code>react-redux</code>有什么用？</h3><p>​    React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component)。</p>
+<ul>
+<li><p>UI组件只负责 UI 的呈现，不带有任何业务逻辑</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">    /**</div><div class="line">     *state,add,del是哪里的？就是函数mapStateToProps和mapDispatchToProps返回的</div><div class="line">     **/</div><div class="line">    const &#123;state,add,del&#125;=this.props;</div><div class="line">    return (</div><div class="line">        &lt;View style=&#123;styles.container&#125;&gt;</div><div class="line">            &lt;View style=&#123;styles.item&#125;&gt;</div><div class="line">                &lt;Text style=&#123;&#123;color: &apos;red&apos;&#125;&#125;&gt;&#123;state.sum&#125;&lt;/Text&gt;</div><div class="line">            &lt;/View&gt;</div><div class="line">            &lt;View style=&#123;[styles.item, &#123;top: 10&#125;]&#125;&gt;</div><div class="line">                &lt;TouchableWithoutFeedback onPress=&#123;add&#125; &gt;</div><div class="line">                    &lt;View style=&#123;styles.touch&#125;&gt;</div><div class="line">                        &lt;Text style=&#123;styles.but&#125;&gt;+&lt;/Text&gt;</div><div class="line">                    &lt;/View&gt;</div><div class="line">                &lt;/TouchableWithoutFeedback&gt;</div><div class="line">            &lt;View&gt;</div><div class="line">        &lt;View&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>所有数据都由参数（<code>this.props</code>）提供</p>
+<ul>
+<li><p>React-Redux 提供<code>Provider</code>组件，可以让容器组件拿到<code>state</code>。</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">render(</div><div class="line">  &lt;Provider store=&#123;store&#125;&gt; </div><div class="line">    &lt;App /&gt;</div><div class="line">    //然后App组件就可以通过this.props获取`每个组件JS文件内部定义的mapStateToProps中返回的state和mapDispatchToProps中返回的回调方法</div><div class="line">  &lt;/Provider&gt;,</div><div class="line">  document.getElementById(&apos;root&apos;)</div><div class="line">)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>React-Redux 提供<code>connect</code>方法，用于从 UI 组件生成容器组件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function mapStateToProps(state)&#123;</div><div class="line">  return &#123;</div><div class="line">    state: state.Index1 </div><div class="line">    //state是全局的state,Index1是Index1(reducer)返回的state,因为state内部包含所有reducer返回的state,所以这里需要用.语法确定需要传递那个reducer返回的状态给UI组件使用</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function mapDispatchToProps(dispatch) &#123;</div><div class="line">  return&#123;</div><div class="line">	add: () =&gt;   dispatch(IndexAction.add())1️⃣</div><div class="line">	//IndexAction.add()执行Action中的一个函数，返回一个action对象</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/*action add()函数下面这样</div><div class="line">  export function add() &#123;</div><div class="line">      return &#123;</div><div class="line">          type: &apos;INDEX_ADD&apos;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export default connect(  mapStateToProps,  mapDispatchToProps)(UIComponent)</div><div class="line">//导出容器组件</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>容器组件负责管理数据和业务逻辑</p>
+</li>
+<li><p>Reducer触发了mapDispatchToProps中的方法后自动执行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">import * as types from &apos;../constant/ActionTypes&apos;;</div><div class="line"></div><div class="line">const initialState = &#123;</div><div class="line">    sum:0</div><div class="line">&#125;;</div><div class="line">export default function IndexReducer(state = initialState, action = &#123;&#125;) &#123;</div><div class="line">    switch (action.type)&#123; </div><div class="line">        case types.INDEX_ADD: 2️⃣</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum+1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_DEL:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum-1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            return state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>//执行了上面1️⃣出的dispatch方法后2️⃣出的reducer就会执行并返回最新的状态，那么问题来了,如果我想再来一个➕1的UI，怎么实现呢？直接增加一个UI容器组件，然后加一个reducer像下面这样？</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import * as types from &apos;../constant/ActionTypes&apos;;</div><div class="line">const initialState = &#123;</div><div class="line">    sum:0</div><div class="line">&#125;;</div><div class="line">export default function IndexReducer2(state = initialState, action = &#123;&#125;) &#123;</div><div class="line">    switch (action.type)&#123;</div><div class="line">        case types.INDEX_ADD:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum+1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_DEL:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum-1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_INIT:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:action.param!=undefined</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            return state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果就是两个加操作会一起执行，点击第一个加按钮，第二个一起增加，原因是因为点击第一个加按钮和点击第二个加按钮执行的<code>mapDispatchToProps</code>方法都是触发相同的<code>action:{ type: &#39;INDEX_ADD&#39;}</code>所以会触发所有监听此<code>action</code>的所有的reducer,解决的办法就是每个<code>reducer</code>监听自己的<code>action</code>,只要在action增加一个function add2(){ return {  type: types.INDEX2_ADD} },然后设置IndexReducer2，</p>
+<p> case types.INDEX2_ADD:<br>​            return {<br>​                …state,<br>​                sum:state.sum+1<br>​            };<br>​            break;</p>
+<p>即可完各自reducer监听各自的action执行并返回各自的state</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="二，redux-logger有什么用？"><a href="#二，redux-logger有什么用？" class="headerlink" title="二，redux-logger有什么用？"></a>二，<code>redux-logger</code>有什么用？</h3><p>就是说为了方便调试，<code>redux-logger</code>中间键会加入到<code>store</code>中后会<code>自动监听</code>状态更新，并在控制台打印出向相关信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">action @ 00:29:13.950 INDEX_ADD</div><div class="line"> prev state  Object</div><div class="line"> 			 IndexReduer:Object</div><div class="line"> 			 	sum:0</div><div class="line"> action Object</div><div class="line"> 		type:&apos;INDEX_ADD&apos;</div><div class="line"> next state  Object</div><div class="line"> 			 IndexReduer:Object</div><div class="line"> 			 	sum:1</div><div class="line">这样的相关信息...</div></pre></td></tr></table></figure>
+<h3 id="三，加入中间键后store的创建方式"><a href="#三，加入中间键后store的创建方式" class="headerlink" title="三，加入中间键后store的创建方式"></a>三，加入中间键后store的创建方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">// rootReducer.js</div><div class="line">import &#123; combineReducers &#125; from &apos;redux&apos;;</div><div class="line">import IndexReducer from &apos;./IndexReducer&apos;;</div><div class="line">import IndexReducer2 from &apos;./indexReducer2&apos;;</div><div class="line">const RootReducer = combineReducers(&#123;</div><div class="line">    IndexReducer,IndexReducer2  //通过combineReducers合成一个总rootReducer</div><div class="line">&#125;);</div><div class="line">export default RootReducer;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">// configure-store.js  //用于生成store</div><div class="line">import &#123;createStore, applyMiddleware&#125; from &apos;redux&apos;;</div><div class="line">import  rootReducer from &apos;../reducer/RootReducer&apos;;</div><div class="line">import thunk from &apos;redux-thunk&apos;;</div><div class="line">const middlewares = [thunk];</div><div class="line"></div><div class="line">const createLogger = require(&apos;redux-logger&apos;);</div><div class="line">if (process.env.NODE_ENV === &apos;development&apos;) &#123;</div><div class="line">    const logger = createLogger();</div><div class="line">    //redux 日志打印</div><div class="line">    middlewares.push(logger);</div><div class="line">&#125;</div><div class="line">// store生成方式一，网上好像这样方式还比较多</div><div class="line">const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);</div><div class="line">export default function configureStore(initialState) &#123;</div><div class="line">    const store = createStoreWithMiddleware(rootReducer, initialState);</div><div class="line">    return store;</div><div class="line">&#125;</div><div class="line">// store生成方式二，还是感觉这种比较简单(可以直接在主界面使用)</div><div class="line">export default function configureStore(initialState) &#123;</div><div class="line">   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));</div><div class="line">    return store;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="三，redux-thunk有什么用？"><a href="#三，redux-thunk有什么用？" class="headerlink" title="三，redux-thunk有什么用？"></a>三，<code>redux-thunk</code>有什么用？</h3><p>redux-thunk,是为了异步使用dispatch方法而使用的，和<code>redux-logger</code>一样，由store加入后自动生效，使用场景？我来小举一例：</p>
+<p>例如上面的点击加一操作是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1，  const &#123;state,add,del&#125;=this.props;</div><div class="line">2， &lt;Text style=&#123;styles.but&#125; onPress=&#123;add&#125;&gt;+&lt;/Text&gt;</div><div class="line">3， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt;   dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>那么我现在我需要实现点击第一个加一按钮3秒才执行加一，</p>
+<p>不用<code>redux-thunk</code>我们可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">1， const &#123;state,add,del&#125;=this.props;</div><div class="line">2， startAdd()&#123;</div><div class="line">		setTimeout(function()&#123;</div><div class="line">          add();</div><div class="line">		&#125;,3000)</div><div class="line">	&#125;</div><div class="line">3， &lt;Text style=&#123;styles.but&#125; onPress=&#123;this.startAdd&#125;&gt;+&lt;/Text&gt;</div><div class="line">4， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt;   dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>使用了<code>redux-thunk</code>后可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">1， const &#123;state,add,del&#125;=this.props;</div><div class="line">2， &lt;Text style=&#123;styles.but&#125; onPress=&#123;add&#125;&gt;+&lt;/Text&gt;</div><div class="line">3， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt; dispatch(function(dispatch)&#123;</div><div class="line">              setTimeout(function()&#123;</div><div class="line">                dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">              &#125;,3000)</div><div class="line">			&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>也就是说本来只能传入<code>{}</code>作为参数的dispatch用了<code>redux-thunk</code>后可以传一个函数作为参数，然后再这个函数内部执行dispatch就可以了，所有可以在函数内部执行setTimeout和fetch等方法了，实现异步的redux操作</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/02/21/import/" class="archive-article-date">
-  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+      <a href="/2017/02/27/react-redux,applyMiddleware/" class="archive-article-date">
+  	<time datetime="2017-02-26T17:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-27</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redux进阶/">Redux进阶</a></li></ul>
 	</div>
 
       
@@ -892,7 +935,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-import" data-title="import" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-react-redux,applyMiddleware" data-title="react-redux,applyMiddleware" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -909,7 +952,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-import" data-title="import" data-url="undefined"></div>
+  <div class="ds-thread" data-thread-key="post-react-redux,applyMiddleware" data-title="react-redux,applyMiddleware" data-url="undefined"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -1094,6 +1137,106 @@ store.subscribe(render);
 
 <!-- 多说评论框 start -->
   <div class="ds-thread" data-thread-key="post-redux入门" data-title="redux入门" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
+    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/import/">import</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
+</blockquote>
+<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
+</code></pre><p>​    </p>
+<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
+</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
+<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
+</code></pre><p>​    </p>
+<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
+</code></pre><p>​    </p>
+<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
+</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/import/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-import" data-title="import" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-import" data-title="import" data-url="undefined"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -1796,168 +1939,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-jQuery对象之deferred" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/08/jQuery对象之deferred/">jQuery对象之deferred</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.</p>
-</blockquote>
-<h2 id="1-ajax操作写法"><a href="#1-ajax操作写法" class="headerlink" title="1,ajax操作写法"></a>1,ajax操作写法</h2><h3 id="非链式"><a href="#非链式" class="headerlink" title="非链式"></a>非链式</h3><pre><code>$.ajax({
-   type:&apos;get&apos;
-   url: &quot;test.html&quot;,
-   success: function(){
-          alert(&quot;哈哈，成功了！&quot;);
-      },
-      error:function(){
-          alert(&quot;出错啦！&quot;);
-      }
-});
-</code></pre><h3 id="链式"><a href="#链式" class="headerlink" title="链式"></a>链式</h3><p>高于1.5.0版本的jq，<code>ajax()返回的是deferred对象</code>，可以直接进行链式操作。</p>
-<pre><code>$.ajax(&quot;test.html&quot;)
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><p>可以看到，<code>done()</code>相当于<code>success</code>方法，<code>fail()</code>相当于<code>error</code>方法。采用链式写法以后，代码的可读性大大提高。</p>
-<p>如果ajax操作成功后，除了原来的回调函数，我还想再运行一个回调函数，怎么办？直接在结尾追加就好了，回调函数可以添加任意多个，它们按照添加顺序执行。像酱紫：</p>
-<pre><code>$.ajax(&quot;test.html&quot;)
-.done(function(){ alert(&quot;哈哈，成功了！&quot;);} )
-.fail(function(){ alert(&quot;出错啦！&quot;); } )
-.done(function(){ alert(&quot;第二个回调函数！&quot;);} );
-.done(function(){ alert(&quot;第三个回调函数！&quot;);} );
-</code></pre><h2 id="2-为多个操作指定回调函数"><a href="#2-为多个操作指定回调函数" class="headerlink" title="2,为多个操作指定回调函数"></a>2,为多个操作指定回调函数</h2><pre><code>$.when($.ajax(&quot;test1.html&quot;), $.ajax(&quot;test2.html&quot;))
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><p>这段代码的意思是，先执行两个操作<code>$.ajax(&quot;test1.html&quot;)</code>和<code>$.ajax(&quot;test2.html&quot;)</code>，如果都成功了，就运行<code>done()</code>指定的回调函数；如果有一个失败或都失败了，就执行<code>fail()</code>指定的回调函数。</p>
-<h2 id="3-回调函数接口实现"><a href="#3-回调函数接口实现" class="headerlink" title="3,回调函数接口实现"></a>3,回调函数接口实现</h2><p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作—-不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。</p>
-<p>假定有一个很耗时的操作wait：</p>
-<pre><code>function wait(){
-    var tasks = function(){
-        alert(&quot;执行完毕！&quot;);
-    };
-    setTimeout(tasks,5000);
-};
-
-为它指定回调函数: 错误❌的写法如下
-
-$.when(wait())
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><p>上述写法，done()方法会立即执行，起不到回调函数的作用。原因在于<code>$.when()的参数只能是deferred对象</code>，所以必须对wait()进行改写：<br>​<br>    var dtd = $.Deferred(); // 新建一个deferred对象<br>    var wait = function(){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变deferred对象的执行状态为已完成<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise();<br>    };<br>现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。<br>​<br>    $.when(wait())<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
-<blockquote>
-<p>jQuery规定，deferred对象有三种执行状态—-未完成，已完成和已失败。如果执行状态是”已完成”（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是”已失败”，调用fail()方法指定的回调函数；如果执行状态是”未完成”，则继续等待.<br>deferred.reject()方法，作用是将dtd对象的执行状态从”未完成”改为”已失败”，从而触发fail()方法。<br>jQuery提供了deferred.promise()方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被外界改变造成干扰。</p>
-</blockquote>
-<p><code>**********************************</code></p>
-<h2 id="上面说些原理，下面是2种经常使用的回调接口方法"><a href="#上面说些原理，下面是2种经常使用的回调接口方法" class="headerlink" title="上面说些原理，下面是2种经常使用的回调接口方法"></a>上面说些原理，下面是2种经常使用的回调接口方法</h2><p><code>**********************************</code></p>
-<h4 id="1，将deferred对象变成wait-）函数的内部对象。"><a href="#1，将deferred对象变成wait-）函数的内部对象。" class="headerlink" title="1，将deferred对象变成wait(）函数的内部对象。"></a>1，将deferred对象变成wait(）函数的内部对象。</h4><pre><code>function wait(){
-    var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
-    var tasks = function(){
-        alert(&quot;执行完毕！&quot;);
-        dtd.resolve(); // 改变Deferred对象的执行状态
-    };
-    setTimeout(tasks,5000);
-    return dtd.promise(); // 返回promise对象
-};
-$.when(wait())
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><h4 id="2，使用deferred对象的建构函数-Deferred"><a href="#2，使用deferred对象的建构函数-Deferred" class="headerlink" title="2，使用deferred对象的建构函数$.Deferred()"></a>2，使用deferred对象的建构函数$.Deferred()</h4><p>jQuery规定，$.Deferred()可以接受一个函数名<code>（注意，是函数名）--当然也是立即执行该函数</code>作为参数，<code>$.Deferred()所生成的deferred对象将作为这个函数的默认参数</code>。<br>​<br>    function wait(dtd){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变Deferred对象的执行状态<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise(); // 返回promise对象<br>    };<br>    $.Deferred(wait)<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
-<h3 id="小结：deferred对象的方法"><a href="#小结：deferred对象的方法" class="headerlink" title="小结：deferred对象的方法"></a>小结：deferred对象的方法</h3><ol>
-<li>$.Deferred() 生成一个deferred对象。    </li>
-<li>deferred.done() 指定操作成功时的回调函数</li>
-<li>deferred.fail() 指定操作失败时的回调函数</li>
-<li>deferred.promise() 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。</li>
-<li>deferred.resolve() 手动改变deferred对象的运行状态为”已完成”，从而立即触发done()方法。</li>
-<li>deferred.reject() 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法。</li>
-<li>$.when() 为多个操作指定回调函数。<br><br><h4 id="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"><a href="#除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。" class="headerlink" title="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"></a>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。</h4></li>
-<li><p>deferred.then()有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。<br><br><code>$.when($.ajax( &quot;/main.php&quot; ))</code><br><br><code>.then(successFunc, failureFunc );</code><br><br>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。</p>
-</li>
-<li><p>deferred.always()<br>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。<br><br><code>$.ajax( &quot;test.html&quot; )</code><br></p>
-<p><code>.always( function() { alert(&quot;已执行！&quot;);} );</code></p>
-</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/01/08/jQuery对象之deferred/" class="archive-article-date">
-  	<time datetime="2017-01-08T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery对象之deferred/">jQuery对象之deferred</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-jQuery对象之deferred" data-title="jQuery对象之deferred" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-jQuery对象之deferred" data-title="jQuery对象之deferred" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2021,7 +2002,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

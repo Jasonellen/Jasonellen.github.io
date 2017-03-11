@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>react-redux,applyMiddleware | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="react-redux详细教程请参考阮一峰的文章:react-redux,这里只是介绍一些基本用法，及自己遇到的一点痛点，applyMiddleware先介绍 两个常用的redux-thunk和redux-logger
+
+统一整理(想到哪写到哪…)一，react-redux有什么用？​    React-Redux 将所有组件分成两大类：UI 组件（presentational componen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-redux,applyMiddleware">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/02/27/react-redux,applyMiddleware/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="react-redux详细教程请参考阮一峰的文章:react-redux,这里只是介绍一些基本用法，及自己遇到的一点痛点，applyMiddleware先介绍 两个常用的redux-thunk和redux-logger
+
+统一整理(想到哪写到哪…)一，react-redux有什么用？​    React-Redux 将所有组件分成两大类：UI 组件（presentational componen">
+<meta property="og:updated_time" content="2017-03-11T17:26:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react-redux,applyMiddleware">
+<meta name="twitter:description" content="react-redux详细教程请参考阮一峰的文章:react-redux,这里只是介绍一些基本用法，及自己遇到的一点痛点，applyMiddleware先介绍 两个常用的redux-thunk和redux-logger
+
+统一整理(想到哪写到哪…)一，react-redux有什么用？​    React-Redux 将所有组件分成两大类：UI 组件（presentational componen">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-react-redux,applyMiddleware" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react-redux,applyMiddleware
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>react-redux详细教程请参考阮一峰的文章:<a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html" target="_blank" rel="external">react-redux</a>,这里只是介绍一些基本用法，及自己遇到的一点痛点，<code>applyMiddleware</code>先介绍 两个常用的<code>redux-thunk</code>和<code>redux-logger</code></p>
+</blockquote>
+<h2 id="统一整理-想到哪写到哪…"><a href="#统一整理-想到哪写到哪…" class="headerlink" title="统一整理(想到哪写到哪…)"></a>统一整理(想到哪写到哪…)</h2><h3 id="一，react-redux有什么用？"><a href="#一，react-redux有什么用？" class="headerlink" title="一，react-redux有什么用？"></a>一，<code>react-redux</code>有什么用？</h3><p>​    React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component)。</p>
+<ul>
+<li><p>UI组件只负责 UI 的呈现，不带有任何业务逻辑</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">    /**</div><div class="line">     *state,add,del是哪里的？就是函数mapStateToProps和mapDispatchToProps返回的</div><div class="line">     **/</div><div class="line">    const &#123;state,add,del&#125;=this.props;</div><div class="line">    return (</div><div class="line">        &lt;View style=&#123;styles.container&#125;&gt;</div><div class="line">            &lt;View style=&#123;styles.item&#125;&gt;</div><div class="line">                &lt;Text style=&#123;&#123;color: &apos;red&apos;&#125;&#125;&gt;&#123;state.sum&#125;&lt;/Text&gt;</div><div class="line">            &lt;/View&gt;</div><div class="line">            &lt;View style=&#123;[styles.item, &#123;top: 10&#125;]&#125;&gt;</div><div class="line">                &lt;TouchableWithoutFeedback onPress=&#123;add&#125; &gt;</div><div class="line">                    &lt;View style=&#123;styles.touch&#125;&gt;</div><div class="line">                        &lt;Text style=&#123;styles.but&#125;&gt;+&lt;/Text&gt;</div><div class="line">                    &lt;/View&gt;</div><div class="line">                &lt;/TouchableWithoutFeedback&gt;</div><div class="line">            &lt;View&gt;</div><div class="line">        &lt;View&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>所有数据都由参数（<code>this.props</code>）提供</p>
+<ul>
+<li><p>React-Redux 提供<code>Provider</code>组件，可以让容器组件拿到<code>state</code>。</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">render(</div><div class="line">  &lt;Provider store=&#123;store&#125;&gt; </div><div class="line">    &lt;App /&gt;</div><div class="line">    //然后App组件就可以通过this.props获取`每个组件JS文件内部定义的mapStateToProps中返回的state和mapDispatchToProps中返回的回调方法</div><div class="line">  &lt;/Provider&gt;,</div><div class="line">  document.getElementById(&apos;root&apos;)</div><div class="line">)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>React-Redux 提供<code>connect</code>方法，用于从 UI 组件生成容器组件</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function mapStateToProps(state)&#123;</div><div class="line">  return &#123;</div><div class="line">    state: state.Index1 </div><div class="line">    //state是全局的state,Index1是Index1(reducer)返回的state,因为state内部包含所有reducer返回的state,所以这里需要用.语法确定需要传递那个reducer返回的状态给UI组件使用</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function mapDispatchToProps(dispatch) &#123;</div><div class="line">  return&#123;</div><div class="line">	add: () =&gt;   dispatch(IndexAction.add())1️⃣</div><div class="line">	//IndexAction.add()执行Action中的一个函数，返回一个action对象</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/*action add()函数下面这样</div><div class="line">  export function add() &#123;</div><div class="line">      return &#123;</div><div class="line">          type: &apos;INDEX_ADD&apos;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export default connect(  mapStateToProps,  mapDispatchToProps)(UIComponent)</div><div class="line">//导出容器组件</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>容器组件负责管理数据和业务逻辑</p>
+</li>
+<li><p>Reducer触发了mapDispatchToProps中的方法后自动执行</p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">import * as types from &apos;../constant/ActionTypes&apos;;</div><div class="line"></div><div class="line">const initialState = &#123;</div><div class="line">    sum:0</div><div class="line">&#125;;</div><div class="line">export default function IndexReducer(state = initialState, action = &#123;&#125;) &#123;</div><div class="line">    switch (action.type)&#123; </div><div class="line">        case types.INDEX_ADD: 2️⃣</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum+1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_DEL:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum-1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            return state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>//执行了上面1️⃣出的dispatch方法后2️⃣出的reducer就会执行并返回最新的状态，那么问题来了,如果我想再来一个➕1的UI，怎么实现呢？直接增加一个UI容器组件，然后加一个reducer像下面这样？</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import * as types from &apos;../constant/ActionTypes&apos;;</div><div class="line">const initialState = &#123;</div><div class="line">    sum:0</div><div class="line">&#125;;</div><div class="line">export default function IndexReducer2(state = initialState, action = &#123;&#125;) &#123;</div><div class="line">    switch (action.type)&#123;</div><div class="line">        case types.INDEX_ADD:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum+1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_DEL:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum-1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_INIT:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:action.param!=undefined</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            return state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果就是两个加操作会一起执行，点击第一个加按钮，第二个一起增加，原因是因为点击第一个加按钮和点击第二个加按钮执行的<code>mapDispatchToProps</code>方法都是触发相同的<code>action:{ type: &#39;INDEX_ADD&#39;}</code>所以会触发所有监听此<code>action</code>的所有的reducer,解决的办法就是每个<code>reducer</code>监听自己的<code>action</code>,只要在action增加一个function add2(){ return {  type: types.INDEX2_ADD} },然后设置IndexReducer2，</p>
+<p> case types.INDEX2_ADD:<br>​            return {<br>​                …state,<br>​                sum:state.sum+1<br>​            };<br>​            break;</p>
+<p>即可完各自reducer监听各自的action执行并返回各自的state</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="二，redux-logger有什么用？"><a href="#二，redux-logger有什么用？" class="headerlink" title="二，redux-logger有什么用？"></a>二，<code>redux-logger</code>有什么用？</h3><p>就是说为了方便调试，<code>redux-logger</code>中间键会加入到<code>store</code>中后会<code>自动监听</code>状态更新，并在控制台打印出向相关信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">action @ 00:29:13.950 INDEX_ADD</div><div class="line"> prev state  Object</div><div class="line"> 			 IndexReduer:Object</div><div class="line"> 			 	sum:0</div><div class="line"> action Object</div><div class="line"> 		type:&apos;INDEX_ADD&apos;</div><div class="line"> next state  Object</div><div class="line"> 			 IndexReduer:Object</div><div class="line"> 			 	sum:1</div><div class="line">这样的相关信息...</div></pre></td></tr></table></figure>
+<h3 id="三，加入中间键后store的创建方式"><a href="#三，加入中间键后store的创建方式" class="headerlink" title="三，加入中间键后store的创建方式"></a>三，加入中间键后store的创建方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">// rootReducer.js</div><div class="line">import &#123; combineReducers &#125; from &apos;redux&apos;;</div><div class="line">import IndexReducer from &apos;./IndexReducer&apos;;</div><div class="line">import IndexReducer2 from &apos;./indexReducer2&apos;;</div><div class="line">const RootReducer = combineReducers(&#123;</div><div class="line">    IndexReducer,IndexReducer2  //通过combineReducers合成一个总rootReducer</div><div class="line">&#125;);</div><div class="line">export default RootReducer;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">// configure-store.js  //用于生成store</div><div class="line">import &#123;createStore, applyMiddleware&#125; from &apos;redux&apos;;</div><div class="line">import  rootReducer from &apos;../reducer/RootReducer&apos;;</div><div class="line">import thunk from &apos;redux-thunk&apos;;</div><div class="line">const middlewares = [thunk];</div><div class="line"></div><div class="line">const createLogger = require(&apos;redux-logger&apos;);</div><div class="line">if (process.env.NODE_ENV === &apos;development&apos;) &#123;</div><div class="line">    const logger = createLogger();</div><div class="line">    //redux 日志打印</div><div class="line">    middlewares.push(logger);</div><div class="line">&#125;</div><div class="line">// store生成方式一，网上好像这样方式还比较多</div><div class="line">const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);</div><div class="line">export default function configureStore(initialState) &#123;</div><div class="line">    const store = createStoreWithMiddleware(rootReducer, initialState);</div><div class="line">    return store;</div><div class="line">&#125;</div><div class="line">// store生成方式二，还是感觉这种比较简单(可以直接在主界面使用)</div><div class="line">export default function configureStore(initialState) &#123;</div><div class="line">   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));</div><div class="line">    return store;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="三，redux-thunk有什么用？"><a href="#三，redux-thunk有什么用？" class="headerlink" title="三，redux-thunk有什么用？"></a>三，<code>redux-thunk</code>有什么用？</h3><p>redux-thunk,是为了异步使用dispatch方法而使用的，和<code>redux-logger</code>一样，由store加入后自动生效，使用场景？我来小举一例：</p>
+<p>例如上面的点击加一操作是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1，  const &#123;state,add,del&#125;=this.props;</div><div class="line">2， &lt;Text style=&#123;styles.but&#125; onPress=&#123;add&#125;&gt;+&lt;/Text&gt;</div><div class="line">3， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt;   dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>那么我现在我需要实现点击第一个加一按钮3秒才执行加一，</p>
+<p>不用<code>redux-thunk</code>我们可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">1， const &#123;state,add,del&#125;=this.props;</div><div class="line">2， startAdd()&#123;</div><div class="line">		setTimeout(function()&#123;</div><div class="line">          add();</div><div class="line">		&#125;,3000)</div><div class="line">	&#125;</div><div class="line">3， &lt;Text style=&#123;styles.but&#125; onPress=&#123;this.startAdd&#125;&gt;+&lt;/Text&gt;</div><div class="line">4， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt;   dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>使用了<code>redux-thunk</code>后可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">1， const &#123;state,add,del&#125;=this.props;</div><div class="line">2， &lt;Text style=&#123;styles.but&#125; onPress=&#123;add&#125;&gt;+&lt;/Text&gt;</div><div class="line">3， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt; dispatch(function(dispatch)&#123;</div><div class="line">              setTimeout(function()&#123;</div><div class="line">                dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">              &#125;,3000)</div><div class="line">			&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>也就是说本来只能传入<code>{}</code>作为参数的dispatch用了<code>redux-thunk</code>后可以传一个函数作为参数，然后再这个函数内部执行dispatch就可以了，所有可以在函数内部执行setTimeout和fetch等方法了，实现异步的redux操作</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/27/react-redux,applyMiddleware/" class="archive-article-date">
+  	<time datetime="2017-02-26T17:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redux进阶/">Redux进阶</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/03/09/配置相关—npm/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          配置相关—npm
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/21/redux入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">redux入门</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-react-redux,applyMiddleware" data-title="react-redux,applyMiddleware" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-react-redux,applyMiddleware" data-title="react-redux,applyMiddleware" data-url="http://Jasonellen.github.io/2017/02/27/react-redux,applyMiddleware/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
