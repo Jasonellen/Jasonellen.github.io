@@ -6,27 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>canvas截图上传(Blob) | 奋斗蚁🐜</title>
+  <title>imgClipUpload | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="canvas截图上传(Blob)
-很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
+  <meta name="description" content="很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
 
-基本原理如下1.读取文件，并生成 Image 元素通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示">
+直接在gitHub查看imgClipUpload🚘✨HTML：&amp;lt;!-- 带Id的标签是必须要的 --&amp;gt;
+&amp;lt;canvas id=&amp;quot;canvas&amp;quot; &amp;gt;&amp;lt;/canvas&amp;gt; //画布
+&amp;lt;div class=&amp;quot;file">
 <meta property="og:type" content="article">
-<meta property="og:title" content="canvas截图上传(Blob)">
-<meta property="og:url" content="http://Jasonellen.github.io/2017/01/23/canvas截图上传(blob)/index.html">
+<meta property="og:title" content="imgClipUpload">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/03/27/imgClipUpload/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="canvas截图上传(Blob)
-很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
+<meta property="og:description" content="很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
 
-基本原理如下1.读取文件，并生成 Image 元素通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示">
-<meta property="og:updated_time" content="2017-01-22T15:31:51.000Z">
+直接在gitHub查看imgClipUpload🚘✨HTML：&amp;lt;!-- 带Id的标签是必须要的 --&amp;gt;
+&amp;lt;canvas id=&amp;quot;canvas&amp;quot; &amp;gt;&amp;lt;/canvas&amp;gt; //画布
+&amp;lt;div class=&amp;quot;file">
+<meta property="og:updated_time" content="2017-03-29T16:07:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="canvas截图上传(Blob)">
-<meta name="twitter:description" content="canvas截图上传(Blob)
-很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
+<meta name="twitter:title" content="imgClipUpload">
+<meta name="twitter:description" content="很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。
 
-基本原理如下1.读取文件，并生成 Image 元素通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示">
+直接在gitHub查看imgClipUpload🚘✨HTML：&amp;lt;!-- 带Id的标签是必须要的 --&amp;gt;
+&amp;lt;canvas id=&amp;quot;canvas&amp;quot; &amp;gt;&amp;lt;/canvas&amp;gt; //画布
+&amp;lt;div class=&amp;quot;file">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -246,7 +249,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-canvas截图上传(blob)" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-imgClipUpload" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -256,7 +259,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      canvas截图上传(Blob)
+      imgClipUpload
     </h1>
   
 
@@ -264,73 +267,118 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="canvas截图上传-Blob"><a href="#canvas截图上传-Blob" class="headerlink" title="canvas截图上传(Blob)"></a>canvas截图上传(Blob)</h1><blockquote>
+        <blockquote>
 <p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
 </blockquote>
-<h1 id="基本原理如下"><a href="#基本原理如下" class="headerlink" title="基本原理如下"></a>基本原理如下</h1><h2 id="1-读取文件，并生成-Image-元素"><a href="#1-读取文件，并生成-Image-元素" class="headerlink" title="1.读取文件，并生成 Image 元素"></a>1.读取文件，并生成 Image 元素</h2><h4 id="通过-FileReader-我们可以将图片文件转化成-DataURL，就是以-data-image-png-base64-开头的一种URL-然后可以直接放在-image-src-里，这样本地图片就显示出来了。"><a href="#通过-FileReader-我们可以将图片文件转化成-DataURL，就是以-data-image-png-base64-开头的一种URL-然后可以直接放在-image-src-里，这样本地图片就显示出来了。" class="headerlink" title="通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示出来了。"></a>通过 FileReader 我们可以将图片文件转化成 DataURL，就是以 data:image/png;base64, 开头的一种URL,然后可以直接放在 image.src 里，这样本地图片就显示出来了。</h4><pre><code>$(&apos;input[type=file]&apos;).change(function(){
-    var file=this.files[0]; //这里如果是$(this)就要改为$(this)[0].files[0]; 
-
-    var reader=new FileReader(); 
-    reader.onload=function(){
-        // 通过 reader.result 来访问生成的 DataURL
-        var image=new Image();
-        image.src=reader.result;
-    };
-    reader.readAsDataURL(file);
-});
-</code></pre><p><code>Image</code> 就是在 <code>html</code> 里的 <code>&lt;img&gt;</code> 标签，所以可以直接插入到文档流里。</p>
-<h2 id="2-裁剪图片"><a href="#2-裁剪图片" class="headerlink" title="2.裁剪图片"></a>2.裁剪图片</h2><h4 id="这是时候我们就需要用到-canvas-了，canvas-和图片一样，所以新建-canvas-时就要确定其高宽。这里我们还可以用-image-naturalHeight-和-image-naturalWidth-这两个属性来获取图片原始尺寸。"><a href="#这是时候我们就需要用到-canvas-了，canvas-和图片一样，所以新建-canvas-时就要确定其高宽。这里我们还可以用-image-naturalHeight-和-image-naturalWidth-这两个属性来获取图片原始尺寸。" class="headerlink" title="这是时候我们就需要用到 canvas 了，canvas 和图片一样，所以新建 canvas 时就要确定其高宽。这里我们还可以用 image.naturalHeight 和 image.naturalWidth 这两个属性来获取图片原始尺寸。"></a>这是时候我们就需要用到 canvas 了，canvas 和图片一样，所以新建 canvas 时就要确定其高宽。这里我们还可以用 image.naturalHeight 和 image.naturalWidth 这两个属性来获取图片原始尺寸。</h4><pre><code>// 以下四个参数由第三步获得
-var x,  
-    y,
-    width,
-    height;
-
-var canvas=$(&apos;&lt;canvas width=&quot;&apos;+width+&apos;&quot; height=&quot;&apos;+height+&apos;&quot;&gt;&lt;/canvas&gt;&apos;)[0],
-    ctx=canvas.getContext(&apos;2d&apos;);
-
-ctx.drawImage(image,x,y,width,height,0,0,width,height);
-$(document.body).append(canvas);
-</code></pre><h2 id="3-读取裁剪后图片到Blob"><a href="#3-读取裁剪后图片到Blob" class="headerlink" title="3.读取裁剪后图片到Blob"></a>3.读取裁剪后图片到Blob</h2><p>这时我们要获取 <code>canvas</code> 中图片的信息，用 <code>toDataURL</code> 就完成转换 。 然后取出其中 <code>base64</code> 信息，再用 <code>window.atob</code> 转换成由二进制字符串。但 <code>window.atob</code> 转换后的结果仍然是字符串，直接给 <code>Blob</code> 还是会出错。所以又要用 <code>Uint8Array</code> 转换一下。</p>
-<pre><code>function dataURItoBlob (base64Data) {  
-    var byteString;
-    if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)  
-        byteString = atob(base64Data.split(&apos;,&apos;)[1]);  
-    else  
-        byteString = unescape(base64Data.split(&apos;,&apos;)[1]);  
-    var mimeString = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];  
-    var ia = new Uint8Array(byteString.length);  
-    for (var i = 0; i &lt; byteString.length; i++) {  
-        ia[i] = byteString.charCodeAt(i);  
-    }  
-    // canvas.toDataURL 返回的默认格式是 image/png
-    return new Blob([ia], {type: mimeString});  //type:&quot;image/png&quot;
-}
-
-var data=canvas.toDataURL();
-dataURItoBlob(data)
-</code></pre><h2 id="4-完成图片上传"><a href="#4-完成图片上传" class="headerlink" title="4.完成图片上传"></a>4.完成图片上传</h2><p>经过裁剪后的文件就储存在 <code>blob</code> 里了,我们可以把它当作是普通文件一样，加入到 <code>FormData</code> 里，并上传至服务器了。<code>FormData</code>最大的特点就是可以手工添加文件或者 <code>Blob</code> 类型的数据，<code>Blob</code> 数据也会被当作文件来处理。</p>
-<pre><code>var fd=new FormData();
-fd.append(&apos;file&apos;,blob);
+<h3 id="直接在gitHub查看imgClipUpload🚘"><a href="#直接在gitHub查看imgClipUpload🚘" class="headerlink" title="直接在gitHub查看imgClipUpload🚘"></a>直接在gitHub查看<a href="https://github.com/Jasonellen/imgClipUpload" target="_blank" rel="external">imgClipUpload</a>🚘</h3><h4 id="✨HTML："><a href="#✨HTML：" class="headerlink" title="✨HTML："></a>✨HTML：</h4><pre><code>&lt;!-- 带Id的标签是必须要的 --&gt;
+&lt;canvas id=&quot;canvas&quot; &gt;&lt;/canvas&gt; //画布
+&lt;div class=&quot;file rake&quot;&gt;
+    &lt;input type=&quot;file&quot; id=&quot;file&quot;/&gt;上传图片
+&lt;/div&gt;
+&lt;div id=&quot;rotateR&quot; class=&quot;rake&quot;&gt;旋转&lt;/div&gt;
+&lt;div class=&quot;cancle rake&quot;&gt;取消&lt;/div&gt;
+&lt;div id=&quot;save&quot; class=&quot;rake&quot;&gt;截图&lt;/div&gt;
+&lt;div class=&quot;upload rake&quot;&gt;上传&lt;/div&gt;
+&lt;img src=&quot;&quot; alt=&quot;&quot; id=&quot;img&quot;/&gt; //截图或保存的图片
+</code></pre><h4 id="✨JS："><a href="#✨JS：" class="headerlink" title="✨JS："></a>✨JS：</h4><ul>
+<li><p>按钮移入移除动画效果</p>
+<p>  $(‘.rake’).mouseenter(function(){</p>
+<pre><code>$(this).addClass(&apos;rubberBand animated infinite&apos;)
+</code></pre><p>  })<br>  .mouseleave(function(){</p>
+<pre><code>$(this).removeClass(&apos;rubberBand animated infinite&apos;)
+</code></pre><p>  })</p>
+</li>
+<li><p>创建截图</p>
+<p>  var cut = new ImgClip({</p>
+<pre><code>canvas : &apos;canvas&apos;, // canvas id
+width:$(window).width(), //canvas 宽度
+height:$(window).height(), //canvas 高度
+fileObj : &apos;file&apos;, // file id
+cutBtn : &apos;save&apos;, // cut btn id
+resultObj : &apos;img&apos;, // result img id
+rotateR : &apos;rotateR&apos;,
+cutScale : 3/4, // 高:宽
+cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置
+</code></pre><p>  });</p>
+</li>
+<li><p>点击选择本地图片预览</p>
+<p>  $(‘.file’).on(‘change’,’#file’,function(){</p>
+<pre><code>$(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)
+$(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)
+$(this)[0].value=&apos;&apos;
+</code></pre><p>  })    </p>
+</li>
+<li><p>取消预览</p>
+<p>  $(‘.cancle’).click(function(){</p>
+<pre><code>$(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
+$(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
+</code></pre><p>  })</p>
+</li>
+<li><p>保存截图</p>
+<p>  $(‘#save’).click(function(){</p>
+<pre><code>$(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
+$(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
+</code></pre><p>  })</p>
+</li>
+<li><p>点击上传图片</p>
+<p>  $(‘.upload’).click(function(){</p>
+<pre><code>var url = $(&apos;#img&apos;).attr(&apos;src&apos;)
+var file = dataURItoBlob(url)
+var fd=new FormData();
+fd.append(&apos;file&apos;,file);
+//如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);
 $.ajax({
-    url:&quot;your.server.com&quot;,
-    type:&quot;POST&quot;,
-    data:fd,
-    processData: false,
-    contentType: false,
-    success:function(){}
-});
-</code></pre>
+   url:&quot;php/upload.php&quot;,
+   type:&quot;POST&quot;,
+   data:fd,
+   processData: false,
+   contentType: false,
+   success:function(data){
+       console.log(data)
+   }
+}); 
+</code></pre><p>  })</p>
+</li>
+<li><p>base64转Blob</p>
+<p>  function dataURItoBlob (base64Data) {</p>
+<pre><code>var byteString;
+if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)
+    byteString = atob(base64Data.split(&apos;,&apos;)[1]);
+else
+    byteString = unescape(base64Data.split(&apos;,&apos;)[1]);
+var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];
+var ia = new Uint8Array(byteString.length);
+for (var i = 0; i &lt; byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+}
+// canvas.toDataURL 返回的默认格式是 image/png
+return new Blob([ia], {type: type});
+</code></pre><p>  }</p>
+<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><p>  &lt;?php</p>
+<pre><code>header(&apos;Access-Control-Allow-Origin:*&apos;);
+//处理文件
+if(!file_exists(&apos;./img&apos;)){
+    mkdir(&apos;./img&apos;);
+}
+$file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
+$newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
+$res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
+print_r($_FILES)
+</code></pre><p>  ?&gt;<br>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
+</li>
+</ul>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/01/23/canvas截图上传(blob)/" class="archive-article-date">
-  	<time datetime="2017-01-23T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-23</time>
+      <a href="/2017/03/27/imgClipUpload/" class="archive-article-date">
+  	<time datetime="2017-03-26T17:01:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas截图上传-Blob/">canvas截图上传(Blob)</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/imgClipUpload/">imgClipUpload</a></li></ul>
 	</div>
 
       
@@ -343,18 +391,9 @@ $.ajax({
   
 <nav id="article-nav">
   
-    <a href="/2017/01/24/vuex/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          vuex
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/01/21/扒一扒jquery的几个技巧/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">扒一扒JQuery的几个技巧</div>
+    <a href="/2017/03/11/package/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">配置相关—package.json</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -372,7 +411,7 @@ $.ajax({
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-canvas截图上传(blob)" data-title="canvas截图上传(Blob)" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-imgClipUpload" data-title="imgClipUpload" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -389,7 +428,7 @@ $.ajax({
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-canvas截图上传(blob)" data-title="canvas截图上传(Blob)" data-url="http://Jasonellen.github.io/2017/01/23/canvas截图上传(blob)/"></div>
+  <div class="ds-thread" data-thread-key="post-imgClipUpload" data-title="imgClipUpload" data-url="http://Jasonellen.github.io/2017/03/27/imgClipUpload/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -464,7 +503,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/canvas截图上传-Blob/" style="font-size: 10px;">canvas截图上传(Blob)</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
