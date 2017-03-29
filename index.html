@@ -268,91 +268,93 @@
 &lt;img src=&quot;&quot; alt=&quot;&quot; id=&quot;img&quot;/&gt; //截图或保存的图片
 </code></pre><h4 id="✨JS："><a href="#✨JS：" class="headerlink" title="✨JS："></a>✨JS：</h4><ul>
 <li><p>按钮移入移除动画效果</p>
-<p>  $(‘.rake’).mouseenter(function(){</p>
-<pre><code>$(this).addClass(&apos;rubberBand animated infinite&apos;)
-</code></pre><p>  })<br>  .mouseleave(function(){</p>
-<pre><code>$(this).removeClass(&apos;rubberBand animated infinite&apos;)
-</code></pre><p>  })</p>
-</li>
+<pre><code>$(&apos;.rake&apos;).mouseenter(function(){
+    $(this).addClass(&apos;rubberBand animated infinite&apos;)
+})
+.mouseleave(function(){
+    $(this).removeClass(&apos;rubberBand animated infinite&apos;)
+})
+</code></pre></li>
 <li><p>创建截图</p>
-<p>  var cut = new ImgClip({</p>
-<pre><code>canvas : &apos;canvas&apos;, // canvas id
-width:$(window).width(), //canvas 宽度
-height:$(window).height(), //canvas 高度
-fileObj : &apos;file&apos;, // file id
-cutBtn : &apos;save&apos;, // cut btn id
-resultObj : &apos;img&apos;, // result img id
-rotateR : &apos;rotateR&apos;,
-cutScale : 3/4, // 高:宽
-cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置
-</code></pre><p>  });</p>
-</li>
+<pre><code>var cut = new ImgClip({
+  canvas : &apos;canvas&apos;, // canvas id
+  width:$(window).width(), //canvas 宽度
+  height:$(window).height(), //canvas 高度
+  fileObj : &apos;file&apos;, // file id
+  cutBtn : &apos;save&apos;, // cut btn id
+  resultObj : &apos;img&apos;, // result img id
+  rotateR : &apos;rotateR&apos;,
+  cutScale : 3/4, // 高:宽
+  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置
+});
+</code></pre></li>
 <li><p>点击选择本地图片预览</p>
-<p>  $(‘.file’).on(‘change’,’#file’,function(){</p>
-<pre><code>$(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)
-$(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)
-$(this)[0].value=&apos;&apos;
-</code></pre><p>  })    </p>
-</li>
-<li><p>取消预览</p>
-<p>  $(‘.cancle’).click(function(){</p>
-<pre><code>$(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
-$(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
-</code></pre><p>  })</p>
-</li>
+<pre><code>$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function(){
+  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)
+  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)
+  $(this)[0].value=&apos;&apos;
+})
+</code></pre></li>
+<li><p>取消预览    </p>
+<pre><code>$(&apos;.cancle&apos;).click(function(){
+  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
+  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
+})
+</code></pre></li>
 <li><p>保存截图</p>
-<p>  $(‘#save’).click(function(){</p>
-<pre><code>$(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
-$(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
-</code></pre><p>  })</p>
-</li>
+<pre><code>$(&apos;#save&apos;).click(function(){
+  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
+  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
+})
+</code></pre></li>
 <li><p>点击上传图片</p>
-<p>  $(‘.upload’).click(function(){</p>
-<pre><code>var url = $(&apos;#img&apos;).attr(&apos;src&apos;)
-var file = dataURItoBlob(url)
-var fd=new FormData();
-fd.append(&apos;file&apos;,file);
-//如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);
-$.ajax({
-   url:&quot;php/upload.php&quot;,
-   type:&quot;POST&quot;,
-   data:fd,
-   processData: false,
-   contentType: false,
-   success:function(data){
-       console.log(data)
-   }
-}); 
-</code></pre><p>  })</p>
-</li>
+<pre><code>$(&apos;.upload&apos;).click(function(){
+  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)
+  var file = dataURItoBlob(url)
+  var fd=new FormData();
+  fd.append(&apos;file&apos;,file);
+  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);
+  $.ajax({
+     url:&quot;php/upload.php&quot;,
+     type:&quot;POST&quot;,
+     data:fd,
+     processData: false,
+     contentType: false,
+     success:function(data){
+         console.log(data)
+     }
+  }); 
+})
+</code></pre></li>
 <li><p>base64转Blob</p>
-<p>  function dataURItoBlob (base64Data) {</p>
-<pre><code>var byteString;
-if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)
-    byteString = atob(base64Data.split(&apos;,&apos;)[1]);
-else
-    byteString = unescape(base64Data.split(&apos;,&apos;)[1]);
-var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];
-var ia = new Uint8Array(byteString.length);
-for (var i = 0; i &lt; byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
+<pre><code>function dataURItoBlob (base64Data) {
+   var byteString;
+   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)
+       byteString = atob(base64Data.split(&apos;,&apos;)[1]);
+   else
+       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);
+   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];
+   var ia = new Uint8Array(byteString.length);
+   for (var i = 0; i &lt; byteString.length; i++) {
+       ia[i] = byteString.charCodeAt(i);
+   }
+   // canvas.toDataURL 返回的默认格式是 image/png
+   return new Blob([ia], {type: type});
 }
-// canvas.toDataURL 返回的默认格式是 image/png
-return new Blob([ia], {type: type});
-</code></pre><p>  }</p>
-<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><p>  &lt;?php</p>
-<pre><code>header(&apos;Access-Control-Allow-Origin:*&apos;);
-//处理文件
-if(!file_exists(&apos;./img&apos;)){
-    mkdir(&apos;./img&apos;);
-}
-$file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
-$newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
-$res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
-print_r($_FILES)
-</code></pre><p>  ?&gt;<br>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
-</li>
+</code></pre><h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4></li>
 </ul>
+<pre><code>&lt;?php
+  header(&apos;Access-Control-Allow-Origin:*&apos;);
+  //处理文件
+  if(!file_exists(&apos;./img&apos;)){
+      mkdir(&apos;./img&apos;);
+  }
+  $file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
+  $newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
+  $res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
+  print_r($_FILES)
+?&gt;
+</code></pre><p>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
 
       
     </div>
