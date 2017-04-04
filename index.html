@@ -235,6 +235,231 @@
       <div class="body-wrap">
         
   
+    <article id="post-saga-begining" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/04/saga-begining/">saga-begining</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>redux-saga 是一个用于管理 Redux 应用异步操作的中间件（又称异步 action）。 redux-saga 通过创建 <em>Sagas</em> 将所有的异步操作逻辑收集在一个地方集中处理，可以用来代替 <code>redux-thunk</code> 中间件。</p>
+<p>这意味着应用的逻辑会存在两个地方：</p>
+<ul>
+<li>Reducers 负责处理 action 的 state 更新。</li>
+<li>Sagas 负责协调那些复杂或异步的操作。</li>
+</ul>
+</blockquote>
+<ul>
+<li>此篇文章重在完成saga的基本应用，其中会用到一些其他很有用的插件，<code>saga</code>详细说明请参考文档<a href="http://leonshi.com/redux-saga-in-chinese/" target="_blank" rel="external">Redux-saga中文文档</a></li>
+<li>文章项目源码戳<a href="https://github.com/Jasonellen/saga-begining" target="_blank" rel="external">github</a></li>
+</ul>
+<h3 id="这里我们用saga完整一个Counter的使用"><a href="#这里我们用saga完整一个Counter的使用" class="headerlink" title="这里我们用saga完整一个Counter的使用"></a>这里我们用saga完整一个Counter的使用</h3><h4 id="index-js—挂在到项目元素root上"><a href="#index-js—挂在到项目元素root上" class="headerlink" title="index.js—挂在到项目元素root上"></a>index.js—挂在到项目元素root上</h4><pre><code>import React from &apos;react&apos;;
+import ReactDOM from &apos;react-dom&apos;;
+import {Provider} from &apos;react-redux&apos;;
+import createStore from &apos;./store/configureStore&apos;
+import App from &apos;./App&apos;;
+
+const store = createStore();
+ReactDOM.render(
+  &lt;Provider store={store}&gt;
+      &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById(&apos;root&apos;)
+);
+</code></pre><h4 id="上面index-js用到的creatrStore-js"><a href="#上面index-js用到的creatrStore-js" class="headerlink" title="上面index.js用到的creatrStore.js"></a>上面index.js用到的creatrStore.js</h4><pre><code>import {createLogger} from &apos;redux-logger&apos;;
+// const createLogger = require(&apos;redux-logger&apos;);
+import createSagaMiddleware from &apos;redux-saga&apos;;
+import {createStore, applyMiddleware } from &apos;redux&apos;;
+import rootReducer from &apos;../redux&apos;
+import rootSaga from &apos;../saga&apos;
+
+const middlewares = [];
+// 创建中间件saga
+const sagaMiddleware = createSagaMiddleware();
+middlewares.push(sagaMiddleware)
+
+if (process.env.NODE_ENV === &apos;development&apos;) {
+    //创建中间件logger
+    const logger = createLogger();
+    middlewares.push(logger);
+}
+
+export default function configureStore(initialState) {
+   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
+   sagaMiddleware.run(rootSaga) //saga中间键挂在到store后需要run一下 所有的saga文件
+   return store;
+}
+</code></pre><h4 id="createStore用到的rootRedux"><a href="#createStore用到的rootRedux" class="headerlink" title="createStore用到的rootRedux"></a>createStore用到的rootRedux</h4><pre><code>import {combineReducers} from &apos;redux&apos;;
+const rootReducer = combineReducers({
+  counterReducer1: require(&apos;./counterReducer1&apos;).reducer,
+  counterReducer2: require(&apos;./counterReducer2&apos;).reducer,
+})
+export default rootReducer
+</code></pre><h4 id="createStore用到的rootSaga"><a href="#createStore用到的rootSaga" class="headerlink" title="createStore用到的rootSaga"></a>createStore用到的rootSaga</h4><pre><code>import { takeLatest } from &apos;redux-saga/effects&apos;
+/* ------------- Types ------------- */
+import { CounterTypes1 } from &apos;../redux/counterReducer1&apos;
+import { CounterTypes2 } from &apos;../redux/counterReducer2&apos;
+/* ------------- Sagas ------------- */
+import { counterPlus1, counterMinus1 } from &apos;./counterSaga1&apos;
+import { counterPlus2, counterMinus2 } from &apos;./counterSaga2&apos;
+/* ------------- Connect Types To Sagas ------------- */
+export default function * rootSaga () {
+  yield [
+    takeLatest(CounterTypes1.PLUS_NUM_SAGA, counterPlus1),
+    takeLatest(CounterTypes1.MINUS_NUM_SAGA, counterMinus1),
+    takeLatest(CounterTypes2.PLUS_NUM_SAGA2, counterPlus2),
+    takeLatest(CounterTypes2.MINUS_NUM_SAGA2, counterMinus2),
+  ]
+}
+</code></pre><h4 id="rootRedux-引入的counterReducer1"><a href="#rootRedux-引入的counterReducer1" class="headerlink" title="rootRedux 引入的counterReducer1"></a>rootRedux 引入的counterReducer1</h4><pre><code>import { createReducer, createActions } from &apos;reduxsauce&apos;
+import Immutable from &apos;seamless-immutable&apos;
+/* ------------- Types and Action Creators ------------- */
+const { Types, Creators } = createActions({
+  plusNum: [&apos;text&apos;], //type名驼峰，生成的是全大写PLUS_NUM
+  minusNum: null,
+  plusNumSaga: [&apos;text&apos;],
+  minusNumSaga: [&apos;text&apos;],
+})
+
+export const CounterTypes1 = Types //这里导出是给saga监听使用
+export default Creators
+//导出action生成器 Creators，
+//Creators.plusNum =(text) =&gt; {type:&apos;PLUS_NUM&apos; ,text:text}
+/* ------------- Initial State ------------- */
+export const INITIAL_STATE = Immutable({
+  value:0
+})
+/* ------------- Reducers ------------- */
+export const plus = (state,action) =&gt; {
+  const { text } = action
+  return state.merge({ value:state.value+text })
+}
+export const minus = (state,action) =&gt; {
+  return state.merge({ value:state.value-1 })
+}
+/* ------------- Hookup Reducers To Types ------------- */
+export const reducer = createReducer(INITIAL_STATE, {
+  [Types.PLUS_NUM]: plus,
+  [Types.MINUS_NUM]: minus
+  //这里reducer监听Types是PLUS_NUM的action,执行对应的plus放法
+})
+// reducer生成器，生成对应type的reducer
+</code></pre><h4 id="rootSaga引入的counterSaga1"><a href="#rootSaga引入的counterSaga1" class="headerlink" title="rootSaga引入的counterSaga1"></a>rootSaga引入的counterSaga1</h4><pre><code>import { put,select,call } from &apos;redux-saga/effects&apos;
+import CounterActions1 from &apos;../redux/counterReducer1&apos;
+
+// attempts to get state
+// const getState = (state) =&gt; state.login
+
+// let API={
+//     request:(text)=&gt;{
+//         return fetch(...)
+//     }
+// }
+
+export function * counterPlus1 (action) {
+    // const data = yield select(selectState) //通过select可以获取全局state
+
+  // const check = yield call(API.request, text) //如果有异步请求，用call调用
+  // if(check.ok == &apos;ok&apos;){
+  //     yield put(CounterActions1.xxx(xxx, xxx))
+  // }
+   const {text} = action
+   alert(text)
+   yield put(CounterActions1.plusNum(2))
+
+}
+
+export function * counterMinus1 (action) {
+   const {text} = action
+   alert(text)
+   yield put(CounterActions1.minusNum())
+}
+</code></pre><h2 id="谨记"><a href="#谨记" class="headerlink" title="谨记"></a>谨记</h2><ul>
+<li><code>saga</code>和<code>reducer</code>都会监听<code>action</code>监听的顺序是先<code>reducer</code>后<code>saga</code>,所以如果<code>reducer</code>和<code>saga</code>都监听了相同的<code>action</code>,那么<code>saga</code>逻辑执行在<code>reducer</code>改变后的状态基础上，尽量不要用<code>saga</code>和<code>reducer</code>监听相同的reducer</li>
+<li>相同的<code>action</code>内容，不管是谁触发的，所有监听此<code>action</code>的<code>reducer</code>和<code>action</code>都会触发，所以请区分好<code>action</code>的触发及监听操作</li>
+<li>和<code>thunk</code>一样<code>(dispatch,getState)</code> 第二个参数会将全局的<code>state</code>函数当参数传递进来，<code>saga</code>的<code>select(()=&gt;fn(state))</code>也可以调用全局<code>state</code></li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/04/04/saga-begining/" class="archive-article-date">
+  	<time datetime="2017-04-04T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-04</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saga-begining/">saga-begining</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-saga-begining" data-title="saga-begining" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-saga-begining" data-title="saga-begining" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-imgClipUpload" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -276,74 +501,29 @@
 })
 </code></pre></li>
 <li><p>创建截图</p>
-<pre><code>var cut = new ImgClip({
-  canvas : &apos;canvas&apos;, // canvas id
-  width:$(window).width(), //canvas 宽度
-  height:$(window).height(), //canvas 高度
-  fileObj : &apos;file&apos;, // file id
-  cutBtn : &apos;save&apos;, // cut btn id
-  resultObj : &apos;img&apos;, // result img id
-  rotateR : &apos;rotateR&apos;,
-  cutScale : 3/4, // 高:宽
-  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置
-});
-</code></pre></li>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var cut = new ImgClip(&#123;</div><div class="line">  canvas : &apos;canvas&apos;, // canvas id</div><div class="line">  width:$(window).width(), //canvas 宽度</div><div class="line">  height:$(window).height(), //canvas 高度</div><div class="line">  fileObj : &apos;file&apos;, // file id</div><div class="line">  cutBtn : &apos;save&apos;, // cut btn id</div><div class="line">  resultObj : &apos;img&apos;, // result img id</div><div class="line">  rotateR : &apos;rotateR&apos;,</div><div class="line">  cutScale : 3/4, // 高:宽</div><div class="line">  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
 <li><p>点击选择本地图片预览</p>
-<pre><code>$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function(){
-  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)
-  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)
-  $(this)[0].value=&apos;&apos;
-})
-</code></pre></li>
-<li><p>取消预览    </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(this)[0].value=&apos;&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>取消预览</p>
 <pre><code>$(&apos;.cancle&apos;).click(function(){
   $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
   $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
 })
-</code></pre></li>
+</code></pre><p>  ​</p>
+</li>
 <li><p>保存截图</p>
-<pre><code>$(&apos;#save&apos;).click(function(){
-  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
-  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
-})
-</code></pre></li>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(&apos;#save&apos;).click(function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
 <li><p>点击上传图片</p>
-<pre><code>$(&apos;.upload&apos;).click(function(){
-  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)
-  var file = dataURItoBlob(url)
-  var fd=new FormData();
-  fd.append(&apos;file&apos;,file);
-  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);
-  $.ajax({
-     url:&quot;php/upload.php&quot;,
-     type:&quot;POST&quot;,
-     data:fd,
-     processData: false,
-     contentType: false,
-     success:function(data){
-         console.log(data)
-     }
-  }); 
-})
-</code></pre></li>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">$(&apos;.upload&apos;).click(function()&#123;</div><div class="line">  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)</div><div class="line">  var file = dataURItoBlob(url)</div><div class="line">  var fd=new FormData();</div><div class="line">  fd.append(&apos;file&apos;,file);</div><div class="line">  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);</div><div class="line">  $.ajax(&#123;</div><div class="line">     url:&quot;php/upload.php&quot;,</div><div class="line">     type:&quot;POST&quot;,</div><div class="line">     data:fd,</div><div class="line">     processData: false,</div><div class="line">     contentType: false,</div><div class="line">     success:function(data)&#123;</div><div class="line">         console.log(data)</div><div class="line">     &#125;</div><div class="line">  &#125;); </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
 <li><p>base64转Blob</p>
-<pre><code>function dataURItoBlob (base64Data) {
-   var byteString;
-   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)
-       byteString = atob(base64Data.split(&apos;,&apos;)[1]);
-   else
-       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);
-   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];
-   var ia = new Uint8Array(byteString.length);
-   for (var i = 0; i &lt; byteString.length; i++) {
-       ia[i] = byteString.charCodeAt(i);
-   }
-   // canvas.toDataURL 返回的默认格式是 image/png
-   return new Blob([ia], {type: type});
-}
-</code></pre><h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4></li>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function dataURItoBlob (base64Data) &#123;</div><div class="line">   var byteString;</div><div class="line">   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)</div><div class="line">       byteString = atob(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   else</div><div class="line">       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];</div><div class="line">   var ia = new Uint8Array(byteString.length);</div><div class="line">   for (var i = 0; i &lt; byteString.length; i++) &#123;</div><div class="line">       ia[i] = byteString.charCodeAt(i);</div><div class="line">   &#125;</div><div class="line">   // canvas.toDataURL 返回的默认格式是 image/png</div><div class="line">   return new Blob([ia], &#123;type: type&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<pre><code>&lt;?php
+<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><pre><code>&lt;?php
   header(&apos;Access-Control-Allow-Origin:*&apos;);
   //处理文件
   if(!file_exists(&apos;./img&apos;)){
@@ -1162,6 +1342,106 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
+    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/import/">import</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
+</blockquote>
+<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
+</code></pre><p>​    </p>
+<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
+</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
+<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
+</code></pre><p>​    </p>
+<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
+</code></pre><p>​    </p>
+<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
+</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/import/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-import" data-title="import" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-import" data-title="import" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1327,106 +1607,6 @@ store.subscribe(render);
 
 <!-- 多说评论框 start -->
   <div class="ds-thread" data-thread-key="post-redux入门" data-title="redux入门" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
-    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/import/">import</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
-</blockquote>
-<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
-</code></pre><p>​    </p>
-<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
-</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
-<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
-</code></pre><p>​    </p>
-<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
-</code></pre><p>​    </p>
-<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
-</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/21/import/" class="archive-article-date">
-  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-import" data-title="import" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-import" data-title="import" data-url="undefined"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -1882,111 +2062,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-开启一个简单的cdn加速" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/16/开启一个简单的cdn加速/">开启一个简单的CDN加速</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度，但是对于大部分的个人网站或者普通企业网站来说，自己建立cdn加速的服务器集群是一笔较高的费用，而且需要专业的技术。这里说一种最简单的网站cdn加速方法。</p>
-</blockquote>
-<p><img src="http://a.hiphotos.baidu.com/exp/w=500/sign=c93d5757c15c1038247ecec28210931c/d4628535e5dde711b08214bba0efce1b9d16612e.jpg" alt=""></p>
-<p><strong>备注：CDN只是在你的服务器给出数据之后，进行加快传输。举个例子，你的服务器响应是10秒，网络传输占2秒，整体是12秒响应。而CDN可以将你的网络传输2秒加速到1秒，但是你的服务器吐出查询数据还是10秒，整体时间是11秒。</strong></p>
-<h2 id="方法-步骤"><a href="#方法-步骤" class="headerlink" title="方法/步骤"></a>方法/步骤</h2><h4 id="1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。"><a href="#1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。" class="headerlink" title="1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。"></a>1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。</h4><p><img src="http://d.hiphotos.baidu.com/exp/w=500/sign=3f0b53d0ccef76093c0b999f1edca301/9825bc315c6034a86d20efcccc134954082376b8.jpg" alt=""></p>
-<h4 id="2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"><a href="#2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。" class="headerlink" title="2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"></a>2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=a65259542af5e0feee1889016c6134e5/6609c93d70cf3bc7c9709ba1d600baa1cd112a0e.jpg" alt=""></p>
-<h4 id="3-进入我的网站管理界面后，点击“添加网站”按钮。"><a href="#3-进入我的网站管理界面后，点击“添加网站”按钮。" class="headerlink" title="3.进入我的网站管理界面后，点击“添加网站”按钮。"></a>3.进入我的网站管理界面后，点击“添加网站”按钮。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=4729466292cad1c8d0bbfc274f3f67c4/0824ab18972bd407429d85b07c899e510fb30920.jpg" alt=""></p>
-<h4 id="4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"><a href="#4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" class="headerlink" title="4.在添加网站页面，输入你的网址（不带http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"></a>4.在添加网站页面，输入你的网址（不带<a href="http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" target="_blank" rel="external">http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”</a></h4><p><img src="http://f.hiphotos.baidu.com/exp/w=500/sign=6d4dfc5f750e0cf3a0f74efb3a47f23d/9213b07eca806538f1c8f55e90dda144ad348259.jpg" alt=""></p>
-<h4 id="5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"><a href="#5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。" class="headerlink" title="5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"></a>5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=c6afe4b63edbb6fd255be5263925aba6/cefc1e178a82b901dde5937e748da9773912ef37.jpg" alt=""></p>
-<h4 id="6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"><a href="#6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。" class="headerlink" title="6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"></a>6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。</h4><p><img src="http://b.hiphotos.baidu.com/exp/w=500/sign=053f52d559df8db1bc2e7c643922dddb/d000baa1cd11728b1e4fdf6fcffcc3cec3fd2c18.jpg" alt=""></p>
-<h4 id="7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"><a href="#7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。" class="headerlink" title="7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"></a>7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=827831339558d109c4e3a9b2e159ccd0/c2cec3fdfc03924589a4b3428094a4c27d1e256d.jpg" alt=""></p>
-<h4 id="8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"><a href="#8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。" class="headerlink" title="8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"></a>8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=29a31cb60d46f21fc9345e53c6256b31/0dd7912397dda144535d3effb5b7d0a20cf48623.jpg" alt=""></p>
-<h4 id="9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"><a href="#9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！" class="headerlink" title="9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"></a>9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！</h4><p><img src="http://e.hiphotos.baidu.com/exp/w=500/sign=b7de0a5f484a20a4311e3cc7a0539847/342ac65c103853430f3ad56c9413b07ecb808882.jpg" alt=""></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li>网站域名备案后才能使用百度云加速的国内CDN加速节点。</li>
-<li>在dns修改并等待生效的时间内，不会影响网站的正常访问。</li>
-</ul>
-<h5 id="转自百度经验"><a href="#转自百度经验" class="headerlink" title="转自百度经验"></a>转自<a href="http://jingyan.baidu.com/article/fedf0737ac414f35ac897704.html" target="_blank" rel="external">百度经验</a></h5>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/01/16/开启一个简单的cdn加速/" class="archive-article-date">
-  	<time datetime="2017-01-16T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开启一个简单的CDN加速/">开启一个简单的CDN加速</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-开启一个简单的cdn加速" data-title="开启一个简单的CDN加速" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-开启一个简单的cdn加速" data-title="开启一个简单的CDN加速" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2050,7 +2125,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/16个正则表达式/" style="font-size: 10px;">16个正则表达式</a> <a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
