@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>配置相关-eslint | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外：
+
+ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置规则定义:ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置相关-eslint">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/04/06/eslint使用/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外：
+
+ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置规则定义:ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLi">
+<meta property="og:updated_time" content="2017-04-04T04:36:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置相关-eslint">
+<meta name="twitter:description" content="ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外：
+
+ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置规则定义:ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLi">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-eslint使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      配置相关-eslint
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外：</p>
+</blockquote>
+<h4 id="ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置"><a href="#ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置" class="headerlink" title="ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置"></a>ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置</h4><h2 id="规则定义"><a href="#规则定义" class="headerlink" title="规则定义:"></a>规则定义:</h2><h4 id="ESLint-支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint-只会使用一个。优先级顺序如下："><a href="#ESLint-支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint-只会使用一个。优先级顺序如下：" class="headerlink" title="ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint 只会使用一个。优先级顺序如下："></a>ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint 只会使用一个。优先级顺序如下：</h4><ol>
+<li>JavaScript - 使用 .eslintrc.js 然后输出一个配置对象。</li>
+<li>YAML - 使用 .eslintrc.yaml 或 .eslintrc.yml 去定义配置的结构。</li>
+<li>JSON -使用 .eslintrc.json 去定义配置的结构，ESLint 的 JSON 文件允许 JavaScript 风格的注释。</li>
+<li>Deprecated -使用 .eslintrc，可以使 JSON 也可以是 YAML。</li>
+<li>package.json - 在 package.json 里创建一个 eslintConfig属性，在那里定义你的配置。</li>
+</ol>
+<h4 id="规则释义："><a href="#规则释义：" class="headerlink" title="规则释义："></a>规则释义：</h4><pre><code>{
+    // 环境定义了预定义的全局变量。
+    &quot;env&quot;: {
+        //环境定义了预定义的全局变量。更多在官网查看
+        &quot;browser&quot;:true,
+        &quot;node&quot;:true,
+        &quot;commonjs&quot;:true,
+        &quot;amd&quot;:true,
+        &quot;es6&quot;:true,
+        &quot;mocha&quot;:true
+    },
+    // JavaScript 语言选项
+    &quot;parserOptions&quot;: {
+        // ECMAScript 版本
+        &quot;ecmaVersion&quot;:6,
+        &quot;sourceType&quot;:&quot;script&quot;,//module
+        // 想使用的额外的语言特性:
+        &quot;ecmaFeatures&quot;: {
+            // 允许在全局作用域下使用 return 语句
+            &quot;globalReturn&quot;:true,
+            // impliedStric
+            &quot;impliedStrict&quot;:true,
+            // 启用 JSX
+            &quot;jsx&quot;:true
+        }
+     },
+    /**
+     * &quot;off&quot; 或 0 - 关闭规则
+     * &quot;warn&quot; 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),
+     * &quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
+     */
+    &quot;rules&quot;: {
+        // 禁止条件表达式中出现赋值操作符
+        &quot;no-cond-assign&quot;:2,
+        // 禁用 console
+        &quot;no-console&quot;:0,
+        // 禁止在条件中使用常量表达式
+        // if (false) {
+        // doSomethingUnfinished();
+        // } //cuowu
+        &quot;no-constant-condition&quot;:2,
+        // 禁止在正则表达式中使用控制字符 ：new RegExp(&quot;\x1f&quot;)
+        &quot;no-control-regex&quot;:2,
+        // 数组和对象键值对最后一个逗号， never参数：不能带末尾的逗号, always参数：必须带末尾的逗号，
+        // always-multiline：多行模式必须带逗号，单行模式不能带逗号
+        &quot;comma-dangle&quot;: [1,&quot;always-multiline&quot;],
+        // 禁用 debugger
+        &quot;no-debugger&quot;:2,
+        // 禁止 function 定义中出现重名参数
+        &quot;no-dupe-args&quot;:2,
+        // 禁止对象字面量中出现重复的 key
+        &quot;no-dupe-keys&quot;:2,
+        // 禁止重复的 case 标签
+        &quot;no-duplicate-case&quot;:2,
+        // 禁止空语句块
+        &quot;no-empty&quot;:2,
+        // 禁止在正则表达式中使用空字符集 (/^abc[]/)
+        &quot;no-empty-character-class&quot;:2,
+        // 禁止对 catch 子句的参数重新赋值
+        &quot;no-ex-assign&quot;:2,
+        // 禁止不必要的布尔转换
+        &quot;no-extra-boolean-cast&quot;:2,
+        // 禁止不必要的括号 //(a * b) + c;//报错
+        &quot;no-extra-parens&quot;:0,
+        // 禁止不必要的分号
+        &quot;no-extra-semi&quot;:2,
+        // 禁止对 function 声明重新赋值
+        &quot;no-func-assign&quot;:2,
+        // 禁止在嵌套的块中出现 function 或 var 声明
+        &quot;no-inner-declarations&quot;: [2,&quot;functions&quot;],
+        // 禁止 RegExp 构造函数中无效的正则表达式字符串
+        &quot;no-invalid-regexp&quot;:2,
+        // 禁止在字符串和注释之外不规则的空白
+        &quot;no-irregular-whitespace&quot;:2,
+        // 禁止在 in 表达式中出现否定的左操作数
+        &quot;no-negated-in-lhs&quot;:2,
+        // 禁止把全局对象 (Math 和 JSON) 作为函数调用 错误：var math = Math();
+        &quot;no-obj-calls&quot;:2,
+        // 禁止直接使用 Object.prototypes 的内置属性
+        &quot;no-prototype-builtins&quot;:0,
+        // 禁止正则表达式字面量中出现多个空格
+        &quot;no-regex-spaces&quot;:2,
+        // 禁用稀疏数组
+        &quot;no-sparse-arrays&quot;:2,
+        // 禁止出现令人困惑的多行表达式
+        &quot;no-unexpected-multiline&quot;:2,
+        // 禁止在return、throw、continue 和 break语句之后出现不可达代码
+        /*
+         function foo() {
+         return true;
+         console.log(&quot;done&quot;);
+         }//错误
+         */
+        &quot;no-unreachable&quot;:2,
+        // 要求使用 isNaN() 检查 NaN
+        &quot;use-isnan&quot;:2,
+        // 强制使用有效的 JSDoc 注释
+        &quot;valid-jsdoc&quot;:1,
+        // 强制 typeof 表达式与有效的字符串进行比较
+        // typeof foo === &quot;undefimed&quot; 错误
+        &quot;valid-typeof&quot;:2,
+        // 定义对象的set存取器属性时，强制定义get
+        &quot;accessor-pairs&quot;:2,
+        // 强制数组方法的回调函数中有 return 语句
+        &quot;array-callback-return&quot;:0,
+        // 强制把变量的使用限制在其定义的作用域范围内
+        &quot;block-scoped-var&quot;:0,
+        // 限制圈复杂度，也就是类似if else能连续接多少个
+        &quot;complexity&quot;: [2,9],
+        // 要求 return 语句要么总是指定返回的值，要么不指定
+        &quot;consistent-return&quot;:0,
+        // 强制所有控制语句使用一致的括号风格
+        &quot;curly&quot;: [2,&quot;all&quot;],
+        // switch 语句强制 default 分支，也可添加 // no default 注释取消此次警告
+        &quot;default-case&quot;:2,
+        // 强制object.key 中 . 的位置，参数:
+        // property，&apos;.&apos;号应与属性在同一行
+        // object, &apos;.&apos; 号应与对象名在同一行
+        &quot;dot-location&quot;: [2,&quot;property&quot;],
+        // 强制使用.号取属性
+        // 参数： allowKeywords：true 使用保留字做属性名时，只能使用.方式取属性
+        // false 使用保留字做属性名时, 只能使用[]方式取属性 e.g [2, {&quot;allowKeywords&quot;: false}]
+        // allowPattern: 当属性名匹配提供的正则表达式时，允许使用[]方式取值,否则只能用.号取值 e.g [2, {&quot;allowPattern&quot;: &quot;^[a-z]+(_[a-z]+)+$&quot;}]
+        &quot;dot-notation&quot;: [2, {&quot;allowKeywords&quot;:false}],
+        // 使用 === 替代 == allow-null允许null和undefined==
+        &quot;eqeqeq&quot;: [2,&quot;allow-null&quot;],
+        // 要求 for-in 循环中有一个 if 语句
+        &quot;guard-for-in&quot;:2,
+        // 禁用 alert、confirm 和 prompt
+        &quot;no-alert&quot;:0,
+        // 禁用 arguments.caller 或 arguments.callee
+        &quot;no-caller&quot;:2,
+        // 不允许在 case 子句中使用词法声明
+        &quot;no-case-declarations&quot;:2,
+        // 禁止除法操作符显式的出现在正则表达式开始的位置
+        &quot;no-div-regex&quot;:2,
+        // 禁止 if 语句中有 return 之后有 else
+        &quot;no-else-return&quot;:0,
+        // 禁止出现空函数.如果一个函数包含了一条注释，它将不会被认为有问题。
+        &quot;no-empty-function&quot;:2,
+        // 禁止使用空解构模式no-empty-pattern
+        &quot;no-empty-pattern&quot;:2,
+        // 禁止在没有类型检查操作符的情况下与 null 进行比较
+        &quot;no-eq-null&quot;:1,
+        // 禁用 eval()
+        &quot;no-eval&quot;:2,
+        // 禁止扩展原生类型
+        &quot;no-extend-native&quot;:2,
+        // 禁止不必要的 .bind() 调用
+        &quot;no-extra-bind&quot;:2,
+        // 禁用不必要的标签
+        &quot;no-extra-label:&quot;:0,
+        // 禁止 case 语句落空
+        &quot;no-fallthrough&quot;:2,
+        // 禁止数字字面量中使用前导和末尾小数点
+        &quot;no-floating-decimal&quot;:2,
+        // 禁止使用短符号进行类型转换(!!fOO)
+        &quot;no-implicit-coercion&quot;:0,
+        // 禁止在全局范围内使用 var 和命名的 function 声明
+        &quot;no-implicit-globals&quot;:1,
+        // 禁止使用类似 eval() 的方法
+        &quot;no-implied-eval&quot;:2,
+        // 禁止 this 关键字出现在类和类对象之外
+        &quot;no-invalid-this&quot;:0,
+        // 禁用 __iterator__ 属性
+        &quot;no-iterator&quot;:2,
+        // 禁用标签语句
+        &quot;no-labels&quot;:2,
+        // 禁用不必要的嵌套块
+        &quot;no-lone-blocks&quot;:2,
+        // 禁止在循环中出现 function 声明和表达式
+        &quot;no-loop-func&quot;:1,
+        // 禁用魔术数字(3.14什么的用常量代替)
+        &quot;no-magic-numbers&quot;:[1,{&quot;ignore&quot;: [0,-1,1] }],
+        // 禁止使用多个空格
+        &quot;no-multi-spaces&quot;:2,
+        // 禁止使用多行字符串，在 JavaScript 中，可以在新行之前使用斜线创建多行字符串
+        &quot;no-multi-str&quot;:2,
+        // 禁止对原生对象赋值
+        &quot;no-native-reassign&quot;:2,
+        // 禁止在非赋值或条件语句中使用 new 操作符
+        &quot;no-new&quot;:2,
+        // 禁止对 Function 对象使用 new 操作符
+        &quot;no-new-func&quot;:0,
+        // 禁止对 String，Number 和 Boolean 使用 new 操作符
+        &quot;no-new-wrappers&quot;:2,
+        // 禁用八进制字面量
+        &quot;no-octal&quot;:2,
+        // 禁止在字符串中使用八进制转义序列
+        &quot;no-octal-escape&quot;:2,
+        // 不允许对 function 的参数进行重新赋值
+        &quot;no-param-reassign&quot;:0,
+        // 禁用 __proto__ 属性
+        &quot;no-proto&quot;:2,
+        // 禁止使用 var 多次声明同一变量
+        &quot;no-redeclare&quot;:2,
+        // 禁用指定的通过 require 加载的模块
+        &quot;no-return-assign&quot;:0,
+        // 禁止使用 javascript: url
+        &quot;no-script-url&quot;:0,
+        // 禁止自我赋值
+        &quot;no-self-assign&quot;:2,
+        // 禁止自身比较
+        &quot;no-self-compare&quot;:2,
+        // 禁用逗号操作符
+        &quot;no-sequences&quot;:2,
+        // 禁止抛出非异常字面量
+        &quot;no-throw-literal&quot;:2,
+        // 禁用一成不变的循环条件
+        &quot;no-unmodified-loop-condition&quot;:2,
+        // 禁止出现未使用过的表达式
+        &quot;no-unused-expressions&quot;:0,
+        // 禁用未使用过的标签
+        &quot;no-unused-labels&quot;:2,
+        // 禁止不必要的 .call() 和 .apply()
+        &quot;no-useless-call&quot;:2,
+        // 禁止不必要的字符串字面量或模板字面量的连接
+        &quot;no-useless-concat&quot;:2,
+        // 禁用不必要的转义字符
+        &quot;no-useless-escape&quot;:0,
+        // 禁用 void 操作符
+        &quot;no-void&quot;:0,
+        // 禁止在注释中使用特定的警告术语
+        &quot;no-warning-comments&quot;:0,
+        // 禁用 with 语句
+        &quot;no-with&quot;:2,
+        // 强制在parseInt()使用基数参数
+        &quot;radix&quot;:2,
+        // 要求所有的 var 声明出现在它们所在的作用域顶部
+        &quot;vars-on-top&quot;:0,
+        // 要求 IIFE 使用括号括起来
+        &quot;wrap-iife&quot;: [2,&quot;any&quot;],
+        // 要求或禁止 “Yoda” 条件
+        &quot;yoda&quot;: [2,&quot;never&quot;],
+        // 要求或禁止使用严格模式指令
+        &quot;strict&quot;:0,
+        //////////////
+        // 变量声明 //
+        //////////////
+
+        // 要求或禁止 var 声明中的初始化(初值)
+        &quot;init-declarations&quot;:0,
+        // 不允许 catch 子句的参数与外层作用域中的变量同名
+        &quot;no-catch-shadow&quot;:0,
+        // 禁止删除变量
+        &quot;no-delete-var&quot;:2,
+        // 不允许标签与变量同名
+        &quot;no-label-var&quot;:2,
+        // 禁用特定的全局变量
+        &quot;no-restricted-globals&quot;:0,
+        // 禁止 var 声明 与外层作用域的变量同名
+        &quot;no-shadow&quot;:0,
+        // 禁止覆盖受限制的标识符
+        &quot;no-shadow-restricted-names&quot;:2,
+        // 禁用未声明的变量，除非它们在 /*global */ 注释中被提到
+        &quot;no-undef&quot;:2,
+        // 禁止将变量初始化为 undefined
+        &quot;no-undef-init&quot;:2,
+        // 禁止将 undefined 作为标识符
+        &quot;no-undefined&quot;:0,
+        // 禁止出现未使用过的变量
+        &quot;no-unused-vars&quot;: [2, {&quot;vars&quot;:&quot;all&quot;,&quot;args&quot;:&quot;none&quot;}],
+        // 不允许在变量定义之前使用它们
+        &quot;no-use-before-define&quot;:0,
+
+        //////////////////////////
+        // Node.js and CommonJS //
+        //////////////////////////
+
+        // require return statements after callbacks
+        &quot;callback-return&quot;:0,
+        // 要求 require() 出现在顶层模块作用域中
+        &quot;global-require&quot;:1,
+        // 要求回调函数中有容错处理
+        &quot;handle-callback-err&quot;: [2,&quot;^(err|error)$&quot;],
+        // 禁止混合常规 var 声明和 require 调用
+        &quot;no-mixed-requires&quot;:0,
+        // 禁止调用 require 时使用 new 操作符
+        &quot;no-new-require&quot;:2,
+        // 禁止对 __dirname 和 __filename进行字符串连接
+        &quot;no-path-concat&quot;:0,
+        // 禁用 process.env
+        &quot;no-process-env&quot;:0,
+        // 禁用 process.exit()
+        &quot;no-process-exit&quot;:0,
+        // 禁用同步方法
+        &quot;no-sync&quot;:0,
+
+        //////////////
+        // 风格指南 //
+        //////////////
+
+        // 指定数组的元素之间要以空格隔开(, 后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格
+        &quot;array-bracket-spacing&quot;: [2,&quot;never&quot;],
+        // 禁止或强制在单行代码块中使用空格(禁用)
+        &quot;block-spacing&quot;:[1,&quot;never&quot;],
+        //强制使用一致的缩进 第二个参数为 &quot;tab&quot; 时，会使用tab，
+        // if while function 后面的{必须与if在同一行，java风格。
+        &quot;brace-style&quot;: [2,&quot;1tbs&quot;, {&quot;allowSingleLine&quot;:true}],
+        // 双峰驼命名格式
+        &quot;camelcase&quot;:2,
+        // 控制逗号前后的空格
+        &quot;comma-spacing&quot;: [2, {&quot;before&quot;:false,&quot;after&quot;:true}],
+        // 控制逗号在行尾出现还是在行首出现 (默认行尾)
+        // http://eslint.org/docs/rules/comma-style
+        &quot;comma-style&quot;: [2,&quot;last&quot;],
+        //&quot;SwitchCase&quot; (默认：0) 强制 switch 语句中的 case 子句的缩进水平
+        // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
+        &quot;computed-property-spacing&quot;: [2,&quot;never&quot;],
+        // 用于指统一在回调函数中指向this的变量名，箭头函数中的this已经可以指向外层调用者，应该没卵用了
+        // e.g [0,&quot;that&quot;] 指定只能 var that = this. that不能指向其他任何值，this也不能赋值给that以外的其他值
+        &quot;consistent-this&quot;: [1,&quot;that&quot;],
+        // 强制使用命名的 function 表达式
+        &quot;func-names&quot;:0,
+        // 文件末尾强制换行
+        &quot;eol-last&quot;:2,
+        &quot;indent&quot;: [2,4, {&quot;SwitchCase&quot;:1}],
+        // 强制在对象字面量的属性中键和值之间使用一致的间距
+        &quot;key-spacing&quot;: [2, {&quot;beforeColon&quot;:false,&quot;afterColon&quot;:true}],
+        // 强制使用一致的换行风格
+        &quot;linebreak-style&quot;: [1,&quot;unix&quot;],
+        // 要求在注释周围有空行 ( 要求在块级注释之前有一空行)
+        &quot;lines-around-comment&quot;: [1,{&quot;beforeBlockComment&quot;:true}],
+        // 强制一致地使用函数声明或函数表达式，方法定义风格，参数：
+        // declaration: 强制使用方法声明的方式，function f(){} e.g [2, &quot;declaration&quot;]
+        // expression：强制使用方法表达式的方式，var f = function() {} e.g [2, &quot;expression&quot;]
+        // allowArrowFunctions: declaration风格中允许箭头函数。 e.g [2, &quot;declaration&quot;, { &quot;allowArrowFunctions&quot;: true }]
+        &quot;func-style&quot;:0,
+        // 强制回调函数最大嵌套深度 5层
+        &quot;max-nested-callbacks&quot;: [1,5],
+        // 禁止使用指定的标识符
+        &quot;id-blacklist&quot;:0,
+        // 强制标识符的最新和最大长度
+        &quot;id-length&quot;:0,
+        // 要求标识符匹配一个指定的正则表达式
+        &quot;id-match&quot;:0,
+        // 强制在 JSX 属性中一致地使用双引号或单引号
+        &quot;jsx-quotes&quot;:0,
+        // 强制在关键字前后使用一致的空格 (前后腰需要)
+        &quot;keyword-spacing&quot;:2,
+        // 强制一行的最大长度
+        &quot;max-len&quot;:[1,200],
+        // 强制最大行数
+        &quot;max-lines&quot;:0,
+        // 强制 function 定义中最多允许的参数数量
+        &quot;max-params&quot;:[1,7],
+        // 强制 function 块最多允许的的语句数量
+        &quot;max-statements&quot;:[1,200],
+        // 强制每一行中所允许的最大语句数量
+        &quot;max-statements-per-line&quot;:0,
+        // 要求构造函数首字母大写 （要求调用 new 操作符时有首字母大小的函数，允许调用首字母大写的函数时没有 new 操作符。）
+        &quot;new-cap&quot;: [2, {&quot;newIsCap&quot;:true,&quot;capIsNew&quot;:false}],
+        // 要求调用无参构造函数时有圆括号
+        &quot;new-parens&quot;:2,
+        // 要求或禁止 var 声明语句后有一行空行
+        &quot;newline-after-var&quot;:0,
+        // 禁止使用 Array 构造函数
+        &quot;no-array-constructor&quot;:2,
+        // 禁用按位运算符
+        &quot;no-bitwise&quot;:0,
+        // 要求 return 语句之前有一空行
+        &quot;newline-before-return&quot;:0,
+        // 要求方法链中每个调用都有一个换行符
+        &quot;newline-per-chained-call&quot;:1,
+        // 禁用 continue 语句
+        &quot;no-continue&quot;:0,
+        // 禁止在代码行后使用内联注释
+        &quot;no-inline-comments&quot;:0,
+        // 禁止 if 作为唯一的语句出现在 else 语句中
+        &quot;no-lonely-if&quot;:0,
+        // 禁止混合使用不同的操作符
+        &quot;no-mixed-operators&quot;:0,
+        // 不允许空格和 tab 混合缩进
+        &quot;no-mixed-spaces-and-tabs&quot;:2,
+        // 不允许多个空行
+        &quot;no-multiple-empty-lines&quot;: [2, {&quot;max&quot;:2}],
+        // 不允许否定的表达式
+        &quot;no-negated-condition&quot;:0,
+        // 不允许使用嵌套的三元表达式
+        &quot;no-nested-ternary&quot;:0,
+        // 禁止使用 Object 的构造函数
+        &quot;no-new-object&quot;:2,
+        // 禁止使用一元操作符 ++ 和 --
+        &quot;no-plusplus&quot;:0,
+        // 禁止使用特定的语法
+        &quot;no-restricted-syntax&quot;:0,
+        // 禁止 function 标识符和括号之间出现空格
+        &quot;no-spaced-func&quot;:2,
+        // 不允许使用三元操作符
+        &quot;no-ternary&quot;:0,
+        // 禁用行尾空格
+        &quot;no-trailing-spaces&quot;:2,
+        // 禁止标识符中有悬空下划线_bar
+        &quot;no-underscore-dangle&quot;:0,
+        // 禁止可以在有更简单的可替代的表达式时使用三元操作符
+        &quot;no-unneeded-ternary&quot;:2,
+        // 禁止属性前有空白
+        &quot;no-whitespace-before-property&quot;:0,
+        // 强制花括号内换行符的一致性
+        &quot;object-curly-newline&quot;:0,
+        // 强制在花括号中使用一致的空格
+        &quot;object-curly-spacing&quot;:0,
+        // 强制将对象的属性放在不同的行上
+        &quot;object-property-newline&quot;:0,
+        // 强制函数中的变量要么一起声明要么分开声明
+        &quot;one-var&quot;: [2, {&quot;initialized&quot;:&quot;never&quot;}],
+        // 要求或禁止在 var 声明周围换行
+        &quot;one-var-declaration-per-line&quot;:0,
+        // 要求或禁止在可能的情况下要求使用简化的赋值操作符
+        &quot;operator-assignment&quot;:0,
+        // 强制操作符使用一致的换行符
+        &quot;operator-linebreak&quot;: [2,&quot;after&quot;, {&quot;overrides&quot;: {&quot;?&quot;:&quot;before&quot;,&quot;:&quot;:&quot;before&quot;} }],
+        // 要求或禁止块内填充
+        &quot;padded-blocks&quot;:0,
+        // 要求对象字面量属性名称用引号括起来
+        &quot;quote-props&quot;:0,
+        // 强制使用一致的反勾号、双引号或单引号
+        &quot;quotes&quot;: [2,&quot;single&quot;,&quot;avoid-escape&quot;],
+        // 要求使用 JSDoc 注释
+        &quot;require-jsdoc&quot;:1,
+        // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）
+        &quot;semi&quot;: [2,&quot;always&quot;],
+        // 强制分号之前和之后使用一致的空格
+        &quot;semi-spacing&quot;:0,
+        // 要求同一个声明块中的变量按顺序排列
+        &quot;sort-vars&quot;:0,
+        // 强制在块之前使用一致的空格
+        &quot;space-before-blocks&quot;: [2,&quot;always&quot;],
+        // 强制在 function的左括号之前使用一致的空格
+        &quot;space-before-function-paren&quot;: [2,&quot;always&quot;],
+        // 强制在圆括号内使用一致的空格
+        &quot;space-in-parens&quot;: [2,&quot;never&quot;],
+        // 要求操作符周围有空格
+        &quot;space-infix-ops&quot;:2,
+        // 强制在一元操作符前后使用一致的空格
+        &quot;space-unary-ops&quot;: [2, {&quot;words&quot;:true,&quot;nonwords&quot;:false}],
+        // 强制在注释中 // 或 /* 使用一致的空格
+        &quot;spaced-comment&quot;: [2,&quot;always&quot;, {&quot;markers&quot;: [&quot;global&quot;,&quot;globals&quot;,&quot;eslint&quot;,&quot;eslint-disable&quot;,&quot;*package&quot;,&quot;!&quot;] }],
+        // 要求或禁止 Unicode BOM
+        &quot;unicode-bom&quot;:0,
+        // 要求正则表达式被括号括起来
+        &quot;wrap-regex&quot;:0,
+
+        //////////////
+        // ES6.相关 //
+        //////////////
+
+        // 要求箭头函数体使用大括号
+        &quot;arrow-body-style&quot;:2,
+        // 要求箭头函数的参数使用圆括号
+        &quot;arrow-parens&quot;:2,
+        &quot;arrow-spacing&quot;:[2,{&quot;before&quot;:true,&quot;after&quot;:true}],
+        // 强制在子类构造函数中用super()调用父类构造函数，TypeScrip的编译器也会提示
+        &quot;constructor-super&quot;:0,
+        // 强制 generator 函数中 * 号周围使用一致的空格
+        &quot;generator-star-spacing&quot;: [2, {&quot;before&quot;:true,&quot;after&quot;:true}],
+        // 禁止修改类声明的变量
+        &quot;no-class-assign&quot;:2,
+        // 不允许箭头功能，在那里他们可以混淆的比较
+        &quot;no-confusing-arrow&quot;:0,
+        // 禁止修改 const 声明的变量
+        &quot;no-const-assign&quot;:2,
+        // 禁止类成员中出现重复的名称
+        &quot;no-dupe-class-members&quot;:2,
+        // 不允许复制模块的进口
+        &quot;no-duplicate-imports&quot;:0,
+        // 禁止 Symbol 的构造函数
+        &quot;no-new-symbol&quot;:2,
+        // 允许指定模块加载时的进口
+        &quot;no-restricted-imports&quot;:0,
+        // 禁止在构造函数中，在调用 super() 之前使用 this 或 super
+        &quot;no-this-before-super&quot;:2,
+        // 禁止不必要的计算性能键对象的文字
+        &quot;no-useless-computed-key&quot;:0,
+        // 要求使用 let 或 const 而不是 var
+        &quot;no-var&quot;:0,
+        // 要求或禁止对象字面量中方法和属性使用简写语法
+        &quot;object-shorthand&quot;:0,
+        // 要求使用箭头函数作为回调
+        &quot;prefer-arrow-callback&quot;:0,
+        // 要求使用 const 声明那些声明后不再被修改的变量
+        &quot;prefer-const&quot;:0,
+        // 要求在合适的地方使用 Reflect 方法
+        &quot;prefer-reflect&quot;:0,
+        // 要求使用扩展运算符而非 .apply()
+        &quot;prefer-spread&quot;:0,
+        // 要求使用模板字面量而非字符串连接
+        &quot;prefer-template&quot;:0,
+        // Suggest using the rest parameters instead of arguments
+        &quot;prefer-rest-params&quot;:0,
+        // 要求generator 函数内有 yield
+        &quot;require-yield&quot;:0,
+        // enforce spacing between rest and spread operators and their expressions
+        &quot;rest-spread-spacing&quot;:0,
+        // 强制模块内的 import 排序
+        &quot;sort-imports&quot;:0,
+        // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
+        &quot;template-curly-spacing&quot;:1,
+        // 强制在 yield* 表达式中 * 周围使用空格
+        &quot;yield-star-spacing&quot;:2
+     }
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/04/06/eslint使用/" class="archive-article-date">
+  	<time datetime="2017-04-06T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/配置相关-eslint/">配置相关-eslint</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/04/04/saga-begining/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">saga-begining</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-eslint使用" data-title="配置相关-eslint" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-eslint使用" data-title="配置相关-eslint" data-url="http://Jasonellen.github.io/2017/04/06/eslint使用/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
