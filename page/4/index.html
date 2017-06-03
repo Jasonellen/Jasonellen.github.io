@@ -235,6 +235,139 @@
       <div class="body-wrap">
         
   
+    <article id="post-Javascript的this用法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/28/Javascript的this用法/">Javascript的this用法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="this是Javascript语言的一个关键字。"><a href="#this是Javascript语言的一个关键字。" class="headerlink" title="this是Javascript语言的一个关键字。"></a>this是Javascript语言的一个关键字。</h3><h3 id="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"><a href="#它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，" class="headerlink" title="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"></a>它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，</h3><pre><code>function test(){
+    this.x = 1;
+}
+</code></pre><h3 id="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"><a href="#随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。" class="headerlink" title="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"></a>随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</h3><h3 id="下面分四种情况，详细讨论this的用法。"><a href="#下面分四种情况，详细讨论this的用法。" class="headerlink" title="下面分四种情况，详细讨论this的用法。"></a>下面分四种情况，详细讨论this的用法。</h3><h1 id="情况一：纯粹的函数调用"><a href="#情况一：纯粹的函数调用" class="headerlink" title="情况一：纯粹的函数调用"></a>情况一：纯粹的函数调用</h1><h3 id="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"><a href="#这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。" class="headerlink" title="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"></a>这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。</h3><h3 id="请看下面这段代码，它的运行结果是1。"><a href="#请看下面这段代码，它的运行结果是1。" class="headerlink" title="请看下面这段代码，它的运行结果是1。"></a>请看下面这段代码，它的运行结果是1。</h3><pre><code>　function test(){
+    this.x = 1;
+    alert(this.x);
+}
+test(); // 1
+</code></pre><h3 id="为了证明this就是全局对象，我对代码做一些改变："><a href="#为了证明this就是全局对象，我对代码做一些改变：" class="headerlink" title="为了证明this就是全局对象，我对代码做一些改变："></a>为了证明this就是全局对象，我对代码做一些改变：</h3><pre><code>var x = 1;
+function test(){
+    alert(this.x);
+}
+test(); // 1
+</code></pre><h3 id="运行结果还是1。再变一下"><a href="#运行结果还是1。再变一下" class="headerlink" title="运行结果还是1。再变一下"></a>运行结果还是1。再变一下</h3><pre><code>var x = 1;
+function test(){
+    this.x = 0;
+}
+test();
+alert(x); //0
+</code></pre><h1 id="情况二：作为对象方法的调用"><a href="#情况二：作为对象方法的调用" class="headerlink" title="情况二：作为对象方法的调用"></a>情况二：作为对象方法的调用</h1><h3 id="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"><a href="#函数还可以作为某个对象的方法调用，这时this就指这个上级对象。" class="headerlink" title="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"></a>函数还可以作为某个对象的方法调用，这时this就指这个上级对象。</h3><pre><code>function test(){
+    alert(this.x);
+}
+var o = {};
+o.x = 1;
+o.m = test;
+o.m(); // 1
+</code></pre><h1 id="情况三-作为构造函数调用"><a href="#情况三-作为构造函数调用" class="headerlink" title="情况三 作为构造函数调用"></a>情况三 作为构造函数调用</h1><h3 id="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"><a href="#所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。" class="headerlink" title="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"></a>所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。</h3><pre><code>function test(){
+    this.x = 1;
+}
+var o = new test();
+alert(o.x); // 1
+</code></pre><h3 id="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："><a href="#运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：" class="headerlink" title="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："></a>运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：</h3><pre><code>var x = 2;
+function test(){
+    this.x = 1;
+}
+var o = new test();
+alert(x); //2
+</code></pre><h3 id="运行结果为2，表明全局变量x的值根本没变"><a href="#运行结果为2，表明全局变量x的值根本没变" class="headerlink" title="运行结果为2，表明全局变量x的值根本没变"></a>运行结果为2，表明全局变量x的值根本没变</h3><h1 id="情况四-apply调用"><a href="#情况四-apply调用" class="headerlink" title="情况四 apply调用"></a>情况四 apply调用</h1><h3 id="apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"><a href="#apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。" class="headerlink" title="apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"></a>apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。</h3><pre><code>var x = 0;
+function test(){
+    alert(this.x);
+}
+var o={};
+o.x = 1;
+o.m = test;
+o.m.apply(); //0
+</code></pre><h3 id="apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"><a href="#apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。" class="headerlink" title="apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"></a>apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。</h3><h3 id="如果把最后一行代码修改为"><a href="#如果把最后一行代码修改为" class="headerlink" title="如果把最后一行代码修改为"></a>如果把最后一行代码修改为</h3><pre><code>o.m.apply(o); //1
+</code></pre><h3 id="运行结果就变成了1，证明了这时this代表的是对象o。"><a href="#运行结果就变成了1，证明了这时this代表的是对象o。" class="headerlink" title="运行结果就变成了1，证明了这时this代表的是对象o。"></a>运行结果就变成了1，证明了这时this代表的是对象o。</h3>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/28/Javascript的this用法/" class="archive-article-date">
+  	<time datetime="2016-11-28T13:25:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/this用法/">this用法</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-Javascript的this用法" data-title="Javascript的this用法" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-Javascript的this用法" data-title="Javascript的this用法" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-php缓存文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2137,276 +2270,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/12/Vue之数据绑定/">Vue数据绑定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
-<p><strong> $ npm install vue </strong></p>
-<h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
-<pre><code>var app = new Vue({
-      el: &apos;#app&apos;,
-      //实例代理属性data
-      data: {
-        message: &apos;Hello Vue!&apos;,
-        seen: true,
-        todos: [
-              { text: &apos;Learn JavaScript&apos; },
-              { text: &apos;Learn Vue&apos; },
-              { text: &apos;Build something awesome&apos; }
-        ],
-        html:&apos;&lt;p&gt;这是插入的p标签&lt;/p&gt;&apos;,
-        ...
-        filters: {
-            capitalize: function (value) {
-              if (!value) return &apos;&apos;
-              value = value.toString()
-              return value.charAt(0).toUpperCase() + value.slice(1)
-           }
-      },
-      //计算属性
-      computed:{
-          reverseMessage:function(){...},
-          //绑定fullName，没有参数默认执行getter，有参数默认执行setter
-          fullName: {
-            // getter
-            get: function () {
-                  return this.firstName + &apos; &apos; + this.lastName
-            },
-            // setter
-            set: function (newValue) {
-                  var names = newValue.split(&apos; &apos;)
-                  this.firstName = names[0]
-                  this.lastName = names[names.length - 1]
-            }
-          }
-      },
-      //方法
-      methods:{
-          myclick:function(){...}
-      },
-      watch:{
-          seen:function(){...}
-      },
-      //钩子函数 
-      //mounted当组件被挂载并解析完成后执行
-      mounted:function(){
-          ...
-      },
-      ...
-
-})
-</code></pre><p><code>内容绑定</code></p>
-<pre><code>//内容绑定
-&lt;div id=&quot;app&quot;&gt;{{ message }}&lt;/div&gt;
-</code></pre><p><code>属性绑定</code></p>
-<pre><code>//绑定title属性到message上
-&lt;span v-bind:title=&quot;message&quot;&gt;&lt;/span&gt;
-</code></pre><p><code>v-if</code></p>
-<pre><code>//执行的是append和remove  和show有本质的区别
-//如果seen为true则now you see 显示，否则no see显示
-&lt;p v-if=&quot;seen&quot;&gt;Now you see me&lt;/p&gt;
-&lt;p v-else&gt;no see&lt;/p&gt;
-</code></pre><p><code>v-show</code></p>
-<pre><code>//执行的是 diplay:none 与 display：block 
-//不支持给组件设置 如&lt;template v-show=&apos;seen&apos;&gt;
-&lt;h1 v-show=&quot;seen&quot;&gt;Hello!&lt;/h1&gt;
-</code></pre><p><code>v-for循环</code></p>
-<pre><code>&lt;ol&gt;
-    //建议提供key,以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
-    &lt;li v-for=&quot;(todo,index) in todos&quot; :key=&quot;item.id&gt;               {{ todo.text }}
-       &lt;/li&gt;
-&lt;/ol&gt;
-
-//遍历对象不用一一对应，一参 键值，二参键名(可选)，三参索引(可选)
-&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
-      {{ index }}. {{ key }} : {{ value }}
-&lt;/div&gt;
-
-//取整数
-&lt;span v-for=&quot;n in 10&quot;&gt;{{ n }}&lt;/span&gt;
-&lt;li v-for=&quot;n in evenNumbers&quot;&gt;{{ n }}&lt;/li&gt; //计算属性
-&lt;li v-for=&quot;n in even(10)&quot;&gt;{{ n }}&lt;/li&gt;
-
-//v-for 支持 &lt;template&gt; 循环渲染很多模板--数据需要绑定，不能自动传进组件里
-&lt;my-component
-      v-for=&quot;(item, index) in items&quot;
-      v-bind:item=&quot;item&quot;
-     v-bind:index=&quot;index&quot;&gt;
-&lt;/my-component&gt;
-</code></pre><p><code>事件绑定</code></p>
-<pre><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;
-//缩写
-v-bind:href=&quot;url&quot;  ==  :href=&quot;url&quot;
-v-on:click=&quot;reverseMessage&quot;  ==  @click=&quot;reverseMessage&quot;
-</code></pre><p><code>表单双向绑定</code></p>
-<pre><code>  &lt;input v-model=&quot;message&quot;&gt;
-  &lt;p&gt;{{ message }}&lt;/p&gt;
-
-  //需要换行？    white-space: pre直接空格/换行
-  &lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
-&lt;br&gt;
-&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
-</code></pre><p><code>标签插值</code></p>
-<pre><code>//span将被忽略
-&lt;div v-html=&apos;html&apos;&gt;{{html}}&lt;span&gt;11111&lt;/span&gt;&lt;/div&gt;
-</code></pre><p><code>模板表达式</code></p>
-<pre><code>//模板表达式中还可以使用 Math 和 Date不能访问用户定义的全局变量
-{{ number + 1 }}
-{{ ok ? 'YES' : 'NO' }}
-{{ message.split('').reverse().join('') }}
-//list- 是字符串 id是绑定的变量
-&lt;div v-bind:id=&quot;&apos;list-&apos; + id&quot;&gt;&lt;/div&gt;
-</code></pre><p><code>过滤</code></p>
-<pre><code>//默认参数是message或message表达式的返回值
-&lt;div&gt;{{ message | filterA | filterB }}&lt;/div&gt;
-//传入的参数表示过滤函数的第二参和第三参
-{{ message | filterA('arg1', arg2) }}
-</code></pre><p><code>事件修饰符</code></p>
-<pre><code>&lt;!-- 阻止单击事件冒泡 --&gt;
-&lt;a v-on:click.stop=&quot;doThis&quot;&gt;&lt;/a&gt;
-
-&lt;!-- 提交事件不再重载页面 --&gt;
-&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
-
-&lt;!-- 修饰符可以串联  --&gt;
-&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
-
-&lt;!-- 只有修饰符 --&gt;
-&lt;form v-on:submit.prevent&gt;&lt;/form&gt;
-
-&lt;!-- 添加事件侦听器时使用事件捕获模式 --&gt;
-&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
-
-&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;
-&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
-</code></pre><p><code>按键修饰符</code></p>
-<pre><code>&lt;!-- 只有在 keyCode 是 13 时调用 vm.submit() --&gt;
-&lt;input v-on:keyup.13=&quot;submit&quot;&gt;
-
-//记不住所有的code？用名字呗
-&lt;!-- 同上 --&gt;
-&lt;input v-on:keyup.enter=&quot;submit&quot;&gt;
-//enter，tab，delete，esc，space，up，down，left，right
-
-&lt;!-- 没有想用的？自定义喽 --&gt;
-// 可以使用 v-on:keyup.f1
-Vue.config.keyCodes.A = 112
-</code></pre><p><code>对象/数组语法</code></p>
-<pre><code>//当对象的值isActive为真时 class将会有类名 对象的键  一直都有div的类名
-v-bind:class=&quot;{ active: isActive, &apos;text-danger&apos;: hasError }&quot; class=‘div’&gt;
-
-//activeClass和errorClass为真时才会被赋值给class
-&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
-
-//样式绑定     --前缀vue会自动添加
-&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &apos;px&apos; }&quot;&gt;&lt;/div&gt;
-...清晰的写法...
-&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;    
-data: {
-      styleObject: {
-        color: &apos;red&apos;,
-        fontSize: &apos;13px&apos;
-      }
-}
-</code></pre><p><code>数组方法</code></p>
-<pre><code>如下两项改变data不会重新渲染页面
-1，vm.items[indexOfItem] = newValue
-    改为：Vue.set(example1.items, indexOfItem, newValue)
-    或：example1.items.splice(indexOfItem, 1, newValue)
-
-2，vm.items.length = newLength
-    改为：example1.items.splice(newLength)
-</code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
-<li>只有当data属性里的值改变才会重新渲染view视图</li>
-<li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速</li>
-<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多    次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
-<li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
-</ul>
-<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
-  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue数据绑定/">Vue数据绑定</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-Vue之数据绑定" data-title="Vue数据绑定" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-Vue之数据绑定" data-title="Vue数据绑定" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -2470,7 +2333,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

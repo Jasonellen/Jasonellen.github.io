@@ -235,6 +235,190 @@
       <div class="body-wrap">
         
   
+    <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/redux入门/">redux入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍</p>
+</blockquote>
+<h1 id="Redux-基础概念"><a href="#Redux-基础概念" class="headerlink" title="Redux 基础概念"></a>Redux 基础概念</h1><h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><pre><code>State 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
+</code></pre><h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><pre><code>Action 用来描述一个行为，并负载相应的信息。
+</code></pre><h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><pre><code>Reducer 接收两个参数，第一个参数是当前状态，而第二参数是 action, 返回更新后的状态。
+用来执行store触发的Action对应的方法
+</code></pre><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><pre><code>Store 是管理应用程序 state 的容器
+
+store = {
+    getState,
+    dispatch,
+    subscribe,
+    replaceReducer
+}
+</code></pre><h4 id="如上，store共有4个API"><a href="#如上，store共有4个API" class="headerlink" title="如上，store共有4个API,"></a>如上，store共有4个API,</h4><pre><code>getState: (数据接口)
+使用方式: store.getState()
+功能点: redux对外导出数据的接口(getter)
+
+subscribe: (订阅接口)
+使用方式: store.subscribe(回调函数)
+功能点: 在每次执行dispatch的时候，用于执行自定义的回调函数操作
+
+dispatch: (执行接口)
+使用方式: store.dispatch(action)
+功能点: 在执行redux的state更新的同时，执行所有subscribe过的回调函数
+
+replaceReducer: (重置store接口)
+使用方式: store.replaceReducer(nextReducer)
+功能点: 重置redux的reducer，重新启动store流程
+</code></pre><h3 id="流程图如下"><a href="#流程图如下" class="headerlink" title="流程图如下"></a>流程图如下</h3><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg" alt=""></p>
+<h2 id="项目实战："><a href="#项目实战：" class="headerlink" title="项目实战："></a>项目实战：</h2><p><strong>首先安装redux到项目中</strong></p>
+<pre><code>npm install --save redux
+</code></pre><p><strong>代码编写</strong></p>
+<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;p&gt;
+    Clicked: &lt;span id=&quot;value&quot;&gt;0&lt;/span&gt;
+    &lt;button id=&quot;increment&quot;&gt;+&lt;/button&gt;
+    &lt;button id=&quot;decrement&quot;&gt;-&lt;/button&gt;
+&lt;/p&gt;
+</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>//导入createStroe
+import { createStore } from &apos;redux&apos;
+
+//初始化状态
+let initState = {
+      count: 0,
+      score: 0,
+      description:&apos;描述&apos;
+}
+
+//创建一个Reducer
+function counter(state = initState, action) {
+    switch (action.type) {
+        case &apos;INCREMENT&apos;:
+              return{
+                  count:state.count + 1,
+                score:state.score + 2,
+                description:action.data
+              } 
+        case &apos;DECREMENT&apos;:
+              return{
+                  count:state.count - 1,
+                score:state.score - 2,
+                description:action.data
+              } 
+        default:
+              return state;
+          }
+    }
+
+//将创建好的Reducer传入创建Store
+let store = Redux.createStore(counter);
+
+//获取元素节点，并绑定点击事件，点击后store将触发相应的动作Action
+let valueEl = document.getElementById(&apos;value&apos;);
+document.getElementById(&apos;increment&apos;).addEventListener(&apos;click&apos;, function() {
+    store.dispatch({
+          type: &apos;INCREMENT&apos;,
+          data:&apos;增加的&apos;
+    })
+})
+document.getElementById(&apos;decrement&apos;).addEventListener(&apos;click&apos;, function() {
+    store.dispatch({
+          type: &apos;DECREMENT&apos;,
+          data:&apos;减少的&apos;,
+    })
+})
+
+//写一个render方法，在这里动态改变元素的内容
+function render() {
+    valueEl.innerHTML = &apos;点击&apos;+store.getState().count.toString()+&apos;次-得        分&apos;+store.getState().score.toString()+store.getState().description;
+}
+
+//执行render方法
+render();
+
+//绑定subscribe回调
+store.subscribe(render);
+</code></pre><h5 id="上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render"><a href="#上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render" class="headerlink" title="上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()"></a>上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/redux入门/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux入门/">redux入门</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 多说分享 -->
+<div class="ds-share" data-thread-key="post-redux入门" data-title="redux入门" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+        
+        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+        
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+
+<!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="post-redux入门" data-title="redux入门" data-url="undefined"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"jasonellen"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+  
     <article id="post-fetch_faild_in_reactnative" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2161,253 +2345,6 @@ var duoshuoQuery = {short_name:"jasonellen"};
 
 
   
-    <article id="post-文件拖拽" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/21/文件拖拽/">文件拖拽</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。<code>注意</code>即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；</p>
-</blockquote>
-<h2 id="拖拽API"><a href="#拖拽API" class="headerlink" title="拖拽API"></a>拖拽API</h2><pre><code>draggable ：
-–    设置为true，元素就可以拖拽了
-
-拖拽元素事件 :  事件对象为被拖拽元素
-–    dragstart ,  拖拽前触发 
-–    drag ,拖拽前、拖拽结束之间，连续触发
-–    dragend  , 拖拽结束触发
-
-目标元素事件 :  事件对象为目标元素
-–    dragenter ,  进入目标元素触发，相当于mouseover
-–    dragover  ,进入目标、离开目标之间，连续触发
-–    dragleave ,  离开目标元素触发，相当于mouseout
-–    drop  ,  在目标元素上释放鼠标触发
-</code></pre><h2 id="Demo1-拖拽删除"><a href="#Demo1-拖拽删除" class="headerlink" title="Demo1-拖拽删除"></a>Demo1-拖拽删除</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag1.html" target="_blank" rel="external"><code>效果示例</code></a></p>
-<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Untitled Document&lt;/title&gt;
-    &lt;style&gt;
-        li{ list-style:none; width:100px; height:30px; background:yellow; margin:10px;}
-        #div1{ width:100px; height:100px; background:red; margin:200px;}
-    &lt;/style&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-    &lt;ul&gt;
-        &lt;li draggable=&quot;true&quot;&gt;a&lt;/li&gt;
-        &lt;li draggable=&quot;true&quot;&gt;b&lt;/li&gt;
-        &lt;li draggable=&quot;true&quot;&gt;c&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
-    &lt;script&gt;
-    window.onload = function(){
-        var aLi = document.getElementsByTagName(&apos;li&apos;);
-        var oUl=document.getElementsByTagName(&apos;ul&apos;)[0];
-        var oDiv = document.getElementById(&apos;div1&apos;);
-        var oImg = document.getElementById(&apos;img1&apos;);
-
-        for(var i=0;i&lt;aLi.length;i++){
-            aLi[i].index = i;
-            aLi[i].ondragstart = function(ev){
-                ev.dataTransfer.setData(&apos;name&apos;,this.index);
-                this.style.background = &apos;green&apos;;
-                //ev.dataTransfer.setDragImage(this,0,0); //设置拖动时显示的对象和坐标
-            };
-
-            aLi[i].ondrag = function(){  //开始与结束连续触发
-                document.title = i++;
-            };
-
-            aLi[i].ondragend = function(){
-                this.style.background = &apos;yellow&apos;;
-            };
-        }
-
-        oDiv.ondragenter = function(){
-            this.style.background = &apos;blue&apos;;
-        };
-
-        oDiv.ondragover = function(ev){
-            //enter和leave之间连续触发
-            document.title = i++;
-            //要想触发drop事件，就必须在dragover当中阻止默认事件
-            ev.preventDefault();
-        };
-
-        oDiv.ondragleave = function(){
-            this.style.background = &apos;red&apos;;
-        };
-
-        oDiv.ondrop = function(ev){
-            ev.preventDefault();   //阻止默认事件，不然是外部图片就直接打开了
-            var n=ev.dataTransfer.getData(&apos;name&apos;);
-            // ev.dataTransfer.clearData(&quot;name&quot;);
-            oUl.removeChild( aLi[n]); //删除以后要从新算index
-            for(var i=0;i&lt;aLi.length;i++){
-                aLi[i].index = i;
-            }
-            this.style.background = &apos;red&apos;;    
-        };    
-    };
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h2 id="Demo2-外部文件拖入显示"><a href="#Demo2-外部文件拖入显示" class="headerlink" title="Demo2-外部文件拖入显示"></a>Demo2-外部文件拖入显示</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag2.html" target="_blank" rel="external"><code>效果示例</code></a></p>
-<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Untitled Document&lt;/title&gt;
-    &lt;style&gt;
-    ul,li{ margin:0;padding:0;list-style:none;}
-    div{
-        width:200px; height:200px; background:red; text-align:center;
-    }
-    ul{
-        width:600px; background-color:#000; 
-    }
-    li {
-        margin:10px 20px;
-    }
-    ul:after {
-        content:&apos;&apos;;
-        display:block;
-        clear:both;
-    }
-    &lt;/style&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-    &lt;div&gt;把图片拖到这里&lt;/div&gt;
-    &lt;ul&gt;&lt;/ul&gt;
-
-    &lt;script&gt;
-    window.onload=function(){
-        var oDiv = document.querySelector(&apos;div&apos;);
-        var oUl = document.querySelector(&apos;ul&apos;);
-        oDiv.ondragenter=function(){
-            this.innerHTML=&apos;可以松开了哦&apos;;
-        }
-        oDiv.ondragover=function(ev){
-            var ev=ev||event;
-            ev.preventDefault(); 
-        }
-        oDiv.ondragleave=function(){
-            this.innerHTML=&apos;把图片拖到这里&apos;;
-        }
-        oDiv.ondrop=function(ev){
-            var ev=ev||event;
-            ev.preventDefault(); //阻止默认事件，不然是外部图片就直接打开了
-            this.innerHTML=&apos;把图片拖到这里&apos;;
-
-            var fs=ev.dataTransfer.files; //拖拽的文件集合
-            for(var i=0; i&lt;fs.length; i++){
-                if(fs[i].type.indexOf(&apos;image&apos;)!=-1){ //判断拖拽内容的类型是image
-                    var fd=new FileReader();  //创建可以读文件的对象
-                    fd.readAsDataURL(fs[i]);  //读
-                    fd.onload=function(){  //读取成功直接执行onload
-                        var oLi    =document.createElement(&apos;li&apos;);
-                        oLi.style.float=&apos;left&apos;;
-                        var oImg= document.createElement(&apos;img&apos;);
-                        oImg.style.height=&apos;200px&apos;;
-                        oImg.src = this.result;  //地址就是获取到的url信息
-                        oLi.appendChild(oImg);
-                        oUl.appendChild(oLi);
-                    }
-                }else{
-                    alert(&apos;非法图片&apos;);
-                }
-            }
-        }
-    }
-
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/21/文件拖拽/" class="archive-article-date">
-  	<time datetime="2016-12-21T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件拖拽/">文件拖拽</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-<!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-        
-        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-        
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
-
-<!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-文件拖拽" data-title="文件拖拽" data-url="undefined"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"jasonellen"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -2471,7 +2408,7 @@ var duoshuoQuery = {short_name:"jasonellen"};
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

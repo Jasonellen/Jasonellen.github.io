@@ -6,32 +6,54 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>fetch faild in reactnative | 奋斗蚁🐜</title>
+  <title>canvas粒子运动 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="fetch在ReactNative中可能会报错如下：Possible unhandled promise rejection (id:0: Network request failed
-
-According to this post, you should enable it in XCode.
-Click on your project in the Project Navigator
-Ope">
+  <meta name="description" content="今天说一说Canvas的粒子运动：效果图戳这里首先我们需要创建一个HTML&amp;lt;style&amp;gt;
+  body{
+    margin: 0;
+    height:1500px;
+    background: #000;
+  }
+  canvas{
+    width: 100%;
+    height: 100%;
+  }
+&amp;lt;/style&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="fetch faild in reactnative">
-<meta property="og:url" content="http://Jasonellen.github.io/2017/02/14/fetch_faild_in_reactnative/index.html">
+<meta property="og:title" content="canvas粒子运动">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/06/07/canvas粒子运动/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="fetch在ReactNative中可能会报错如下：Possible unhandled promise rejection (id:0: Network request failed
-
-According to this post, you should enable it in XCode.
-Click on your project in the Project Navigator
-Ope">
-<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/908edb0egy1fd057agsrdj20hk07yjuv.jpg">
-<meta property="og:updated_time" content="2017-02-28T14:59:17.000Z">
+<meta property="og:description" content="今天说一说Canvas的粒子运动：效果图戳这里首先我们需要创建一个HTML&amp;lt;style&amp;gt;
+  body{
+    margin: 0;
+    height:1500px;
+    background: #000;
+  }
+  canvas{
+    width: 100%;
+    height: 100%;
+  }
+&amp;lt;/style&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;l">
+<meta property="og:updated_time" content="2017-06-03T14:22:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fetch faild in reactnative">
-<meta name="twitter:description" content="fetch在ReactNative中可能会报错如下：Possible unhandled promise rejection (id:0: Network request failed
-
-According to this post, you should enable it in XCode.
-Click on your project in the Project Navigator
-Ope">
-<meta name="twitter:image" content="http://wx4.sinaimg.cn/mw690/908edb0egy1fd057agsrdj20hk07yjuv.jpg">
+<meta name="twitter:title" content="canvas粒子运动">
+<meta name="twitter:description" content="今天说一说Canvas的粒子运动：效果图戳这里首先我们需要创建一个HTML&amp;lt;style&amp;gt;
+  body{
+    margin: 0;
+    height:1500px;
+    background: #000;
+  }
+  canvas{
+    width: 100%;
+    height: 100%;
+  }
+&amp;lt;/style&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;l">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -251,7 +273,7 @@ Ope">
 </nav>
 
       <div class="body-wrap">
-        <article id="post-fetch_faild_in_reactnative" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-canvas粒子运动" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -261,7 +283,7 @@ Ope">
         
   
     <h1 class="article-title" itemprop="name">
-      fetch faild in reactnative
+      canvas粒子运动
     </h1>
   
 
@@ -269,29 +291,108 @@ Ope">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>fetch在ReactNative中可能会报错如下：Possible unhandled promise rejection (id:0: Network request failed</p>
-</blockquote>
-<h3 id="According-to-this-post-you-should-enable-it-in-XCode"><a href="#According-to-this-post-you-should-enable-it-in-XCode" class="headerlink" title="According to this post, you should enable it in XCode."></a>According to this post, you should enable it in XCode.</h3><ol>
-<li>Click on your project in the Project Navigator</li>
-<li>Open the Info tab</li>
-<li>Click on the down arrow left to the “App Transport Security Settings”</li>
-<li>Right click on “App Transport Security Settings” and select Add Row</li>
-<li>For created row set the key “Allow Arbitrary Loads“, type to boolean and value to YES.</li>
-</ol>
-<p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fd057agsrdj20hk07yjuv.jpg" alt=""></p>
+        <h3 id="今天说一说Canvas的粒子运动：效果图戳这里"><a href="#今天说一说Canvas的粒子运动：效果图戳这里" class="headerlink" title="今天说一说Canvas的粒子运动：效果图戳这里"></a>今天说一说Canvas的粒子运动：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/particleMove/blob/master/index.html" target="_blank" rel="external">效果图戳这里</a></h3><h2 id="首先我们需要创建一个HTML"><a href="#首先我们需要创建一个HTML" class="headerlink" title="首先我们需要创建一个HTML"></a>首先我们需要创建一个HTML</h2><pre><code>&lt;style&gt;
+  body{
+    margin: 0;
+    height:1500px;
+    background: #000;
+  }
+  canvas{
+    width: 100%;
+    height: 100%;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+  &lt;canvas id=&apos;canvas&apos;&gt;&lt;/canvas&gt;
+  &lt;script src=&apos;index.js&apos;&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h2 id="最主要的就是JS啦☺"><a href="#最主要的就是JS啦☺" class="headerlink" title="最主要的就是JS啦☺"></a>最主要的就是JS啦☺</h2><h4 id="获取canvsa-设置画布和宽高"><a href="#获取canvsa-设置画布和宽高" class="headerlink" title="获取canvsa 设置画布和宽高"></a>获取canvsa 设置画布和宽高</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var ctx = canvas.getContext(&apos;2d&apos;);</div><div class="line">var _width = canvas.width = canvas.offsetWidth;</div><div class="line">var _height = canvas.height = canvas.offsetHeight;</div></pre></td></tr></table></figure>
+<h4 id="更新页面用requestAnimationFrame替代setTimeout"><a href="#更新页面用requestAnimationFrame替代setTimeout" class="headerlink" title="更新页面用requestAnimationFrame替代setTimeout"></a>更新页面用requestAnimationFrame替代setTimeout</h4><pre><code>window.requestAnimationFrame =  window.requestAnimationFrame ||
+                                window.mozRequestAnimationFrame ||
+                                window.webkitRequestAnimationFrame ||
+                                window.msRequestAnimationFrame;
+</code></pre><h4 id="创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动-连线-和-远离的方法）"><a href="#创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动-连线-和-远离的方法）" class="headerlink" title="创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动 连线 和 远离的方法）"></a>创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动 连线 和 远离的方法）</h4><pre><code>function Particle(x, y, r, color){
+  this.x = x;
+  this.y = y;
+  this.r = r;
+  this.color = color;
+  this.movex = Math.random()/3;
+  this.movey = Math.random()/3;
+}
+
+//画圆
+Particle.prototype.draw = function () {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0 ,360);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.restore();
+};
+
+// 连线
+Particle.prototype.line = function (other) {
+  var dx = this.x - other.x;
+  var dy = this.y - other.y;
+  let gap = Math.sqrt(dxdx + dydy)
+  if(gap &lt; 80){
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(other.x, other.y);
+    ctx.strokeStyle = &quot;rgba(255,255,255,.3)&quot;;
+    ctx.lineWidth = .7;
+    ctx.stroke();
+    ctx.restore();
+  }
+};
+
+//运动 (改变x,y的坐标)
+Particle.prototype.move = function () {
+  this.movex = (this.x &lt;_width &amp;&amp; this.x&gt;0)?this.movex:-this.movex;
+  this.movey = (this.x &lt;_height &amp;&amp; this.x&gt;0)?this.movex:-this.movey;
+  this.x += this.movex;
+  this.y += this.movey;
+};
+
+//远离鼠标
+Particle.prototype.faraway = function (other) {
+  var fx = this.x - other.x;
+  var fy = this.y - other.y;
+  var fd = Math.sqrt(fxfx + fyfy);
+  if(fd &lt; 50){
+    if(fx&lt;0 &amp;&amp; fy&lt;0){
+      this.x -= 50;
+      this.y -= 50;
+    }else if(fx&lt;0 &amp;&amp; fy&gt;0){
+      this.x -= 50;
+      this.y += 50;
+    }else if(fx&gt;0 &amp;&amp; fy&lt;0){
+      this.x += 50;
+      this.y -= 50;
+    }else{
+      this.x += 50;
+      this.y += 50;
+    }
+  }
+};
+</code></pre><h4 id="创建远离点"><a href="#创建远离点" class="headerlink" title="创建远离点"></a>创建远离点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function Away(x, y)&#123;</div><div class="line">  this.x = x;</div><div class="line">  this.y = y;</div><div class="line">  this.color = &apos;red&apos;;</div><div class="line">&#125;</div><div class="line">Away.prototype.awaydraw = function () &#123;</div><div class="line">  ctx.save();</div><div class="line">  ctx.beginPath();</div><div class="line">  ctx.arc(this.x, this.y, Math.random()*20, 0 , 360);</div><div class="line">  ctx.fillStyle = this.color;</div><div class="line">  ctx.fill();</div><div class="line">  ctx.restore();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="远离点跟随鼠标移动"><a href="#远离点跟随鼠标移动" class="headerlink" title="远离点跟随鼠标移动"></a>远离点跟随鼠标移动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var _away = new Away(0, 0)</div><div class="line">window.onmousemove = function(e)&#123;</div><div class="line">  var _scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</div><div class="line">  var e = e || window.event;</div><div class="line">  _away.x = e.clientX;</div><div class="line">  _away.y = e.clientY + _scrollTop;</div><div class="line">&#125;</div><div class="line">window.onmouseout = function()&#123;</div><div class="line">  _away.x = null;</div><div class="line">  _away.y = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="运动-起来"><a href="#运动-起来" class="headerlink" title="运动 起来"></a>运动 起来</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function run()&#123;</div><div class="line">  ctx.clearRect(0, 0, _width, _height)</div><div class="line">  //如果鼠标在窗口内，就画远离点</div><div class="line">  if(_away.x)&#123;</div><div class="line">    _away.awaydraw();</div><div class="line">  &#125;</div><div class="line">  for(var i=0; i&lt;length; i++)&#123;</div><div class="line">    P_array[i].move();</div><div class="line">    P_array[i].draw();</div><div class="line">    P_array[i].faraway(_away)</div><div class="line">    //逐个判断连线</div><div class="line">    for(var j=0; j&lt;length; j++)&#123;</div><div class="line">      P_array[i].line(P_array[j])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  //循环执行</div><div class="line">  requestAnimationFrame(run);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="初始化页面"><a href="#初始化页面" class="headerlink" title="初始化页面"></a>初始化页面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var P_array =[];</div><div class="line">var P_num = 360;</div><div class="line">var length = 0;</div><div class="line">//初始化页面</div><div class="line">function init()&#123;</div><div class="line">  //创建很多个 粒子</div><div class="line">  for(var i=0; i&lt; P_num; i++)&#123;</div><div class="line">    var _color = `rgb($&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;)`;</div><div class="line">    console.log(_color)</div><div class="line">    P_array.push(new Particle(Math.random()*_width, Math.random()*_height, Math.random()*5, _color))</div><div class="line">  &#125;</div><div class="line">  length = P_array.length;</div><div class="line">  //页面 动 起来</div><div class="line">  run();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>其实这个效果有个思路的话没那么难的，运动面向对象的思想一步一步很容易就可以做出来的，我脑子笨做了几个小时😢</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/02/14/fetch_faild_in_reactnative/" class="archive-article-date">
-  	<time datetime="2017-02-14T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-14</time>
+      <a href="/2017/06/07/canvas粒子运动/" class="archive-article-date">
+  	<time datetime="2017-06-07T02:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-07</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fetch-faild-in-reactnative/">fetch faild in reactnative</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/粒子运动/">粒子运动</a></li></ul>
 	</div>
 
       
@@ -304,18 +405,9 @@ Ope">
   
 <nav id="article-nav">
   
-    <a href="/2017/02/21/redux入门/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          redux入门
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/01/24/vuex/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">vuex</div>
+    <a href="/2017/06/03/webpack2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">webpack 2 打包实战</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -333,7 +425,7 @@ Ope">
 
 
 <!-- 多说分享 -->
-<div class="ds-share" data-thread-key="post-fetch_faild_in_reactnative" data-title="fetch faild in reactnative" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
+<div class="ds-share" data-thread-key="post-canvas粒子运动" data-title="canvas粒子运动" data-images="http://a4.qpic.cn/psb?/V12tYOKO03SBgh/yLcCw9KQZbldWU45.23cYvassNGqhDwNz79dy50JuSg!/m/dOMAAAAAAAAAnull&bo=tAC0AAAAAAAFByQ!&rf=photolist&t=5" data-content="楼主写的真不错，大家可以看看哦" data-url="https://jasonellen.github.io/" style='position:absolute;left:30px;margin-top:-25px;z-index:10'>
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
         
@@ -350,7 +442,7 @@ Ope">
  </div>
 
 <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="post-fetch_faild_in_reactnative" data-title="fetch faild in reactnative" data-url="http://Jasonellen.github.io/2017/02/14/fetch_faild_in_reactnative/"></div>
+  <div class="ds-thread" data-thread-key="post-canvas粒子运动" data-title="canvas粒子运动" data-url="http://Jasonellen.github.io/2017/06/07/canvas粒子运动/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
