@@ -235,71 +235,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/import/">import</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
-</blockquote>
-<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
-</code></pre><p>​    </p>
-<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
-</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
-<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
-</code></pre><p>​    </p>
-<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
-</code></pre><p>​    </p>
-<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
-</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/21/import/" class="archive-article-date">
-  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -427,6 +362,71 @@ store.subscribe(render);
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux入门/">redux入门</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/import/">import</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
+</blockquote>
+<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
+</code></pre><p>​    </p>
+<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
+</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
+<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
+</code></pre><p>​    </p>
+<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
+</code></pre><p>​    </p>
+<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
+</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/import/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
 	</div>
 
       
