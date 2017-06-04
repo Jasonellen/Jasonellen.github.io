@@ -235,6 +235,371 @@
       <div class="body-wrap">
         
   
+    <article id="post-Vue表单与组件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/14/Vue表单与组件/">Vue表单与组件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="表单的数据绑定"><a href="#表单的数据绑定" class="headerlink" title="表单的数据绑定"></a>表单的数据绑定</h1><p><code>文本：</code></p>
+<pre><code>&lt;input v-model=&quot;message&quot; placeholder=&quot;edit me&quot;&gt;
+&lt;p&gt;Message is: {{ message }}&lt;/p&gt;
+</code></pre><p><code>多行文本：</code>  </p>
+<pre><code>&lt;!--white-space:pre 使得空格不会被解析--&gt;
+&lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
+&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
+</code></pre><p><code>复选框：</code></p>
+<pre><code>&lt;!--如果就一个复选框--&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot; v-model=&quot;checked&quot;&gt;
+&lt;label for=&quot;checkbox&quot;&gt;{{ checked }}&lt;/label&gt;
+
+&lt;!--如果有多个复选框，应该绑定到同一个数组--&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;jack&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;label for=&quot;jack&quot;&gt;Jack&lt;/label&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;john&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;label for=&quot;john&quot;&gt;John&lt;/label&gt;
+&lt;span&gt;Checked names: {{ checkedNames }}&lt;/span&gt;
+new Vue({
+      el: &apos;...&apos;,
+      data: {
+        checkedNames: []
+      }
+})
+</code></pre><p><code>单选框：</code></p>
+<pre><code>&lt;!--不需要数组，邦定到同一个data变量上即可--&gt;
+&lt;input type=&quot;radio&quot; id=&quot;one&quot; value=&quot;One&quot; v-model=&quot;picked&quot;&gt;
+&lt;label for=&quot;one&quot;&gt;One&lt;/label&gt;
+&lt;br&gt;
+&lt;input type=&quot;radio&quot; id=&quot;two&quot; value=&quot;Two&quot; v-model=&quot;picked&quot;&gt;
+&lt;label for=&quot;two&quot;&gt;Two&lt;/label&gt;
+&lt;br&gt;
+&lt;span&gt;Picked: {{ picked }}&lt;/span&gt;
+</code></pre><p><code>表单传值===选中后绑定的data变量的值</code></p>
+<pre><code>&lt;!-- 当选中时，`picked` 为字符串 &quot;a&quot; --&gt;
+&lt;input type=&quot;radio&quot; v-model=&quot;picked&quot; value=&quot;a&quot;&gt;
+&lt;!-- `toggle` 为 true 或 false --&gt;
+&lt;input type=&quot;checkbox&quot; v-model=&quot;toggle&quot;&gt;
+&lt;!-- 当选中时，`selected` 为字符串 &quot;abc&quot; --&gt;
+&lt;select v-model=&quot;selected&quot;&gt;
+      &lt;option value=&quot;abc&quot;&gt;ABC&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!--当然可以用v-bind:value 使得value也是动态的值--&gt;
+单选：
+&lt;input type=&quot;radio&quot; v-model=&quot;pick&quot; v-bind:value=&quot;a&quot;&gt;
+// 当选中时
+vm.pick === vm.a
+
+复选：
+&lt;input
+  type=&quot;checkbox&quot;
+  v-model=&quot;toggle&quot;
+  v-bind:true-value=&quot;a&quot;
+  v-bind:false-value=&quot;b&quot;&gt;
+
+  // 当选中时
+vm.toggle === vm.a
+// 当没有选中时
+vm.toggle === vm.b
+
+列表：
+&lt;select v-model=&quot;selected&quot;&gt;
+    &lt;!-- 内联对象字面量 --&gt;
+      &lt;option v-bind:value=&quot;{ number: 123 }&quot;&gt;123&lt;/option&gt;
+&lt;/select&gt;
+// 当选中时
+typeof vm.selected // -&gt; &apos;object&apos;
+vm.selected.number // -&gt; 123
+</code></pre><h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><pre><code>&lt;!-- 在 &quot;change&quot; 而不是 &quot;input&quot; 事件中更新 --&gt;
+&lt;input v-model.lazy=&quot;msg&quot; &gt;
+
+&lt;!--自动将用户的输入值转为 Number 类型（如果原值的转换结果为 NaN 则返回原值）--&gt;
+&lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
+
+&lt;!--自动过滤用户输入的首尾空格--&gt;
+&lt;input v-model.trim=&quot;msg&quot;&gt;
+</code></pre><h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><blockquote>
+<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。</p>
+</blockquote>
+<p><code>全局组件：</code></p>
+<pre><code>&lt;div id=&quot;example&quot;&gt;
+      &lt;my-component&gt;&lt;/my-component&gt;
+&lt;/div&gt;
+// 注册
+Vue.component(&apos;my-component&apos;, {
+      template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;
+})
+// 创建根实例
+new Vue({
+      el: &apos;#example&apos;
+})
+</code></pre><p><code>局部组件：仅实例/组件的作用域中可用：</code></p>
+<pre><code>var Child = {
+      template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;
+}
+new Vue({
+      components: {
+        // &lt;my-component&gt; 将只在父模板可用
+        &apos;my-component&apos;: Child,
+        App, // App组件 == &apos;App&apos;:App,
+      }
+})
+</code></pre><p><code>组件限制--is</code></p>
+<pre><code>源于&lt;ul&gt; ， &lt;ol&gt;， &lt;table&gt; ， &lt;select&gt; 限制其内部的元素
+无效：
+&lt;table&gt;
+      &lt;my-row&gt;...&lt;/my-row&gt;
+&lt;/table&gt;
+有效：
+&lt;table&gt;
+      &lt;tr is=&quot;my-row&quot;&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre><h4 id="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："><a href="#应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：" class="headerlink" title="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："></a>应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：</h4><pre><code>&lt;script type=&quot;text/x-template&quot;&gt;
+JavaScript内联模版字符串
+.vue 组件
+</code></pre><h4 id="组件的使用。要确保在初始化根实例-之前-注册了组件"><a href="#组件的使用。要确保在初始化根实例-之前-注册了组件" class="headerlink" title="组件的使用。要确保在初始化根实例 之前 注册了组件"></a>组件的使用。要确保在初始化根实例 之前 注册了组件</h4><h4 id="data-必须是函数"><a href="#data-必须是函数" class="headerlink" title="data 必须是函数"></a>data 必须是函数</h4><pre><code>Vue.component(&apos;simple-counter&apos;, {
+      data: function () {
+        return {}
+      }
+})
+</code></pre><h4 id="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"><a href="#每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量" class="headerlink" title="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"></a>每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量</h4><pre><code>&lt;div id=&quot;example-2&quot;&gt;
+      &lt;simple-counter&gt;&lt;/simple-counter&gt;
+      &lt;simple-counter&gt;&lt;/simple-counter&gt;
+&lt;/div&gt;
+var data = { counter: 0 }
+Vue.component(&apos;simple-counter&apos;, {
+      template: &apos;&lt;button v-on:click=&quot;counter += 1&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
+      // 但是我们为每一个组件返回了同一个对象引用
+      data: function () {
+        //return data   //两个组件的值一起变
+        return {counter:0} //互不干扰
+      }
+})
+</code></pre><h2 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h2><p><code>父组件通过 props 向下传递数据给子组件，子组件通过 emit 给父组件发送消息。</code><br><img src="https://vuefe.cn/images/props-events.png" alt=""></p>
+<h4 id="props"><a href="#props" class="headerlink" title="props"></a>props</h4><p><code>常规使用</code></p>
+<pre><code>&lt;!--注意属性值用‘-’   这里是静态的hello--&gt;
+&lt;child my-message=&quot;hello!&quot;&gt;&lt;/child&gt;
+Vue.component(&apos;child&apos;, {
+      // 声明 props
+      props: [&apos;myMessage&apos;],
+      // 就像 data 一样，prop 可以用在模板内
+      // 同样也可以在 vm 实例中像 “this.message” 这样使用
+      template: &apos;&lt;span&gt;{{ myMessage }}&lt;/span&gt;&apos;
+})
+
+&lt;!--属性props动态值传递需要 v-bind --&gt;
+&lt;!-- 传递实际的数字1，也可以是变量(例如data里的变量) --&gt;
+&lt;comp v-bind:some-prop=&quot;1&quot;&gt;&lt;/comp&gt;
+</code></pre><p><code>props需要默认值或验证</code><br>    验证不通过也会正常显示，只是在后台报错，主要是给其他使用组件的朋友看的</p>
+<pre><code>Vue.component(&apos;example&apos;, {
+      props: {
+        // 基础类型检测 （`null` 意思是任何类型都可以）
+        propA: Number,
+        // 多种类型
+        propB: [String, Number],
+        // 必传且是字符串
+        propC: {
+              type: String,
+              required: true
+        },
+        // 数字，有默认值
+        propD: {
+              type: Number,
+              default: 100
+        },
+        // 数组／对象的默认值应当由一个工厂函数返回 *******必须是函数*****
+        propE: {
+              type: Object,
+              default: function () {
+                return { message: &apos;hello&apos; }
+              }
+        },
+        // 自定义验证函数
+        propF: {
+              validator: function (value) {
+                return value &gt; 10
+              }
+        }
+      }
+})
+</code></pre><p><code>emit向父组件传递数据</code></p>
+<pre><code>&lt;div id=&quot;counter-event-example&quot;&gt;
+      &lt;p&gt;{{ total }}&lt;/p&gt;
+              &lt;!--组件的increment事件出发后执行实例的incrementTotal方法--&gt;
+      &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;
+
+      &lt;!--组件使用.native说明使用的是原生click事件不是绑定的事件--&gt;
+      &lt;!--&lt;my-component v-on:click.native=&quot;doTheThing&quot;&gt;&lt;/my-component&gt;--&gt;
+
+&lt;/div&gt;
+Vue.component(&apos;button-counter&apos;, {
+                //1,组件内btn点击触发函数increment
+      template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
+      data: function () {
+        return {
+              counter: 0
+        }
+      },
+      methods: {
+        increment: function () {
+              this.counter += 1
+              // 2,函数执行后触发组件的increment事件 //带了数据出去
+              this.$emit(&apos;increment&apos;,&apos;传递的数据&apos;)
+        }
+      },
+})
+new Vue({
+      el: &apos;#counter-event-example&apos;,
+      data: {
+        total: 0,
+        str=&apos;&apos;,
+      },
+      methods: {
+          //实例方法执行，成功获取到组件内部传递的数据  //注意有参
+        incrementTotal: function (a) {
+              this.total += 1
+              this.str = a  //this.str = &apos;传递的数据&apos;
+        }
+      }
+})
+</code></pre><h2 id="插槽Slots–分发内容"><a href="#插槽Slots–分发内容" class="headerlink" title="插槽Slots–分发内容"></a>插槽Slots–分发内容</h2><blockquote>
+<p>slot标签中的任何内容都被视为备用内容。备用内容在子组件的作用域内编译，并且只有在宿主元素为空，且没有要插入的内容时才显示备用内容。</p>
+</blockquote>
+<p><code>单个插槽：</code></p>
+<pre><code>//component组件
+&lt;div&gt;
+      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+      &lt;slot&gt;如果没有分发内容则显示我。&lt;/slot&gt;
+&lt;/div&gt;
+
+//html
+&lt;div&gt;
+      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
+      &lt;my-component&gt;
+        &lt;p&gt;插入的内容&lt;/p&gt;
+      &lt;/my-component&gt;
+&lt;/div&gt;
+
+//渲染结果：
+&lt;div&gt;
+      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
+
+      &lt;div&gt;
+          &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+          &lt;p&gt;插入的内容&lt;/p&gt;
+    &lt;/div&gt;
+      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+&lt;/div&gt;
+</code></pre><p><code>多个slot:用name分配：</code></p>
+<pre><code>//组件
+&lt;div class=&quot;container&quot;&gt;
+      &lt;header&gt;
+            &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;
+      &lt;/header&gt;
+     &lt;main&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/main&gt;
+      &lt;footer&gt;
+        &lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;
+      &lt;/footer&gt;
+&lt;/div&gt;
+
+//html
+&lt;app-layout&gt;
+      &lt;h1 slot=&quot;header&quot;&gt;header&lt;/h1&gt;
+      &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+      &lt;p slot=&quot;footer&quot;&gt;footer&lt;/p&gt;
+&lt;/app-layout&gt;
+
+//渲染结果
+&lt;div class=&quot;container&quot;&gt;
+      &lt;header&gt;
+        &lt;h1&gt;header&lt;/h1&gt;
+      &lt;/header&gt;
+
+      &lt;main&gt;
+        &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+      &lt;/main&gt;
+
+      &lt;footer&gt;
+        &lt;p&gt;footer&lt;/p&gt;
+      &lt;/footer&gt;
+&lt;/div&gt;
+</code></pre><h2 id="切换组件显示"><a href="#切换组件显示" class="headerlink" title="切换组件显示"></a>切换组件显示</h2><pre><code>var vm = new Vue({
+      el: &apos;#example&apos;,
+      data: {
+        currentView: &apos;home&apos;
+      },
+      components: {
+            home: { /* ... */ },
+        posts: { /* ... */ },
+        archive: { /* ... */ }
+      }
+})
+//keep-alive切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。
+&lt;keep-alive&gt;
+    &lt;component v-bind:is=&quot;currentView&quot;&gt;
+      &lt;!-- 组件在 vm.currentview 变化时改变！ --&gt;
+    &lt;/component&gt;
+&lt;/keep-alive&gt;
+</code></pre><h3 id="子组件索引"><a href="#子组件索引" class="headerlink" title="子组件索引"></a>子组件索引</h3><h5 id="—获取其他不相关的组件并加以控制器内部实现"><a href="#—获取其他不相关的组件并加以控制器内部实现" class="headerlink" title="—获取其他不相关的组件并加以控制器内部实现"></a>—获取其他不相关的组件并加以控制器内部实现</h5><pre><code>&lt;div id=&quot;parent&quot;&gt;
+      &lt;user-profile ref=&quot;profile&quot;&gt;&lt;/user-profile&gt;
+&lt;/div&gt;
+
+var parent = new Vue({ el: &apos;#parent&apos; })
+// 访问子组件
+var child = parent.$refs.profile;
+
+//然后就可以控制child的内部实现--
+    如child.a=..
+    child.fn();
+</code></pre><p><em>尽管在 Vue 中渲染 HTML 很快，不过当组件中包含大量静态内容时，可以考虑使用 v-once 将渲染结果缓存起来 <div v-once=""></div>–注意使用v-once后内部值或者变量都只会执行一次，后续不会再变动，包括子节点</em></p>
+<h1 id="先到这里OVER"><a href="#先到这里OVER" class="headerlink" title="先到这里OVER"></a>先到这里OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/14/Vue表单与组件/" class="archive-article-date">
+  	<time datetime="2016-10-14T12:03:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue表单与组件/">Vue表单与组件</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1538,7 +1903,7 @@ Markdown 语言，右边会实时的生成预览效果。在Win上推荐使用 M
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

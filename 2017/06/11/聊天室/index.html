@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: 面向对象编程 | 奋斗蚁🐜</title>
+  <title>基于nodejs和socket.io的聊天室 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/面向对象编程/index.html">
+  <meta name="description" content="#### socket.io详细介绍可以官网这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen首先我们来安装一下2个依赖express和socket.ionpm i express socket.io -S
+让我们来开启一个服务器//开启一个服务
+var express = require(&amp;apos;express&amp;apos;);
+var app = express();">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于nodejs和socket.io的聊天室">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/06/11/聊天室/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="#### socket.io详细介绍可以官网这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen首先我们来安装一下2个依赖express和socket.ionpm i express socket.io -S
+让我们来开启一个服务器//开启一个服务
+var express = require(&amp;apos;express&amp;apos;);
+var app = express();">
+<meta property="og:updated_time" content="2017-06-04T14:43:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="基于nodejs和socket.io的聊天室">
+<meta name="twitter:description" content="#### socket.io详细介绍可以官网这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen首先我们来安装一下2个依赖express和socket.ionpm i express socket.io -S
+让我们来开启一个服务器//开启一个服务
+var express = require(&amp;apos;express&amp;apos;);
+var app = express();">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -233,86 +246,233 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-聊天室" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-javascript">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/02/面向对象编程（一）：封装/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:38:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/02/面向对象编程（一）：封装/">面向对象编程</a>
+    <h1 class="article-title" itemprop="name">
+      基于nodejs和socket.io的聊天室
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面向对象编程/">面向对象编程</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/30/学习Javascript闭包/" class="archive-article-date">
-  	<time datetime="2016-11-30T06:37:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="socket-io详细介绍可以官网"><a href="#socket-io详细介绍可以官网" class="headerlink" title="#### socket.io详细介绍可以官网"></a>#### socket.io详细介绍可以<a href="https://socket.io/" target="_blank" rel="external">官网</a></h3><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="external">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
+</code></pre><h5 id="让我们来开启一个服务器"><a href="#让我们来开启一个服务器" class="headerlink" title="让我们来开启一个服务器"></a>让我们来开启一个服务器</h5><pre><code>//开启一个服务
+var express = require(&apos;express&apos;);
+var app = express();
+var server = require(&apos;http&apos;).createServer(app);
+var io = require(&apos;socket.io&apos;)(server);
+server.listen(3000, function () {
+  console.log(&apos;Server listening at http://localhost:3000&apos;);
+});
+
+// Routing
+app.use(express.static(__dirname + &apos;/src&apos;));
+
+//设置房间用户数量members
+var members = 0;
+</code></pre><h5 id="前端HTML"><a href="#前端HTML" class="headerlink" title="前端HTML"></a>前端HTML</h5><pre><code>&lt;body&gt;
+  &lt;!-- 首页供用户首次进入输入昵称 --&gt;
+  &lt;div class=&quot;mymodal&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;h1&gt;请输入你的昵称&lt;/h3&gt;
+      &lt;input type=&quot;text&quot; maxlength=&quot;14&quot; class=&apos;name&apos;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- 主页 聊天使用 --&gt;
+  &lt;h2 class=&apos;text-center&apos;&gt;欢迎来到南南ChatRoom&lt;br&gt;&lt;small&gt;xxx 正在输入...&lt;/small&gt;&lt;/h2&gt;
+  &lt;ul&gt;&lt;/ul&gt;
+  &lt;div class=&quot;input-group ipt&quot;&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;请输入聊天内容&quot; aria-describedby=&quot;send&quot;&gt;
+    &lt;span class=&quot;input-group-addon&quot; id=&quot;send&quot;&gt;发送&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&apos;/lib/jquery.min.js&apos;&gt;&lt;/script&gt;
+  &lt;script src=&apos;./index.js&apos;&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h5 id="JS部分"><a href="#JS部分" class="headerlink" title="JS部分"></a>JS部分</h5><ul>
+<li><p>先定义一些变量</p>
+<pre><code>var login = false; //还未登陆
+var nameIpt = $(&apos;.content input&apos;) //输入用户名
+var mesIpt = $(&apos;.ipt input&apos;) //消息输入框
+var myModal = $(&apos;.mymodal&apos;); //首次进入的modal框
+var ul = $(&apos;ul&apos;) //详细列表box
+var typing = $(&apos;small&apos;); //正在输入
+var username = &apos;&apos;; //用户名
+var sendBtn = $(&apos;#send&apos;) //发送按钮
+//定义socket
+var socket = io();
+</code></pre></li>
+<li><p>定义几个常用的函数</p>
+<pre><code>//输入框获得焦点
+function _focus(){
+  //获取焦点
+  if(!login &amp;&amp; !(event.ctrlKey || event.metaKey || event.altKey)){
+    //如果没有登录
+    nameIpt.focus()
+  }else if(!(event.ctrlKey || event.metaKey || event.altKey)){
+    //登录成功
+    mesIpt.focus()
+  }
+}
+//添加一条聊天消息
+function addMessage(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;strong style=&apos;color:${data.color}&apos;&gt;${data.username}：&lt;/strong&gt;&lt;span&gt;${data.message}&lt;/span&gt;`)
+  li.fadeIn(3000)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+  mesIpt.val(&apos;&apos;)
+}
+//添加欢迎消息
+function welcome(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p&gt;欢迎 ${data.username} 加入了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+}
+
+//输出日志
+function log(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;${data}&lt;/p&gt;&lt;/li&gt;`)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+}
+</code></pre></li>
+<li><p>socket使用，监听/触发方法</p>
+<pre><code>//登录成功
+socket.on(&apos;loginSuccess&apos;,function(data){
+  login = true;
+  username = data.username
+  myModal.fadeOut()
+  welcome(data)
+})
+//欢迎加入房间
+socket.on(&apos;welcome&apos;,function(data){
+  welcome(data)
+})
+//xxx离开房间
+socket.on(&apos;leave&apos;,function(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;额.. ${data.username} 离开了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+})
+//消息发送成功
+socket.on(&apos;sendMessageSuccess&apos;,function(data){
+  addMessage(data)
+})
+
+//显示正在输入
+socket.on(&apos;typingSuccess&apos;, function (username) {
+  typing.text(`${username}正在输入...`).css(&apos;display&apos;,&apos;block&apos;).delay(2000).fadeOut();;
+});
+
+//本人失去连接
+socket.on(&apos;disconnect&apos;, function () {
+  log(&apos;您已失去连接正在尝试重连...&apos;)
+});
+//本人重连失败
+socket.on(&apos;reconnect_error&apos;, function () {
+  log(&apos;重连失败，再次尝试...&apos;)
+});
+//重连成功
+socket.on(&apos;reconnect&apos;, function () {
+  log(&apos;连接成功！&apos;);
+  if (username) {
+    //如果还在房间里，重新加入房间
+    socket.emit(&apos;addUserRequest&apos;, username);
+  }
+});
+</code></pre></li>
+<li><p>主入口用户触发函数</p>
+<p>  //设置屏幕点击和按键按下 输入框自动获得焦点</p>
+<pre><code>$(window).on(&apos;click&apos;,function(e){
+  _focus();
+})
+$(window).on(&apos;keydown&apos;,function(e){
+  _focus();
+  //输入名字后按回车进入聊天室
+  if(e.which === 13){
+    if(!login){
+      //如果没有登录 发送登录请求
+      var _name = nameIpt.val().trim()
+      if(_name){
+        socket.emit(&apos;addUserRequest&apos;, _name);
+      }
+    }else{
+      //已经登录发送消息
+      var message = mesIpt.val().trim()
+      if(message){
+        socket.emit(&apos;sendMessageRequest&apos;, message);
+      }
+    }
+  }
+})
+//按钮发送
+sendBtn.click(function(){
+  var message = mesIpt.val().trim()
+  if(message){
+    addMessage({username,message})
+    socket.emit(&apos;sendMessageRequest&apos;, message);
+  }
+})
+
+//用户输入消息是触发typing
+mesIpt.on(&apos;input&apos;, function() {
+  socket.emit(&apos;typingRequest&apos;, username);
+});
+</code></pre><h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5></li>
+</ul>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/11/聊天室/" class="archive-article-date">
+  	<time datetime="2017-06-10T22:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-11</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/30/学习Javascript闭包/">学习Javascript闭包</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面向对象编程/">面向对象编程</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/聊天室/">聊天室</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/06/07/canvas粒子运动/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">canvas粒子运动</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       </div>
@@ -332,9 +492,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
