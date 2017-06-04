@@ -22,7 +22,7 @@ var">
 var express = require(&amp;apos;express&amp;apos;);
 var app = express();
 var">
-<meta property="og:updated_time" content="2017-06-04T14:45:46.000Z">
+<meta property="og:updated_time" content="2017-06-04T14:56:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于nodejs和socket.io的聊天室">
 <meta name="twitter:description" content="socket.io详细介绍可以查看官网这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen首先我们来安装一下2个依赖express和socket.ionpm i express socket.io -S
@@ -316,8 +316,8 @@ var sendBtn = $(&apos;#send&apos;) //发送按钮
 var socket = io();
 </code></pre></li>
 <li><p>定义几个常用的函数</p>
-<p>  //输入框获得焦点</p>
-<pre><code>function _focus(){
+<pre><code>//输入框获得焦点
+function _focus(){
   //获取焦点
   if(!login &amp;&amp; !(event.ctrlKey || event.metaKey || event.altKey)){
     //如果没有登录
@@ -327,6 +327,7 @@ var socket = io();
     mesIpt.focus()
   }
 }
+
 //添加一条聊天消息
 function addMessage(data){
   var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;strong style=&apos;color:${data.color}&apos;&gt;${data.username}：&lt;/strong&gt;&lt;span&gt;${data.message}&lt;/span&gt;`)
@@ -335,13 +336,13 @@ function addMessage(data){
   ul.scrollTop(ul[0].scrollHeight)
   mesIpt.val(&apos;&apos;)
 }
+
 //添加欢迎消息
 function welcome(data){
   var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p&gt;欢迎 ${data.username} 加入了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
   ul.append(li)
   ul.scrollTop(ul[0].scrollHeight)
 }
-
 //输出日志
 function log(data){
   var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;${data}&lt;/p&gt;&lt;/li&gt;`)
@@ -350,8 +351,8 @@ function log(data){
 }
 </code></pre></li>
 <li><p>socket使用，监听/触发方法</p>
-<p>  //登录成功</p>
-<pre><code>socket.on(&apos;loginSuccess&apos;,function(data){
+<pre><code>//登录成功
+socket.on(&apos;loginSuccess&apos;,function(data){
   login = true;
   username = data.username
   myModal.fadeOut()
@@ -359,7 +360,7 @@ function log(data){
 })
 //欢迎加入房间
 socket.on(&apos;welcome&apos;,function(data){
-  welcome(data)
+    welcome(data)
 })
 //xxx离开房间
 socket.on(&apos;leave&apos;,function(data){
@@ -369,21 +370,19 @@ socket.on(&apos;leave&apos;,function(data){
 })
 //消息发送成功
 socket.on(&apos;sendMessageSuccess&apos;,function(data){
-  addMessage(data)
+    addMessage(data)
 })
-
 //显示正在输入
 socket.on(&apos;typingSuccess&apos;, function (username) {
-  typing.text(`${username}正在输入...`).css(&apos;display&apos;,&apos;block&apos;).delay(2000).fadeOut();;
+    typing.text(`${username}正在输入...`).css(&apos;display&apos;,&apos;block&apos;).delay(2000).fadeOut();;
 });
-
 //本人失去连接
 socket.on(&apos;disconnect&apos;, function () {
-  log(&apos;您已失去连接正在尝试重连...&apos;)
+    log(&apos;您已失去连接正在尝试重连...&apos;)
 });
 //本人重连失败
 socket.on(&apos;reconnect_error&apos;, function () {
-  log(&apos;重连失败，再次尝试...&apos;)
+    log(&apos;重连失败，再次尝试...&apos;)
 });
 //重连成功
 socket.on(&apos;reconnect&apos;, function () {
@@ -395,28 +394,43 @@ socket.on(&apos;reconnect&apos;, function () {
 });
 </code></pre></li>
 <li><p>主入口用户触发函数</p>
-<p>//设置屏幕点击和按键按下 输入框自动获得焦点<br> $(window).on(‘click’,function(e){<br>   _focus();<br> })<br> $(window).on(‘keydown’,function(e){<br>   _focus();<br>   //输入名字后按回车进入聊天室<br>   if(e.which === 13){</p>
-<pre><code>if(!login){
-  //如果没有登录 发送登录请求
-  var _name = nameIpt.val().trim()
-  if(_name){
-    socket.emit(&apos;addUserRequest&apos;, _name);
-  }
-}else{
-  //已经登录发送消息
+<pre><code>//设置屏幕点击和按键按下 输入框自动获得焦点
+$(window).on(&apos;click&apos;,function(e){    
+    _focus();
+})
+$(window).on(&apos;keydown&apos;,function(e){
+ _focus();
+ //输入名字后按回车进入聊天室
+ if(e.which === 13){
+   if(!login){
+     //如果没有登录 发送登录请求
+     var _name = nameIpt.val().trim()
+     if(_name){
+       socket.emit(&apos;addUserRequest&apos;, _name);
+     }
+   }else{
+     //已经登录发送消息
+     var message = mesIpt.val().trim()
+     if(message){
+       socket.emit(&apos;sendMessageRequest&apos;, message);
+     }
+   }
+ }
+//按钮发送
+sendBtn.click(function(){
   var message = mesIpt.val().trim()
-  if(message){
-    socket.emit(&apos;sendMessageRequest&apos;, message);
-  }
-}
-</code></pre><p>   }<br> })<br> //按钮发送<br> sendBtn.click(function(){<br>   var message = mesIpt.val().trim()<br>   if(message){</p>
-<pre><code>addMessage({username,message})
-socket.emit(&apos;sendMessageRequest&apos;, message);
-</code></pre><p>   }<br> })</p>
-<p> //用户输入消息是触发typing<br> mesIpt.on(‘input’, function() {<br>   socket.emit(‘typingRequest’, username);<br> });</p>
-<h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5></li>
+   if(message){
+     addMessage({username,message})
+     socket.emit(&apos;sendMessageRequest&apos;, message);
+   }
+})
+//用户输入消息是触发typing
+mesIpt.on(&apos;input&apos;, function() {
+    socket.emit(&apos;typingRequest&apos;, username);
+});  
+</code></pre></li>
 </ul>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+<h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
       
     </div>
     <div class="article-info article-info-index">
