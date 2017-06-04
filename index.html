@@ -253,7 +253,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="socket-io详细介绍可以官网"><a href="#socket-io详细介绍可以官网" class="headerlink" title="#### socket.io详细介绍可以官网"></a>#### socket.io详细介绍可以<a href="https://socket.io/" target="_blank" rel="external">官网</a></h3><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="external">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
+        <h4 id="socket-io详细介绍可以查看官网"><a href="#socket-io详细介绍可以查看官网" class="headerlink" title="socket.io详细介绍可以查看官网"></a>socket.io详细介绍可以查看<a href="https://socket.io/" target="_blank" rel="external">官网</a></h4><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="external">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
 </code></pre><h5 id="让我们来开启一个服务器"><a href="#让我们来开启一个服务器" class="headerlink" title="让我们来开启一个服务器"></a>让我们来开启一个服务器</h5><pre><code>//开启一个服务
 var express = require(&apos;express&apos;);
 var app = express();
@@ -302,8 +302,8 @@ var sendBtn = $(&apos;#send&apos;) //发送按钮
 var socket = io();
 </code></pre></li>
 <li><p>定义几个常用的函数</p>
-<pre><code>//输入框获得焦点
-function _focus(){
+<p>  //输入框获得焦点</p>
+<pre><code>function _focus(){
   //获取焦点
   if(!login &amp;&amp; !(event.ctrlKey || event.metaKey || event.altKey)){
     //如果没有登录
@@ -336,8 +336,8 @@ function log(data){
 }
 </code></pre></li>
 <li><p>socket使用，监听/触发方法</p>
-<pre><code>//登录成功
-socket.on(&apos;loginSuccess&apos;,function(data){
+<p>  //登录成功</p>
+<pre><code>socket.on(&apos;loginSuccess&apos;,function(data){
   login = true;
   username = data.username
   myModal.fadeOut()
@@ -381,43 +381,26 @@ socket.on(&apos;reconnect&apos;, function () {
 });
 </code></pre></li>
 <li><p>主入口用户触发函数</p>
-<p>  //设置屏幕点击和按键按下 输入框自动获得焦点</p>
-<pre><code>$(window).on(&apos;click&apos;,function(e){
-  _focus();
-})
-$(window).on(&apos;keydown&apos;,function(e){
-  _focus();
-  //输入名字后按回车进入聊天室
-  if(e.which === 13){
-    if(!login){
-      //如果没有登录 发送登录请求
-      var _name = nameIpt.val().trim()
-      if(_name){
-        socket.emit(&apos;addUserRequest&apos;, _name);
-      }
-    }else{
-      //已经登录发送消息
-      var message = mesIpt.val().trim()
-      if(message){
-        socket.emit(&apos;sendMessageRequest&apos;, message);
-      }
-    }
+<p>//设置屏幕点击和按键按下 输入框自动获得焦点<br> $(window).on(‘click’,function(e){<br>   _focus();<br> })<br> $(window).on(‘keydown’,function(e){<br>   _focus();<br>   //输入名字后按回车进入聊天室<br>   if(e.which === 13){</p>
+<pre><code>if(!login){
+  //如果没有登录 发送登录请求
+  var _name = nameIpt.val().trim()
+  if(_name){
+    socket.emit(&apos;addUserRequest&apos;, _name);
   }
-})
-//按钮发送
-sendBtn.click(function(){
+}else{
+  //已经登录发送消息
   var message = mesIpt.val().trim()
   if(message){
-    addMessage({username,message})
     socket.emit(&apos;sendMessageRequest&apos;, message);
   }
-})
-
-//用户输入消息是触发typing
-mesIpt.on(&apos;input&apos;, function() {
-  socket.emit(&apos;typingRequest&apos;, username);
-});
-</code></pre><h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5></li>
+}
+</code></pre><p>   }<br> })<br> //按钮发送<br> sendBtn.click(function(){<br>   var message = mesIpt.val().trim()<br>   if(message){</p>
+<pre><code>addMessage({username,message})
+socket.emit(&apos;sendMessageRequest&apos;, message);
+</code></pre><p>   }<br> })</p>
+<p> //用户输入消息是触发typing<br> mesIpt.on(‘input’, function() {<br>   socket.emit(‘typingRequest’, username);<br> });</p>
+<h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5></li>
 </ul>
 <h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
       
