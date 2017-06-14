@@ -7,14 +7,33 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="baidu-site-verification" content="ggTdcuuNh2" />
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: 数据库基本操作（二） | 奋斗蚁🐜</title>
+  <title>原生JS封装自己的Picker | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/数据库基本操作（二）/index.html">
+  <meta name="description" content="移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用
+
+效果预览：轻戳使用说明&amp;lt;body&amp;gt;
+  &amp;lt;div id=&amp;quot;ZnPicker&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;script src=&amp;apos;ZnPicker.js&amp;apos;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="原生JS封装自己的Picker">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/06/15/原生JS封装自己的Picker/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用
+
+效果预览：轻戳使用说明&amp;lt;body&amp;gt;
+  &amp;lt;div id=&amp;quot;ZnPicker&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;script src=&amp;apos;ZnPicker.js&amp;apos;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;g">
+<meta property="og:updated_time" content="2017-06-14T13:59:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="原生JS封装自己的Picker">
+<meta name="twitter:description" content="移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用
+
+效果预览：轻戳使用说明&amp;lt;body&amp;gt;
+  &amp;lt;div id=&amp;quot;ZnPicker&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;script src=&amp;apos;ZnPicker.js&amp;apos;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;g">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -234,54 +253,152 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-原生JS封装自己的Picker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/23/数据库基本操作二/" class="archive-article-date">
-  	<time datetime="2016-11-23T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/23/数据库基本操作二/">数据库基本操作二</a>
+    <h1 class="article-title" itemprop="name">
+      原生JS封装自己的Picker
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用</p>
+</blockquote>
+<h3 id="效果预览：轻戳"><a href="#效果预览：轻戳" class="headerlink" title="效果预览：轻戳"></a>效果预览：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/ZnPicker/blob/master/index.html" target="_blank" rel="external">轻戳</a></h3><h4 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h4><pre><code>&lt;body&gt;
+  &lt;div id=&quot;ZnPicker&quot;&gt;&lt;/div&gt;
+  &lt;script src=&apos;ZnPicker.js&apos;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    var picker=new ZnPicker({
+      dataArea:{min:1,max:199,unit:&apos;岁&apos;},
+      // dataSource:[{name:&apos;张三&apos;,id:1},{name:&apos;李四&apos;,id:2},{name:&apos;王五&apos;,id:3}],
+      title:&apos;请选择年龄&apos;,
+      defaultSite: 122,
+      lineHeight:36
+    })
+    picker.show()
+    picker.onChange=function(data){
+      alert(data)
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">Options/callBack</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">title</td>
+<td style="text-align:center">Picker标题</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">defaultSite</td>
+<td style="text-align:center">默认起始位置</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">lineHeight</td>
+<td style="text-align:center">单个行高</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">dataArea</td>
+<td style="text-align:center">区间数据源，和dataSource有且只有一个/callback返回区间数</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">dataSource</td>
+<td style="text-align:center">列表数据源，和dataArea有且只有一个/callback返回数据id</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">show</td>
+<td style="text-align:center">Picker显示</td>
+<td style="text-align:center">/</td>
+</tr>
+<tr>
+<td style="text-align:center">onChange</td>
+<td style="text-align:center">选中后的回调函数</td>
+<td style="text-align:center">/</td>
+</tr>
+</tbody>
+</table>
+<h4 id="请允许我记录一点小东西"><a href="#请允许我记录一点小东西" class="headerlink" title="请允许我记录一点小东西"></a>请允许我记录一点小东西</h4><ul>
+<li><p>onmouseenter 与onmouseover的区别是 onmouseenter不支持冒泡事件</p>
+</li>
+<li><p>Chrome模拟器不支持 on事件如ontouchstart 需要用addEventListener 添加</p>
+</li>
+<li><p>css3 transition对应有一个js结束事件 transitionend，只支持addEventListener 添加</p>
+<ul>
+<li><p>// Safari 3.1 到 6.0 代码</p>
+<p>document.getElementById(“myDIV”).addEventListener(“webkitTransitionEnd”, myFunction);</p>
+</li>
+<li><p>// 标准语法</p>
+<p>document.getElementById(“myDIV”).addEventListener(“transitionend”, myFunction);</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>移动端页面event.preventDefault()需要加一个判断，开始向下move 和 底部向上滑动则阻止默认行为，否则页面不能滚动</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/15/原生JS封装自己的Picker/" class="archive-article-date">
+  	<time datetime="2017-06-15T12:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-15</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库基本操作（二）/">数据库基本操作（二）</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZnPicker/">ZnPicker</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/06/11/聊天室/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">基于nodejs和socket.io的聊天室</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       </div>
@@ -301,9 +418,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

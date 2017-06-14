@@ -2,6 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/15/%E5%8E%9F%E7%94%9FJS%E5%B0%81%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84Picker/</loc>
+    <lastmod>2017-06-14T13:59:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>原生JS封装自己的Picker</title>
+        <pubTime>2017-06-15T12:59:48.000Z</pubTime>
+        
+        <tag>ZnPicker </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://Jasonellen.github.io/2017/06/07/canvas%E7%B2%92%E5%AD%90%E8%BF%90%E5%8A%A8/</loc>
