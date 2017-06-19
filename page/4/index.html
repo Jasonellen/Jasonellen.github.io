@@ -236,6 +236,213 @@
       <div class="body-wrap">
         
   
+    <article id="post-移动端布局-事件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/06/移动端布局-事件/">移动端布局+事件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="针对移动端做点自我总结…"><a href="#针对移动端做点自我总结…" class="headerlink" title="针对移动端做点自我总结…"></a>针对移动端做点自我总结…</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p><code>文本超过一行用…代替</code></p>
+<pre><code>white-space: nowrap;
+text-overflow: ellipsis;
+overflow: hidden;
+</code></pre><p><code>文本超过2行用…代替</code></p>
+<pre><code>width:200px;
+word-break:break-all;
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+overflow:hidden;
+background-color: burlywood;
+</code></pre><p><code>animate.css动画库使用</code></p>
+<pre><code>animated 动画库使用方法在对应标签上加上对应类名就好了 
+如：class=“animated  flash” 闪烁
+默认执行一次，如果需要修改就修改css
+ animation-duration: 3000ms;
+ animation-direction: alternate;
+ animation-iteration-count: infinite;
+</code></pre><h2 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h2><h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><pre><code>1，html和body必须同时设置宽高100%，下面的div的高才会有100%的高度
+2，最外层标签元素也要设置100%宽高，不然直接给内部设置100%,页面会高出一截，导致会有上下晃动
+3，来一波meta标签
+    &lt;!-- 显示苹果工具栏和菜单栏(默认)，改为no不显示 --&gt;
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-mobile-web-app-capable&quot;&gt;  
+    &lt;!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览； --&gt;  
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-touch-fullscreen&quot;&gt;
+
+    &lt;!-- iphone的私有标签，它指定的iphone中safari顶端的状态条的样式；默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明） 
+    注意：若值为“black-translucent”将会占据页面px位置，浮在页面上方
+    （会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。
+    --&gt;
+    &lt;meta content=&quot;black&quot; name=&quot;apple-mobile-web-app-status-bar-style&quot;&gt;   
+    &lt;!-- 告诉设备忽略将页面中的数字识别为电话号码。 --&gt;
+    &lt;meta content=&quot;telephone=no&quot; name=&quot;format-detection&quot;&gt;
+
+
+    &lt;!-- 苹果手机safari浏览器上可以使用添加到主屏按钮将网站添加到主屏幕上显示的图标 --&gt;
+    &lt;link rel=&quot;apple-touch-icon&quot; href=&quot;favicon.png&quot;&gt;
+
+    &lt;!-- 浏览器网址左侧的图标 --&gt;
+    &lt;link rel=&quot;Shortcut Icon&quot; href=&quot;favicon.png&quot; type=&quot;image/x-icon&quot;&gt;
+</code></pre><h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><pre><code>在事件出发前记得组件默认拖拽事件
+$(&apos;body&apos;).on(&apos;touchmove&apos;, function (event) {
+    event.preventDefault();
+});
+</code></pre><h4 id="JS原生事件"><a href="#JS原生事件" class="headerlink" title="JS原生事件"></a>JS原生事件</h4><pre><code>touchstart --- onmousedown
+touchmove --- onmousemove
+touchend --- onmouseup
+需要用事件绑定的第二种形式触发
+
+//如下是获取坐标点以便完成拖拽
+$(&apos;.drag&apos;).on(&apos;touchstart&apos;,function(e){
+    console.log(e.originalEvent.touches[0])
+})
+
+var div = document.querySelector(&apos;.drag&apos;);
+div.addEventListener(&quot;touchstart&quot;, function(e) {
+      console.log(e.touches[0]); //方式一
+       console.log(e.targetTouches[0]);//方式二
+ },false)
+</code></pre><h4 id="touch-js插件"><a href="#touch-js插件" class="headerlink" title="touch.js插件"></a>touch.js插件</h4><blockquote>
+<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="external">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="external">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="external">touch3.js</a></p>
+</blockquote>
+<p><code>touch1.js</code></p>
+<pre><code>依赖文件：不依赖任何文件
+完成功能：上下左右滑动和点击
+使用：document.querySelector(&apos;div&apos;).touch({
+        tap:function(ev){
+            //var e = ev || window.event; 不需要了
+            console.log(&apos;哎呀，被点击了&apos;,e)
+        },
+        swipeUp:function(ev){
+            console.log(&apos;哎呀，执行了上滑&apos;,e)
+        },
+        swipeDown:function(){
+            console.log(&apos;哎呀，执行了下滑&apos;)
+        },
+        swipeLeft:function(){
+            console.log(&apos;哎呀，执行了左滑&apos;)
+        },
+        swipeRight:function(){
+            console.log(&apos;哎呀，执行了右滑&apos;)
+        },
+    })
+JQ使用：如果是用jq就—get()是获取DOM元素，eq()是获取jq对象
+$(‘div’).get(0).touch({
+    tap:function(){
+        console.log(&apos;哎呀，被点击了&apos;,e)
+    },
+    …
+})
+</code></pre><p><code>touch2.js</code></p>
+<pre><code>依赖文件：依赖jquery，必须在jq之后引入
+完成功能：上下左右滑动，单击，双击(doubleTap)，长按(longTap)
+使用： 
+    &lt;script src=&apos;js/jquery.min.js&apos;&gt;&lt;/script&gt;
+    &lt;script src=&apos;js/touch2.js&apos;&gt;&lt;/script&gt;
+            //必须用驼峰标示
+    $(‘.begin’).doubleTap(function(){
+        alert(123)
+       })
+</code></pre><p><code>touch3.js</code></p>
+<pre><code>依赖文件：不依赖任何文件            //必须全部小写
+完成功能：滑动，上下左右滑动，单击，双击(doubletap)，长按(hold)，旋转，缩放
+使用： 
+    1，对手势事件库进行全局配置。
+    touch.config({   //可以不配置，就用默认的就好
+        tap: true,                  //tap类事件开关, 默认为true  
+        doubleTap: true,            //doubleTap事件开关， 默认为true    
+        hold: true,                //hold事件开关, 默认为true    
+        holdTime: 650,               //hold时间长度   
+        swipe: true,               //swipe事件开关    
+        swipeTime: 300,            //触发swipe事件的最大时长   
+        swipeMinDistance: 18,       //swipe移动最小距离    
+        swipeFactor: 5,            //加速因子, 值越大变化速率越快   
+        drag: true,                //drag事件开关    
+        pinch: true,               //pinch类事件开关
+    }) 
+
+    2，事件绑定
+    touch.on( element, types, callback );
+    //多个手势同个效果，用空格隔开即可
+    touch.on(&apos;#target&apos;, &apos;hold tap doubletap&apos;, function(ev){  } 
+
+    旋转：
+    var div1 = document.querySelector(&apos;.d&apos;);
+    var angel = 0;//初始角度
+    touch.on(&quot;.d&quot;,&quot;touchstart&quot;,function(e){
+        e.startRotate();//开启旋转
+        e.preventDefault();//阻止默认事件
+    })
+
+    touch.on(&quot;.d&quot;,&quot;rotate&quot;,function(e){
+        console.log(e)
+        var deg = angel + e.rotation;//计算当前旋转角度
+        div1.innerHTML = deg;
+        if(e.fingerStatus == &quot;end&quot;){//判断手指的状态，如果手势已停止
+            angel = deg;
+        }
+        div1.style.transform = &quot;rotate(&quot;+deg+&quot;deg)&quot;;
+    })
+
+    缩放：
+    touch.on(&quot;.d&quot;,&apos;pinch&apos;,function(e){
+        alert(e.scale)  //这是缩放倍数
+    })    
+
+    3，解除某元素上的事件绑定
+    touch.off( element, types, callback )    
+
+    4，触发事件
+    touch.trigger(element, type);
+</code></pre><blockquote>
+<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="external">touch3.js</a></p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/06/移动端布局-事件/" class="archive-article-date">
+  	<time datetime="2016-12-06T08:16:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端布局-事件/">移动端布局+事件</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="javascript-面向对象编程（一）：封装" class="article article-type-javascript" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1566,76 +1773,9 @@ function setDate(){
 
 
   
-    <article id="post-filter滤镜" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/25/filter滤镜/">filter滤镜</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="今天分享一个滤镜小插件"><a href="#今天分享一个滤镜小插件" class="headerlink" title="今天分享一个滤镜小插件"></a>今天分享一个滤镜小插件</h2><p><code>使用方式非常简单,如下：</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;  
-&lt;html&gt;  
-&lt;head&gt;  
-    &lt;title&gt;Filter Demo&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;filter.css&quot;&gt;
-&lt;/head&gt;  
-&lt;body&gt;
-    &lt;div class=&quot;kelvin&quot;&gt;
-          &lt;img src=&quot;http://una.im/CSSgram/img/lakegeneva.jpg&quot;&gt;
-    &lt;/div&gt;
-&lt;/body&gt;  
-&lt;/html&gt; 
-</code></pre><p><code>头部引入插件，对应图片加上类名，所有类名已写在图片左下角，点击预览查看</code></p>
-<p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.html" target="_blank" rel="external">效果预览</a><br>文件在我的github：<a href="https://github.com/Jasonellen/jasonProject.github.io/tree/master/filter" target="_blank" rel="external">Jasonellen</a><br>或者直接点击下载：<a href="https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.css" download="" target="_blank" rel="external">文件下载</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/25/filter滤镜/" class="archive-article-date">
-  	<time datetime="2016-10-25T13:44:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滤镜/">滤镜</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 
@@ -1696,7 +1836,7 @@ function setDate(){
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
