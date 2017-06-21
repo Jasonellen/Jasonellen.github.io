@@ -236,6 +236,75 @@
       <div class="body-wrap">
         
   
+    <article id="post-4个必须知道的数组方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/22/4个必须知道的数组方法/">4个必须知道的数组方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="4个必须知道的数组方法"><a href="#4个必须知道的数组方法" class="headerlink" title="4个必须知道的数组方法"></a>4个必须知道的数组方法</h2><h3 id="1-过滤器filter"><a href="#1-过滤器filter" class="headerlink" title="1.过滤器filter"></a>1.过滤器filter</h3><blockquote>
+<p>filter()方法创建一个新数组，返回所有通过所提供函数实现的测试的元素集合。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var arr = [</div><div class="line">    &#123;&quot;name&quot;:&quot;apple&quot;, &quot;count&quot;: 2&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;pear&quot;, &quot;count&quot;: 3&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;,</div><div class="line">]; </div><div class="line">var newArr = arr.filter(function(item)&#123;</div><div class="line">    return item.name === &quot;orange&quot;;</div><div class="line">&#125;);</div><div class="line">console.log(newArr)//[&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;]</div></pre></td></tr></table></figure>
+<h3 id="2-forEach-map"><a href="#2-forEach-map" class="headerlink" title="2.forEach / map"></a>2.forEach / map</h3><blockquote>
+<p>相同点：都是遍历数组对数组的每一项进行操作，不改变原数组</p>
+<p>不同点：forEach无返回值，map返回值是一个数组，数组的每一项是遍历时函数的返回值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var arr = [1,2,3,4,5,6,7,8];</div><div class="line">//******forEach</div><div class="line">var B = arr.forEach(function(item,index)&#123;</div><div class="line">	item+=1</div><div class="line">	return item</div><div class="line">&#125;);</div><div class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</div><div class="line">console.log(B)   //undefined</div><div class="line">//******Map</div><div class="line">var B = arr.forEach(function(item,index)&#123;</div><div class="line">	item+=1</div><div class="line">	return item</div><div class="line">&#125;);</div><div class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</div><div class="line">console.log(B)   //[2,3,4,5,6,7,8,9]</div></pre></td></tr></table></figure>
+<h3 id="3-reduce"><a href="#3-reduce" class="headerlink" title="3.reduce"></a>3.reduce</h3><blockquote>
+<p><code>reduce(callback,initialValue)</code>拥有两个参数，<em>回调函数</em>和<em>initialValue</em>。回调函数本身共有4个参数，<em>prev</em>和<em>next</em>，<em>index</em>和<em>array</em>。基本上常用的就是pre和next。</p>
+</blockquote>
+<ul>
+<li>prev:如果没有传初始值，prev的初始值是数组的第一项,next的初始值是数组的第二项，如果传了初始值initialValue，那么prev的初始值就是initialValue，next的初始值是数组的第一项</li>
+<li>每次迭代都应该返回一个值，作为下次迭代的prev,next则顺延到数组的下一个</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var arr = [&quot;apple&quot;,&quot;orange&quot;,&quot;apple&quot;,&quot;orange&quot;,&quot;pear&quot;,&quot;orange&quot;];</div><div class="line"></div><div class="line">function getCount()&#123;</div><div class="line">    return arr.reduce(function(prev,next)&#123;</div><div class="line">        prev[next] = (prev[next] + 1) || 1;</div><div class="line">        return prev;</div><div class="line">    &#125;,&#123;&#125;);</div><div class="line">&#125;</div><div class="line">console.log(getCount()); // &#123;apple: 2, orange: 3, pear: 1&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/22/4个必须知道的数组方法/" class="archive-article-date">
+  	<time datetime="2017-06-22T12:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数组方法/">数组方法</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-说走就走的正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -478,7 +547,7 @@
 </li>
 </ul>
 <p>  ​</p>
-<h3 id="将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现："><a href="#将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现：" class="headerlink" title="将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现："></a>将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function escapeRegExp(string)&#123;</div><div class="line">    return string.replace(/([.*+?^=!:$&#123;&#125;()|[\]\/\\])/g, &quot;\\$&amp;&quot;); </div><div class="line">    //$&amp;表示整个被匹配的字符串</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现："><a href="#将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现：" class="headerlink" title="将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现："></a>将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function escapeRegExp(string)&#123;</div><div class="line">  return string.replace(/([.*+?^=!:$&#123;&#125;()|[\]\/\\])/g, &quot;\\$&amp;&quot;); </div><div class="line">  //$&amp;表示整个被匹配的字符串</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -2219,196 +2288,6 @@ export function * counterMinus1 (action) {
 
 
   
-    <article id="post-package" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/11/package/">配置相关—package.json</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
-<p>name是这个东西的名字。注意：</p>
-<ul>
-<li>不要把node或者js放在名字中。因为你写了package.json它就被假定成为了js，不过你可以用”engine”字段指定一个引擎（见后文）。</li>
-<li>这个名字会作为在URL的一部分、命令行的参数或者文件夹的名字。任何non-url-safe的字符都是不能用的。</li>
-<li>这个名字可能会作为参数被传入require()，所以它应该比较短，但也要意义清晰。</li>
-<li>在你爱上你的名字之前，你可能要去npm registry查看一下这个名字是否已经被使用了。 <a href="http://registry.npmjs.org/" target="_blank" rel="external">http://registry.npmjs.org/</a></li>
-</ul>
-<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
-<p>version必须能被 <a href="https://github.com/isaacs/node-semver" target="_blank" rel="external">node-semver</a>解析，它被包在npm的依赖中。（要自己用可以执行<code>npm install semver</code>）</p>
-<p>更多可用的“数字”或者“范围”见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
-<h2 id="description"><a href="#description" class="headerlink" title="description"></a>description</h2><p>Put a description in it. It’s a string. This helps people discover your package, as it’s listed in <code>npm search</code>.</p>
-<h2 id="keywords"><a href="#keywords" class="headerlink" title="keywords"></a>keywords</h2><p>放简介，字符串。方便屌丝们在 <code>npm search</code>中搜索。</p>
-<h2 id="homepage"><a href="#homepage" class="headerlink" title="homepage"></a>homepage</h2><p>项目官网的url。</p>
-<h2 id="bugs"><a href="#bugs" class="headerlink" title="bugs"></a>bugs</h2><p>你项目的提交问题的url和（或）邮件地址。这对遇到问题的屌丝很有帮助。</p>
-<p>差不多长这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;url&quot; : &quot;http://github.com/owner/project/issues&quot;</div><div class="line">, &quot;email&quot; : &quot;project@hostname.com&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>你可以指定一个或者指定两个。如果你只想提供一个url，那就不用对象了，字符串就行。</p>
-<p>如果提供了url，它会被<code>npm bugs</code>命令使用。</p>
-<h2 id="license"><a href="#license" class="headerlink" title="license"></a>license</h2><p>你应该要指定一个许可证，让人知道使用的权利和限制的。</p>
-<p>最简单的方法是，假如你用一个像BSD或者MIT这样通用的许可证，就只需要指定一个许可证的名字，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;license&quot; : &quot;BSD&quot; &#125;</div></pre></td></tr></table></figure>
-<h2 id="people-fields-author-contributors"><a href="#people-fields-author-contributors" class="headerlink" title="people fields: author, contributors"></a>people fields: author, contributors</h2><p>author是一个人。contributors是一堆人的数组。person是一个有name字段，可选的有url、email字段的对象，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;Barney Rubble&quot;</div><div class="line">, &quot;email&quot; : &quot;b@rubble.com&quot;</div><div class="line">, &quot;url&quot; : &quot;http://barnyrubble.tumblr.com/&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="files"><a href="#files" class="headerlink" title="files"></a>files</h2><p>files是一个包含项目中的文件的数组。如果命名了一个文件夹，那也会包含文件夹中的文件。（除非被其他条件忽略了）</p>
-<p>你也可以提供一个.npmignore文件，即,使被包含在files字段中得文件被留下。其实就像.gitignore一样。</p>
-<h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>main字段配置一个文件名指向模块的入口程序。如果你包的名字叫foo，然后用户require(“foo”)，main配置的模块的exports对象会被返回。</p>
-<p>这应该是一个相对于根目录的文件路径。</p>
-<p>对于大多数模块，它是非常有意义的，其他的都没啥。</p>
-<h2 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h2><p>很多包都有一个或多个可执行的文件希望被放到PATH中。npm让妈妈再也不用担心了（实际上，就是这个功能让npm可执行的）。</p>
-<p>要用这个功能，给package.json中的<code>bin</code>字段一个命令名到文件位置的map。初始化的时候npm会将他链接到<code>prefix/bin</code>（全局初始化）或者<code>./node_modules/.bin/</code>（本地初始化）。</p>
-<p>比如，npm有：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;bin&quot; : &#123; &quot;npm&quot; : &quot;./cli.js&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>所以，当你初始化npm，它会创建一个符号链接到<code>cli.js</code>脚本到<code>/usr/local/bin/npm</code>。</p>
-<p>如果你只有一个可执行文件，并且名字和包名一样。那么你可以只用一个字符串，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot;: &quot;./path/to/program&quot; &#125;</div></pre></td></tr></table></figure>
-<p>结果和这个一样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot; : &#123; &quot;my-program&quot; : &quot;./path/to/program&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<h2 id="repository"><a href="#repository" class="headerlink" title="repository"></a>repository</h2><p>指定你的代码存放的地方。这个对希望贡献的人有帮助。如果git仓库在github上，那么<code>npm docs</code>命令能找到你。</p>
-<p>这样做：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;git&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://github.com/isaacs/npm.git&quot;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;svn&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://v8.googlecode.com/svn/trunk/&quot;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>URL应该是公开的（即便是只读的）能直接被未经过修改的版本控制程序处理的url。不应该是一个html的项目页面。因为它是给计算机看的。</p>
-<h2 id="scripts"><a href="#scripts" class="headerlink" title="scripts"></a>scripts</h2><p>“scripts”是一个由脚本命令组成的hash对象，他们在包不同的生命周期中被执行。key是生命周期事件，value是要运行的命令。其中<code>start</code>和<code>test</code>可以简写像这样<code>npn start</code> 而不用<code>npm run start</code></p>
-<p>参见 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a></p>
-<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>“config” hash可以用来配置用于包脚本中的跨版本参数。在实例中，如果一个包有下面的配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;foo&quot;</div><div class="line">, &quot;config&quot; : &#123; &quot;port&quot; : &quot;8080&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>然后有一个“start”命令引用了<code>npm_package_config_port</code>环境变量，用户可以通过<code>npm config set foo:port 8001</code>来重写他。</p>
-<p>参见 <a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a> 和 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a>。</p>
-<h2 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h2><p>项目运行需要依赖的插件</p>
-<p><strong>请不要将测试或过渡性的依赖放在<code>dependencies</code>中。</strong>见下文的<code>devDependencies</code>。</p>
-<p>详见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
-<ul>
-<li><code>version</code> 必须完全和<code>version</code>一致</li>
-<li><code>&gt;version</code> 必须比<code>version</code>大</li>
-<li><code>&gt;=version</code> 同上</li>
-<li><code>&lt;version</code> 同上</li>
-<li><code>&lt;=version</code> 同上</li>
-<li><code>~version</code> 约等于，见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a></li>
-<li><code>^version</code> 相同大版本的最新版本</li>
-<li><code>1.2.x</code> 1.2.0, 1.2.1, 等，但不包括1.3.0</li>
-<li><code>http://...</code> 见下文’依赖URL’</li>
-<li><code>*</code> 所有</li>
-<li><code>&quot;&quot;</code> 空，同<code>*</code></li>
-<li><code>version1 - version2</code> 同 <code>&gt;=version1 &lt;=version2</code>.</li>
-<li><code>range1 || range2</code> 二选一。</li>
-<li><code>git...</code> 见下文’依赖Git URL’</li>
-<li><code>user/repo</code> 见下文’GitHub URLs’</li>
-</ul>
-<p>比如下面都是合法的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;dependencies&quot; :</div><div class="line">  &#123; &quot;foo&quot; : &quot;1.0.0 - 2.9999.9999&quot;</div><div class="line">  , &quot;bar&quot; : &quot;&gt;=1.0.2 &lt;2.1.2&quot;</div><div class="line">  , &quot;baz&quot; : &quot;&gt;1.0.2 &lt;=2.3.4&quot;</div><div class="line">  , &quot;boo&quot; : &quot;2.0.1&quot;</div><div class="line">  , &quot;boo&quot; : &quot;^2.0.1&quot;</div><div class="line">  , &quot;qux&quot; : &quot;&lt;1.0.0 || &gt;=2.3.1 &lt;2.4.5 || &gt;=2.5.2 &lt;3.0.0&quot;</div><div class="line">  , &quot;asd&quot; : &quot;http://asdf.com/asdf.tar.gz&quot;</div><div class="line">  , &quot;til&quot; : &quot;~1.2&quot;</div><div class="line">  , &quot;elf&quot; : &quot;~1.2.3&quot;</div><div class="line">  , &quot;two&quot; : &quot;2.x&quot;</div><div class="line">  , &quot;thr&quot; : &quot;3.3.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="依赖URL"><a href="#依赖URL" class="headerlink" title="依赖URL"></a>依赖URL</h3><p>可以指定一个tarball URL，这个tarball将在包被初始化的时候下载并初始化。</p>
-<h3 id="依赖Git-URL"><a href="#依赖Git-URL" class="headerlink" title="依赖Git URL"></a>依赖Git URL</h3><p>Git urls 可以是下面几种形式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git://github.com/user/project.git#commit-ish</div><div class="line">git+ssh://user@hostname:project.git#commit-ish</div><div class="line">git+ssh://user@hostname/project.git#commit-ish</div><div class="line">git+http://user@hostname/project/blah.git#commit-ish</div><div class="line">git+https://user@hostname/project/blah.git#commit-ish</div></pre></td></tr></table></figure>
-<p><code>commit-ish</code>是可以被<code>git checkout</code>的任何tag、sha或者branch。默认为<code>master</code>。</p>
-<h2 id="GitHub-URLs"><a href="#GitHub-URLs" class="headerlink" title="GitHub URLs"></a>GitHub URLs</h2><p>1.1.65版后，你可以仅仅用“user/foo-project”引用GitHub urls，比如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"foo"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"express"</span>: <span class="string">"visionmedia/express"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="devDependencies"><a href="#devDependencies" class="headerlink" title="devDependencies"></a>devDependencies</h2><p>如果有人要用你的模块，但他们可能不需要你开发所使用的外部测试或者文档框架。</p>
-<p>在这种情况下，最好将这些附属的项目列在<code>devDependencies</code>中。</p>
-<p>这些东西会在根目录执行<code>npm link</code>或者<code>npm install</code>的时候初始化，并可以像其他npm配置参数一样管理</p>
-<p>对于非特定平台的构建步骤，比如需要编译CoffeeScript，可以用<code>prepublish</code>脚本去实现，并把它依赖的包放在devDependency中。（译者注：<code>prepublish</code>定义了在执行<code>npm publish</code>的时候先行执行的脚本。详见<code>scripts</code>）</p>
-<p>比如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">"name"</span>: <span class="string">"ethopia-waza"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"a delightfully fruity coffee varietal"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.2.3"</span>,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"coffee-script"</span>: <span class="string">"~1.6.3"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"prepublish"</span>: <span class="string">"coffee -o lib/ -c src/waza.coffee"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"main"</span>: <span class="string">"lib/waza.js"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>prepublish</code>脚本会在publishing前运行，这样用户就不用自己去require来编译就能使用。并且在开发模式中（比如本地运行<code>npm install</code>）会运行这个脚本以便更好地测试。</p>
-<h2 id="peerDependencies"><a href="#peerDependencies" class="headerlink" title="peerDependencies"></a>peerDependencies</h2><p>在一些场景中，如在一个host中不必须进行<code>require</code>时候，你想表现你的package与一个host工具或者库的兼容关键。这一般用来引用<em>插件</em>。尤其是你的模块可能要暴露一个特定的接口，并由host文档来预期和指定。</p>
-<p>比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;tea-latte&quot;,</div><div class="line">  &quot;version&quot;: &quot;1.3.5&quot;</div><div class="line">  &quot;peerDependencies&quot;: &#123;</div><div class="line">    &quot;tea&quot;: &quot;2.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这能保证你的package可以只和tea的2.x版本一起初始化。<code>npm install tea-latte</code>可能会产生下面的依赖关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">â”œâ”€â”€ tea-latte@1.3.5</div><div class="line">â””â”€â”€ tea@2.2.0</div></pre></td></tr></table></figure>
-<p>试图初始化另一个有会冲突的依赖的插件将导致一个错误。因此，确保你的插件的需求约束越弱越好，而不要去把它锁定到一个特定的版本。</p>
-<p>假设这个host遵守semver规范，只改变这个package的主版本会打破你的插件。因此，如果你在package中用过每个1.x版本，就用”^1.0”或者”1.x”来表示。如果你依赖于功能介绍1.5.2，用”&gt;= 1.5.2 &lt; 2”。</p>
-<h2 id="bundledDependencies"><a href="#bundledDependencies" class="headerlink" title="bundledDependencies"></a>bundledDependencies</h2><p>一组包名，他们会在发布的时候被打包进去。</p>
-<p>拼成<code>&quot;bundleDependencies&quot;</code>（缺d）也可以。</p>
-<h2 id="optionalDependencies"><a href="#optionalDependencies" class="headerlink" title="optionalDependencies"></a>optionalDependencies</h2><p>如果一个依赖可用，但你希望在它安装错误的时候npm也能继续初始化，那么你可以把它放在<code>optionalDependencies</code> hash中。这是一个包名到版本或者url的map，就像<code>dependencies</code> hash一样。只是它运行错误。</p>
-<p>处理缺乏依赖也是你的程序的责任。比如像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">  var foo = require(&apos;foo&apos;)</div><div class="line">  var fooVersion = require(&apos;foo/package.json&apos;).version</div><div class="line">&#125; catch (er) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line">if ( notGoodFooVersion(fooVersion) ) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line"></div><div class="line">// .. then later in your program ..</div><div class="line"></div><div class="line">if (foo) &#123;</div><div class="line">  foo.doFooThings()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>optionalDependencies</code>会覆盖<code>dependencies</code>中同名的项，所以通常比只放在一个地方好。</p>
-<h2 id="engines"><a href="#engines" class="headerlink" title="engines"></a>engines</h2><p>你可以指定工作的node的版本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;node&quot; : &quot;&gt;=0.10.3 &lt;0.12&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>并且，像dependensies一样，如果你不指定版本或者指定“*”作为版本，那么所有版本的node都可以。</p>
-<p>如果指定一个“engines”字段，那么npm会需要node在里面，如果“engines”被省略，npm会假定它在node上工作。</p>
-<p>你也可以用“engines”字段来指定哪一个npm版本能更好地初始化你的程序，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;npm&quot; : &quot;~1.0.20&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>记住，除非用户设置<code>engine-strict</code>标记，这个字段只是建议值。</p>
-<h2 id="engineStrict"><a href="#engineStrict" class="headerlink" title="engineStrict"></a>engineStrict</h2><p>如果你确定你的模块<em>一定不</em>会运行在你指定版本之外的node或者npm上，你可以在package.json文件中设置<code>&quot;engineStrict&quot;:true</code>。它会重写用户的<code>engine-strict</code>设置。</p>
-<p>除非你非常非常确定，否则不要这样做。如果你的engines hash过度地限制，很可能轻易让自己陷入窘境。慎重地考虑这个选择。如果大家滥用它，它会再以后的npm版本中被删除。</p>
-<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>你可以指定你的模块要运行在哪些操作系统中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;darwin&quot;, &quot;linux&quot; ]</div></pre></td></tr></table></figure>
-<p>你也可以用黑名单代替白名单，在名字前面加上“!”就可以了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;!win32&quot; ]</div></pre></td></tr></table></figure>
-<p>操作系统用<code>process.platform</code>来探测。</p>
-<p>虽然没有很好地理由，但它是同时支持黑名单和白名单的。</p>
-<h2 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h2><p>如果你的代码只能运行在特定的cpu架构下，你可以指定一个：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;x64&quot;, &quot;ia32&quot; ]</div></pre></td></tr></table></figure>
-<p>就像<code>os</code>选项，你也可以黑一个架构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;!arm&quot;, &quot;!mips&quot; ]</div></pre></td></tr></table></figure>
-<p>cpu架构用<code>process.arch</code>探测。</p>
-<h2 id="preferGlobal"><a href="#preferGlobal" class="headerlink" title="preferGlobal"></a>preferGlobal</h2><p>如果包主要是需要全局安装的命令行程序，就设置它为<code>true</code>来提供一个warning给只在局部安装的人。</p>
-<p>它不会真正的防止用户在局部安装，但如果它没有按预期工作它会帮助防止产生误会。</p>
-<h2 id="private"><a href="#private" class="headerlink" title="private"></a>private</h2><p>如果你设置<code>&quot;private&quot;: true</code>，npm就不会发布它。</p>
-<p>这是一个防止意外发布私有库的方式。如果你要确定给定的包是只发布在特定registry（如内部registry）的，用<code>publishConfig</code>hash的描述来重写<code>registry</code>的publish-time配置参数。</p>
-<h2 id="publishConfig"><a href="#publishConfig" class="headerlink" title="publishConfig"></a>publishConfig</h2><p>这是一个在publish-time使用的配置集合。当你想设置tag或者registry的时候它非常有用，所以你可以确定一个给定的包没有打上“lastest”的tag或者被默认发布到全局的公开registry。</p>
-<p>任何配置都可以被重写，但当然可能只有“tag”和“registry”与发布的意图有关。</p>
-<p>参见<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a>有可以被重写的列表。</p>
-<h2 id="DEFAULT-VALUES"><a href="#DEFAULT-VALUES" class="headerlink" title="DEFAULT VALUES"></a>DEFAULT VALUES</h2><p>npm会根据包的内容设置一些默认值。</p>
-<ul>
-<li><p><code>&quot;scripts&quot;: {&quot;start&quot;: &quot;node server.js&quot;}</code></p>
-<p>如果包的根目录有<code>server.js</code>文件，npm会默认将<code>start</code>命令设置为<code>node server.js</code>。</p>
-</li>
-<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-waf clean || true; node-waf configure build&quot;}</code></p>
-<p>  如果包的根目录有<code>wscript</code>文件，npm会默认将<code>preinstall</code>命令用node-waf进行编译。</p>
-</li>
-<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-gyp rebuild&quot;}</code></p>
-<p>  如果包的根目录有<code>binding.gyp</code>文件，npm会默认将<code>preinstall</code>命令用node-gyp进行编译。</p>
-</li>
-<li><p><code>&quot;contributors&quot;: [...]</code></p>
-<p>  如果有<code>AUTHORS</code>文件，npm会默认逐行按<code>Name &lt;email&gt; (url)</code>格式处理，邮箱和url是可选的。<code>#</code>号和空格开头的行会被忽略。</p>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/11/package/" class="archive-article-date">
-  	<time datetime="2017-03-11T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/配置相关—package-json/">配置相关—package.json</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2472,7 +2351,7 @@ export function * counterMinus1 (action) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 10px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

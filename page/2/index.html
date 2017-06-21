@@ -236,6 +236,196 @@
       <div class="body-wrap">
         
   
+    <article id="post-package" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/11/package/">配置相关—package.json</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
+<p>name是这个东西的名字。注意：</p>
+<ul>
+<li>不要把node或者js放在名字中。因为你写了package.json它就被假定成为了js，不过你可以用”engine”字段指定一个引擎（见后文）。</li>
+<li>这个名字会作为在URL的一部分、命令行的参数或者文件夹的名字。任何non-url-safe的字符都是不能用的。</li>
+<li>这个名字可能会作为参数被传入require()，所以它应该比较短，但也要意义清晰。</li>
+<li>在你爱上你的名字之前，你可能要去npm registry查看一下这个名字是否已经被使用了。 <a href="http://registry.npmjs.org/" target="_blank" rel="external">http://registry.npmjs.org/</a></li>
+</ul>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
+<p>version必须能被 <a href="https://github.com/isaacs/node-semver" target="_blank" rel="external">node-semver</a>解析，它被包在npm的依赖中。（要自己用可以执行<code>npm install semver</code>）</p>
+<p>更多可用的“数字”或者“范围”见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
+<h2 id="description"><a href="#description" class="headerlink" title="description"></a>description</h2><p>Put a description in it. It’s a string. This helps people discover your package, as it’s listed in <code>npm search</code>.</p>
+<h2 id="keywords"><a href="#keywords" class="headerlink" title="keywords"></a>keywords</h2><p>放简介，字符串。方便屌丝们在 <code>npm search</code>中搜索。</p>
+<h2 id="homepage"><a href="#homepage" class="headerlink" title="homepage"></a>homepage</h2><p>项目官网的url。</p>
+<h2 id="bugs"><a href="#bugs" class="headerlink" title="bugs"></a>bugs</h2><p>你项目的提交问题的url和（或）邮件地址。这对遇到问题的屌丝很有帮助。</p>
+<p>差不多长这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;url&quot; : &quot;http://github.com/owner/project/issues&quot;</div><div class="line">, &quot;email&quot; : &quot;project@hostname.com&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>你可以指定一个或者指定两个。如果你只想提供一个url，那就不用对象了，字符串就行。</p>
+<p>如果提供了url，它会被<code>npm bugs</code>命令使用。</p>
+<h2 id="license"><a href="#license" class="headerlink" title="license"></a>license</h2><p>你应该要指定一个许可证，让人知道使用的权利和限制的。</p>
+<p>最简单的方法是，假如你用一个像BSD或者MIT这样通用的许可证，就只需要指定一个许可证的名字，像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;license&quot; : &quot;BSD&quot; &#125;</div></pre></td></tr></table></figure>
+<h2 id="people-fields-author-contributors"><a href="#people-fields-author-contributors" class="headerlink" title="people fields: author, contributors"></a>people fields: author, contributors</h2><p>author是一个人。contributors是一堆人的数组。person是一个有name字段，可选的有url、email字段的对象，像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;Barney Rubble&quot;</div><div class="line">, &quot;email&quot; : &quot;b@rubble.com&quot;</div><div class="line">, &quot;url&quot; : &quot;http://barnyrubble.tumblr.com/&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="files"><a href="#files" class="headerlink" title="files"></a>files</h2><p>files是一个包含项目中的文件的数组。如果命名了一个文件夹，那也会包含文件夹中的文件。（除非被其他条件忽略了）</p>
+<p>你也可以提供一个.npmignore文件，即,使被包含在files字段中得文件被留下。其实就像.gitignore一样。</p>
+<h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>main字段配置一个文件名指向模块的入口程序。如果你包的名字叫foo，然后用户require(“foo”)，main配置的模块的exports对象会被返回。</p>
+<p>这应该是一个相对于根目录的文件路径。</p>
+<p>对于大多数模块，它是非常有意义的，其他的都没啥。</p>
+<h2 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h2><p>很多包都有一个或多个可执行的文件希望被放到PATH中。npm让妈妈再也不用担心了（实际上，就是这个功能让npm可执行的）。</p>
+<p>要用这个功能，给package.json中的<code>bin</code>字段一个命令名到文件位置的map。初始化的时候npm会将他链接到<code>prefix/bin</code>（全局初始化）或者<code>./node_modules/.bin/</code>（本地初始化）。</p>
+<p>比如，npm有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;bin&quot; : &#123; &quot;npm&quot; : &quot;./cli.js&quot; &#125; &#125;</div></pre></td></tr></table></figure>
+<p>所以，当你初始化npm，它会创建一个符号链接到<code>cli.js</code>脚本到<code>/usr/local/bin/npm</code>。</p>
+<p>如果你只有一个可执行文件，并且名字和包名一样。那么你可以只用一个字符串，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot;: &quot;./path/to/program&quot; &#125;</div></pre></td></tr></table></figure>
+<p>结果和这个一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot; : &#123; &quot;my-program&quot; : &quot;./path/to/program&quot; &#125; &#125;</div></pre></td></tr></table></figure>
+<h2 id="repository"><a href="#repository" class="headerlink" title="repository"></a>repository</h2><p>指定你的代码存放的地方。这个对希望贡献的人有帮助。如果git仓库在github上，那么<code>npm docs</code>命令能找到你。</p>
+<p>这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;git&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://github.com/isaacs/npm.git&quot;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;svn&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://v8.googlecode.com/svn/trunk/&quot;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>URL应该是公开的（即便是只读的）能直接被未经过修改的版本控制程序处理的url。不应该是一个html的项目页面。因为它是给计算机看的。</p>
+<h2 id="scripts"><a href="#scripts" class="headerlink" title="scripts"></a>scripts</h2><p>“scripts”是一个由脚本命令组成的hash对象，他们在包不同的生命周期中被执行。key是生命周期事件，value是要运行的命令。其中<code>start</code>和<code>test</code>可以简写像这样<code>npn start</code> 而不用<code>npm run start</code></p>
+<p>参见 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a></p>
+<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>“config” hash可以用来配置用于包脚本中的跨版本参数。在实例中，如果一个包有下面的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;foo&quot;</div><div class="line">, &quot;config&quot; : &#123; &quot;port&quot; : &quot;8080&quot; &#125; &#125;</div></pre></td></tr></table></figure>
+<p>然后有一个“start”命令引用了<code>npm_package_config_port</code>环境变量，用户可以通过<code>npm config set foo:port 8001</code>来重写他。</p>
+<p>参见 <a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a> 和 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a>。</p>
+<h2 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h2><p>项目运行需要依赖的插件</p>
+<p><strong>请不要将测试或过渡性的依赖放在<code>dependencies</code>中。</strong>见下文的<code>devDependencies</code>。</p>
+<p>详见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
+<ul>
+<li><code>version</code> 必须完全和<code>version</code>一致</li>
+<li><code>&gt;version</code> 必须比<code>version</code>大</li>
+<li><code>&gt;=version</code> 同上</li>
+<li><code>&lt;version</code> 同上</li>
+<li><code>&lt;=version</code> 同上</li>
+<li><code>~version</code> 约等于，见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a></li>
+<li><code>^version</code> 相同大版本的最新版本</li>
+<li><code>1.2.x</code> 1.2.0, 1.2.1, 等，但不包括1.3.0</li>
+<li><code>http://...</code> 见下文’依赖URL’</li>
+<li><code>*</code> 所有</li>
+<li><code>&quot;&quot;</code> 空，同<code>*</code></li>
+<li><code>version1 - version2</code> 同 <code>&gt;=version1 &lt;=version2</code>.</li>
+<li><code>range1 || range2</code> 二选一。</li>
+<li><code>git...</code> 见下文’依赖Git URL’</li>
+<li><code>user/repo</code> 见下文’GitHub URLs’</li>
+</ul>
+<p>比如下面都是合法的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;dependencies&quot; :</div><div class="line">  &#123; &quot;foo&quot; : &quot;1.0.0 - 2.9999.9999&quot;</div><div class="line">  , &quot;bar&quot; : &quot;&gt;=1.0.2 &lt;2.1.2&quot;</div><div class="line">  , &quot;baz&quot; : &quot;&gt;1.0.2 &lt;=2.3.4&quot;</div><div class="line">  , &quot;boo&quot; : &quot;2.0.1&quot;</div><div class="line">  , &quot;boo&quot; : &quot;^2.0.1&quot;</div><div class="line">  , &quot;qux&quot; : &quot;&lt;1.0.0 || &gt;=2.3.1 &lt;2.4.5 || &gt;=2.5.2 &lt;3.0.0&quot;</div><div class="line">  , &quot;asd&quot; : &quot;http://asdf.com/asdf.tar.gz&quot;</div><div class="line">  , &quot;til&quot; : &quot;~1.2&quot;</div><div class="line">  , &quot;elf&quot; : &quot;~1.2.3&quot;</div><div class="line">  , &quot;two&quot; : &quot;2.x&quot;</div><div class="line">  , &quot;thr&quot; : &quot;3.3.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="依赖URL"><a href="#依赖URL" class="headerlink" title="依赖URL"></a>依赖URL</h3><p>可以指定一个tarball URL，这个tarball将在包被初始化的时候下载并初始化。</p>
+<h3 id="依赖Git-URL"><a href="#依赖Git-URL" class="headerlink" title="依赖Git URL"></a>依赖Git URL</h3><p>Git urls 可以是下面几种形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git://github.com/user/project.git#commit-ish</div><div class="line">git+ssh://user@hostname:project.git#commit-ish</div><div class="line">git+ssh://user@hostname/project.git#commit-ish</div><div class="line">git+http://user@hostname/project/blah.git#commit-ish</div><div class="line">git+https://user@hostname/project/blah.git#commit-ish</div></pre></td></tr></table></figure>
+<p><code>commit-ish</code>是可以被<code>git checkout</code>的任何tag、sha或者branch。默认为<code>master</code>。</p>
+<h2 id="GitHub-URLs"><a href="#GitHub-URLs" class="headerlink" title="GitHub URLs"></a>GitHub URLs</h2><p>1.1.65版后，你可以仅仅用“user/foo-project”引用GitHub urls，比如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"foo"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"express"</span>: <span class="string">"visionmedia/express"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="devDependencies"><a href="#devDependencies" class="headerlink" title="devDependencies"></a>devDependencies</h2><p>如果有人要用你的模块，但他们可能不需要你开发所使用的外部测试或者文档框架。</p>
+<p>在这种情况下，最好将这些附属的项目列在<code>devDependencies</code>中。</p>
+<p>这些东西会在根目录执行<code>npm link</code>或者<code>npm install</code>的时候初始化，并可以像其他npm配置参数一样管理</p>
+<p>对于非特定平台的构建步骤，比如需要编译CoffeeScript，可以用<code>prepublish</code>脚本去实现，并把它依赖的包放在devDependency中。（译者注：<code>prepublish</code>定义了在执行<code>npm publish</code>的时候先行执行的脚本。详见<code>scripts</code>）</p>
+<p>比如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">"name"</span>: <span class="string">"ethopia-waza"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"a delightfully fruity coffee varietal"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.2.3"</span>,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"coffee-script"</span>: <span class="string">"~1.6.3"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"prepublish"</span>: <span class="string">"coffee -o lib/ -c src/waza.coffee"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"main"</span>: <span class="string">"lib/waza.js"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>prepublish</code>脚本会在publishing前运行，这样用户就不用自己去require来编译就能使用。并且在开发模式中（比如本地运行<code>npm install</code>）会运行这个脚本以便更好地测试。</p>
+<h2 id="peerDependencies"><a href="#peerDependencies" class="headerlink" title="peerDependencies"></a>peerDependencies</h2><p>在一些场景中，如在一个host中不必须进行<code>require</code>时候，你想表现你的package与一个host工具或者库的兼容关键。这一般用来引用<em>插件</em>。尤其是你的模块可能要暴露一个特定的接口，并由host文档来预期和指定。</p>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;tea-latte&quot;,</div><div class="line">  &quot;version&quot;: &quot;1.3.5&quot;</div><div class="line">  &quot;peerDependencies&quot;: &#123;</div><div class="line">    &quot;tea&quot;: &quot;2.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这能保证你的package可以只和tea的2.x版本一起初始化。<code>npm install tea-latte</code>可能会产生下面的依赖关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">â”œâ”€â”€ tea-latte@1.3.5</div><div class="line">â””â”€â”€ tea@2.2.0</div></pre></td></tr></table></figure>
+<p>试图初始化另一个有会冲突的依赖的插件将导致一个错误。因此，确保你的插件的需求约束越弱越好，而不要去把它锁定到一个特定的版本。</p>
+<p>假设这个host遵守semver规范，只改变这个package的主版本会打破你的插件。因此，如果你在package中用过每个1.x版本，就用”^1.0”或者”1.x”来表示。如果你依赖于功能介绍1.5.2，用”&gt;= 1.5.2 &lt; 2”。</p>
+<h2 id="bundledDependencies"><a href="#bundledDependencies" class="headerlink" title="bundledDependencies"></a>bundledDependencies</h2><p>一组包名，他们会在发布的时候被打包进去。</p>
+<p>拼成<code>&quot;bundleDependencies&quot;</code>（缺d）也可以。</p>
+<h2 id="optionalDependencies"><a href="#optionalDependencies" class="headerlink" title="optionalDependencies"></a>optionalDependencies</h2><p>如果一个依赖可用，但你希望在它安装错误的时候npm也能继续初始化，那么你可以把它放在<code>optionalDependencies</code> hash中。这是一个包名到版本或者url的map，就像<code>dependencies</code> hash一样。只是它运行错误。</p>
+<p>处理缺乏依赖也是你的程序的责任。比如像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">  var foo = require(&apos;foo&apos;)</div><div class="line">  var fooVersion = require(&apos;foo/package.json&apos;).version</div><div class="line">&#125; catch (er) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line">if ( notGoodFooVersion(fooVersion) ) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line"></div><div class="line">// .. then later in your program ..</div><div class="line"></div><div class="line">if (foo) &#123;</div><div class="line">  foo.doFooThings()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>optionalDependencies</code>会覆盖<code>dependencies</code>中同名的项，所以通常比只放在一个地方好。</p>
+<h2 id="engines"><a href="#engines" class="headerlink" title="engines"></a>engines</h2><p>你可以指定工作的node的版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;node&quot; : &quot;&gt;=0.10.3 &lt;0.12&quot; &#125; &#125;</div></pre></td></tr></table></figure>
+<p>并且，像dependensies一样，如果你不指定版本或者指定“*”作为版本，那么所有版本的node都可以。</p>
+<p>如果指定一个“engines”字段，那么npm会需要node在里面，如果“engines”被省略，npm会假定它在node上工作。</p>
+<p>你也可以用“engines”字段来指定哪一个npm版本能更好地初始化你的程序，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;npm&quot; : &quot;~1.0.20&quot; &#125; &#125;</div></pre></td></tr></table></figure>
+<p>记住，除非用户设置<code>engine-strict</code>标记，这个字段只是建议值。</p>
+<h2 id="engineStrict"><a href="#engineStrict" class="headerlink" title="engineStrict"></a>engineStrict</h2><p>如果你确定你的模块<em>一定不</em>会运行在你指定版本之外的node或者npm上，你可以在package.json文件中设置<code>&quot;engineStrict&quot;:true</code>。它会重写用户的<code>engine-strict</code>设置。</p>
+<p>除非你非常非常确定，否则不要这样做。如果你的engines hash过度地限制，很可能轻易让自己陷入窘境。慎重地考虑这个选择。如果大家滥用它，它会再以后的npm版本中被删除。</p>
+<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>你可以指定你的模块要运行在哪些操作系统中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;darwin&quot;, &quot;linux&quot; ]</div></pre></td></tr></table></figure>
+<p>你也可以用黑名单代替白名单，在名字前面加上“!”就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;!win32&quot; ]</div></pre></td></tr></table></figure>
+<p>操作系统用<code>process.platform</code>来探测。</p>
+<p>虽然没有很好地理由，但它是同时支持黑名单和白名单的。</p>
+<h2 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h2><p>如果你的代码只能运行在特定的cpu架构下，你可以指定一个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;x64&quot;, &quot;ia32&quot; ]</div></pre></td></tr></table></figure>
+<p>就像<code>os</code>选项，你也可以黑一个架构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;!arm&quot;, &quot;!mips&quot; ]</div></pre></td></tr></table></figure>
+<p>cpu架构用<code>process.arch</code>探测。</p>
+<h2 id="preferGlobal"><a href="#preferGlobal" class="headerlink" title="preferGlobal"></a>preferGlobal</h2><p>如果包主要是需要全局安装的命令行程序，就设置它为<code>true</code>来提供一个warning给只在局部安装的人。</p>
+<p>它不会真正的防止用户在局部安装，但如果它没有按预期工作它会帮助防止产生误会。</p>
+<h2 id="private"><a href="#private" class="headerlink" title="private"></a>private</h2><p>如果你设置<code>&quot;private&quot;: true</code>，npm就不会发布它。</p>
+<p>这是一个防止意外发布私有库的方式。如果你要确定给定的包是只发布在特定registry（如内部registry）的，用<code>publishConfig</code>hash的描述来重写<code>registry</code>的publish-time配置参数。</p>
+<h2 id="publishConfig"><a href="#publishConfig" class="headerlink" title="publishConfig"></a>publishConfig</h2><p>这是一个在publish-time使用的配置集合。当你想设置tag或者registry的时候它非常有用，所以你可以确定一个给定的包没有打上“lastest”的tag或者被默认发布到全局的公开registry。</p>
+<p>任何配置都可以被重写，但当然可能只有“tag”和“registry”与发布的意图有关。</p>
+<p>参见<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a>有可以被重写的列表。</p>
+<h2 id="DEFAULT-VALUES"><a href="#DEFAULT-VALUES" class="headerlink" title="DEFAULT VALUES"></a>DEFAULT VALUES</h2><p>npm会根据包的内容设置一些默认值。</p>
+<ul>
+<li><p><code>&quot;scripts&quot;: {&quot;start&quot;: &quot;node server.js&quot;}</code></p>
+<p>如果包的根目录有<code>server.js</code>文件，npm会默认将<code>start</code>命令设置为<code>node server.js</code>。</p>
+</li>
+<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-waf clean || true; node-waf configure build&quot;}</code></p>
+<p>  如果包的根目录有<code>wscript</code>文件，npm会默认将<code>preinstall</code>命令用node-waf进行编译。</p>
+</li>
+<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-gyp rebuild&quot;}</code></p>
+<p>  如果包的根目录有<code>binding.gyp</code>文件，npm会默认将<code>preinstall</code>命令用node-gyp进行编译。</p>
+</li>
+<li><p><code>&quot;contributors&quot;: [...]</code></p>
+<p>  如果有<code>AUTHORS</code>文件，npm会默认逐行按<code>Name &lt;email&gt; (url)</code>格式处理，邮箱和url是可选的。<code>#</code>号和空格开头的行会被忽略。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/11/package/" class="archive-article-date">
+  	<time datetime="2017-03-11T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/配置相关—package-json/">配置相关—package.json</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-配置相关—npm" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1421,547 +1611,6 @@ $.when(wait())
 
 
   
-    <article id="post-微信小程序实战，从入门到弃坑（转）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/">微信小程序</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="微信小程序实战，从入门到弃坑（转）"><a href="#微信小程序实战，从入门到弃坑（转）" class="headerlink" title="微信小程序实战，从入门到弃坑（转）"></a>微信小程序实战，从入门到弃坑（转）</h1><p><a href="http://www.jianshu.com/p/4433d46e6235" target="_blank" rel="external">原文链接</a></p>
-<p>最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-6c7ccf0f8e3019b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。<strong>文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文</strong>，简书没有目录，也挺伤感的。</p>
-<p>值得再次声明的是：<strong>微信小程序的内容部分是hybrid模式，并非原生</strong>，所以性能并不好，绑定的tap事件也有明显的延迟。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-ef6d4c647e8b188c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>如上图<em><code>每一个由边框围起来的部分，都是一个最小粒度的原生view</code></em>可以看出，整个微信小程序的内容部分，就是一个原生view。</p>
-<h2 id="小程序有哪些基础知识？"><a href="#小程序有哪些基础知识？" class="headerlink" title="小程序有哪些基础知识？"></a>小程序有哪些基础知识？</h2><p>一个完整的微信小程序是由一个App实例和多个Page实例构成，其中App实例表示该小程序应用，多个Page表示该小程序的多个页面。<br>此外，微信小程序并没有提供自定义组件的方式，这就导致微信小程序在开发较复杂应用时，可能会比较艰难。</p>
-<p>微信小程序本身很简单，和一个模板语言的难度几乎相当，翻翻官方教程就可以开始动手搞。</p>
-<p>我也建议大家先动起来，然后再细致啃啃官方文档。由于微信官方文档仍在不断大幅更新中，所以务必查看最新官方文档。</p>
-<p>微信小程序的基础知识主要分为以下几个部分：</p>
-<ul>
-<li>两种配置文件 &amp;&amp; 两个核心函数</li>
-<li>WXML模板语法，页面渲染</li>
-<li>页面间的跳转</li>
-<li>交互事件</li>
-<li>官方组件和官方API</li>
-</ul>
-<h3 id="两种配置文件-amp-amp-两个核心函数"><a href="#两种配置文件-amp-amp-两个核心函数" class="headerlink" title="两种配置文件 &amp;&amp; 两个核心函数"></a>两种配置文件 &amp;&amp; 两个核心函数</h3><p><code>app.json</code><strong>应用的全局配置文件</strong></p>
-<p><code>app.json</code>是针对微信小程序的全局配置，主要包含以下几个配置：</p>
-<ul>
-<li>pages：页面路径的数组，表示小程序要加载的所有页面，其中数组第一项代表小程序的初始页面。</li>
-<li>window：微信原生功能，定制化不强。可设置小程序的状态栏、导航条、标题以及窗口背景色。</li>
-<li>tabBar：微信原生功能，定制化不强。适用于常规的Tab应用，Tab栏可置于顶部或底部；tabBar是一个数组，仅支持2-5个tab。</li>
-<li>networkTimeout：配置小程序网络请求的超时时间。</li>
-<li>debug：调试模式开关，开发模式下建议开启，正式发布别忘了关闭。</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/1158202-719f23c56cd215ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><code>page.json</code> <strong>页面的全局配置文件</strong></p>
-<p>除了上面提到的全局配置，每个页面还可以单独配置page.json，page.json会覆盖app.json中的配置，并只对当前页面生效。</p>
-<p>page.json只能对window配置，有两个比较有用的配置项分别是：</p>
-<ul>
-<li>enablePullDownRefresh：是否开启下拉刷新</li>
-<li>disableScroll：只能在page.json配置，禁止页面上下滚动，猜测可以实现完美滑屏滑动（未验证）</li>
-</ul>
-<p><code>App()</code> <strong>小程序注册入口，全局唯一</strong></p>
-<p>App()用来注册一个小程序，全局只有一个，全局的数据也可以放到这里面来操作。</p>
-<pre><code>// 注册微信小程序，全局只有一个
-let appConfig = {
-    // 小程序生命周期的各个阶段
-    onLaunch: function(){},
-    onShow: function(){},
-    onHide: function(){},
-    onError: function(){},
-
-    // 自定义函数或者属性
-    ...
-};
-App(appConfig);
-
-// 在别的地方可以获取这个全局唯一的小程序实例
-const app = getApp();
-</code></pre><p>小程序并没有提供销毁的方式，所以只有当小程序进入后台一定时间、或者系统资源占用过高的时候，才会被真正的销毁。</p>
-<p><code>Page()</code> <strong>页面注册入口</strong></p>
-<p>Page()用来注册一个页面，维护该页面的生命周期以及数据。</p>
-<pre><code>// 注册微信小程序，全局只有一个
-let pageConfig = {
-    data: {},
-    // 页面生命周期的各个阶段
-    onLoad: function(){},
-    onShow: function(){},
-    onReady: function(){},
-    onHide: function(){},
-    onUnload: function(){},
-    onPullDownRefresh: function(){},
-    onReachBottom: function(){},
-    onShareAppMessage: function(){},
-
-    // 自定义函数或者属性
-    ...
-};
-Page(pageConfig);
-
-// 获取页面堆栈，表示历史访问过的页面，最后一个元素为当前页面
-const page = getCurrentPages();
-</code></pre><p>关于各个生命周期的细节以及流程，参考下图，可以细细品味：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-481a42f6d299528e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><code>app.json</code> 和 <code>page.json</code> 维护了应用和页面的配置属性。<code>App()</code> 和 <code>Page()</code> 维护了应用和页面的各个生命周期以及数据。</p>
-<p>那么，<code>APP</code> 和 <code>Page</code> 如何将数据传递到页面呢？页面又是如何渲染呢？</p>
-<h3 id="WXML模板语法，页面渲染"><a href="#WXML模板语法，页面渲染" class="headerlink" title="WXML模板语法，页面渲染"></a>WXML模板语法，页面渲染</h3><p>小程序虽然是hybrid模式，但并不使用HTML渲染，而是全部通过自定义标签来渲染页面。这样做的好处我不清楚，但问题却不少：不能跨浏览器、富文本解析困难，iframe视频不支持，没办法外链跳转。<br>和所有的模板语言一样，WXML支持数据绑定、条件渲染、循环、模块化等功能。</p>
-<h3 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h3><p>在 WXML 中可以使用<code>双大括号</code>将 <code>Page</code> 的变量或者表达式包裹起来，实现数据绑定，举个例子：</p>
-<pre><code>// 将message的值渲染到view中
-&lt;view&gt; {{ message }} &lt;/view&gt;
-
-// 将id的值渲染到view的id属性中
-&lt;view id=&quot;item-{{id}}&quot;&gt; &lt;/view&gt;
-
-// 根据isSelected的值，输出不同的class
-&lt;view class=&quot;{{isSelected ? 'selected' : ''}}&quot;&gt; HelloWorld &lt;/view&gt;
-
-// 结合template，可以传入更复杂的数据
-&lt;template is=&quot;objectCombine&quot; data=&quot;{{...article, categoty, tag: '埃隆马斯克'}}&quot;&gt;&lt;/template&gt;
-</code></pre><h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><p>循环渲染，适合遍历数据输出多段 WXML，举个例子：</p>
-<pre><code>// wx:for 表示需要遍历的数据
-// wx:key 使用唯一的字段来标识，有利于提升性能
-// wx:for-index 表示数组的下标
-// wx:for-item 表示数组的元素
-&lt;view wx:for=&quot;{{[{id:1, message: 'HelloWorld1'}, {id:2, message: 	'HelloWorld2'}]}}&quot; 
-    wx:key=&quot;id&quot; 
-    wx:for-index=&quot;idx&quot; 
-    wx:for-item=&quot;item&quot;&gt;
-    {{idx}}: {{item.message}}
-&lt;/view&gt;
-</code></pre><p><code>wx:key</code> 有利于提升重新渲染时的效率，建议添加</p>
-<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>WXML的模块化，可以让我们复用一些wxml片段，还挺重要的，举个例子：</p>
-<pre><code>// 引入wxml模块
-&lt;import src=&quot;../../components/grid-article/index&quot;&gt;&lt;/import&gt;
-
-&lt;block wx:for=&quot;{{posts}}&quot; wx:for-item=&quot;post&quot; wx:key=&quot;id&quot;&gt;
-    // 调用wxml模块，同时可传入数据
-    &lt;template is=&quot;grid-article&quot; data=&quot;{{post}}&quot;&gt;&lt;/template&gt;
-&lt;/block&gt;
-</code></pre><p>数据和页面的状态是一一对应的，微信小程序中，设计一份好的数据结构，对于Page和页面的代码都有很大的帮助。<br>微信小程序并不支持a标签，那么多个页面之间如何跳转呢？</p>
-<h3 id="页面间的跳转"><a href="#页面间的跳转" class="headerlink" title="页面间的跳转"></a>页面间的跳转</h3><p>小程序以栈的形式维护了历史访问的所有页面，并提供了多种页面间的跳转方式；结合前文提到的App()和Page()的各个生命周期，不同的跳转方式和不同的生命周期关联，如下图：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-cf7de8f472d6a147.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>举个例子，Tab 切换对应的生命周期（以 A、B 页面为 Tabbar 页面，C 是从 A 页面打开的页面，D 页面是从 C 页面打开的页面为例）<br><img src="http://upload-images.jianshu.io/upload_images/1158202-80ab7b1ea2766468.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>好了，APP和Page负责维护小程序的生命周期和数据，模板负责接受数据完成页面渲染，页面间的跳转负责将多个页面贯穿起来，那么，如何发生交互呢？接下来我们简单说一下事件。</p>
-<h3 id="交互事件"><a href="#交互事件" class="headerlink" title="交互事件"></a>交互事件</h3><h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><pre><code>// bindtap 和 catchtap的区别在于
-// bindtap 不会阻止事件冒泡
-// catchtap会冒泡事件冒泡
-&lt;view id=&quot;tapTest&quot; data-hi=&quot;WeChat&quot; bindtap=&quot;tapName&quot;&gt; Click me! &lt;/view&gt;
-&lt;view id=&quot;tapTest&quot; data-hi=&quot;WeChat&quot; catchtap=&quot;tapName&quot;&gt; Click me! &lt;/view&gt;
-
-// 绑定的函数tapName只是一个函数名称，默认接受一个event对象作为参数
-Page({
-    tapName: function(event) {
-        console.log(event)
-        }
-    })
-</code></pre><p>接下来，另一个问题是：<code>tapName()</code> 如何接受自定义参数呢？</p>
-<h4 id="事件传参"><a href="#事件传参" class="headerlink" title="事件传参"></a>事件传参</h4><p>传递自定义参数主要有两种方式：</p>
-<p>第一种：将参数绑定到wxml标签上，然后通过event.target.dataset获取</p>
-<p>第二种：直接使用Page.data或其他数据</p>
-<p>到目前为止，一个完整的小程序框架已经实现</p>
-<ul>
-<li>小程序只有逻辑和视图两部分，而且不提供组件化解决方案</li>
-<li>逻辑主要包含四个东西：两个配置文件 &amp;&amp; 两个核心函数</li>
-<li>视图很简单，模板语法稍微有点不完善</li>
-<li>逻辑层的数据绑定到视图层是由小程序框架自动支持，数据变化，视图自动变化</li>
-<li>视图层到逻辑层的，主要通过事件的方式来实现</li>
-<li>视图之间的跳转，小程序也提供了它自己的方式，并不支持a标签</li>
-</ul>
-<p>框架有了，小程序还提供了官方组件以便快速开发，提供了API以增强应用能力。</p>
-<p>这块就不具体介绍了，也需要注意小程序的官方文档还在大规模的更新中，务必查看最新版</p>
-<p>官方组件：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222</a></p>
-<p>官方API：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222</a></p>
-<p>微信小程序的基础知识就是以上的内容，并不复杂，边查边写都可以。</p>
-<p>接下来会介绍更进阶一些的内容，内容主要结合好奇心日报这个小程序项目，先看效果：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-50ade533c922cb0d.gif?imageMogr2/auto-orient/strip" alt=""></p>
-<h2 id="如何设计微信小程序？"><a href="#如何设计微信小程序？" class="headerlink" title="如何设计微信小程序？"></a>如何设计微信小程序？</h2><h3 id="构建系统-amp-amp-目录结构"><a href="#构建系统-amp-amp-目录结构" class="headerlink" title="构建系统 &amp;&amp; 目录结构"></a>构建系统 &amp;&amp; 目录结构</h3><h4 id="构建系统"><a href="#构建系统" class="headerlink" title="构建系统"></a>构建系统</h4><p>由于微信小程序本身对工程化几乎没有任何的支持，所以动手搭建一份：<a href="https://github.com/qixiuss/wxapp-redux-starter" target="_blank" rel="external">wxapp-redux-starter</a>。</p>
-<p><strong>使用gulp进行编译构建，主要功能包括：</strong></p>
-<ul>
-<li>集成了<code>Redux</code>，数据管理更方便</li>
-<li>开发过程中，使用<code>xml</code>取代<code>wxml</code>，对开发工具更友好</li>
-<li>开发过程中，使用<code>less</code>取代<code>wxss</code>，功能更强大</li>
-<li>引入<code>es-promise</code>，以便可以创建并使用<code>Promise</code></li>
-<li>添加<code>promisify</code>工具函数，可以便捷的将官方<code>Api</code>转换成<code>Pormise</code>模式</li>
-<li>引入<code>normalizr</code>，可以将数据扁平化，更方便进行数据管理</li>
-<li>引入<code>babel</code>自动进行<code>ES2015</code>特性转换</li>
-<li>对<code>wxml/wxss/js/img</code>压缩，相对开发者工具提供的压缩，会减小一丢丢体积。<h4 id="目录结构设计"><a href="#目录结构设计" class="headerlink" title="目录结构设计"></a>目录结构设计</h4>按照pages、components、redux、vendors/libs、images几个核心部分拆分，直接上目录。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-6583ba0c0928481c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
-<li>dist目录：构建输出的文件存放到这个目录。</li>
-<li>src目录：开发模式的文件，包括app、页面、组件、图片等静态资源、辅助函数库、Redux数据管理器、第三方工具库。</li>
-<li>gulpfile.js：不用多说，gulp构建任务的入口文件。</li>
-<li>package.json：不用多说，管理者构建任务的依赖。</li>
-<li>thirdPlugins：由于小程序并不支持直接使用npm，我们可以自主拉取构建，然后拷贝到vendors里，有时候需要简单修改。</li>
-</ul>
-<p>构建系统会将src目录下的代码，编译处理后输出到dist目录，小程序开发工具只需要引入dist目录即可。</p>
-<p>有了构建工具，代码开发起来更舒心，但很快就遇到另外一个糟心的问题，那就是如何管理散布在各处的数据？<br>要知道，微信小程序并没有提供组件化方案，所以<strong>把组件写成无状态组件</strong>特别适合，但是页面管理太多数据很凌乱，有什么办法可以将数据集中管理呢？</p>
-<h3 id="引入Redux进行数据集中管理"><a href="#引入Redux进行数据集中管理" class="headerlink" title="引入Redux进行数据集中管理"></a>引入Redux进行数据集中管理</h3><p>关于Redux相关的内容，之前有三篇博客详细介绍，有兴趣的建议先移步：</p>
-<ul>
-<li>Redux整体介绍：<a href="http://www.jianshu.com/p/d296a8c34936" target="_blank" rel="external">Redux 入门教程，应用的状态管理器</a></li>
-<li>对State进行横向和纵向拆分设计：<a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="external">State设计，Redux 开发第一步</a></li>
-<li>Reducer的最佳实践：<a href="http://www.jianshu.com/p/938f8121ba0f" target="_blank" rel="external">Reducer 最佳实践，Redux 开发最重要的部分</a></li>
-</ul>
-<p>这儿就简单介绍一下，如何在微信小程序中引入Redux 以及 如何将微信小程序和Redux连接起来。</p>
-<h4 id="引入Redux"><a href="#引入Redux" class="headerlink" title="引入Redux"></a>引入Redux</h4><p>直接在 <code>thirdPlugins</code>目录 运行 <code>yarn add redux / npm install redux</code>，等<code>redux</code>安装好了之后，将 <code>dist</code>目录 的 <code>redux.js/redux.min.js</code> 拷贝到<code>vendors</code>目录中。<br>需要进行简单的修改才能使用，将压缩版208行代码 <code>(i)</code> 改成 <code>(i || {})</code>即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-143fad06f8c52bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h4 id="连接微信小程序和Redux"><a href="#连接微信小程序和Redux" class="headerlink" title="连接微信小程序和Redux"></a>连接微信小程序和Redux</h4><p>将Redux和微信小程序连接起来才会真的有用处。找了个现成的方案<a href="https://github.com/charleyw/wechat-weapp-redux" target="_blank" rel="external">charleyw/wechat-weapp-redux</a>，可以直接使用。</p>
-<p>一个完整的Redux方案如下，包括：将Store注入到App中、将state的数据和reducer的方法映射到Page中。一旦state发生变化，Page.data也会更新，进而触发页面的重新渲染。</p>
-<pre><code>// APP的逻辑
-import { createStore, applyMiddleware, combineReducers } from &apos;./vendors/redux.js&apos;;
-import thunk from &apos;./vendors/redux-thunk.js&apos;;
-import { Provider } from &apos;./vendors/weapp-redux.js&apos;;
-
-// import reducers
-import { rootReducer } from &apos;./redux/reducer.js&apos;;
-
-// 从Storage读取数据
-let entities = wx.getStorageSync(&apos;entities&apos;) || {};
-
-const store = createStore(
-    rootReducer, {
-        // 将读取的数据注入到store中
-        entities: entities
-    },
-    applyMiddleware(
-        thunk
-    )
-);
-
-let appConfig = {
-    onLaunch: function() {},
-
-    onHide: function() {
-        let state = store.getState(),
-            cacheEntities = {};
-
-        // 体积大于2M，直接清空，防止缓存占用过大体积
-        if (sizeof(state.entities) &lt;= 2 * 1024 * 1024) {
-            cacheEntities = state.entities;
-        }
-
-        // 退出时将entities缓存下来
-        wx.setStorageSync(&apos;entities&apos;, cacheEntities);
-    }
-};
-
-App(Provider(store)(appConfig));
-// Page的逻辑
-import { connect } from &apos;../../vendors/weapp-redux.js&apos;;
-
-import { fetchArticleDetail } from &apos;../../redux/models/articles.js&apos;;
-
-let pageConfig = {
-    data: {
-        id: 0,
-        postsHash: {}
-    },
-    onLoad: function(params) {
-        var me = this,
-            { id, postsHash } = me.data;
-
-        me.fetchArticleDetail(id, function() {}, function() {});
-    }
-}
-
-// 考虑到列表页已经获取到部分数据
-// 为了在详情页第一时间利用这些数据，我们将params传入
-// 防止以后需要用data的数据，我们将data也一并传入
-let mapStateToData = (state, params, data) =&gt; {
-    return {
-        id: params.id,
-        postsHash: state.entities.posts
-    }
-};
-
-let mapDispatchToPage = dispatch =&gt; ({
-    fetchArticleDetail: (id, callback, errorCallback) =&gt; dispatch(fetchArticleDetail(id, callback, errorCallback)),
-});
-
-pageConfig = connect(mapStateToData, mapDispatchToPage)(pageConfig)
-Page(pageConfig);
-</code></pre><p>需要注意的是，为了保证第一时间能拿到数据，我们对<code>wechat-weapp-redux/src/connect.js</code>做了优化调整，修改的地方如下</p>
-<pre><code>// 修改了以下两个函数
-// 可以对照原项目修改，也可以直接拿我的模板项目使用
-function handleChange(options) {
-    if (!this.unsubscribe) {
-        return
-    }
-
-    const state = this.store.getState();
-    // 将data也一并传入
-    const mappedState = mapState(state, options, this.data);
-    if (!this.data || shallowEqual(this.data, mappedState)) {
-        return;
-    }
-    this.setData(mappedState)
-}
-
-function onLoad(options) {
-    this.store = app.store;
-    if (!this.store) {
-        warning(&quot;Store对象不存在!&quot;)
-    }
-    if (shouldSubscribe) {
-        this.unsubscribe = this.store.subscribe(handleChange.bind(this, options))
-        // 第一次处理的时候也传入options
-        handleChange.apply(this, [options])
-    }
-    if (typeof _onLoad === &apos;function&apos;) {
-        _onLoad.call(this, options)
-    }
-}
-</code></pre><h4 id="引入Redux的优势"><a href="#引入Redux的优势" class="headerlink" title="引入Redux的优势"></a>引入Redux的优势</h4><p>引入Redux的好处在于可以集中管理数据，并且让Page的代码保持绝对简单，让所有的组件都变成简单可复用的无状态组件。<br>此外，Redux还让离线缓存更方便，数据复用更简单。</p>
-<p>引入Redux解决了数据散布各处的问题，参考Redux的管理思路，我们构思了一套简单组件化解决方案：假设我们把所有的组件都设计成无状态组件，而组件的数据来源是Page.data，那么我们是否也可以将组件数据的管理抽离到一个单独的文件中呢？接下来讲讲我们使用的简单的组件化解决方案。</p>
-<h4 id="简单的组件化解决方案"><a href="#简单的组件化解决方案" class="headerlink" title="简单的组件化解决方案"></a>简单的组件化解决方案</h4><p>这份组件化解决方案的核心就在于把组件的关联数据集中起来管理，只暴露出默认数据和数据的操作函数。</p>
-<p>比如好奇心日报的详情页有个Toolbar，该Toolbar并不复杂，主要提供返回和点赞功能，其中点赞功能只对文章详情有效，研究所详情页会将点赞功能隐藏。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-2d1dc48a1ecaf25b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<pre><code>// components/toolbar/index.js 文件
-// 仅提供默认值，不需要和page中的数据保持同步
-let defaultData = {
-    isPraised: false,
-    praiseCount: 0,
-    showPraiseIcon: false,
-};
-// 切换点赞状态
-function togglePraise() {
-    // 本质上是修改Page.data中的toolbarData
-}
-// 返回上一级
-function navigateToBack(wx) {
-    wx.navigateBack({ delta: 1 });
-}
-module.exports = {
-    defaultData,
-
-    togglePraise,
-    navigateToBack
-}
-
-// pages/articles/show.js 文件
-import Toolbar from &apos;../../components/toolbar/index.js&apos;;
-
-let pageConfig = {
-    data: {
-        // 其他数据
-        id: 0,
-        // Toolbar数据，单独的一份数据，便于维护
-        toolbarData: Toolbar.defaultData
-    },
-    // 点赞或者取消赞
-    togglePraise: function() {
-        let me = this;
-
-        Toolbar.togglePraise.call(me);
-    }
-}
-
-// 这儿的组件化并不是真正的组件化
-// 而是将组件相关的逻辑和函数抽离到单独的文件中，保证Page代码清晰。
-// 同时也为这部分组件逻辑复用提供了可能。
-// 本质上来说，抽离出的组件都是“操作Page.data的工具函数”，他们也是纯函数，和“操作state的reducer”类似。
-</code></pre><p>这种Redux的组件化解决方案既简单又好用，保持一定的代码规范即可。这样设计当然是为了复用，同时也让Page的逻辑保持极度精简。</p>
-<h2 id="开发中遇到了哪些难点-amp-amp-微信小程序有多少坑？"><a href="#开发中遇到了哪些难点-amp-amp-微信小程序有多少坑？" class="headerlink" title="开发中遇到了哪些难点 &amp;&amp; 微信小程序有多少坑？"></a>开发中遇到了哪些难点 &amp;&amp; 微信小程序有多少坑？</h2><p>微信小程序目前的确算不上公测的版本，开发者工具不完善、真机表现和开发环境差异很大、部分组件性能较差、部分功能有缺陷，只有经历了这些大坑，才会真的知道你有多“爱”微信小程序。这儿总结了开发中的难点以及微信小程序中遇到的比较明显的坑。</p>
-<h3 id="富文本解析"><a href="#富文本解析" class="headerlink" title="富文本解析"></a>富文本解析</h3><p>微信小程序并不支持HTML标签，所以对于富文本解析来说，难度较大，而且有些功能还没有办法实现，比如：iframe视频、连接跳转等<br>这块功能建议由后台统一转换，如果非得前端转换，建议参考下面的思路。</p>
-<p>非常感谢 <a href="https://github.com/icindy/wxParse" target="_blank" rel="external">wxParse</a> 这款组件，替我省了不少时间。推荐大家使用，期间遇到一些问题，也分享给大家。</p>
-<ul>
-<li>wxParse 默认层级只支持10层html嵌套，如果想要支持更深的层级，在wxParse.xml复制几份template即可。</li>
-<li>wxParse 提供了图片加载成功的回调<code>wxParseImgLoad</code>，很好用。但如果富文本中的图片已经预设宽高比，那么可以不用依赖该回调，在html2jons.js中根据屏幕宽度直接计算出图片高度，先占位，可以避免页面频繁抖动的问题。</li>
-<li>如果你的富文本中有自定义模块，对wxParse.xml中的template进行改造即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-52ce324bcc9879bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="数据扁平化"><a href="#数据扁平化" class="headerlink" title="数据扁平化"></a>数据扁平化</h3>具体如何扁平化，请移步上一篇博客 <a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="external">State设计，Redux 开发第一步</a>。<br>这儿只简单介绍下扁平化应用场景：<br>好奇心日报的研究所是三级表结构：<code>papers &gt; questions &gt; options</code>，后台返回的数据是三级嵌套数据，如果想要修改option.selected字段，需要三级嵌套循环！如果想要获取所有选中的option，需要三级嵌套循环！<h3 id="页面展现速度优化"><a href="#页面展现速度优化" class="headerlink" title="页面展现速度优化"></a>页面展现速度优化</h3>数据复用，比如复用列表页的数据，可以让详情页的标题等字段第一时间呈现出来。<br>离线缓存，同样可以让列表页和详情页第一时间呈现出来，甚至有可能减少请求数量。</li>
-</ul>
-<p>无论是数据复用还是离线缓存，配合数据扁平化，都非常好用。</p>
-<h3 id="小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）"><a href="#小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）" class="headerlink" title="小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）"></a>小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）</h3><p>解决方法很简单，设置微信小程序不使用代理；或者临时关闭VPN即可。<br>最新版开发者工具已经解决该问题。</p>
-<h3 id="最新版微信小程序移除了对Promise的支持。"><a href="#最新版微信小程序移除了对Promise的支持。" class="headerlink" title="最新版微信小程序移除了对Promise的支持。"></a>最新版微信小程序移除了对Promise的支持。</h3><p>开发者自行引入兼容库即可，推荐<a href="https://github.com/stefanpenner/es6-promise" target="_blank" rel="external">es6-promise</a>。使用的时候，直接引入Promise即可。</p>
-<pre><code>// 引入Promise
-import Promise from &apos;../vendors/es6-promise.js&apos;;
-
-// 用Promise封装wx.request网络请求
-function request(method = &apos;GET&apos;) {
-    return function(url, data = {}) {
-        return new Promise(function(resolve, reject) {
-            wx.request({
-                url,
-                data,
-                method,
-                header: {
-                    &apos;Content-Type&apos;: &apos;application/json&apos;
-                },
-                success: function(res) {
-                    let { statusCode, errMsg, data } = res;
-
-                    if (statusCode == 200 &amp;&amp; data.meta &amp;&amp; data.meta.status == 200) {
-                        resolve(data.response);
-                    } else {
-                        reject(&apos;网路请求错误，请稍后再试~&apos;);
-                    }
-                },
-                fail: function(err) {
-                    reject(&apos;网路请求不符合规范，请检查域名是否符合要求~&apos;);
-                }
-            });
-        })
-    }
-}
-export const GET = request(&apos;GET&apos;);
-export const POST = request(&apos;POST&apos;);
-export const PUT = request(&apos;PUT&apos;);
-export const DELETE = request(&apos;DELETE&apos;);
-
-// 用Promise封装小程序的其他API
-export const promisify = (api) =&gt; {
-    return (options, ...params) =&gt; {
-        return new Promise((resolve, reject) =&gt; {
-            api(Object.assign({}, options, { success: resolve, fail: reject }), ...params);
-        });
-    }
-}
-// 使用
-const getLocation = promisify(wx.getLocation);
-</code></pre><p>不清楚微信为何会临时移除Promise，统一内置不也挺好？</p>
-<h3 id="小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。"><a href="#小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。" class="headerlink" title="小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。"></a>小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。</h3><p>小程序一旦滚动顶部或者底部，继续滑动的时候，就会出现拉扯现象。而这个拉扯现象还无法禁止。<br>最新版可以对页面配置disableScroll，预计可以修复这个问题，待实际验证。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-691d39e8e75dc7b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h4 id="swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）"><a href="#swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）" class="headerlink" title="swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）"></a>swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）</h4><ul>
-<li>swiper组件之前并不支持轮播，最新版已修复</li>
-<li>swiper组件之前是通过设置left属性来实现动画，在小米5、华为V8等高端等安卓机上能够感受到明显的卡顿，当然原因是X5内核引起的。最新版已修复，换成了transform，性能有一定的提升。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-942330479da5c884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
-<li><p>文档并未标记可以垂直轮播，但其实是可以的。</p>
-<pre><code>// 简单设置vertical即可，但由于官方文档并未备注，尽量不要使用。可以自己开发一个swiper组件。
-&lt;swiper vertical=&quot;true&quot;&gt;&lt;/swiper&gt;
-</code></pre></li>
-<li>swiper组件的小圆点其实是可以定制化的，但是官方文档并未说明，而且开发者工具也看不出来，只有鼠标hover到元素上的时候可以看到相关的class，简单猜测一下，最后分析出来它的实现方式。</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/1158202-70f78f4950ce9817.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<pre><code>// 圆点的父元素，用来控制圆点间的间距
-.wx-swiper-dot {
-    width: 30rpx;
-    // 圆点，可以通过font-size修改圆点的大小，color修改圆点的颜色
-    &amp;:before {
-        width: 100%;
-        display: inline-block;
-        font-size: 56rpx;
-        content: &apos;圆点编码&apos;;
-    }
-    // active状态的圆点
-    &amp;.wx-swiper-dot-active {
-        &amp;:before {
-            color: #ffc81f;
-        }
-    }
-}
-</code></pre><h3 id="小程序WXSS的font-face的url不接受路径作为参数"><a href="#小程序WXSS的font-face的url不接受路径作为参数" class="headerlink" title="小程序WXSS的font-face的url不接受路径作为参数"></a>小程序WXSS的font-face的url不接受路径作为参数</h3><p>可以将字体文件转换为base64，然后引用。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-4d8cf6721984b58c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>同样，如果想要使用iconfont，也可以使用类似的方案，将iconfont字体文件base64之后再引入。</p>
-<h4 id="小程序的margin表现有问题（最新版已经修复）"><a href="#小程序的margin表现有问题（最新版已经修复）" class="headerlink" title="小程序的margin表现有问题（最新版已经修复）"></a>小程序的margin表现有问题（最新版已经修复）</h4><p>之前发生margin折叠的时候，会取小的那个值。会导致底部留白等设置失效。</p>
-<h4 id="canvas问题"><a href="#canvas问题" class="headerlink" title="canvas问题"></a>canvas问题</h4><p>canvas并没有深入研究，目前的发现的问题主要是两个，如下图标记：</p>
-<ul>
-<li>层级问题，canvas总是会盖在其他元素上面。</li>
-<li>支持度不好，在小米5、iPhone5s画图会出现畸形。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-aaea239242906e8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
-</ul>
-<p>最后通过CSS3的方式绘制饼图</p>
-<pre><code>&lt;template name=&quot;pie&quot;&gt;
-    &lt;view class=&quot;com-pie&quot;&gt;
-        &lt;!-- 小于50% --&gt;
-        &lt;view class=&quot;percent-1&quot; style=&quot;transform: rotate(0.4turn);&quot;&gt;&lt;/view&gt;
-        &lt;view class=&quot;percent-2&quot;&gt;&lt;/view&gt;
-        &lt;!-- 大于50% --&gt;
-        &lt;view class=&quot;percent-1&quot; style=&quot;transform: rotate(0.5turn);&quot;&gt;&lt;/view&gt;
-        &lt;view class=&quot;percent-2&quot; style=&quot;opacity:1; transform: rotate(0.3turn);&quot;&gt;&lt;/view&gt;
-    &lt;/view&gt;
-&lt;/template&gt;
-
-.com-pie {
-    position: relative;
-    z-index: 0;
-    display: inline-block;
-    width: 100rpx;
-    height: 100rpx;
-    line-height: 100rpx;
-    border-radius: 50%;
-    color: #000;
-    background-color: #ebebeb;
-    background-image: linear-gradient(to right, transparent 50%, #cccccc 0);
-    overflow: hidden;
-    .percent-1,
-    .percent-2 {
-        position: absolute;
-        top: 0;
-        width: 60%;
-        height: 100%;
-        left: 50%;
-        transform-origin: center left;
-    }
-    .percent-1 {
-        background-color: inherit;
-        z-index: -2;
-    }
-    .percent-2 {
-        height: 110%;
-        opacity: 0;
-        z-index: -1;
-        background-color: #cccccc;
-    }
-    &amp;.selected {
-        background-color: #ffe9a5;
-        background-image: linear-gradient(to right, transparent 50%, #ffc81f 0);
-        .percent-2 {
-            background-color: #ffc81f;
-        }
-    }
-}
-</code></pre><h3 id="微信小程序的rpx会出现精度问题"><a href="#微信小程序的rpx会出现精度问题" class="headerlink" title="微信小程序的rpx会出现精度问题"></a>微信小程序的rpx会出现精度问题</h3><p>设置margin-left/margin-right负值，可能导致页面能够左右晃动。猜测 是rpx导致的精度问题。<br>rpx本质上会转换为px，在不同宽度的设备上，实际的rpx值会转换为带小数的px值，四舍五入可能出现问题，之前使用rem布局的时候在QQ浏览器遇到过类似的问题。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-83e69b31a569928f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h4 id="wx-request表现不合理，并且携带特殊字符会报错"><a href="#wx-request表现不合理，并且携带特殊字符会报错" class="headerlink" title="wx.request表现不合理，并且携带特殊字符会报错"></a>wx.request表现不合理，并且携带特殊字符会报错</h4><ul>
-<li>请求返回404错误，也会触发success回调。<br>不要想当然的认为会触发fail回调，判断一个请求成功或失败，请使用wx.request返回的状态来判断。只有不符合规范的请求，才会触发fail。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-ebad0e91ac279124.png?imageMogr2/auto-orient/strip%7CimageView2/2" alt=""></li>
-<li>请求的数据中，如果有特殊字符（比如\u2820），会报错。<br>只会在真机上出现，开发者工具没毛病。估计会有更多的特殊字符会导致这个问题。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-9110f7d78b3fb4aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="开发者工具，切换页面的时候，有时候wxml不会同步切换"><a href="#开发者工具，切换页面的时候，有时候wxml不会同步切换" class="headerlink" title="开发者工具，切换页面的时候，有时候wxml不会同步切换"></a>开发者工具，切换页面的时候，有时候wxml不会同步切换</h3>希望微信什么时候能解决一下。<h3 id="微信小程序给wxml模板赋值的时候，解构放到前面可能会报错"><a href="#微信小程序给wxml模板赋值的时候，解构放到前面可能会报错" class="headerlink" title="微信小程序给wxml模板赋值的时候，解构放到前面可能会报错"></a>微信小程序给wxml模板赋值的时候，解构放到前面可能会报错</h3>最新版会遇到这个问题，老版本虽然不会报错，但是在部分真机上会出现问题。<br>原因未知，遇到这个问题的朋友可以考虑绕过去。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-e379fd7fca1b99cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="微信小程序的scroll-view暴露的bindscroll函数并不能实时监听"><a href="#微信小程序的scroll-view暴露的bindscroll函数并不能实时监听" class="headerlink" title="微信小程序的scroll-view暴露的bindscroll函数并不能实时监听"></a>微信小程序的scroll-view暴露的bindscroll函数并不能实时监听</h3>依赖实时获取滚动位置的功能不能实现。比如滚动时toolbar的动态隐藏和显示。<h3 id="最新版开发工具不能关掉自动刷新"><a href="#最新版开发工具不能关掉自动刷新" class="headerlink" title="最新版开发工具不能关掉自动刷新"></a>最新版开发工具不能关掉自动刷新</h3>微信小程序的会默认监听文件变化，然后自动刷新。<br>但不足的是每次都是全量刷新，而不是模块的热替换，反而会影响开发速度，尤其对于喜欢频繁Command + S的开发者，你会发现你的小程序在不断的刷新。建议关闭。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-1418bc0e4b307f56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>但最新版开发者工具，不勾选也会自动刷新。</li>
-</ul>
-<h3 id="微信小程序不支持requestAnimationFrame"><a href="#微信小程序不支持requestAnimationFrame" class="headerlink" title="微信小程序不支持requestAnimationFrame"></a>微信小程序不支持<code>requestAnimationFrame</code></h3><p>微信小程序不支持<code>requestAnimationFrame</code>，所以部分性能优化做不了。不支持的原因未知。</p>
-<h3 id="Page-onload函数可以接受参数"><a href="#Page-onload函数可以接受参数" class="headerlink" title="Page.onload函数可以接受参数"></a>Page.onload函数可以接受参数</h3><p>该参数是有URL决定的，也就是URL携带的参数。<br>官方文档这块写的有点混淆，特意拿出来说一下。举个例子：url中传递的时候<code>id=1</code>，那么<code>option.id=1</code>，而不是什么<code>option.query</code>。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-8135e6e4e97b2ec6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="真机上有概率卡死，目前不确定是代码问题还是小程序的问题。"><a href="#真机上有概率卡死，目前不确定是代码问题还是小程序的问题。" class="headerlink" title="真机上有概率卡死，目前不确定是代码问题还是小程序的问题。"></a>真机上有概率卡死，目前不确定是代码问题还是小程序的问题。</h3><p>有遇到类似问题的朋友欢迎指出。</p>
-<h4 id="总结说点啥？"><a href="#总结说点啥？" class="headerlink" title="总结说点啥？"></a>总结说点啥？</h4><p>本文主要围绕微信小程序的基础知识、如何设计微信小程序、开发过程中遇到的问题三个方面介绍。<br>微信小程序的基础知识主要包括：</p>
-<ul>
-<li>两种配置文件 &amp;&amp; 两个核心函数</li>
-<li>WXML模板语法，页面渲染</li>
-<li>页面间的跳转</li>
-<li>交互事件</li>
-<li>官方组件和官方API</li>
-</ul>
-<p>如何设计微信小程序的内容主要包括：</p>
-<ul>
-<li>构建系统 &amp;&amp; 目录结构</li>
-<li>引入Redux进行数据集中管理</li>
-<li>简单的组件化解决方案</li>
-</ul>
-<p>最后还介绍开发过程中遇到的难点 以及 微信小程序的大小坑。</p>
-<p>微信小程序本身并不复杂，开发过程却比较艰辛，尤其是第一次在真机上运行的时候，觉得这个世界恶意满满。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/" class="archive-article-date">
-  	<time datetime="2017-01-03T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-03</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信小程序/">微信小程序</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -2025,7 +1674,7 @@ const getLocation = promisify(wx.getLocation);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 10px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
