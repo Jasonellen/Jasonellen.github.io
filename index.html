@@ -236,6 +236,82 @@
       <div class="body-wrap">
         
   
+    <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/25/Vue全家桶/">你需知道的Vue全家桶</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="external">Vuex官网</a></p>
+<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  localComputed () &#123; /* ... */ &#125;,</div><div class="line">  // 使用对象展开运算符将此对象混入到外部对象中</div><div class="line">  ...mapState(&#123;</div><div class="line">  	// 映射 this.count 为 store.state.count</div><div class="line">    count: state =&gt; state.count,  ① == ②</div><div class="line">    //计算属性的名称与 state 的子节点名称相同时</div><div class="line">  	&apos;count&apos; ② == ①</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getters= &#123;</div><div class="line">  // ...</div><div class="line">  doneTodosCount: (state, getters) =&gt; &#123;</div><div class="line">    return getters.doneTodos.length</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">mutations= &#123;</div><div class="line">  increment (state, payload) &#123;</div><div class="line">    state.count += payload.amount</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">store.commit(&apos;increment&apos;, &#123;</div><div class="line">  amount: 10</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</div><div class="line">actions= &#123;</div><div class="line">  async actionA (&#123; commit &#125;) &#123;</div><div class="line">  	//触发mutation</div><div class="line">    commit(&apos;gotData&apos;, await getData())</div><div class="line">  &#125;,</div><div class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</div><div class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</div><div class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default new Vuex.Store(&#123;</div><div class="line">  actions,  //公用的actions</div><div class="line">  getters,	//公用的getters</div><div class="line">  modules: &#123;</div><div class="line">    cart,  //拥有自己的 state、mutation、action、getter</div><div class="line">    products //拥有自己的 state、mutation、action、getter</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 mutation 和 getter，接收的第一个参数是模块的局部状态对象。</li>
+<li>对于模块内部的 action，局部状态通过 context.state 暴露出来， 根节点状态则为 context.rootState</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  actions: &#123;</div><div class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</div><div class="line">     //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 getter，根节点状态会作为第三个参数暴露出来</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  getters: &#123;</div><div class="line">    sumWithRootCount (state, getters, rootState) &#123;</div><div class="line">      return state.count + rootState.count</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">export default function createWebSocketPlugin (socket) &#123;</div><div class="line">  return store =&gt; &#123;</div><div class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</div><div class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</div><div class="line">      store.commit(&apos;receiveData&apos;, data)</div><div class="line">    &#125;)</div><div class="line">    //store监听到mutation触发后发送socket到后台 ②</div><div class="line">    store.subscribe(mutation =&gt; &#123;</div><div class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</div><div class="line">        socket.emit(&apos;update&apos;, mutation.payload)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const plugin = createWebSocketPlugin(socket)</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  state,</div><div class="line">  mutations,</div><div class="line">  plugins: [plugin]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="内置-Logger-插件"><a href="#内置-Logger-插件" class="headerlink" title="内置 Logger 插件"></a>内置 Logger 插件</h5><blockquote>
+<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">vue-devtools</a>，你可能不需要此插件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import createLogger from &apos;vuex/dist/logger&apos;</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  plugins: [createLogger()]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<h2 id="二、项目实战"><a href="#二、项目实战" class="headerlink" title="二、项目实战"></a>二、项目实战</h2><blockquote>
+<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="external">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/25/Vue全家桶/" class="archive-article-date">
+  	<time datetime="2017-06-24T17:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数组方法/">数组方法</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-4个必须知道的数组方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -254,7 +330,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="4个必须知道的数组方法"><a href="#4个必须知道的数组方法" class="headerlink" title="4个必须知道的数组方法"></a>4个必须知道的数组方法</h2><h3 id="1-过滤器filter"><a href="#1-过滤器filter" class="headerlink" title="1.过滤器filter"></a>1.过滤器filter</h3><blockquote>
+        <h3 id="1-过滤器filter"><a href="#1-过滤器filter" class="headerlink" title="1.过滤器filter"></a>1.过滤器filter</h3><blockquote>
 <p>filter()方法创建一个新数组，返回所有通过所提供函数实现的测试的元素集合。</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var arr = [</div><div class="line">    &#123;&quot;name&quot;:&quot;apple&quot;, &quot;count&quot;: 2&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;pear&quot;, &quot;count&quot;: 3&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;,</div><div class="line">]; </div><div class="line">var newArr = arr.filter(function(item)&#123;</div><div class="line">    return item.name === &quot;orange&quot;;</div><div class="line">&#125;);</div><div class="line">console.log(newArr)//[&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;]</div></pre></td></tr></table></figure>
@@ -2179,115 +2255,6 @@ export function * counterMinus1 (action) {
 
 
   
-    <article id="post-imgClipUpload" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/imgClipUpload/">imgClipUpload</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
-</blockquote>
-<h3 id="直接在gitHub查看imgClipUpload🚘"><a href="#直接在gitHub查看imgClipUpload🚘" class="headerlink" title="直接在gitHub查看imgClipUpload🚘"></a>直接在gitHub查看<a href="https://github.com/Jasonellen/imgClipUpload" target="_blank" rel="external">imgClipUpload</a>🚘</h3><h4 id="✨HTML："><a href="#✨HTML：" class="headerlink" title="✨HTML："></a>✨HTML：</h4><pre><code>&lt;!-- 带Id的标签是必须要的 --&gt;
-&lt;canvas id=&quot;canvas&quot; &gt;&lt;/canvas&gt; //画布
-&lt;div class=&quot;file rake&quot;&gt;
-    &lt;input type=&quot;file&quot; id=&quot;file&quot;/&gt;上传图片
-&lt;/div&gt;
-&lt;div id=&quot;rotateR&quot; class=&quot;rake&quot;&gt;旋转&lt;/div&gt;
-&lt;div class=&quot;cancle rake&quot;&gt;取消&lt;/div&gt;
-&lt;div id=&quot;save&quot; class=&quot;rake&quot;&gt;截图&lt;/div&gt;
-&lt;div class=&quot;upload rake&quot;&gt;上传&lt;/div&gt;
-&lt;img src=&quot;&quot; alt=&quot;&quot; id=&quot;img&quot;/&gt; //截图或保存的图片
-</code></pre><h4 id="✨JS："><a href="#✨JS：" class="headerlink" title="✨JS："></a>✨JS：</h4><ul>
-<li><p>按钮移入移除动画效果</p>
-<pre><code>$(&apos;.rake&apos;).mouseenter(function(){
-    $(this).addClass(&apos;rubberBand animated infinite&apos;)
-})
-.mouseleave(function(){
-    $(this).removeClass(&apos;rubberBand animated infinite&apos;)
-})
-</code></pre></li>
-<li><p>创建截图</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var cut = new ImgClip(&#123;</div><div class="line">  canvas : &apos;canvas&apos;, // canvas id</div><div class="line">  width:$(window).width(), //canvas 宽度</div><div class="line">  height:$(window).height(), //canvas 高度</div><div class="line">  fileObj : &apos;file&apos;, // file id</div><div class="line">  cutBtn : &apos;save&apos;, // cut btn id</div><div class="line">  resultObj : &apos;img&apos;, // result img id</div><div class="line">  rotateR : &apos;rotateR&apos;,</div><div class="line">  cutScale : 3/4, // 高:宽</div><div class="line">  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-<li><p>点击选择本地图片预览</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(this)[0].value=&apos;&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>取消预览</p>
-<pre><code>$(&apos;.cancle&apos;).click(function(){
-  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
-  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
-})
-</code></pre><p>  ​</p>
-</li>
-<li><p>保存截图</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(&apos;#save&apos;).click(function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>点击上传图片</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">$(&apos;.upload&apos;).click(function()&#123;</div><div class="line">  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)</div><div class="line">  var file = dataURItoBlob(url)</div><div class="line">  var fd=new FormData();</div><div class="line">  fd.append(&apos;file&apos;,file);</div><div class="line">  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);</div><div class="line">  $.ajax(&#123;</div><div class="line">     url:&quot;php/upload.php&quot;,</div><div class="line">     type:&quot;POST&quot;,</div><div class="line">     data:fd,</div><div class="line">     processData: false,</div><div class="line">     contentType: false,</div><div class="line">     success:function(data)&#123;</div><div class="line">         console.log(data)</div><div class="line">     &#125;</div><div class="line">  &#125;); </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>base64转Blob</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function dataURItoBlob (base64Data) &#123;</div><div class="line">   var byteString;</div><div class="line">   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)</div><div class="line">       byteString = atob(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   else</div><div class="line">       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];</div><div class="line">   var ia = new Uint8Array(byteString.length);</div><div class="line">   for (var i = 0; i &lt; byteString.length; i++) &#123;</div><div class="line">       ia[i] = byteString.charCodeAt(i);</div><div class="line">   &#125;</div><div class="line">   // canvas.toDataURL 返回的默认格式是 image/png</div><div class="line">   return new Blob([ia], &#123;type: type&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><pre><code>&lt;?php
-  header(&apos;Access-Control-Allow-Origin:*&apos;);
-  //处理文件
-  if(!file_exists(&apos;./img&apos;)){
-      mkdir(&apos;./img&apos;);
-  }
-  $file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
-  $newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
-  $res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
-  print_r($_FILES)
-?&gt;
-</code></pre><p>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/27/imgClipUpload/" class="archive-article-date">
-  	<time datetime="2017-03-26T17:01:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/imgClipUpload/">imgClipUpload</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2351,7 +2318,7 @@ export function * counterMinus1 (action) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 10px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 20px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

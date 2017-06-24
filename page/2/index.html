@@ -236,6 +236,115 @@
       <div class="body-wrap">
         
   
+    <article id="post-imgClipUpload" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/27/imgClipUpload/">imgClipUpload</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
+</blockquote>
+<h3 id="直接在gitHub查看imgClipUpload🚘"><a href="#直接在gitHub查看imgClipUpload🚘" class="headerlink" title="直接在gitHub查看imgClipUpload🚘"></a>直接在gitHub查看<a href="https://github.com/Jasonellen/imgClipUpload" target="_blank" rel="external">imgClipUpload</a>🚘</h3><h4 id="✨HTML："><a href="#✨HTML：" class="headerlink" title="✨HTML："></a>✨HTML：</h4><pre><code>&lt;!-- 带Id的标签是必须要的 --&gt;
+&lt;canvas id=&quot;canvas&quot; &gt;&lt;/canvas&gt; //画布
+&lt;div class=&quot;file rake&quot;&gt;
+    &lt;input type=&quot;file&quot; id=&quot;file&quot;/&gt;上传图片
+&lt;/div&gt;
+&lt;div id=&quot;rotateR&quot; class=&quot;rake&quot;&gt;旋转&lt;/div&gt;
+&lt;div class=&quot;cancle rake&quot;&gt;取消&lt;/div&gt;
+&lt;div id=&quot;save&quot; class=&quot;rake&quot;&gt;截图&lt;/div&gt;
+&lt;div class=&quot;upload rake&quot;&gt;上传&lt;/div&gt;
+&lt;img src=&quot;&quot; alt=&quot;&quot; id=&quot;img&quot;/&gt; //截图或保存的图片
+</code></pre><h4 id="✨JS："><a href="#✨JS：" class="headerlink" title="✨JS："></a>✨JS：</h4><ul>
+<li><p>按钮移入移除动画效果</p>
+<pre><code>$(&apos;.rake&apos;).mouseenter(function(){
+    $(this).addClass(&apos;rubberBand animated infinite&apos;)
+})
+.mouseleave(function(){
+    $(this).removeClass(&apos;rubberBand animated infinite&apos;)
+})
+</code></pre></li>
+<li><p>创建截图</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var cut = new ImgClip(&#123;</div><div class="line">  canvas : &apos;canvas&apos;, // canvas id</div><div class="line">  width:$(window).width(), //canvas 宽度</div><div class="line">  height:$(window).height(), //canvas 高度</div><div class="line">  fileObj : &apos;file&apos;, // file id</div><div class="line">  cutBtn : &apos;save&apos;, // cut btn id</div><div class="line">  resultObj : &apos;img&apos;, // result img id</div><div class="line">  rotateR : &apos;rotateR&apos;,</div><div class="line">  cutScale : 3/4, // 高:宽</div><div class="line">  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>点击选择本地图片预览</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(this)[0].value=&apos;&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>取消预览</p>
+<pre><code>$(&apos;.cancle&apos;).click(function(){
+  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
+  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
+})
+</code></pre><p>  ​</p>
+</li>
+<li><p>保存截图</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(&apos;#save&apos;).click(function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>点击上传图片</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">$(&apos;.upload&apos;).click(function()&#123;</div><div class="line">  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)</div><div class="line">  var file = dataURItoBlob(url)</div><div class="line">  var fd=new FormData();</div><div class="line">  fd.append(&apos;file&apos;,file);</div><div class="line">  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);</div><div class="line">  $.ajax(&#123;</div><div class="line">     url:&quot;php/upload.php&quot;,</div><div class="line">     type:&quot;POST&quot;,</div><div class="line">     data:fd,</div><div class="line">     processData: false,</div><div class="line">     contentType: false,</div><div class="line">     success:function(data)&#123;</div><div class="line">         console.log(data)</div><div class="line">     &#125;</div><div class="line">  &#125;); </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>base64转Blob</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function dataURItoBlob (base64Data) &#123;</div><div class="line">   var byteString;</div><div class="line">   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)</div><div class="line">       byteString = atob(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   else</div><div class="line">       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];</div><div class="line">   var ia = new Uint8Array(byteString.length);</div><div class="line">   for (var i = 0; i &lt; byteString.length; i++) &#123;</div><div class="line">       ia[i] = byteString.charCodeAt(i);</div><div class="line">   &#125;</div><div class="line">   // canvas.toDataURL 返回的默认格式是 image/png</div><div class="line">   return new Blob([ia], &#123;type: type&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><pre><code>&lt;?php
+  header(&apos;Access-Control-Allow-Origin:*&apos;);
+  //处理文件
+  if(!file_exists(&apos;./img&apos;)){
+      mkdir(&apos;./img&apos;);
+  }
+  $file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
+  $newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
+  $res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
+  print_r($_FILES)
+?&gt;
+</code></pre><p>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/27/imgClipUpload/" class="archive-article-date">
+  	<time datetime="2017-03-26T17:01:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/imgClipUpload/">imgClipUpload</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-package" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -869,6 +978,71 @@
 
 
   
+    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/import/">import</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
+</blockquote>
+<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
+</code></pre><p>​    </p>
+<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
+</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
+<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
+</code></pre><p>​    </p>
+<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
+</code></pre><p>​    </p>
+<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
+</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/import/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -996,71 +1170,6 @@ store.subscribe(render);
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redux入门/">redux入门</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/import/">import</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
-</blockquote>
-<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
-</code></pre><p>​    </p>
-<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
-</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
-<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
-</code></pre><p>​    </p>
-<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
-</code></pre><p>​    </p>
-<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
-</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/21/import/" class="archive-article-date">
-  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
 	</div>
 
       
@@ -1484,133 +1593,6 @@ $(document).abs();
 
 
   
-    <article id="post-jQuery对象之deferred" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/08/jQuery对象之deferred/">jQuery对象之deferred</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.</p>
-</blockquote>
-<h2 id="1-ajax操作写法"><a href="#1-ajax操作写法" class="headerlink" title="1,ajax操作写法"></a>1,ajax操作写法</h2><h3 id="非链式"><a href="#非链式" class="headerlink" title="非链式"></a>非链式</h3><pre><code>$.ajax({
-   type:&apos;get&apos;
-   url: &quot;test.html&quot;,
-   success: function(){
-          alert(&quot;哈哈，成功了！&quot;);
-      },
-      error:function(){
-          alert(&quot;出错啦！&quot;);
-      }
-});
-</code></pre><h3 id="链式"><a href="#链式" class="headerlink" title="链式"></a>链式</h3><p>高于1.5.0版本的jq，<code>ajax()返回的是deferred对象</code>，可以直接进行链式操作。</p>
-<pre><code>$.ajax(&quot;test.html&quot;)
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><p>可以看到，<code>done()</code>相当于<code>success</code>方法，<code>fail()</code>相当于<code>error</code>方法。采用链式写法以后，代码的可读性大大提高。</p>
-<p>如果ajax操作成功后，除了原来的回调函数，我还想再运行一个回调函数，怎么办？直接在结尾追加就好了，回调函数可以添加任意多个，它们按照添加顺序执行。像酱紫：</p>
-<pre><code>$.ajax(&quot;test.html&quot;)
-.done(function(){ alert(&quot;哈哈，成功了！&quot;);} )
-.fail(function(){ alert(&quot;出错啦！&quot;); } )
-.done(function(){ alert(&quot;第二个回调函数！&quot;);} );
-.done(function(){ alert(&quot;第三个回调函数！&quot;);} );
-</code></pre><h2 id="2-为多个操作指定回调函数"><a href="#2-为多个操作指定回调函数" class="headerlink" title="2,为多个操作指定回调函数"></a>2,为多个操作指定回调函数</h2><pre><code>$.when($.ajax(&quot;test1.html&quot;), $.ajax(&quot;test2.html&quot;))
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><p>这段代码的意思是，先执行两个操作<code>$.ajax(&quot;test1.html&quot;)</code>和<code>$.ajax(&quot;test2.html&quot;)</code>，如果都成功了，就运行<code>done()</code>指定的回调函数；如果有一个失败或都失败了，就执行<code>fail()</code>指定的回调函数。</p>
-<h2 id="3-回调函数接口实现"><a href="#3-回调函数接口实现" class="headerlink" title="3,回调函数接口实现"></a>3,回调函数接口实现</h2><p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作—-不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。</p>
-<p>假定有一个很耗时的操作wait：</p>
-<pre><code>function wait(){
-    var tasks = function(){
-        alert(&quot;执行完毕！&quot;);
-    };
-    setTimeout(tasks,5000);
-};
-
-为它指定回调函数: 错误❌的写法如下
-
-$.when(wait())
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><p>上述写法，done()方法会立即执行，起不到回调函数的作用。原因在于<code>$.when()的参数只能是deferred对象</code>，所以必须对wait()进行改写：<br>​<br>    var dtd = $.Deferred(); // 新建一个deferred对象<br>    var wait = function(){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变deferred对象的执行状态为已完成<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise();<br>    };<br>现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。<br>​<br>    $.when(wait())<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
-<blockquote>
-<p>jQuery规定，deferred对象有三种执行状态—-未完成，已完成和已失败。如果执行状态是”已完成”（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是”已失败”，调用fail()方法指定的回调函数；如果执行状态是”未完成”，则继续等待.<br>deferred.reject()方法，作用是将dtd对象的执行状态从”未完成”改为”已失败”，从而触发fail()方法。<br>jQuery提供了deferred.promise()方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被外界改变造成干扰。</p>
-</blockquote>
-<p><code>**********************************</code></p>
-<h2 id="上面说些原理，下面是2种经常使用的回调接口方法"><a href="#上面说些原理，下面是2种经常使用的回调接口方法" class="headerlink" title="上面说些原理，下面是2种经常使用的回调接口方法"></a>上面说些原理，下面是2种经常使用的回调接口方法</h2><p><code>**********************************</code></p>
-<h4 id="1，将deferred对象变成wait-）函数的内部对象。"><a href="#1，将deferred对象变成wait-）函数的内部对象。" class="headerlink" title="1，将deferred对象变成wait(）函数的内部对象。"></a>1，将deferred对象变成wait(）函数的内部对象。</h4><pre><code>function wait(){
-    var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
-    var tasks = function(){
-        alert(&quot;执行完毕！&quot;);
-        dtd.resolve(); // 改变Deferred对象的执行状态
-    };
-    setTimeout(tasks,5000);
-    return dtd.promise(); // 返回promise对象
-};
-$.when(wait())
-.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
-.fail(function(){ alert(&quot;出错啦！&quot;); });
-</code></pre><h4 id="2，使用deferred对象的建构函数-Deferred"><a href="#2，使用deferred对象的建构函数-Deferred" class="headerlink" title="2，使用deferred对象的建构函数$.Deferred()"></a>2，使用deferred对象的建构函数$.Deferred()</h4><p>jQuery规定，$.Deferred()可以接受一个函数名<code>（注意，是函数名）--当然也是立即执行该函数</code>作为参数，<code>$.Deferred()所生成的deferred对象将作为这个函数的默认参数</code>。<br>​<br>    function wait(dtd){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变Deferred对象的执行状态<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise(); // 返回promise对象<br>    };<br>    $.Deferred(wait)<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
-<h3 id="小结：deferred对象的方法"><a href="#小结：deferred对象的方法" class="headerlink" title="小结：deferred对象的方法"></a>小结：deferred对象的方法</h3><ol>
-<li>$.Deferred() 生成一个deferred对象。    </li>
-<li>deferred.done() 指定操作成功时的回调函数</li>
-<li>deferred.fail() 指定操作失败时的回调函数</li>
-<li>deferred.promise() 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。</li>
-<li>deferred.resolve() 手动改变deferred对象的运行状态为”已完成”，从而立即触发done()方法。</li>
-<li>deferred.reject() 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法。</li>
-<li>$.when() 为多个操作指定回调函数。<br><br><h4 id="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"><a href="#除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。" class="headerlink" title="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"></a>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。</h4></li>
-<li><p>deferred.then()有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。<br><br><code>$.when($.ajax( &quot;/main.php&quot; ))</code><br><br><code>.then(successFunc, failureFunc );</code><br><br>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。</p>
-</li>
-<li><p>deferred.always()<br>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。<br><br><code>$.ajax( &quot;test.html&quot; )</code><br></p>
-<p><code>.always( function() { alert(&quot;已执行！&quot;);} );</code></p>
-</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/01/08/jQuery对象之deferred/" class="archive-article-date">
-  	<time datetime="2017-01-08T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery对象之deferred/">jQuery对象之deferred</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1674,7 +1656,7 @@ $.when(wait())
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 10px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue单例组件/" style="font-size: 10px;">Vue单例组件</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 20px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

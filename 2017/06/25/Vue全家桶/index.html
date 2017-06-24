@@ -7,14 +7,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="baidu-site-verification" content="ggTdcuuNh2" />
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Archives | 奋斗蚁🐜</title>
+  <title>你需知道的Vue全家桶 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/archives/page/4/index.html">
+  <meta name="description" content="vuex详细教程请转Vuex官网
+一、知识点小结：1.复合辅助函数12345678910computed: &amp;#123;  localComputed () &amp;#123; /* ... */ &amp;#125;,  // 使用对象展开运算符将此对象混入到外部对象中  ...mapState(&amp;#123;  	// 映射 this.count 为 store.state.count    count: s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你需知道的Vue全家桶">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/06/25/Vue全家桶/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="vuex详细教程请转Vuex官网
+一、知识点小结：1.复合辅助函数12345678910computed: &amp;#123;  localComputed () &amp;#123; /* ... */ &amp;#125;,  // 使用对象展开运算符将此对象混入到外部对象中  ...mapState(&amp;#123;  	// 映射 this.count 为 store.state.count    count: s">
+<meta property="og:updated_time" content="2017-06-24T03:27:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="你需知道的Vue全家桶">
+<meta name="twitter:description" content="vuex详细教程请转Vuex官网
+一、知识点小结：1.复合辅助函数12345678910computed: &amp;#123;  localComputed () &amp;#123; /* ... */ &amp;#125;,  // 使用对象展开运算符将此对象混入到外部对象中  ...mapState(&amp;#123;  	// 映射 this.count 为 store.state.count    count: s">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -234,346 +241,91 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      你需知道的Vue全家桶
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="external">Vuex官网</a></p>
+<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  localComputed () &#123; /* ... */ &#125;,</div><div class="line">  // 使用对象展开运算符将此对象混入到外部对象中</div><div class="line">  ...mapState(&#123;</div><div class="line">  	// 映射 this.count 为 store.state.count</div><div class="line">    count: state =&gt; state.count,  ① == ②</div><div class="line">    //计算属性的名称与 state 的子节点名称相同时</div><div class="line">  	&apos;count&apos; ② == ①</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getters= &#123;</div><div class="line">  // ...</div><div class="line">  doneTodosCount: (state, getters) =&gt; &#123;</div><div class="line">    return getters.doneTodos.length</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">mutations= &#123;</div><div class="line">  increment (state, payload) &#123;</div><div class="line">    state.count += payload.amount</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">store.commit(&apos;increment&apos;, &#123;</div><div class="line">  amount: 10</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</div><div class="line">actions= &#123;</div><div class="line">  async actionA (&#123; commit &#125;) &#123;</div><div class="line">  	//触发mutation</div><div class="line">    commit(&apos;gotData&apos;, await getData())</div><div class="line">  &#125;,</div><div class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</div><div class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</div><div class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default new Vuex.Store(&#123;</div><div class="line">  actions,  //公用的actions</div><div class="line">  getters,	//公用的getters</div><div class="line">  modules: &#123;</div><div class="line">    cart,  //拥有自己的 state、mutation、action、getter</div><div class="line">    products //拥有自己的 state、mutation、action、getter</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 mutation 和 getter，接收的第一个参数是模块的局部状态对象。</li>
+<li>对于模块内部的 action，局部状态通过 context.state 暴露出来， 根节点状态则为 context.rootState</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  actions: &#123;</div><div class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</div><div class="line">     //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 getter，根节点状态会作为第三个参数暴露出来</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  getters: &#123;</div><div class="line">    sumWithRootCount (state, getters, rootState) &#123;</div><div class="line">      return state.count + rootState.count</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">export default function createWebSocketPlugin (socket) &#123;</div><div class="line">  return store =&gt; &#123;</div><div class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</div><div class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</div><div class="line">      store.commit(&apos;receiveData&apos;, data)</div><div class="line">    &#125;)</div><div class="line">    //store监听到mutation触发后发送socket到后台 ②</div><div class="line">    store.subscribe(mutation =&gt; &#123;</div><div class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</div><div class="line">        socket.emit(&apos;update&apos;, mutation.payload)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const plugin = createWebSocketPlugin(socket)</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  state,</div><div class="line">  mutations,</div><div class="line">  plugins: [plugin]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="内置-Logger-插件"><a href="#内置-Logger-插件" class="headerlink" title="内置 Logger 插件"></a>内置 Logger 插件</h5><blockquote>
+<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">vue-devtools</a>，你可能不需要此插件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import createLogger from &apos;vuex/dist/logger&apos;</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  plugins: [createLogger()]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<h2 id="二、项目实战"><a href="#二、项目实战" class="headerlink" title="二、项目实战"></a>二、项目实战</h2><blockquote>
+<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="external">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
+</blockquote>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
-  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/25/Vue全家桶/" class="archive-article-date">
+  	<time datetime="2017-06-24T17:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-25</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/08/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数组方法/">数组方法</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/07/手机端自适应单位换算/" class="archive-article-date">
-  	<time datetime="2016-12-07T14:13:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/07/手机端自适应单位换算/">手机端自适应单位换算</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/手机端自适应单位换算/">手机端自适应单位换算</a></li></ul>
-	</div>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/06/22/4个必须知道的数组方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">4个必须知道的数组方法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/06/移动端布局-事件/" class="archive-article-date">
-  	<time datetime="2016-12-06T08:16:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/06/移动端布局-事件/">移动端布局+事件</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端布局-事件/">移动端布局+事件</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-javascript">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/02/面向对象编程（一）：封装/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:38:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/02/面向对象编程（一）：封装/">面向对象编程</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面向对象编程/">面向对象编程</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/30/学习Javascript闭包/" class="archive-article-date">
-  	<time datetime="2016-11-30T06:37:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/30/学习Javascript闭包/">学习Javascript闭包</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面向对象编程/">面向对象编程</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/28/Javascript的this用法/" class="archive-article-date">
-  	<time datetime="2016-11-28T13:25:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/28/Javascript的this用法/">Javascript的this用法</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/this用法/">this用法</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/27/php缓存文件/" class="archive-article-date">
-  	<time datetime="2016-11-27T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/27/php缓存文件/">php缓存文件</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php缓存文件/">php缓存文件</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/23/数据库基本操作二/" class="archive-article-date">
-  	<time datetime="2016-11-23T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/23/数据库基本操作二/">数据库基本操作二</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库基本操作（二）/">数据库基本操作（二）</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/21/php文件操作/" class="archive-article-date">
-  	<time datetime="2016-11-21T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/21/php文件操作/">php文件操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php文件操作/">php文件操作</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/20/php入门/" class="archive-article-date">
-  	<time datetime="2016-11-20T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/20/php入门/">php入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php入门/">php入门</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/5/">Next &raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -593,8 +345,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
