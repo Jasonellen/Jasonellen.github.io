@@ -236,6 +236,242 @@
       <div class="body-wrap">
         
   
+    <article id="post-php入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/20/php入门/">php入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本地服务器"><a href="#本地服务器" class="headerlink" title="本地服务器"></a>本地服务器</h1><p><code>1.打开本地服务器</code></p>
+<pre><code>sudo apachectl start
+</code></pre><p><code>2.进入服务器</code></p>
+<pre><code>/jas/资源库/webserver/Documents/    可以改权限
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/005WhkQKgw1fa13dg1visj30wa0c3q6k.jpg" alt=""></p>
+<h4 id="里面放文件访问-打开127-0-0-1"><a href="#里面放文件访问-打开127-0-0-1" class="headerlink" title="里面放文件访问,打开127.0.0.1"></a>里面放文件访问,打开127.0.0.1</h4><p><code>3.结束</code></p>
+<pre><code>sudo apachectl stop
+</code></pre><h1 id="XAMPP服务"><a href="#XAMPP服务" class="headerlink" title="XAMPP服务"></a>XAMPP服务</h1><p><code>1.打开阿帕奇</code><br><img src="http://ww2.sinaimg.cn/mw690/005WhkQKgw1fa13df8379j30ip0d5dh5.jpg" alt=""></p>
+<p><code>2.测试版本,在服务器里放入一个test.php文件</code></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/005WhkQKgw1fa13os08h5j30tu0by77v.jpg" alt=""></p>
+<p><code>3.在test.php文件里写上</code></p>
+<p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13orv94yj30de0ammxp.jpg" alt=""></p>
+<h3 id="出现版本号"><a href="#出现版本号" class="headerlink" title="出现版本号"></a>出现版本号</h3><p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13dfnm1hj30tc08p0x7.jpg" alt=""></p>
+<p><code>4.访问http://localhost/class/test/test.php</code></p>
+<h1 id="php语法入门"><a href="#php语法入门" class="headerlink" title="php语法入门"></a>php语法入门</h1><p><code>1.echo只能打印字符串和数字</code></p>
+<pre><code>echo &quot;hello world!&quot;;
+echo &quot;&lt;br&gt;&quot;;
+echo (111);//数字不加引号可以
+</code></pre><p><code>2.变量声明</code></p>
+<pre><code>$a = &quot;你好&quot;;
+echo $a;
+
+$b=&quot;hello&quot;;
+$hello=&quot;hello jas&quot;;
+echo $$b;                //hello jas
+</code></pre><p><code>3.变量解析，字符串连接使用“.”</code></p>
+<pre><code>$c=&quot;你好&quot;;
+$res1=&quot;张三&quot;;
+echo $c.$res1;  //你好张三
+
+$res2=&quot;张三$c&quot;;//必须双引号才会解析
+$res2=&quot;张三&apos;$c&apos;&quot;;//张三&apos;你好&apos;
+echo $res2;
+</code></pre><p><code>4.自动转换</code></p>
+<pre><code>$d=1;
+$e=&quot;2&quot;;
+echo gettype($d+$e);//整型integer
+echo ($d+$e);//3
+</code></pre><p><code>5.强制转换</code></p>
+<pre><code>echo gettype($e);  //string
+echo gettype((int)$e);//integer
+</code></pre><p><code>6.字符串定义方式二：</code></p>
+<pre><code>// 定界符,一般定义长字符串；注意，结尾顶头写，前后不许有空格
+$str=&lt;&lt;&lt;AAA
+fdffdfdfdfdfdff
+AAA;
+echo $str;//fdffdfdfdfdfdff
+</code></pre><p><code>7.php不会传值</code></p>
+<pre><code>$arr1=[1,2,3];
+$arr2=$arr1;//想传值加&amp;符号
+$arr2[0]=5;
+print_r($arr1);//Array ( [0] =&gt; 1 [1] =&gt; 2 [2] =&gt; 3 )
+
+
+$arr1=[1,2,3];
+$arr3=&amp;$arr1;//想传值加&amp;符号
+$arr3[0]=5;
+print_r($arr1);//Array ( [0] =&gt; 5 [1] =&gt; 2 [2] =&gt; 3 )
+</code></pre><p><code>8.数组定义方式</code></p>
+<pre><code>$arr=array(&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;);//索引数组
+print_r($arr);    //Array ( [0] =&gt; 张三 [1] =&gt; 李四 [2] =&gt; 王二 )
+var_dump();    // array(3) { [0]=&gt; string(6) &quot;张三&quot; [1]=&gt; string(6) &quot;李四&quot; [2]=&gt; string(6) &quot;王二&quot; }
+</code></pre><p><code>数组遍历</code></p>
+<pre><code>//遍历
+echo &quot;&lt;hr/&gt;&quot;; 
+$arr = array(&apos;武汉&apos;=&gt;&apos;三大火炉之一&apos;,&apos;上海&apos;=&gt;&apos;魔都&apos;);
+foreach ($arr as $key =&gt; $value) {
+    echo $key.&apos;:&apos;.$value;
+    echo &quot;&lt;hr/&gt;&quot;; 
+}
+
+$arr2 = array(
+    &apos;电子产品&apos;=&gt;array(&apos;iphone&apos;=&gt;&apos;64g&apos;,&apos;华为&apos;=&gt;&apos;32g&apos;),
+    &apos;食品&apos;=&gt;array(&apos;旺旺&apos;=&gt;&apos;雪饼&apos;,&apos;百事&apos;=&gt;&apos;可乐&apos;),
+);
+
+foreach ($arr2 as $key =&gt; $value) {
+    foreach ($value as $key1 =&gt; $value1) {
+        echo $key.&apos;-&apos;.$key1.&apos;-&apos;.$value1.&quot;&lt;hr/&gt;&quot;;
+    }
+}
+</code></pre><p><code>数组操作</code></p>
+<pre><code>$arr = array(&apos;张三&apos;,&apos;李四&apos;,&apos;王二&apos;);
+unset($arr[0]); //删除arr中的第一个
+print_r($arr); 
+echo &quot;&lt;hr/&gt;&quot;;
+
+//is_type  判断是否是某种类型，会返还boolean值
+echo is_array($arr);
+echo &quot;&lt;hr/&gt;&quot;;
+
+echo in_array(&apos;李四&apos;,$arr); //判断 张三是否在array中
+echo &quot;&lt;hr/&gt;&quot;;
+</code></pre><p><code>运算符等其他操作</code></p>
+<pre><code>//运算符等基本语法和JS基本都是一样的，来列列不同点
+$a = 4;
+echo &apos;$a+=5 ---&apos;.$a+=5;  //9
+echo &apos;&lt;hr&gt;&apos;;
+echo &apos;$a.=5 ---&apos;.$a.=5;  //95
+
+// &amp;&amp; == and(与)   || == or(或)   !(非)  xor(亦或)
+//  !=  ==  &lt;&gt; (不等于)
+echo &apos;&lt;hr&gt;&apos;;
+$a = mt_rand(1,10);  //随机一个1-10的数  包含1和10
+echo $a;
+echo &apos;&lt;hr&gt;&apos;;
+
+$b = $a &lt;= 5 ? &apos;小于5&apos; : &apos;大于5&apos;;  //记得要用一个新的值保存
+echo $b;
+echo &apos;&lt;hr&gt;&apos;;
+
+//有返还至的函数
+// 5！= 5*4*3*2*1   阶乘
+
+function jiechen($num){
+    if($num&gt;0){
+        return jiechen($num-1)*$num;
+    }else{
+        return 1;
+    }
+}
+
+echo jiechen(5);
+
+echo &apos;&lt;hr&gt;&apos;;
+$a = 5;
+function test(){
+    global $a;
+    echo $a;  //不能直接获取到外面的$a 需要用全局变量设置一下,或者传参
+
+    $GLOBALS[&apos;b&apos;] =$a;  //传递函数里面的变量到外面
+}
+test();
+echo &apos;&lt;hr&gt;&apos;;
+echo $GLOBALS[&apos;b&apos;];
+
+echo &apos;&lt;hr&gt;&apos;;
+function digui(){
+    static $a=5;  //静态变量，常驻内存，每次执行函数$a都存在不会被重新赋值
+    if($a&gt;0){
+        echo $a;
+        $a--;
+        digui();
+    }else{
+        return false;
+    }
+}
+digui();
+
+echo &apos;&lt;hr&gt;&apos;;
+$arr = [1,2,3];
+$arr[] =&apos;zhangsan&apos;;  //向数组中添加张三到最后，  也是方式三定义数组
+array_unshift($arr,&apos;lisi&apos;);
+array_push($arr,&apos;wanger&apos;);
+print_r($arr);
+
+$arr =range(1,10);   //生成一个1-10的数组  只能是整数
+count($arr);  //数组长度
+
+echo &apos;&lt;hr&gt;&apos;;
+$str = &apos;a,b,c,d&apos;;
+strlen($str); //字符串长度  注意 一个中文字符站三个字节，长度是三
+$arr=explode(&apos;,&apos;,$str);  //相当于split
+print_r($arr);
+$str = implode(&apos;-&apos;,$arr);
+echo $str;
+
+$arr = [&apos;a&apos;,&apos;c&apos;,&apos;d&apos;,&apos;b&apos;];
+sort($arr); //顺序
+rsort($arr);//倒序
+
+// $res = strops($str,&apos;a&apos;);  //找a出现的位置
+// $res = str_replace(&apos;x&apos;,&apos;y&apos;,$res); // 把$res中 x替换为y
+
+echo &apos;&lt;hr&gt;&apos;;
+$arr = array(1=&gt;&apos;zhangsan&apos;);
+$str = json_encode($arr);   //转为字符串
+echo $str;
+echo &apos;&lt;hr&gt;&apos;;
+$arr = json_decode($str);  //字符串解码为对象
+print_r($arr);
+
+$a = &apos;&lt;h1&gt;这是解析后的好&lt;/h1&gt;&apos;;  //直接输出会以标签的方式显示
+echo htmlspecialchars($a);  //将以字符串的方式返还成实体
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/20/php入门/" class="archive-article-date">
+  	<time datetime="2016-11-20T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php入门/">php入门</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-数据库基本操作一" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1751,242 +1987,6 @@ e.x      ——支持
 
 
   
-    <article id="post-ES6新特性" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/21/ES6新特性/">ES6新特性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>没有太多啰嗦，说那么多介绍也没多少人会看，我们直接看特性吧，ES6多数人认为主要的十大特性如下，排名不分先后：</p>
-<ul>
-<li><p>Default Parameters（默认参数）</p>
-</li>
-<li><p>Template Literals （模板文本）</p>
-</li>
-<li><p>Multi-line Strings （多行字符串）</p>
-</li>
-<li><p>Destructuring Assignment （解构赋值）</p>
-</li>
-<li><p>Enhanced Object Literals （增强的对象文本）</p>
-</li>
-<li><p>Arrow Functions （箭头函数）</p>
-</li>
-<li><p>Promises </p>
-</li>
-<li><p>Block-Scoped Constructs Let and Const（块作用域构造Let and Const）</p>
-</li>
-<li><p>Classes（类） </p>
-</li>
-<li><p>Modules（模块）</p>
-</li>
-</ul>
-<h2 id="Default-Parameters（默认参数）"><a href="#Default-Parameters（默认参数）" class="headerlink" title="Default Parameters（默认参数）"></a>Default Parameters（默认参数）</h2><p><code>before</code></p>
-<pre><code>var fn = function (height) {
-    var height = height || 50;
-       ...;
-}
-</code></pre><p><code>now</code></p>
-<pre><code>var fn = function (height=50) {
-       ...;
-}
-</code></pre><h2 id="Template-Literals（模板对象）"><a href="#Template-Literals（模板对象）" class="headerlink" title="Template Literals（模板对象）"></a>Template Literals（模板对象）</h2><p><code>before</code></p>
-<pre><code>var name = &apos;Your name is &apos; + first + &apos; &apos; + last + &apos;.&apos;;
-</code></pre><p><code>now</code></p>
-<pre><code>var name = `Your name is ${first} ${last}. `;
-</code></pre><h2 id="Multi-line-Strings-（多行字符串）"><a href="#Multi-line-Strings-（多行字符串）" class="headerlink" title="Multi-line Strings （多行字符串）"></a>Multi-line Strings （多行字符串）</h2><p><code>before</code></p>
-<pre><code>var roadPoem = &apos;Then took the other, as just as fair,nt&apos;
-                + &apos;Had worn them really about the same,nt&apos;;
-</code></pre><p><code>now</code></p>
-<pre><code>var roadPoem = `Then took the other, as just as fair,
-                Had worn them really about the same,`;
-</code></pre><h2 id="Destructuring-Assignment-（解构赋值）"><a href="#Destructuring-Assignment-（解构赋值）" class="headerlink" title="Destructuring Assignment （解构赋值）"></a>Destructuring Assignment （解构赋值）</h2><p><code>before</code></p>
-<pre><code>someArray=[1,2,3];
-var first = someArray[0];
-var second = someArray[1];
-var third = someArray[2];
-
-var obj={ foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
-var foo = obj.foo;
-var bar = obj.bar;
-</code></pre><p><code>now</code></p>
-<pre><code>someArray=[1,2,3];
-var [first, second, third] = someArray;
-console.log(first);  // 1
-console.log(second); // 2
-console.log(third);  // 3
-
-var { foo, bar } = { foo: &quot;lorem&quot;, bar: &quot;ipsum&quot; };
-console.log(foo); // &quot;lorem&quot;
-console.log(bar); // &quot;ipsum&quot;
-</code></pre><h2 id="Enhanced-Object-Literals-（增强的对象字面量）"><a href="#Enhanced-Object-Literals-（增强的对象字面量）" class="headerlink" title="Enhanced Object Literals （增强的对象字面量）"></a>Enhanced Object Literals （增强的对象字面量）</h2><p><code>before</code></p>
-<pre><code>var obj = {
-    handler: handler,
-    toString: function() {
-        return &quot;d &quot; + super.toString();
-    },
-    prop42: 42
-</code></pre><p>};</p>
-<p><code>now</code></p>
-<pre><code>var obj = {
-    handler,   //ES6特性 === handler: handler,
-    toString() {   //ES6函数
-        return &quot;d &quot; + super.toString();
-       },
-    [ &apos;prop_&apos; + (() =&gt; 42)() ]: 42  
-    //主要是这个可以在字面量中加入变量 == prop42: 42
-};
-</code></pre><h2 id="Arrow-Functions-in（箭头函数）"><a href="#Arrow-Functions-in（箭头函数）" class="headerlink" title="Arrow Functions in（箭头函数）"></a>Arrow Functions in（箭头函数）</h2><p>以前我们使用闭包，this总是预期之外地产生改变，而箭头函数的迷人之处在于，现在你的this可以按照你的预期使用了，身处箭头函数里面，this还是原来的this。</p>
-<p>有了箭头函数在ES6中， 我们就不必用that = this或 self = this 或 _this = this 或.bind(this)如下:</p>
-<p><code>before</code></p>
-<pre><code>var _this = this;
-$(&apos;.btn&apos;).click(function(event){
-     _this.sendData();
-})
-</code></pre><p><code>now</code></p>
-<pre><code>$(&apos;.btn&apos;).click((event) =&gt;{
-      this.sendData();
-})
-</code></pre><h2 id="Promises-in-ES6"><a href="#Promises-in-ES6" class="headerlink" title="Promises in ES6"></a>Promises in ES6</h2><p><code>before</code></p>
-<pre><code>setTimeout(function(){
-      console.log(&apos;Yay!&apos;);
-      setTimeout(function(){
-        console.log(&apos;Wheeyee!&apos;);
-      }, 1000)
-}, 1000);
-</code></pre><p><code>now</code></p>
-<pre><code>var wait1000 =  ()=&gt; new Promise((resolve, reject)=&gt; {setTimeout(resolve, 1000)});
-wait1000()
-    .then(function() {
-        console.log(&apos;Yay!&apos;)
-        return wait1000()
-    })
-    .then(function() {
-           console.log(&apos;Wheeyee!&apos;)
-       });
-</code></pre><p>好吧，我也没看出来哪里好用了…</p>
-<h2 id="Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）"><a href="#Block-Scoped-Constructs-Let-and-Const（块作用域和构造let和const）" class="headerlink" title="Block-Scoped Constructs Let and Const（块作用域和构造let和const）"></a>Block-Scoped Constructs Let and Const（块作用域和构造let和const）</h2><ul>
-<li>Let是一种新的变量申明方式，它允许你把变量作用域控制在块级里面。用大括号定义代码块（作用域）</li>
-<li><p>const，它就是一个不变量，也是块级作用域就像let一样。<br><code>before</code></p>
-<pre><code>for(var i=0; i&lt;1; i++){
-    var a=1;
-    {
-        var  a=2;
-        console.log(a) //2
-    }
-    console.log(a)  //2
-}
-console.log(i) //1
-console.log(a) //2
-</code></pre><p><code>now</code></p>
-<pre><code>for(let i=0; i&lt;1; i++){
-    const a=1;
-    {
-        const  a=2;
-        console.log(a) //2
-    }
-    console.log(a)  //1
-}
-console.log(a) // not defined
-console.log(i) // not defined
-</code></pre></li>
-</ul>
-<h2 id="Classes-（类）"><a href="#Classes-（类）" class="headerlink" title="Classes （类）"></a>Classes （类）</h2><p><code>before</code></p>
-<pre><code>function Circle(x) {
-   this.x = x;
-}
-Circle.classFn = function() { ... }
-
-Circle.prototype = {
-   fn1() {
-       return ..;
-   },
-
-   get fn2() {
-       return this.x;
-   },
-   set fn2(x) {
-       this.x = x*2;
-   }
-};
-</code></pre><p><code>now</code></p>
-<pre><code>class Circle {
-    constructor(x) {
-        this.x = x;
-    };
-
-    static classFn() { ... };
-
-    fn1(){
-        return ..;
-    }
-    get fn2() {
-        return this.x;
-    };
-    set fn2(val) {
-        this.x = x*2;
-    };
- }
-</code></pre><h2 id="Modules-（模块）"><a href="#Modules-（模块）" class="headerlink" title="Modules （模块）"></a>Modules （模块）</h2><p><code>before</code></p>
-<p><code>module.js</code>有port变量和getAccounts 方法:</p>
-<pre><code>module.exports = {  port: 3000,  getAccounts: function() {    ...  }}
-</code></pre><p><code>main.js</code>需要依赖require(‘module’) 导入module.js：</p>
-<pre><code>var service = require(&apos;module.js&apos;);console.log(service.port); // 3000
-</code></pre><p><code>now</code></p>
-<pre><code>导出module.js
-export var port = 3000;export function getAccounts(url) {  ...}
-
-导入方式一
-import {port, getAccounts} from &apos;module&apos;;console.log(port); // 3000
-
-导入方式二
-import * as service from &apos;module&apos;;//导入全部模块
-console.log(service.port); // 3000
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/21/ES6新特性/" class="archive-article-date">
-  	<time datetime="2016-09-21T03:11:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -2050,7 +2050,7 @@ console.log(service.port); // 3000
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 20px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/webpack之hash/" style="font-size: 10px;">webpack之hash</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 20px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     

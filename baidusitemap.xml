@@ -3,12 +3,29 @@
 
     
   <url>
-    <loc>http://Jasonellen.github.io/2017/06/25/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/</loc>
-    <lastmod>2017-06-24T03:27:14.000Z</lastmod>
+    <loc>http://Jasonellen.github.io/2017/06/26/webpack%E4%B9%8Bhash%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
+    <lastmod>2017-06-24T05:30:26.000Z</lastmod>
     <data>
         <display>
-        <title>你需知道的Vue全家桶</title>
-        <pubTime>2017-06-24T17:07:48.000Z</pubTime>
+        <title>webpack之hash、chunkhash和contenthash</title>
+        <pubTime>2017-06-26T12:07:48.000Z</pubTime>
+        
+        <tag>webpack之hash </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/22/4%E4%B8%AA%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2017-06-24T03:40:14.000Z</lastmod>
+    <data>
+        <display>
+        <title>4个必须知道的数组方法</title>
+        <pubTime>2017-06-22T12:07:48.000Z</pubTime>
         
         <tag>数组方法 </tag>
          
@@ -20,12 +37,12 @@
 
     
   <url>
-    <loc>http://Jasonellen.github.io/2017/06/22/4%E4%B8%AA%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2017-06-21T12:22:19.000Z</lastmod>
+    <loc>http://Jasonellen.github.io/2017/06/25/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/</loc>
+    <lastmod>2017-06-24T03:27:14.000Z</lastmod>
     <data>
         <display>
-        <title>4个必须知道的数组方法</title>
-        <pubTime>2017-06-22T12:07:48.000Z</pubTime>
+        <title>你需知道的Vue全家桶</title>
+        <pubTime>2017-06-24T17:07:48.000Z</pubTime>
         
         <tag>数组方法 </tag>
          

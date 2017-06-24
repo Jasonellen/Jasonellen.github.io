@@ -236,6 +236,83 @@
       <div class="body-wrap">
         
   
+    <article id="post-webpack之hash的意义" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/26/webpack之hash的意义/">webpack之hash、chunkhash和contenthash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​    <strong>文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。</strong></p>
+<p>​    <strong>如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。</strong></p>
+<h3 id="1-hash与chunkhash"><a href="#1-hash与chunkhash" class="headerlink" title="1.hash与chunkhash"></a>1.hash与chunkhash</h3><p>首先我们先看一下官方文档对于两者的定义：</p>
+<blockquote>
+<p>[hash] is replaced by the hash of the compilation.(<code>hash</code>代表的是<em>compilation</em>的hash值。)</p>
+<p>[chunkhash] is replaced by the hash of the chunk.(<code>chunkhash</code>代表的是<em>chunk</em>(模块)的hash值。)</p>
+</blockquote>
+<p>什么是 compilation？compilation对象代表某个版本的资源对应的编译进程。compilation在项目中任何一个文件改动后就会被重新创建，然后webpack计算新的compilation的hash值，这个hash值便是<code>hash</code>。<code>hash</code>是compilation<code>对象compiler①</code>计算所得，而不是具体的项目文件计算所得。所以所有的文件名都会使用相同的hash指纹。</p>
+<blockquote>
+<p>①compiler对象代表的是配置完备的Webpack环境。 compiler对象只在Webpack启动时构建一次，由Webpack组合所有的配置项构建生成。</p>
+</blockquote>
+<p>例如使用hash配置产生了2个相同hash文件名的js文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[hash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdef.js</div><div class="line">//b.778asdef.js</div></pre></td></tr></table></figure>
+<p>这样带来的问题是，这2个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
+<p><strong>这时候就用到了<code>chunkhash</code>,<code>chunkhash</code>是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。配置webpack的output如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[chunkhash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdfg.js</div><div class="line">//b.778afrds.js</div></pre></td></tr></table></figure>
+<p>这样每个文件的hash都不相同，上线后无改动的文件不会失去缓存。</p>
+<h3 id="2-js与css共用相同chunkhash的解决方案"><a href="#2-js与css共用相同chunkhash的解决方案" class="headerlink" title="2. js与css共用相同chunkhash的解决方案"></a>2. js与css共用相同chunkhash的解决方案</h3><p>webpack的理念是把所有类型的文件都以js为汇聚点，不支持js文件以外的文件为编译入口。所以如果我们要编译style文件，唯一的办法是在js文件中引入style文件。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import &apos;style/style.scss&apos;;</div></pre></td></tr></table></figure>
+<p>webpack默认将js/style文件统统编译到一个js文件中，可以借助<a href="https://github.com/webpack/extract-text-webpack-plugin" target="_blank" rel="external">extract-text-webpack-plugin</a>将style文件单独编译输出。但是在计算<code>chunkhash</code>时，会把所有的js代码和style代码混合在一起计算。比如<code>main.js</code>引用了<code>main.scss</code>:</p>
+<p>这时候，如果我们只是修改了css,那么不但单独编译出来的css文件hash值有改变，对应的JS文件hash也会改变。</p>
+<p>这时候就用到了<code>contenthash</code></p>
+<p><strong>extract-text-webpack-plugin提供了另外一种hash值：<code>contenthash</code>。顾名思义，<code>contenthash</code>代表的是文本文件内容的hash值，也就是只有style文件的hash值。这个hash值就是解决上述问题的银弹。修改配置如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new ExtractTextPlugin(&apos;[name].[contenthash].css&apos;);</div></pre></td></tr></table></figure>
+<p>这样编译输出的js和css文件将会有其独立的hash值。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/26/webpack之hash的意义/" class="archive-article-date">
+  	<time datetime="2017-06-26T12:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack之hash/">webpack之hash</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -347,7 +424,10 @@
 <li>每次迭代都应该返回一个值，作为下次迭代的prev,next则顺延到数组的下一个</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var arr = [&quot;apple&quot;,&quot;orange&quot;,&quot;apple&quot;,&quot;orange&quot;,&quot;pear&quot;,&quot;orange&quot;];</div><div class="line"></div><div class="line">function getCount()&#123;</div><div class="line">    return arr.reduce(function(prev,next)&#123;</div><div class="line">        prev[next] = (prev[next] + 1) || 1;</div><div class="line">        return prev;</div><div class="line">    &#125;,&#123;&#125;);</div><div class="line">&#125;</div><div class="line">console.log(getCount()); // &#123;apple: 2, orange: 3, pear: 1&#125;</div></pre></td></tr></table></figure>
-
+<h3 id="4-find"><a href="#4-find" class="headerlink" title="4.find"></a>4.find</h3><blockquote>
+<p><code>find</code>方法的<code>callback</code>为数组的每个索引执行一次功能，直到找到一个<code>callback</code>返回真值的值。如果找到这样的元素，<code>find</code>立即返回该元素的值。否则<code>find</code>返回<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="external"><code>undefined</code></a>。通常我们只会用到callback的2个参数，（item,index）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var inventory = [</div><div class="line">    &#123;name: &apos;cherries&apos;, quantity: 2&#125;,</div><div class="line">    &#123;name: &apos;bananas&apos;, quantity: 0&#125;,</div><div class="line">    &#123;name: &apos;cherries&apos;, quantity: 5&#125;,</div><div class="line">];</div><div class="line">var res = inventory.find(function(item,index)&#123;</div><div class="line">   return item.name === &apos;cherries&apos;;</div><div class="line">&#125;)</div><div class="line">console.log(res) //&#123;name: &quot;cherries&quot;, quantity: 2&#125; 和filter类似，但是只找到符合条件的第一个</div></pre></td></tr></table></figure>
       
     </div>
     <div class="article-info article-info-index">
@@ -2065,196 +2145,6 @@ Particle.prototype.faraway = function (other) {
 
 
   
-    <article id="post-saga-begining" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/04/saga-begining/">saga-begining</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>redux-saga 是一个用于管理 Redux 应用异步操作的中间件（又称异步 action）。 redux-saga 通过创建 <em>Sagas</em> 将所有的异步操作逻辑收集在一个地方集中处理，可以用来代替 <code>redux-thunk</code> 中间件。</p>
-<p>这意味着应用的逻辑会存在两个地方：</p>
-<ul>
-<li>Reducers 负责处理 action 的 state 更新。</li>
-<li>Sagas 负责协调那些复杂或异步的操作。</li>
-</ul>
-</blockquote>
-<ul>
-<li>此篇文章重在完成saga的基本应用，其中会用到一些其他很有用的插件，<code>saga</code>详细说明请参考文档<a href="http://leonshi.com/redux-saga-in-chinese/" target="_blank" rel="external">Redux-saga中文文档</a></li>
-<li>文章项目源码戳<a href="https://github.com/Jasonellen/saga-begining" target="_blank" rel="external">github</a></li>
-</ul>
-<h3 id="这里我们用saga完整一个Counter的使用"><a href="#这里我们用saga完整一个Counter的使用" class="headerlink" title="这里我们用saga完整一个Counter的使用"></a>这里我们用saga完整一个Counter的使用</h3><h4 id="index-js—挂在到项目元素root上"><a href="#index-js—挂在到项目元素root上" class="headerlink" title="index.js—挂在到项目元素root上"></a>index.js—挂在到项目元素root上</h4><pre><code>import React from &apos;react&apos;;
-import ReactDOM from &apos;react-dom&apos;;
-import {Provider} from &apos;react-redux&apos;;
-import createStore from &apos;./store/configureStore&apos;
-import App from &apos;./App&apos;;
-
-const store = createStore();
-ReactDOM.render(
-  &lt;Provider store={store}&gt;
-      &lt;App /&gt;
-  &lt;/Provider&gt;,
-  document.getElementById(&apos;root&apos;)
-);
-</code></pre><h4 id="上面index-js用到的creatrStore-js"><a href="#上面index-js用到的creatrStore-js" class="headerlink" title="上面index.js用到的creatrStore.js"></a>上面index.js用到的creatrStore.js</h4><pre><code>import {createLogger} from &apos;redux-logger&apos;;
-// const createLogger = require(&apos;redux-logger&apos;);
-import createSagaMiddleware from &apos;redux-saga&apos;;
-import {createStore, applyMiddleware } from &apos;redux&apos;;
-import rootReducer from &apos;../redux&apos;
-import rootSaga from &apos;../saga&apos;
-
-const middlewares = [];
-// 创建中间件saga
-const sagaMiddleware = createSagaMiddleware();
-middlewares.push(sagaMiddleware)
-
-if (process.env.NODE_ENV === &apos;development&apos;) {
-    //创建中间件logger
-    const logger = createLogger();
-    middlewares.push(logger);
-}
-
-export default function configureStore(initialState) {
-   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
-   sagaMiddleware.run(rootSaga) //saga中间键挂在到store后需要run一下 所有的saga文件
-   return store;
-}
-</code></pre><h4 id="createStore用到的rootRedux"><a href="#createStore用到的rootRedux" class="headerlink" title="createStore用到的rootRedux"></a>createStore用到的rootRedux</h4><pre><code>import {combineReducers} from &apos;redux&apos;;
-const rootReducer = combineReducers({
-  counterReducer1: require(&apos;./counterReducer1&apos;).reducer,
-  counterReducer2: require(&apos;./counterReducer2&apos;).reducer,
-})
-export default rootReducer
-</code></pre><h4 id="createStore用到的rootSaga"><a href="#createStore用到的rootSaga" class="headerlink" title="createStore用到的rootSaga"></a>createStore用到的rootSaga</h4><pre><code>import { takeLatest } from &apos;redux-saga/effects&apos;
-/* ------------- Types ------------- */
-import { CounterTypes1 } from &apos;../redux/counterReducer1&apos;
-import { CounterTypes2 } from &apos;../redux/counterReducer2&apos;
-/* ------------- Sagas ------------- */
-import { counterPlus1, counterMinus1 } from &apos;./counterSaga1&apos;
-import { counterPlus2, counterMinus2 } from &apos;./counterSaga2&apos;
-/* ------------- Connect Types To Sagas ------------- */
-export default function * rootSaga () {
-  yield [
-    takeLatest(CounterTypes1.PLUS_NUM_SAGA, counterPlus1),
-    takeLatest(CounterTypes1.MINUS_NUM_SAGA, counterMinus1),
-    takeLatest(CounterTypes2.PLUS_NUM_SAGA2, counterPlus2),
-    takeLatest(CounterTypes2.MINUS_NUM_SAGA2, counterMinus2),
-  ]
-}
-</code></pre><h4 id="rootRedux-引入的counterReducer1"><a href="#rootRedux-引入的counterReducer1" class="headerlink" title="rootRedux 引入的counterReducer1"></a>rootRedux 引入的counterReducer1</h4><pre><code>import { createReducer, createActions } from &apos;reduxsauce&apos;
-import Immutable from &apos;seamless-immutable&apos;
-/* ------------- Types and Action Creators ------------- */
-const { Types, Creators } = createActions({
-  plusNum: [&apos;text&apos;], //type名驼峰，生成的是全大写PLUS_NUM
-  minusNum: null,
-  plusNumSaga: [&apos;text&apos;],
-  minusNumSaga: [&apos;text&apos;],
-})
-
-export const CounterTypes1 = Types //这里导出是给saga监听使用
-export default Creators
-//导出action生成器 Creators，
-//Creators.plusNum =(text) =&gt; {type:&apos;PLUS_NUM&apos; ,text:text}
-/* ------------- Initial State ------------- */
-export const INITIAL_STATE = Immutable({
-  value:0
-})
-/* ------------- Reducers ------------- */
-export const plus = (state,action) =&gt; {
-  const { text } = action
-  return state.merge({ value:state.value+text })
-}
-export const minus = (state,action) =&gt; {
-  return state.merge({ value:state.value-1 })
-}
-/* ------------- Hookup Reducers To Types ------------- */
-export const reducer = createReducer(INITIAL_STATE, {
-  [Types.PLUS_NUM]: plus,
-  [Types.MINUS_NUM]: minus
-  //这里reducer监听Types是PLUS_NUM的action,执行对应的plus放法
-})
-// reducer生成器，生成对应type的reducer
-</code></pre><h4 id="rootSaga引入的counterSaga1"><a href="#rootSaga引入的counterSaga1" class="headerlink" title="rootSaga引入的counterSaga1"></a>rootSaga引入的counterSaga1</h4><pre><code>import { put,select,call } from &apos;redux-saga/effects&apos;
-import CounterActions1 from &apos;../redux/counterReducer1&apos;
-
-// attempts to get state
-// const getState = (state) =&gt; state.login
-
-// let API={
-//     request:(text)=&gt;{
-//         return fetch(...)
-//     }
-// }
-
-export function * counterPlus1 (action) {
-    // const data = yield select(selectState) //通过select可以获取全局state
-
-  // const check = yield call(API.request, text) //如果有异步请求，用call调用
-  // if(check.ok == &apos;ok&apos;){
-  //     yield put(CounterActions1.xxx(xxx, xxx))
-  // }
-   const {text} = action
-   alert(text)
-   yield put(CounterActions1.plusNum(2))
-
-}
-
-export function * counterMinus1 (action) {
-   const {text} = action
-   alert(text)
-   yield put(CounterActions1.minusNum())
-}
-</code></pre><h2 id="谨记"><a href="#谨记" class="headerlink" title="谨记"></a>谨记</h2><ul>
-<li><code>saga</code>和<code>reducer</code>都会监听<code>action</code>监听的顺序是先<code>reducer</code>后<code>saga</code>,所以如果<code>reducer</code>和<code>saga</code>都监听了相同的<code>action</code>,那么<code>saga</code>逻辑执行在<code>reducer</code>改变后的状态基础上，尽量不要用<code>saga</code>和<code>reducer</code>监听相同的reducer</li>
-<li>相同的<code>action</code>内容，不管是谁触发的，所有监听此<code>action</code>的<code>reducer</code>和<code>action</code>都会触发，所以请区分好<code>action</code>的触发及监听操作</li>
-<li>和<code>thunk</code>一样<code>(dispatch,getState)</code> 第二个参数会将全局的<code>state</code>函数当参数传递进来，<code>saga</code>的<code>select(()=&gt;fn(state))</code>也可以调用全局<code>state</code></li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/04/04/saga-begining/" class="archive-article-date">
-  	<time datetime="2017-04-04T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saga-begining/">saga-begining</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -2318,7 +2208,7 @@ export function * counterMinus1 (action) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 20px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
+    				<a href="/tags/CSS布局之Stickyfooters/" style="font-size: 10px;">CSS布局之Stickyfooters</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/JS经典题解析/" style="font-size: 10px;">JS经典题解析</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/RN启动屏/" style="font-size: 10px;">RN启动屏</a> <a href="/tags/Redux进阶/" style="font-size: 10px;">Redux进阶</a> <a href="/tags/SVG图标使用/" style="font-size: 10px;">SVG图标使用</a> <a href="/tags/Vue之路由和请求/" style="font-size: 10px;">Vue之路由和请求</a> <a href="/tags/Vue数据绑定/" style="font-size: 10px;">Vue数据绑定</a> <a href="/tags/Vue表单与组件/" style="font-size: 10px;">Vue表单与组件</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/fetch-faild-in-reactnative/" style="font-size: 10px;">fetch faild in reactnative</a> <a href="/tags/imgClipUpload/" style="font-size: 10px;">imgClipUpload</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery对象之deferred/" style="font-size: 10px;">jQuery对象之deferred</a> <a href="/tags/js坐标/" style="font-size: 10px;">js坐标</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/php入门/" style="font-size: 10px;">php入门</a> <a href="/tags/php文件操作/" style="font-size: 10px;">php文件操作</a> <a href="/tags/php缓存文件/" style="font-size: 10px;">php缓存文件</a> <a href="/tags/redux入门/" style="font-size: 10px;">redux入门</a> <a href="/tags/saga-begining/" style="font-size: 10px;">saga-begining</a> <a href="/tags/this用法/" style="font-size: 10px;">this用法</a> <a href="/tags/vuex/" style="font-size: 10px;">vuex</a> <a href="/tags/webpack2/" style="font-size: 10px;">webpack2</a> <a href="/tags/webpack之hash/" style="font-size: 10px;">webpack之hash</a> <a href="/tags/博观而约取，厚积而薄发/" style="font-size: 10px;">博观而约取，厚积而薄发</a> <a href="/tags/图片预览上传/" style="font-size: 10px;">图片预览上传</a> <a href="/tags/开启一个简单的CDN加速/" style="font-size: 10px;">开启一个简单的CDN加速</a> <a href="/tags/弹性球/" style="font-size: 10px;">弹性球</a> <a href="/tags/彻底弄懂事件委托/" style="font-size: 10px;">彻底弄懂事件委托</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/手机端自适应单位换算/" style="font-size: 10px;">手机端自适应单位换算</a> <a href="/tags/扒一扒JQuery的几个技巧/" style="font-size: 10px;">扒一扒JQuery的几个技巧</a> <a href="/tags/数据库基本操作（一）/" style="font-size: 10px;">数据库基本操作（一）</a> <a href="/tags/数据库基本操作（二）/" style="font-size: 10px;">数据库基本操作（二）</a> <a href="/tags/数组方法/" style="font-size: 20px;">数组方法</a> <a href="/tags/文件拖拽/" style="font-size: 10px;">文件拖拽</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/滤镜/" style="font-size: 10px;">滤镜</a> <a href="/tags/移动端布局-事件/" style="font-size: 10px;">移动端布局+事件</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/粒子运动/" style="font-size: 10px;">粒子运动</a> <a href="/tags/聊天室/" style="font-size: 10px;">聊天室</a> <a href="/tags/说走就走的正则/" style="font-size: 10px;">说走就走的正则</a> <a href="/tags/配置相关-eslint/" style="font-size: 10px;">配置相关-eslint</a> <a href="/tags/配置相关—npm/" style="font-size: 10px;">配置相关—npm</a> <a href="/tags/配置相关—package-json/" style="font-size: 10px;">配置相关—package.json</a> <a href="/tags/面向对象编程/" style="font-size: 20px;">面向对象编程</a>
     			</div>
     	</section>
     
