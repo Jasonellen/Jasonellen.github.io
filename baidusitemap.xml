@@ -3,14 +3,762 @@
 
     
   <url>
+    <loc>http://Jasonellen.github.io/2016/12/08/CSS%E5%B8%83%E5%B1%80%E4%B9%8BStickyfooters/</loc>
+    <lastmod>2017-07-06T16:00:17.000Z</lastmod>
+    <data>
+        <display>
+        <title>CSS布局之Stickyfooters</title>
+        <pubTime>2016-12-08T08:28:46.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/01/16/%E5%BC%80%E5%90%AF%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84cdn%E5%8A%A0%E9%80%9F/</loc>
+    <lastmod>2017-07-06T15:59:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>开启一个简单的CDN加速</title>
+        <pubTime>2017-01-16T14:11:14.000Z</pubTime>
+        
+        <tag>CDN加速 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/01/21/%E6%89%92%E4%B8%80%E6%89%92jquery%E7%9A%84%E5%87%A0%E4%B8%AA%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2017-07-06T15:59:03.000Z</lastmod>
+    <data>
+        <display>
+        <title>扒一扒JQuery的几个技巧</title>
+        <pubTime>2017-01-21T08:59:48.000Z</pubTime>
+        
+        <tag>jQuery </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/22/4%E4%B8%AA%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2017-07-06T15:57:58.000Z</lastmod>
+    <data>
+        <display>
+        <title>4个必须知道的数组方法</title>
+        <pubTime>2017-06-22T12:07:48.000Z</pubTime>
+        
+        <tag>Array </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/22/%E5%8D%9A%E8%A7%82%E8%80%8C%E7%BA%A6%E5%8F%96%EF%BC%8C%E5%8E%9A%E7%A7%AF%E8%80%8C%E8%96%84%E5%8F%91/</loc>
+    <lastmod>2017-07-06T15:57:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>博观而约取，厚积而薄发</title>
+        <pubTime>2016-12-22T08:59:48.000Z</pubTime>
+        
+        <tag>其他 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/05/20/%E5%B8%B8%E7%94%A8%E5%87%A0%E4%B8%AA%E6%AD%A3%E5%88%99/</loc>
+    <lastmod>2017-07-06T15:57:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>常用几个正则</title>
+        <pubTime>2017-05-20T05:11:14.000Z</pubTime>
+        
+        <tag>regexp </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/23/%E5%BD%BB%E5%BA%95%E5%BC%84%E6%87%82%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/</loc>
+    <lastmod>2017-07-06T15:57:18.000Z</lastmod>
+    <data>
+        <display>
+        <title>彻底弄懂事件委托</title>
+        <pubTime>2016-12-23T02:59:48.000Z</pubTime>
+        
+        <tag>js </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/09/29/%E5%BC%B9%E6%80%A7%E7%90%83/</loc>
+    <lastmod>2017-07-06T15:57:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>弹性球</title>
+        <pubTime>2016-09-29T13:02:43.000Z</pubTime>
+        
+        <tag>弹球 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/11/%E8%81%8A%E5%A4%A9%E5%AE%A4/</loc>
+    <lastmod>2017-07-06T15:56:45.000Z</lastmod>
+    <data>
+        <display>
+        <title>基于nodejs和socket.io的聊天室</title>
+        <pubTime>2017-06-10T22:59:48.000Z</pubTime>
+        
+        <tag>socket </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/02/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%B0%81%E8%A3%85/</loc>
+    <lastmod>2017-07-06T15:56:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象编程</title>
+        <pubTime>2016-12-02T13:38:47.000Z</pubTime>
+        
+        <tag>js </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/03/09/%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E2%80%94npm/</loc>
+    <lastmod>2017-07-06T15:55:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>配置相关—npm</title>
+        <pubTime>2017-03-09T08:59:48.000Z</pubTime>
+        
+        <tag>配置文件 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/07/%E6%89%8B%E6%9C%BA%E7%AB%AF%E8%87%AA%E9%80%82%E5%BA%94%E5%8D%95%E4%BD%8D%E6%8D%A2%E7%AE%97/</loc>
+    <lastmod>2017-07-06T15:55:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>手机端自适应单位换算</title>
+        <pubTime>2016-12-07T14:13:08.000Z</pubTime>
+        
+        <tag>移动端 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%BA%8C/</loc>
+    <lastmod>2017-07-06T15:54:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库基本操作二</title>
+        <pubTime>2016-11-23T02:43:42.000Z</pubTime>
+        
+        <tag>MYSQL </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B8%80/</loc>
+    <lastmod>2017-07-06T15:54:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库基本操作一</title>
+        <pubTime>2016-11-17T02:43:42.000Z</pubTime>
+        
+        <tag>MYSQL </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/21/%E8%AF%B4%E8%B5%B0%E5%B0%B1%E8%B5%B0%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
+    <lastmod>2017-07-06T15:54:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>说走就走的正则表达式</title>
+        <pubTime>2017-06-21T13:59:48.000Z</pubTime>
+        
+        <tag>regexp </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/19/%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88%E4%B8%8A%E4%BC%A0/</loc>
+    <lastmod>2017-07-06T15:54:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>图片预览上传</title>
+        <pubTime>2016-12-19T14:11:14.000Z</pubTime>
+        
+        <tag>upload </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/21/%E6%96%87%E4%BB%B6%E6%8B%96%E6%8B%BD/</loc>
+    <lastmod>2017-07-06T15:54:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>文件拖拽</title>
+        <pubTime>2016-12-21T06:39:54.000Z</pubTime>
+        
+        <tag>js </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/30/%E5%AD%A6%E4%B9%A0Javascript%E9%97%AD%E5%8C%85/</loc>
+    <lastmod>2017-07-06T15:53:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>学习Javascript闭包</title>
+        <pubTime>2016-11-30T06:37:58.000Z</pubTime>
+        
+        <tag>js </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/06/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80-%E4%BA%8B%E4%BB%B6/</loc>
+    <lastmod>2017-07-06T15:53:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>移动端布局+事件</title>
+        <pubTime>2016-12-06T08:16:44.000Z</pubTime>
+        
+        <tag>移动端 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/09/27/%E5%85%83%E7%B4%A0%E5%9D%90%E6%A0%87/</loc>
+    <lastmod>2017-07-06T15:53:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>元素坐标</title>
+        <pubTime>2016-09-27T05:12:49.000Z</pubTime>
+        
+        <tag>js </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/07/canvas%E7%B2%92%E5%AD%90%E8%BF%90%E5%8A%A8/</loc>
+    <lastmod>2017-07-06T15:53:11.000Z</lastmod>
+    <data>
+        <display>
+        <title>canvas粒子运动</title>
+        <pubTime>2017-06-07T02:09:48.000Z</pubTime>
+        
+        <tag>canvas </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://Jasonellen.github.io/2017/07/06/canvas%E6%B0%B4%E6%B3%A2%E7%BA%B9/</loc>
-    <lastmod>2017-07-06T15:07:43.000Z</lastmod>
+    <lastmod>2017-07-06T15:53:02.000Z</lastmod>
     <data>
         <display>
         <title>canvas水波纹</title>
         <pubTime>2017-07-06T15:01:17.000Z</pubTime>
         
-        <tag>canvas水波纹 </tag>
+        <tag>canvas </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/04/06/eslint%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2017-07-06T15:52:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>配置相关-eslint</title>
+        <pubTime>2017-04-06T08:59:48.000Z</pubTime>
+        
+        <tag>eslint </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/02/14/fetch_faild_in_reactnative/</loc>
+    <lastmod>2017-07-06T15:51:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>fetch faild in reactnative</title>
+        <pubTime>2017-02-14T08:59:48.000Z</pubTime>
+        
+        <tag>ReactNative </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/10/25/filter%E6%BB%A4%E9%95%9C/</loc>
+    <lastmod>2017-07-06T15:51:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>filter滤镜</title>
+        <pubTime>2016-10-25T13:44:02.000Z</pubTime>
+        
+        <tag>filter </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/03/27/imgClipUpload/</loc>
+    <lastmod>2017-07-06T15:51:18.000Z</lastmod>
+    <data>
+        <display>
+        <title>imgClipUpload</title>
+        <pubTime>2017-03-26T17:01:40.000Z</pubTime>
+        
+        <tag>canvas </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/28/Javascript%E7%9A%84this%E7%94%A8%E6%B3%95/</loc>
+    <lastmod>2017-07-06T15:50:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>Javascript的this用法</title>
+        <pubTime>2016-11-28T13:25:46.000Z</pubTime>
+        
+        <tag>this </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/01/08/jQuery%E5%AF%B9%E8%B1%A1%E4%B9%8Bdeferred/</loc>
+    <lastmod>2017-07-06T15:50:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>jQuery对象之deferred</title>
+        <pubTime>2017-01-08T02:59:48.000Z</pubTime>
+        
+        <tag>jQuery </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/10/02/JS%E7%BB%8F%E5%85%B8%E9%A2%98%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2017-07-06T15:50:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS经典题</title>
+        <pubTime>2016-10-02T09:55:18.000Z</pubTime>
+        
+        <tag>JS试题 </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/01/02/mobiscroll/</loc>
+    <lastmod>2017-07-06T15:50:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>mobiscroll</title>
+        <pubTime>2017-01-02T02:59:48.000Z</pubTime>
+        
+        <tag>mobiscroll </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/03/11/package/</loc>
+    <lastmod>2017-07-06T15:50:15.000Z</lastmod>
+    <data>
+        <display>
+        <title>配置相关—package.json</title>
+        <pubTime>2017-03-11T08:59:48.000Z</pubTime>
+        
+        <tag>package </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/27/php%E7%BC%93%E5%AD%98%E6%96%87%E4%BB%B6/</loc>
+    <lastmod>2017-07-06T15:49:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>php缓存文件</title>
+        <pubTime>2016-11-27T11:01:17.000Z</pubTime>
+        
+        <tag>php </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/20/php%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2017-07-06T15:49:53.000Z</lastmod>
+    <data>
+        <display>
+        <title>php入门</title>
+        <pubTime>2016-11-20T11:01:17.000Z</pubTime>
+        
+        <tag>php </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/11/21/php%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</loc>
+    <lastmod>2017-07-06T15:49:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>php文件操作</title>
+        <pubTime>2016-11-21T11:01:17.000Z</pubTime>
+        
+        <tag>php </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/02/27/react-redux,applyMiddleware/</loc>
+    <lastmod>2017-07-06T15:49:30.000Z</lastmod>
+    <data>
+        <display>
+        <title>react-redux,applyMiddleware</title>
+        <pubTime>2017-02-26T17:09:48.000Z</pubTime>
+        
+        <tag>react </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/10/ReactNative%E5%90%AF%E5%8A%A8%E7%99%BD%E5%B1%8F%E8%A7%A3%E5%86%B3/</loc>
+    <lastmod>2017-07-06T15:49:22.000Z</lastmod>
+    <data>
+        <display>
+        <title>ReactNative启动白屏解决</title>
+        <pubTime>2016-12-10T03:23:21.000Z</pubTime>
+        
+        <tag>ReactNative </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/02/21/redux%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2017-07-06T15:49:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>redux入门</title>
+        <pubTime>2017-02-21T08:59:48.000Z</pubTime>
+        
+        <tag>react </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/04/04/saga-begining/</loc>
+    <lastmod>2017-07-06T15:49:01.000Z</lastmod>
+    <data>
+        <display>
+        <title>saga-begining</title>
+        <pubTime>2017-04-04T02:59:48.000Z</pubTime>
+        
+        <tag>react </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/12/09/SVG%E5%9B%BE%E6%A0%87%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2017-07-06T15:48:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>SVG图标使用</title>
+        <pubTime>2016-12-09T08:11:35.000Z</pubTime>
+        
+        <tag>SVG </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/26/webpack%E4%B9%8Bhash%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
+    <lastmod>2017-07-06T15:48:45.000Z</lastmod>
+    <data>
+        <display>
+        <title>webpack之hash、chunkhash和contenthash</title>
+        <pubTime>2017-06-26T12:07:48.000Z</pubTime>
+        
+        <tag>webpack </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/01/24/vuex/</loc>
+    <lastmod>2017-07-06T15:47:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>vuex</title>
+        <pubTime>2017-01-24T08:59:48.000Z</pubTime>
+        
+        <tag>vue </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/10/12/Vue%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A/</loc>
+    <lastmod>2017-07-06T15:47:15.000Z</lastmod>
+    <data>
+        <display>
+        <title>Vue数据绑定</title>
+        <pubTime>2016-10-12T06:39:54.000Z</pubTime>
+        
+        <tag>Vue </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/10/18/Vue%E4%B9%8B%E8%B7%AF%E7%94%B1%E5%92%8C%E8%AF%B7%E6%B1%82/</loc>
+    <lastmod>2017-07-06T15:47:06.000Z</lastmod>
+    <data>
+        <display>
+        <title>Vue之路由和请求</title>
+        <pubTime>2016-10-18T06:17:43.000Z</pubTime>
+        
+        <tag>Vue </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2017/06/25/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/</loc>
+    <lastmod>2017-07-06T15:46:44.000Z</lastmod>
+    <data>
+        <display>
+        <title>你需知道的Vue全家桶</title>
+        <pubTime>2017-06-24T17:07:48.000Z</pubTime>
+        
+        <tag>Vue </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://Jasonellen.github.io/2016/10/14/Vue%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%BB%84%E4%BB%B6/</loc>
+    <lastmod>2017-07-06T15:46:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>Vue表单与组件</title>
+        <pubTime>2016-10-14T12:03:44.000Z</pubTime>
+        
+        <tag>Vue </tag>
          
          
            
@@ -28,74 +776,6 @@
         <pubTime>2016-11-13T13:20:01.000Z</pubTime>
         
         <tag>简版日历 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/06/26/webpack%E4%B9%8Bhash%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
-    <lastmod>2017-06-24T05:30:26.000Z</lastmod>
-    <data>
-        <display>
-        <title>webpack之hash、chunkhash和contenthash</title>
-        <pubTime>2017-06-26T12:07:48.000Z</pubTime>
-        
-        <tag>webpack之hash </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/06/22/4%E4%B8%AA%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2017-06-24T03:40:14.000Z</lastmod>
-    <data>
-        <display>
-        <title>4个必须知道的数组方法</title>
-        <pubTime>2017-06-22T12:07:48.000Z</pubTime>
-        
-        <tag>数组方法 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/06/25/Vue%E5%85%A8%E5%AE%B6%E6%A1%B6/</loc>
-    <lastmod>2017-06-24T03:27:14.000Z</lastmod>
-    <data>
-        <display>
-        <title>你需知道的Vue全家桶</title>
-        <pubTime>2017-06-24T17:07:48.000Z</pubTime>
-        
-        <tag>数组方法 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/06/21/%E8%AF%B4%E8%B5%B0%E5%B0%B1%E8%B5%B0%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
-    <lastmod>2017-06-21T12:10:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>说走就走的正则表达式</title>
-        <pubTime>2017-06-21T13:59:48.000Z</pubTime>
-        
-        <tag>说走就走的正则 </tag>
          
          
            
@@ -123,193 +803,6 @@
     
     
   <url>
-    <loc>http://Jasonellen.github.io/2017/06/07/canvas%E7%B2%92%E5%AD%90%E8%BF%90%E5%8A%A8/</loc>
-    <lastmod>2017-06-04T15:01:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>canvas粒子运动</title>
-        <pubTime>2017-06-07T02:09:48.000Z</pubTime>
-        
-        <tag>粒子运动 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/06/11/%E8%81%8A%E5%A4%A9%E5%AE%A4/</loc>
-    <lastmod>2017-06-04T14:56:12.000Z</lastmod>
-    <data>
-        <display>
-        <title>基于nodejs和socket.io的聊天室</title>
-        <pubTime>2017-06-10T22:59:48.000Z</pubTime>
-        
-        <tag>聊天室 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/05/20/%E5%B8%B8%E7%94%A8%E5%87%A0%E4%B8%AA%E6%AD%A3%E5%88%99/</loc>
-    <lastmod>2017-05-20T06:05:17.000Z</lastmod>
-    <data>
-        <display>
-        <title>常用几个正则</title>
-        <pubTime>2017-05-20T05:11:14.000Z</pubTime>
-        
-        <tag>正则 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/04/06/eslint%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2017-04-04T04:36:19.000Z</lastmod>
-    <data>
-        <display>
-        <title>配置相关-eslint</title>
-        <pubTime>2017-04-06T08:59:48.000Z</pubTime>
-        
-        <tag>配置相关-eslint </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/22/%E5%8D%9A%E8%A7%82%E8%80%8C%E7%BA%A6%E5%8F%96%EF%BC%8C%E5%8E%9A%E7%A7%AF%E8%80%8C%E8%96%84%E5%8F%91/</loc>
-    <lastmod>2017-04-04T04:33:08.000Z</lastmod>
-    <data>
-        <display>
-        <title>博观而约取，厚积而薄发</title>
-        <pubTime>2016-12-22T08:59:48.000Z</pubTime>
-        
-        <tag>博观而约取，厚积而薄发 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/04/04/saga-begining/</loc>
-    <lastmod>2017-04-04T04:24:04.000Z</lastmod>
-    <data>
-        <display>
-        <title>saga-begining</title>
-        <pubTime>2017-04-04T02:59:48.000Z</pubTime>
-        
-        <tag>saga-begining </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/03/27/imgClipUpload/</loc>
-    <lastmod>2017-03-29T16:26:22.000Z</lastmod>
-    <data>
-        <display>
-        <title>imgClipUpload</title>
-        <pubTime>2017-03-26T17:01:40.000Z</pubTime>
-        
-        <tag>imgClipUpload </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/02/27/react-redux,applyMiddleware/</loc>
-    <lastmod>2017-03-29T15:45:09.000Z</lastmod>
-    <data>
-        <display>
-        <title>react-redux,applyMiddleware</title>
-        <pubTime>2017-02-26T17:09:48.000Z</pubTime>
-        
-        <tag>Redux进阶 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/03/11/package/</loc>
-    <lastmod>2017-03-07T14:24:53.000Z</lastmod>
-    <data>
-        <display>
-        <title>配置相关—package.json</title>
-        <pubTime>2017-03-11T08:59:48.000Z</pubTime>
-        
-        <tag>配置相关—package.json </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/03/09/%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E2%80%94npm/</loc>
-    <lastmod>2017-03-07T14:24:51.000Z</lastmod>
-    <data>
-        <display>
-        <title>配置相关—npm</title>
-        <pubTime>2017-03-09T08:59:48.000Z</pubTime>
-        
-        <tag>配置相关—npm </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/02/21/redux%E5%85%A5%E9%97%A8/</loc>
-    <lastmod>2017-02-28T14:59:40.000Z</lastmod>
-    <data>
-        <display>
-        <title>redux入门</title>
-        <pubTime>2017-02-21T08:59:48.000Z</pubTime>
-        
-        <tag>redux入门 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://Jasonellen.github.io/2017/02/21/import/</loc>
     <lastmod>2017-02-28T14:59:27.000Z</lastmod>
     <data>
@@ -327,108 +820,6 @@
 
     
   <url>
-    <loc>http://Jasonellen.github.io/2017/02/14/fetch_faild_in_reactnative/</loc>
-    <lastmod>2017-02-28T14:59:17.000Z</lastmod>
-    <data>
-        <display>
-        <title>fetch faild in reactnative</title>
-        <pubTime>2017-02-14T08:59:48.000Z</pubTime>
-        
-        <tag>fetch faild in reactnative </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/01/24/vuex/</loc>
-    <lastmod>2017-01-22T15:31:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>vuex</title>
-        <pubTime>2017-01-24T08:59:48.000Z</pubTime>
-        
-        <tag>vuex </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/01/21/%E6%89%92%E4%B8%80%E6%89%92jquery%E7%9A%84%E5%87%A0%E4%B8%AA%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2017-01-21T13:09:16.000Z</lastmod>
-    <data>
-        <display>
-        <title>扒一扒JQuery的几个技巧</title>
-        <pubTime>2017-01-21T08:59:48.000Z</pubTime>
-        
-        <tag>扒一扒JQuery的几个技巧 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/01/16/%E5%BC%80%E5%90%AF%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84cdn%E5%8A%A0%E9%80%9F/</loc>
-    <lastmod>2017-01-16T13:54:45.000Z</lastmod>
-    <data>
-        <display>
-        <title>开启一个简单的CDN加速</title>
-        <pubTime>2017-01-16T14:11:14.000Z</pubTime>
-        
-        <tag>开启一个简单的CDN加速 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/01/08/jQuery%E5%AF%B9%E8%B1%A1%E4%B9%8Bdeferred/</loc>
-    <lastmod>2017-01-08T14:09:05.000Z</lastmod>
-    <data>
-        <display>
-        <title>jQuery对象之deferred</title>
-        <pubTime>2017-01-08T02:59:48.000Z</pubTime>
-        
-        <tag>jQuery对象之deferred </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2017/01/02/mobiscroll/</loc>
-    <lastmod>2017-01-08T13:55:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>mobiscroll</title>
-        <pubTime>2017-01-02T02:59:48.000Z</pubTime>
-        
-        <tag>mobiscroll </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://Jasonellen.github.io/2017/01/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AE%9E%E6%88%98%EF%BC%8C%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%BC%83%E5%9D%91%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
     <lastmod>2017-01-02T13:20:49.000Z</lastmod>
     <data>
@@ -437,412 +828,6 @@
         <pubTime>2017-01-03T02:59:48.000Z</pubTime>
         
         <tag>微信小程序 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/23/%E5%BD%BB%E5%BA%95%E5%BC%84%E6%87%82%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/</loc>
-    <lastmod>2016-12-22T12:55:53.000Z</lastmod>
-    <data>
-        <display>
-        <title>彻底弄懂事件委托</title>
-        <pubTime>2016-12-23T02:59:48.000Z</pubTime>
-        
-        <tag>彻底弄懂事件委托 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/21/%E6%96%87%E4%BB%B6%E6%8B%96%E6%8B%BD/</loc>
-    <lastmod>2016-12-20T12:47:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>文件拖拽</title>
-        <pubTime>2016-12-21T06:39:54.000Z</pubTime>
-        
-        <tag>文件拖拽 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/19/%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88%E4%B8%8A%E4%BC%A0/</loc>
-    <lastmod>2016-12-19T14:41:33.000Z</lastmod>
-    <data>
-        <display>
-        <title>图片预览上传</title>
-        <pubTime>2016-12-19T14:11:14.000Z</pubTime>
-        
-        <tag>图片预览上传 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/11/React-native%E4%B9%8Bref%E5%BC%95%E7%94%A8/</loc>
-    <lastmod>2016-12-11T12:24:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>React-native之ref引用</title>
-        <pubTime>2016-12-11T12:24:24.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/10/ReactNative%E5%90%AF%E5%8A%A8%E7%99%BD%E5%B1%8F%E8%A7%A3%E5%86%B3/</loc>
-    <lastmod>2016-12-09T06:04:58.000Z</lastmod>
-    <data>
-        <display>
-        <title>ReactNative启动白屏解决</title>
-        <pubTime>2016-12-10T03:23:21.000Z</pubTime>
-        
-        <tag>RN启动屏 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/10/18/Vue%E4%B9%8B%E8%B7%AF%E7%94%B1%E5%92%8C%E8%AF%B7%E6%B1%82/</loc>
-    <lastmod>2016-12-09T01:41:38.000Z</lastmod>
-    <data>
-        <display>
-        <title>Vue之路由和请求</title>
-        <pubTime>2016-10-18T06:17:43.000Z</pubTime>
-        
-        <tag>Vue之路由和请求 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/09/SVG%E5%9B%BE%E6%A0%87%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2016-12-08T08:33:13.000Z</lastmod>
-    <data>
-        <display>
-        <title>SVG图标使用</title>
-        <pubTime>2016-12-09T08:11:35.000Z</pubTime>
-        
-        <tag>SVG图标使用 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/08/CSS%E5%B8%83%E5%B1%80%E4%B9%8BStickyfooters/</loc>
-    <lastmod>2016-12-07T09:18:11.000Z</lastmod>
-    <data>
-        <display>
-        <title>CSS布局之Stickyfooters</title>
-        <pubTime>2016-12-08T08:28:46.000Z</pubTime>
-        
-        <tag>CSS布局之Stickyfooters </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/10/12/Vue%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A/</loc>
-    <lastmod>2016-12-07T01:44:25.000Z</lastmod>
-    <data>
-        <display>
-        <title>Vue数据绑定</title>
-        <pubTime>2016-10-12T06:39:54.000Z</pubTime>
-        
-        <tag>Vue数据绑定 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/07/%E6%89%8B%E6%9C%BA%E7%AB%AF%E8%87%AA%E9%80%82%E5%BA%94%E5%8D%95%E4%BD%8D%E6%8D%A2%E7%AE%97/</loc>
-    <lastmod>2016-12-06T14:31:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>手机端自适应单位换算</title>
-        <pubTime>2016-12-07T14:13:08.000Z</pubTime>
-        
-        <tag>手机端自适应单位换算 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/06/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80-%E4%BA%8B%E4%BB%B6/</loc>
-    <lastmod>2016-12-06T09:08:03.000Z</lastmod>
-    <data>
-        <display>
-        <title>移动端布局+事件</title>
-        <pubTime>2016-12-06T08:16:44.000Z</pubTime>
-        
-        <tag>移动端布局+事件 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/27/php%E7%BC%93%E5%AD%98%E6%96%87%E4%BB%B6/</loc>
-    <lastmod>2016-12-02T10:32:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>php缓存文件</title>
-        <pubTime>2016-11-27T11:01:17.000Z</pubTime>
-        
-        <tag>php缓存文件 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/21/php%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</loc>
-    <lastmod>2016-12-02T10:32:19.000Z</lastmod>
-    <data>
-        <display>
-        <title>php文件操作</title>
-        <pubTime>2016-11-21T11:01:17.000Z</pubTime>
-        
-        <tag>php文件操作 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/20/php%E5%85%A5%E9%97%A8/</loc>
-    <lastmod>2016-12-02T10:31:55.000Z</lastmod>
-    <data>
-        <display>
-        <title>php入门</title>
-        <pubTime>2016-11-20T11:01:17.000Z</pubTime>
-        
-        <tag>php入门 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/28/Javascript%E7%9A%84this%E7%94%A8%E6%B3%95/</loc>
-    <lastmod>2016-12-02T10:31:45.000Z</lastmod>
-    <data>
-        <display>
-        <title>Javascript的this用法</title>
-        <pubTime>2016-11-28T13:25:46.000Z</pubTime>
-        
-        <tag>this用法 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/30/%E5%AD%A6%E4%B9%A0Javascript%E9%97%AD%E5%8C%85/</loc>
-    <lastmod>2016-12-02T10:31:33.000Z</lastmod>
-    <data>
-        <display>
-        <title>学习Javascript闭包</title>
-        <pubTime>2016-11-30T06:37:58.000Z</pubTime>
-        
-        <tag>面向对象编程 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/12/02/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%B0%81%E8%A3%85/</loc>
-    <lastmod>2016-12-02T10:31:25.000Z</lastmod>
-    <data>
-        <display>
-        <title>面向对象编程</title>
-        <pubTime>2016-12-02T13:38:47.000Z</pubTime>
-        
-        <tag>面向对象编程 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%BA%8C/</loc>
-    <lastmod>2016-12-02T10:22:30.000Z</lastmod>
-    <data>
-        <display>
-        <title>数据库基本操作二</title>
-        <pubTime>2016-11-23T02:43:42.000Z</pubTime>
-        
-        <tag>数据库基本操作（二） </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/11/17/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B8%80/</loc>
-    <lastmod>2016-11-28T11:27:58.000Z</lastmod>
-    <data>
-        <display>
-        <title>数据库基本操作一</title>
-        <pubTime>2016-11-17T02:43:42.000Z</pubTime>
-        
-        <tag>数据库基本操作（一） </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/09/29/%E5%BC%B9%E6%80%A7%E7%90%83/</loc>
-    <lastmod>2016-11-28T11:21:44.000Z</lastmod>
-    <data>
-        <display>
-        <title>弹性球</title>
-        <pubTime>2016-09-29T13:02:43.000Z</pubTime>
-        
-        <tag>弹性球 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/10/25/filter%E6%BB%A4%E9%95%9C/</loc>
-    <lastmod>2016-11-24T14:52:16.000Z</lastmod>
-    <data>
-        <display>
-        <title>filter滤镜</title>
-        <pubTime>2016-10-25T13:44:02.000Z</pubTime>
-        
-        <tag>滤镜 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/10/14/Vue%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%BB%84%E4%BB%B6/</loc>
-    <lastmod>2016-11-24T14:51:45.000Z</lastmod>
-    <data>
-        <display>
-        <title>Vue表单与组件</title>
-        <pubTime>2016-10-14T12:03:44.000Z</pubTime>
-        
-        <tag>Vue表单与组件 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/10/02/JS%E7%BB%8F%E5%85%B8%E9%A2%98%E8%A7%A3%E6%9E%90/</loc>
-    <lastmod>2016-11-24T14:50:44.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS经典题</title>
-        <pubTime>2016-10-02T09:55:18.000Z</pubTime>
-        
-        <tag>JS经典题解析 </tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://Jasonellen.github.io/2016/09/27/%E5%85%83%E7%B4%A0%E5%9D%90%E6%A0%87/</loc>
-    <lastmod>2016-11-24T14:50:05.000Z</lastmod>
-    <data>
-        <display>
-        <title>元素坐标</title>
-        <pubTime>2016-09-27T05:12:49.000Z</pubTime>
-        
-        <tag>js坐标 </tag>
          
          
            
