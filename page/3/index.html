@@ -236,118 +236,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/24/vuex/">vuex</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..</p>
-</blockquote>
-<h1 id="什么是vuex-作用又是什么？"><a href="#什么是vuex-作用又是什么？" class="headerlink" title="什么是vuex,作用又是什么？"></a>什么是vuex,作用又是什么？</h1><blockquote>
-<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组件之间通讯的，而现在有了vuex，就组件就都和store通讯了</p>
-<h3 id="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"><a href="#简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件" class="headerlink" title="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"></a>简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件</h3><p><code>应用场景：</code><br></p>
-<ul>
-<li>多个组件依赖于同一状态。传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。</li>
-<li>来自不同组件的行为需要变更同一状态。我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><strong>当我们需要制作一个加一，减一操作按钮的时候，用下面两个demo做一个演示</strong><h3 id="未使用vuex"><a href="#未使用vuex" class="headerlink" title="未使用vuex"></a>未使用vuex</h3></li>
-<li>单纯依赖于vue.js</li>
-</ul>
-</blockquote>
-<p>   <script src="https://unpkg.com/vue/dist/vue.js"></script><br>       <div id="app"><br>             <p><br>                   <button @click="inc">+</button><br>                   <button @click="dec">-</button><br>             </p><br>         </div><br>         <script><br>         new Vue({<br>           el:’#app’,<br>           data () {<br>             return {<br>               count: 0<br>             }<br>           },<br>           methods: {<br>             inc () {<br>               this.count++<br>             },<br>             dec () {<br>               this.count–<br>             }<br>           }<br>         })<br>         </script><br>   整个代码结构非常清晰，代码是代码，数据是数据，代码就是放在methods数组内的两个函数inc、dec，被指令@click关联到button上。而data内返回一个属性count，此属性通过绑定到标签p内。从而可以动态的改为count的值。</p>
-<h2 id="使用vuex"><a href="#使用vuex" class="headerlink" title="使用vuex"></a>使用vuex</h2><ul>
-<li><p>依赖vue.js，也使用了vuex技术</p>
-<p> <script src="https://unpkg.com/vue/dist/vue.js"></script></p>
-<pre><code>&lt;script src=&quot;https://unpkg.com/vuex@next&quot;&gt;&lt;/script&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;p&gt;{{count}}
-        &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
-        &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
-    &lt;/p&gt;
-&lt;/div&gt;
-&lt;script&gt;
-    const store = new Vuex.Store({
-        state: {
-          count: 0
-        },
-        mutations: {
-            inc: state =&gt; state.count++,
-          dec: state =&gt; state.count--
-        }
-    })
-      const app = new Vue({
-        el: &apos;#app&apos;,
-        computed: {
-          count () {
-             return store.state.count
-          }
-        },
-        methods: {
-          inc () {
-                store.commit(&apos;inc&apos;) //执行store.inc放大
-          },
-          dec () {
-              store.commit(&apos;dec&apos;)
-          }
-        }
-    })
-&lt;/script&gt;
-</code></pre><h4 id="我们先看到有哪些重要的变化："><a href="#我们先看到有哪些重要的变化：" class="headerlink" title="我们先看到有哪些重要的变化："></a>我们先看到有哪些重要的变化：</h4></li>
-</ul>
-<ol>
-<li>新的代码添加了对vuex@next脚本的依赖。这是当然的，因为你需要使用vuex的技术，当然需要引用它</li>
-<li>methods数组还是这两个方法，这和demo1是一样的；但是方法内的计算逻辑，不再是在函数内进行，而是提交给store对象！这是一个新的对象！</li>
-<li>count数据也不再是一个data函数返回的对象的属性；而是通过计算字段来返回，并且在计算字段内的代码也不是自己算的，而是转发给store对象</li>
-<li>store对象是Vuex.Store的实例。在store内有分为state对象和mutations对象，其中的state放置 状态 ,mutations则是一个会引发状态改变的所有方法。正如我们看到的，目前的state对象，其中的状态就只有一个count。而mutations有两个成员，它们参数为state，在函数体内对state内的count成员做加1和减1的操作。</li>
-</ol>
-<p><strong>总结：</strong>就是说，之前在vue实例内做的操作和数据的计算现在都不再自己做了，而是交由对象store来做了。</p>
-<h4 id="用了vuex感觉更复杂了？"><a href="#用了vuex感觉更复杂了？" class="headerlink" title="用了vuex感觉更复杂了？"></a>用了<code>vuex</code>感觉更复杂了？</h4><p>你的感觉没错，这就是为什么官网再次会提到Vuex构建大型应用的价值。 如果您不打算开发大型单页应用，使用 Vuex 可能是繁琐冗余的。确实是如此——如果您的应用够简单，您最好不要使用 Vuex 。</p>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/01/24/vuex/" class="archive-article-date">
-  	<time datetime="2017-01-24T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-扒一扒jquery的几个技巧" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -2122,6 +2010,135 @@ function add($sql){
 
 
   
+    <article id="post-ReactNative启动白屏解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/10/ReactNative启动白屏解决/">ReactNative启动白屏解决</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="本文主要设置andriod的启动屏，ios的感觉不需要这个插件"><a href="#本文主要设置andriod的启动屏，ios的感觉不需要这个插件" class="headerlink" title="本文主要设置andriod的启动屏，ios的感觉不需要这个插件.."></a>本文主要设置andriod的启动屏，ios的感觉不需要这个插件..</h1><h2 id="下载依赖插件"><a href="#下载依赖插件" class="headerlink" title="下载依赖插件"></a>下载依赖插件</h2><p><code>在项目根目录打开终端运行</code></p>
+<pre><code>npm react-native-splash-screen --save 
+</code></pre><h2 id="安装-自动安装或手动安装"><a href="#安装-自动安装或手动安装" class="headerlink" title="安装(自动安装或手动安装)"></a>安装(自动安装或手动安装)</h2><p><code>自动安装终端运行：（推荐）</code></p>
+<pre><code>react-native link react-native-splash-screen  
+或
+rnpm link react-native-splash-screen  
+</code></pre><p><code>手动安装</code></p>
+<pre><code>1.在你的android/settings.gradle 文件中添加下列代码:
+include &apos;:react-native-splash-screen&apos;     
+project(&apos;:react-native-splash-screen&apos;).projectDir = new File(rootProject.projectDir, &apos;../node_modules/react-native-splash-screen/android&apos;)  
+
+2.在你的android/app/build.gradle 文件中添加 :react-native-splash-screen：
+...  
+dependencies {  
+        ...  
+    compile project(&apos;:react-native-splash-screen&apos;)  
+}
+
+3.更新你的MainApplication.Java文件，如下:
+public class MainApplication extends Application implements     ReactApplication {  
+
+private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {  
+    @Override  
+    protected boolean getUseDeveloperSupport() {  
+        return BuildConfig.DEBUG;  
+    }  
+
+    @Override  
+    protected List&lt;ReactPackage&gt; getPackages() {  
+        return Arrays.&lt;ReactPackage&gt;asList(  
+                new MainReactPackage(),  
+        new SplashScreenReactPackage()  //添加这一句  
+        );  
+    }  
+};  
+
+@Override  
+public ReactNativeHost getReactNativeHost() {  
+    return mReactNativeHost;  
+}  
+}
+</code></pre><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><code>1.更新你的MainActivity.java 文件如下：</code></p>
+<pre><code>import android.os.Bundle; //需要新添加的？
+import com.facebook.react.ReactActivity; //原来有的
+import com.cboy.rn.splashscreen.SplashScreen; //需要新添加的？
+
+public class MainActivity extends ReactActivity {  
+    //原来有的
+    @Override
+    protected String getMainComponentName() {
+        return &quot;examples&quot;;
+    }
+    //下面是新添加的
+       @Override  
+        protected void onCreate(Bundle savedInstanceState) {  
+               SplashScreen.show(this);    
+            super.onCreate(savedInstanceState);  
+        }  
+    }
+}
+</code></pre><p><code>2.创建一个名为launch_screen.xml 的布局文件来自定义你的启动屏幕</code></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;  
+    android:layout_height=&quot;match_parent&quot;  
+    android:background=&quot;@drawable/launch_screen&quot;&gt;  
+&lt;/LinearLayout&gt;  
+</code></pre><p>创建的文件夹和文件路径如下：<br>splash.png就是你想要设置的启动图图片，<br><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg" alt=""><br>​<br><code>3.在.js文件中使用</code></p>
+<pre><code>import SplashScreen from &apos;react-native-splash-screen&apos;  
+
+//然后在componentDidMount中调用Splash.hide().
+export default class WelcomePage extends Component {
+    componentDidMount() {
+        SplashScreen.hide();
+    }
+}
+</code></pre><p>参考网址：<a href="https://github.com/crazycodeboy/react-native-splash-screen" target="_blank" rel="external">https://github.com/crazycodeboy/react-native-splash-screen</a></p>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/10/ReactNative启动白屏解决/" class="archive-article-date">
+  	<time datetime="2016-12-10T03:23:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactNative/">ReactNative</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -2185,7 +2202,7 @@ function add($sql){
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 12.5px;">IScroll</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
