@@ -29,7 +29,7 @@ generator跟函数很像，定义如下：function* foo(x) {
     yield x + 3;
 }
 除了return语句，还可以用yield返回多次。yield返回{value:xx,done">
-<meta property="og:updated_time" content="2017-10-08T02:38:58.000Z">
+<meta property="og:updated_time" content="2017-10-08T02:47:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="generator">
 <meta name="twitter:description" content="generator（生成器）是ES6标准引入的新的数据类型。一个generator看上去像一个函数，但可以返回多次。 
@@ -286,8 +286,7 @@ generator跟函数很像，定义如下：function* foo(x) {
     yield x + 3;
 }
 </code></pre><p>除了return语句，还可以用yield返回多次。yield返回{value:xx,done:false},每次的结果存在value中。</p>
-<p>###直接调用试试：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foo(5); // fib &#123;[[GeneratorStatus]]: &quot;suspended&quot;, [[GeneratorReceiver]]: Window&#125;</div></pre></td></tr></table></figure>
+<h3 id="直接调用试试："><a href="#直接调用试试：" class="headerlink" title="直接调用试试："></a>直接调用试试：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foo(5); // fib &#123;[[GeneratorStatus]]: &quot;suspended&quot;, [[GeneratorReceiver]]: Window&#125;</div></pre></td></tr></table></figure>
 <p>直接调用一个generator和调用函数不一样，fib(5)仅仅是创建了一个generator对象，还没有去执行它。</p>
 <h3 id="generator方法调用"><a href="#generator方法调用" class="headerlink" title="generator方法调用"></a>generator方法调用</h3><h5 id="不断地调用generator对象的next-方法："><a href="#不断地调用generator对象的next-方法：" class="headerlink" title="不断地调用generator对象的next()方法："></a>不断地调用generator对象的next()方法：</h5><pre><code>var f = foo(1)
 f.next()
@@ -327,12 +326,16 @@ for (let v of bar()){
     console.log(v);
 };
 //依次输出 x,0,1,y
-</code></pre><h3 id="next-方法的参数"><a href="#next-方法的参数" class="headerlink" title="next()方法的参数"></a>next()方法的参数</h3><p>如果给next方法传参数， 那么这个参数将会作为上一次yield语句的返回值,因为在执行异步代码以后， 有时候需要上一个异步的结果，作为下次异步的参数，如此循环：<br>​<br>        function<em> foo(x) {<br>            var y = 2 </em> (yield (x + 1));<br>            var z = yield (y / 3);<br>            return (x + y + z); //或者 yield (x + y + z)<br>        }</p>
-<pre><code>var a = foo(5);
+</code></pre><h3 id="next-方法的参数"><a href="#next-方法的参数" class="headerlink" title="next()方法的参数"></a>next()方法的参数</h3><p>如果给next方法传参数， 那么这个参数将会作为上一次yield语句的返回值,因为在执行异步代码以后， 有时候需要上一个异步的结果，作为下次异步的参数，如此循环：<br>​    </p>
+<pre><code>function* foo(x) {
+    var y = 2 * (yield (x + 1));
+    var z = yield (y / 3);
+    return (x + y + z); //或者 yield (x + y + z)
+}
+var a = foo(5);
 a.next() // Object{value:6, done:false}
 a.next() // Object{value:NaN, done:false}
 a.next() // Object{value:NaN, done:true}
-
 var b = foo(5);
 b.next() // { value:6, done:false }
 b.next(12) // { value:8, done:false }

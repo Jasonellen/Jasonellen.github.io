@@ -23,7 +23,7 @@ var xiaoming = {
 JSON常用的无非就2个方法：序列化(stringify)让我们先把小明这个对象序列化成JSON格式的字符串：
 var xiaoming = {
       name:">
-<meta property="og:updated_time" content="2017-10-08T02:41:42.000Z">
+<meta property="og:updated_time" content="2017-10-08T02:51:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSON">
 <meta name="twitter:description" content="几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。
@@ -281,8 +281,14 @@ var xiaoming = {
       &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
       skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;]
   };
-</code></pre><p>JSON.stringify(xiaoming); // ‘{“name”:”小明”,”age”:14,”gender”:true,”height”:1.65,”grade”:null,”middle-school”:”\”W3C\” Middle School”,”skills”:[“JavaScript”,”Java”,”Python”,”Lisp”]}’</p>
-<p>要输出得好看一些，可以加上参数，按缩进输出：</p>
+  JSON.stringify(xiaoming); 
+//&apos;{
+      &quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14,&quot;gender&quot;:true,
+      &quot;height&quot;:1.65,&quot;grade&quot;:null,
+      &quot;middle-school&quot;:&quot;\&quot;W3C\&quot; Middle School&quot;,
+      &quot;skills&quot;:[&quot;JavaScript&quot;,&quot;Java&quot;,&quot;Python&quot;,&quot;Lisp&quot;]
+      }&apos;
+</code></pre><p>要输出得好看一些，可以加上参数，按缩进输出：</p>
 <pre><code>JSON.stringify(xiaoming, null, &apos;  &apos;);
 </code></pre><p>结果：</p>
 <pre><code>{

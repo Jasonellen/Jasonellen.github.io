@@ -35,7 +35,7 @@
 8&amp;gt;&amp;gt;&amp;gt;1 // 4
 -8&amp;gt;&amp;gt;&amp;gt;1 // 2147483644
 应用示例取中">
-<meta property="og:updated_time" content="2017-10-08T02:40:51.000Z">
+<meta property="og:updated_time" content="2017-10-08T02:48:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS运算符和进制转换">
 <meta name="twitter:description" content="&amp;gt;&amp;gt;表示是带符号的右移
@@ -302,8 +302,12 @@
 </code></pre><h2 id="符号"><a href="#符号" class="headerlink" title="~符号"></a>~符号</h2><blockquote>
 <p>按位非运算符，简单的理解就是<code>改变运算数的符号</code>并<code>减去1</code>(<code>舍去小数</code>)，当然，这是只是简单的理解能转换成number类型的数据.<code>总结：方向取反，奇偶取反，数值向0靠近1个count</code></p>
 </blockquote>
-<p><code>typeof var(数据类型) !== ”number”</code>的类型来说，进行运算时，会尝试转化成32位整形数据，如果无法转换成整形数据，就转换为NaN；继而转为<code>-1</code>；<br>​<br>        ~3.7 == -4    // -3.7 - 1 = -4.7  –&gt; -4<br>        ~-2.9 == 1    // 2.9 -1 = 1.9 –&gt;1<br>        ~-1 == 0 </p>
-<pre><code>~~2.9 == 2
+<p><code>typeof var(数据类型) !== ”number”</code>的类型来说，进行运算时，会尝试转化成32位整形数据，如果无法转换成整形数据，就转换为NaN；继而转为<code>-1</code>；<br>​    </p>
+<p>​    </p>
+<pre><code>~3.7 == -4    // -3.7 - 1 = -4.7  --&gt; -4 
+~-2.9 == 1    // 2.9 -1 = 1.9 --&gt;1
+~-1 == 0 
+~~2.9 == 2
 ~~ -2.9 == -2
 ----------------------------------------------------
 以下不能转为Number类型全为 -1
