@@ -236,6 +236,475 @@
       <div class="body-wrap">
         
   
+    <article id="post-json" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/21/json/">JSON</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。</p>
+</blockquote>
+<h3 id="JSON常用的无非就2个方法："><a href="#JSON常用的无非就2个方法：" class="headerlink" title="JSON常用的无非就2个方法："></a>JSON常用的无非就2个方法：</h3><h4 id="序列化-stringify"><a href="#序列化-stringify" class="headerlink" title="序列化(stringify)"></a>序列化(stringify)</h4><p>让我们先把小明这个对象序列化成JSON格式的字符串：</p>
+<pre><code>var xiaoming = {
+      name: &apos;小明&apos;,
+      age: 14,
+      gender: true,
+      height: 1.65,
+      grade: null,
+      &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
+      skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;]
+  };
+</code></pre><p>JSON.stringify(xiaoming); // ‘{“name”:”小明”,”age”:14,”gender”:true,”height”:1.65,”grade”:null,”middle-school”:”\”W3C\” Middle School”,”skills”:[“JavaScript”,”Java”,”Python”,”Lisp”]}’</p>
+<p>要输出得好看一些，可以加上参数，按缩进输出：</p>
+<pre><code>JSON.stringify(xiaoming, null, &apos;  &apos;);
+</code></pre><p>结果：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;age&quot;: 14,
+  &quot;gender&quot;: true,
+  &quot;height&quot;: 1.65,
+  &quot;grade&quot;: null,
+  &quot;middle-school&quot;: &quot;\&quot;W3C\&quot; Middle School&quot;,
+  &quot;skills&quot;: [
+    &quot;JavaScript&quot;,
+    &quot;Java&quot;,
+    &quot;Python&quot;,
+    &quot;Lisp&quot;
+  ]
+}
+</code></pre><p>第二个参数用于控制如何筛选对象的键值，如果我们只想输出指定的属性，可以传入Array：</p>
+<pre><code>JSON.stringify(xiaoming, [&apos;name&apos;, &apos;skills&apos;], &apos;  &apos;);
+</code></pre><p>结果：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;skills&quot;: [
+    &quot;JavaScript&quot;,
+    &quot;Java&quot;,
+    &quot;Python&quot;,
+    &quot;Lisp&quot;
+  ]
+}
+</code></pre><p>还可以传入一个函数，这样对象的每个键值对都会被函数先处理：</p>
+<pre><code>function convert(key, value) {
+    if (typeof value === &apos;string&apos;) {
+        return value.toUpperCase();
+    }
+    return value;
+}
+</code></pre><p>JSON.stringify(xiaoming, convert, ‘  ‘);<br>上面的代码把所有属性值都变成大写：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;age&quot;: 14,
+  &quot;gender&quot;: true,
+  &quot;height&quot;: 1.65,
+  &quot;grade&quot;: null,
+  &quot;middle-school&quot;: &quot;\&quot;W3C\&quot; MIDDLE SCHOOL&quot;,
+  &quot;skills&quot;: [
+    &quot;JAVASCRIPT&quot;,
+    &quot;JAVA&quot;,
+    &quot;PYTHON&quot;,
+    &quot;LISP&quot;
+  ]
+}
+</code></pre><p>如果我们还想要精确控制如何序列化小明，可以给xiaoming定义一个<code>toJSON()</code>的方法，直接返回JSON应该序列化的数据：</p>
+<pre><code>var xiaoming = {
+    name: &apos;小明&apos;,
+    age: 14,
+    gender: true,
+    height: 1.65,
+    grade: null,
+    &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
+    skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;],
+    toJSON: function () {
+        return { // 只输出name和age，并且改变了key：
+            &apos;Name&apos;: this.name,
+            &apos;Age&apos;: this.age
+        };
+    }
+};
+JSON.stringify(xiaoming); // &apos;{&quot;Name&quot;:&quot;小明&quot;,&quot;Age&quot;:14}&apos;
+</code></pre><h4 id="反序列化-parse"><a href="#反序列化-parse" class="headerlink" title="反序列化(parse)"></a>反序列化(parse)</h4><p>拿到一个JSON格式的字符串，我们直接用<code>JSON.parse()</code>把它变成一个JavaScript对象：</p>
+<pre><code>JSON.parse(&apos;[1,2,3,true]&apos;); // [1, 2, 3, true]
+JSON.parse(&apos;{&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14}&apos;); // Object {name: &apos;小明&apos;, age: 14}
+JSON.parse(&apos;true&apos;); // true
+JSON.parse(&apos;123.45&apos;); // 123.45
+</code></pre><p><code>JSON.parse()</code>还可以接收一个函数，用来转换解析出的属性：</p>
+<pre><code>JSON.parse(&apos;{&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14}&apos;, function (key, value) {
+    // 把number * 2:
+    if (key === &apos;name&apos;) {
+        return value + &apos;同学&apos;;
+    }
+    return value;
+}); // Object {name: &apos;小明同学&apos;, age: 14}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/21/json/" class="archive-article-date">
+  	<time datetime="2017-09-21T15:19:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSON/">JSON</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JS运算符和进制转换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/11/JS运算符和进制转换/">JS运算符和进制转换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="gt-gt-表示是带符号的右移"><a href="#gt-gt-表示是带符号的右移" class="headerlink" title="&gt;&gt;表示是带符号的右移"></a>&gt;&gt;表示是带符号的右移</h2><blockquote>
+<p>按照二进制把数字右移指定数位，高位如符号位为正补零，符号位负补一，低位直接移除</p>
+</blockquote>
+<pre><code>8&gt;&gt;1  // 4
+-8&gt;&gt;1 // -4
+</code></pre><h2 id="gt-gt-gt-表示无符号的右移"><a href="#gt-gt-gt-表示无符号的右移" class="headerlink" title="&gt;&gt;&gt;表示无符号的右移"></a>&gt;&gt;&gt;表示无符号的右移</h2><blockquote>
+<p>按照二进制把数字右移指定数位，高位直接补零，低位移除！</p>
+</blockquote>
+<pre><code>8&gt;&gt;&gt;1 // 4
+-8&gt;&gt;&gt;1 // 2147483644
+</code></pre><h4 id="应用示例"><a href="#应用示例" class="headerlink" title="应用示例"></a>应用示例</h4><pre><code>取中间数(自动减去小数位)
+4&gt;&gt;1  //2
+5&gt;&gt;1  //2
+</code></pre><h2 id="符号"><a href="#符号" class="headerlink" title="~符号"></a>~符号</h2><blockquote>
+<p>按位非运算符，简单的理解就是<code>改变运算数的符号</code>并<code>减去1</code>(<code>舍去小数</code>)，当然，这是只是简单的理解能转换成number类型的数据.<code>总结：方向取反，奇偶取反，数值向0靠近1个count</code></p>
+</blockquote>
+<p><code>typeof var(数据类型) !== ”number”</code>的类型来说，进行运算时，会尝试转化成32位整形数据，如果无法转换成整形数据，就转换为NaN；继而转为<code>-1</code>；<br>​<br>        ~3.7 == -4    // -3.7 - 1 = -4.7  –&gt; -4<br>        ~-2.9 == 1    // 2.9 -1 = 1.9 –&gt;1<br>        ~-1 == 0 </p>
+<pre><code>~~2.9 == 2
+~~ -2.9 == -2
+----------------------------------------------------
+以下不能转为Number类型全为 -1
+~{} == -1
+~[] == -1
+~NaN ==-1
+~function(){} == -1
+</code></pre><h4 id="应用示例-1"><a href="#应用示例-1" class="headerlink" title="应用示例"></a>应用示例</h4><pre><code>var str = &apos;abc&apos;
+
+before:
+
+alert(str.indexOf(&apos;d&apos;) != -1 ? &apos;有字母d&apos; : &apos;没有字母d&apos;)
+----------------------------------------------------
+after:
+
+alert(~str.indexOf(&apos;d&apos;) ? &apos;有字母d&apos; : &apos;没有字母d&apos;)
+</code></pre><h2 id="amp-运算符"><a href="#amp-运算符" class="headerlink" title="&amp;运算符"></a>&amp;运算符</h2><pre><code>二进制安位与：
+4 &amp; 2           3 &amp; 2
+0100            0011
+0010            0010
+----            ----
+0000  -&gt;0       0010  -&gt;2
+</code></pre><h4 id="应用示例-2"><a href="#应用示例-2" class="headerlink" title="应用示例"></a>应用示例</h4><pre><code>JS中的主要用来判断奇偶:
+3 &amp; 1 -&gt; 1
+4 &amp; 1 -&gt; 0    
+</code></pre><h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><pre><code>&lt;其他进制 转为 十进制&gt;
+parseInt(&quot;11&quot;, 2); // 3    2进制转10进制 
+parseInt(&quot;77&quot;, 8); // 63   8进制转10进制
+parseInt(&quot;af&quot;, 16); //175  16进制转10进制
+
+&lt;十进制 转为 其他进制&gt;
+(152).toString(2) // &quot;10011000&quot;; 先用括号将152转换“包”成一个对象.
+或者如下写法:
+152..toString(2) // 这里第一个点将152转换成float类型的小数，第二个点是引出对象方法;
+152..toString(16) // &quot;98&quot; : 十进制转16进制
+</code></pre><p>​        </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/11/JS运算符和进制转换/" class="archive-article-date">
+  	<time datetime="2017-09-11T13:07:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运算符/">运算符</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-箭头函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/02/箭头函数/">箭头函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>箭头函数要实现类似纯函数的效果，必须剔除外部状态。所以当你定义一个箭头函数，在普通函数里常见的 <code>this</code> 、 <code>arguments</code> 、 <code>caller</code> 是统统没有的。</p>
+</blockquote>
+<h3 id="箭头函数没有-this"><a href="#箭头函数没有-this" class="headerlink" title="箭头函数没有 this"></a>箭头函数没有 this</h3><p>箭头函数没有 this ，那下面的代码明显可以取到 this 啊：</p>
+<pre><code>function foo() {
+  let a = 1
+  let b = () =&gt; console.log(this.a)
+
+  b()
+}
+foo()  // 1
+</code></pre><p>以上箭头函数中的 this 其实是父级作用域中的 this ，即函数 foo 的 this 。箭头函数引用了父级的变量，构成了一个闭包。以上代码等价于：</p>
+<pre><code>function foo() {
+  let a = 1
+  let self = this
+  let b = () =&gt; console.log(self.a)
+  b()
+}
+foo()  // 1
+</code></pre><p>一个经常犯的错误是使用箭头函数定义对象的方法，如：</p>
+<pre><code>let a = {
+  foo: 1,
+  bar: () =&gt; console.log(this.foo)
+}
+a.bar()  //undefined
+</code></pre><p>以上代码中，箭头函数中的 this 并不是指向 a 这个对象。对象 a 并不能构成一个作用域，所以再往上到达全局作用域， this 就指向全局作用域。</p>
+<hr>
+<p>另一个错误是在原型上使用箭头函数，如：</p>
+<pre><code>function A() {
+  this.foo = 1
+}
+A.prototype.bar = () =&gt; console.log(this.foo)
+let a = new A()
+a.bar()  //undefined
+</code></pre><p>同样，箭头函数中的 this 不是指向 A ，而是根据变量查找规则回溯到了全局作用域。同样，<code>使用普通函数就不存在问题</code>。</p>
+<h3 id="箭头函数没有arguments"><a href="#箭头函数没有arguments" class="headerlink" title="箭头函数没有arguments"></a>箭头函数没有arguments</h3><pre><code>function foo() {
+  return () =&gt; console.log(arguments[0])
+}
+foo(1, 2)(3, 4)  // 1
+</code></pre><p>上例中如果箭头函数有 arguments ，就应该输出的是3而不是1。</p>
+<p><strong>通过以上说明，我们可以看出，箭头函数除了传入的参数之外，真的是什么都没有！如果你在箭头函数引用了 this 、 arguments 或者参数之外的变量，那它们一定不是箭头函数本身包含的，而是从父级作用域继承的。</strong></p>
+<h3 id="那么问题来了，什么情况下该使用箭头函数"><a href="#那么问题来了，什么情况下该使用箭头函数" class="headerlink" title="那么问题来了，什么情况下该使用箭头函数"></a>那么问题来了，什么情况下该使用箭头函数</h3><ul>
+<li>箭头函数适合于无复杂逻辑或者无副作用的纯函数场景下，例如用在 map 、 reduce 、 filter 的回调函数定义中；</li>
+<li>不要在最外层定义箭头函数，因为在函数内部操作 this 会很容易污染全局作用域。最起码在箭头函数外部包一层普通函数，将 this 控制在可见的范围内；</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/02/箭头函数/" class="archive-article-date">
+  	<time datetime="2017-09-02T06:37:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-generator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/22/generator/">generator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>generator（生成器）是ES6标准引入的新的数据类型。一个generator看上去像一个函数，但可以返回多次。 </p>
+</blockquote>
+<h3 id="generator跟函数很像，定义如下："><a href="#generator跟函数很像，定义如下：" class="headerlink" title="generator跟函数很像，定义如下："></a>generator跟函数很像，定义如下：</h3><pre><code>function* foo(x) {
+    yield x + 1;
+    yield x + 2;
+    yield x + 3;
+}
+</code></pre><p>除了return语句，还可以用yield返回多次。yield返回{value:xx,done:false},每次的结果存在value中。</p>
+<p>###直接调用试试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foo(5); // fib &#123;[[GeneratorStatus]]: &quot;suspended&quot;, [[GeneratorReceiver]]: Window&#125;</div></pre></td></tr></table></figure>
+<p>直接调用一个generator和调用函数不一样，fib(5)仅仅是创建了一个generator对象，还没有去执行它。</p>
+<h3 id="generator方法调用"><a href="#generator方法调用" class="headerlink" title="generator方法调用"></a>generator方法调用</h3><h5 id="不断地调用generator对象的next-方法："><a href="#不断地调用generator对象的next-方法：" class="headerlink" title="不断地调用generator对象的next()方法："></a>不断地调用generator对象的next()方法：</h5><pre><code>var f = foo(1)
+f.next()
+Object {value: 2, done: false}
+f.next()
+Object {value: 3, done: false}
+f.next()
+Object {value: 4, done: true} //已经返回true，不用再返回了
+f.next()
+Object {value: undefined, done: true}
+</code></pre><p>next()方法会执行generator的代码，然后，每次遇到yield x;就返回一个对象{value: x, done: true/false}，然后“暂停”。</p>
+<h5 id="直接用for-…-of循环迭代generator对象，这种方式不需要我们自己判断done："><a href="#直接用for-…-of循环迭代generator对象，这种方式不需要我们自己判断done：" class="headerlink" title="直接用for … of循环迭代generator对象，这种方式不需要我们自己判断done："></a>直接用for … of循环迭代generator对象，这种方式不需要我们自己判断done：</h5><pre><code>for (var x of foo(1)) {
+    console.log(x); // 依次输出2,3,4
+}
+直接将对象中的value依次返回出来
+</code></pre><h3 id="来封装一个持久输出1-100的函数"><a href="#来封装一个持久输出1-100的函数" class="headerlink" title="来封装一个持久输出1~100的函数"></a>来封装一个持久输出1~100的函数</h3><pre><code>function* increase(){
+    for(var i=1;i&lt;101;i++){
+        yield i
+    }
+}
+
+var f = increase()
+for(var i = 1;i&lt;101;i++){
+    console.log( i == f.next().value ) //100个true
+}
+</code></pre><h3 id="yield"><a href="#yield" class="headerlink" title="yield*"></a>yield*</h3><p>在一个generator中调用其他的Generator方法，需用用</p>
+<pre><code>function* foo() {
+    yield 0;
+    yield 1;
+}
+function* bar() {
+    yield &apos;x&apos;;
+    yield* foo();
+    yield &apos;y&apos;;
+}
+for (let v of bar()){
+    console.log(v);
+};
+//依次输出 x,0,1,y
+</code></pre><h3 id="next-方法的参数"><a href="#next-方法的参数" class="headerlink" title="next()方法的参数"></a>next()方法的参数</h3><p>如果给next方法传参数， 那么这个参数将会作为上一次yield语句的返回值,因为在执行异步代码以后， 有时候需要上一个异步的结果，作为下次异步的参数，如此循环：<br>​<br>        function<em> foo(x) {<br>            var y = 2 </em> (yield (x + 1));<br>            var z = yield (y / 3);<br>            return (x + y + z); //或者 yield (x + y + z)<br>        }</p>
+<pre><code>var a = foo(5);
+a.next() // Object{value:6, done:false}
+a.next() // Object{value:NaN, done:false}
+a.next() // Object{value:NaN, done:true}
+
+var b = foo(5);
+b.next() // { value:6, done:false }
+b.next(12) // { value:8, done:false }
+b.next(13) // { value:42, done:true }
+</code></pre><h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><ul>
+<li>申明方式 function * A(){}</li>
+<li>直接调用generate函数只是创建一个generate对象，而没有执行内部代码</li>
+<li>调动f.next()，只是循环在generate对象中执行操作，遇到yield则返回，下次调用next()紧接着执行，直到遇到下一个yield或者return 返回</li>
+<li>如果给next方法传参数， 那么这个参数将会作为上一次yield语句的返回值</li>
+<li>如果执行return()方法， 那么这个迭代器的返回会被强制设置为迭代完毕， 返回{value:xx,done:true}</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/22/generator/" class="archive-article-date">
+  	<time datetime="2017-08-22T06:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/异步函数/">异步函数</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iscroll" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -936,591 +1405,6 @@ function run() {
 
 
   
-    <article id="post-原生JS封装自己的Picker" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/15/原生JS封装自己的Picker/">原生JS封装自己的Picker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用</p>
-</blockquote>
-<h3 id="效果预览：轻戳"><a href="#效果预览：轻戳" class="headerlink" title="效果预览：轻戳"></a>效果预览：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/ZnPicker/blob/master/index.html" target="_blank" rel="external">轻戳</a></h3><h4 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h4><pre><code>&lt;body&gt;
-  &lt;div id=&quot;ZnPicker&quot;&gt;&lt;/div&gt;
-  &lt;script src=&apos;ZnPicker.js&apos;&gt;&lt;/script&gt;
-  &lt;script&gt;
-    var picker=new ZnPicker({
-      dataArea:{min:1,max:199,unit:&apos;岁&apos;},
-      // dataSource:[{name:&apos;张三&apos;,id:1},{name:&apos;李四&apos;,id:2},{name:&apos;王五&apos;,id:3}],
-      title:&apos;请选择年龄&apos;,
-      defaultSite: 122,
-      lineHeight:36
-    })
-    picker.show()
-    picker.onChange=function(data){
-      alert(data)
-    }
-  &lt;/script&gt;
-&lt;/body&gt;
-</code></pre><h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><table>
-<thead>
-<tr>
-<th style="text-align:center">Options/callBack</th>
-<th style="text-align:center">Description</th>
-<th style="text-align:center">Required</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">title</td>
-<td style="text-align:center">Picker标题</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">defaultSite</td>
-<td style="text-align:center">默认起始位置</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">lineHeight</td>
-<td style="text-align:center">单个行高</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">dataArea</td>
-<td style="text-align:center">区间数据源，和dataSource有且只有一个/callback返回区间数</td>
-<td style="text-align:center">true</td>
-</tr>
-<tr>
-<td style="text-align:center">dataSource</td>
-<td style="text-align:center">列表数据源，和dataArea有且只有一个/callback返回数据id</td>
-<td style="text-align:center">true</td>
-</tr>
-<tr>
-<td style="text-align:center">show</td>
-<td style="text-align:center">Picker显示</td>
-<td style="text-align:center">/</td>
-</tr>
-<tr>
-<td style="text-align:center">onChange</td>
-<td style="text-align:center">选中后的回调函数</td>
-<td style="text-align:center">/</td>
-</tr>
-</tbody>
-</table>
-<h4 id="请允许我记录一点小东西"><a href="#请允许我记录一点小东西" class="headerlink" title="请允许我记录一点小东西"></a>请允许我记录一点小东西</h4><ul>
-<li><p>onmouseenter 与onmouseover的区别是 onmouseenter不支持冒泡事件</p>
-</li>
-<li><p>Chrome模拟器不支持 on事件如ontouchstart 需要用addEventListener 添加</p>
-</li>
-<li><p>css3 transition对应有一个js结束事件 transitionend，只支持addEventListener 添加</p>
-<ul>
-<li><p>// Safari 3.1 到 6.0 代码</p>
-<p>document.getElementById(“myDIV”).addEventListener(“webkitTransitionEnd”, myFunction);</p>
-</li>
-<li><p>// 标准语法</p>
-<p>document.getElementById(“myDIV”).addEventListener(“transitionend”, myFunction);</p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>移动端页面event.preventDefault()需要加一个判断，开始向下move 和 底部向上滑动则阻止默认行为，否则页面不能滚动</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/06/15/原生JS封装自己的Picker/" class="archive-article-date">
-  	<time datetime="2017-06-15T12:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZnPicker/">ZnPicker</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-聊天室" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/11/聊天室/">基于nodejs和socket.io的聊天室</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="socket-io详细介绍可以查看官网"><a href="#socket-io详细介绍可以查看官网" class="headerlink" title="socket.io详细介绍可以查看官网"></a>socket.io详细介绍可以查看<a href="https://socket.io/" target="_blank" rel="external">官网</a></h4><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="external">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
-</code></pre><h5 id="让我们来开启一个服务器"><a href="#让我们来开启一个服务器" class="headerlink" title="让我们来开启一个服务器"></a>让我们来开启一个服务器</h5><pre><code>//开启一个服务
-var express = require(&apos;express&apos;);
-var app = express();
-var server = require(&apos;http&apos;).createServer(app);
-var io = require(&apos;socket.io&apos;)(server);
-server.listen(3000, function () {
-  console.log(&apos;Server listening at http://localhost:3000&apos;);
-});
-
-// Routing
-app.use(express.static(__dirname + &apos;/src&apos;));
-
-//设置房间用户数量members
-var members = 0;
-</code></pre><h5 id="前端HTML"><a href="#前端HTML" class="headerlink" title="前端HTML"></a>前端HTML</h5><pre><code>&lt;body&gt;
-  &lt;!-- 首页供用户首次进入输入昵称 --&gt;
-  &lt;div class=&quot;mymodal&quot;&gt;
-    &lt;div class=&quot;content&quot;&gt;
-      &lt;h1&gt;请输入你的昵称&lt;/h3&gt;
-      &lt;input type=&quot;text&quot; maxlength=&quot;14&quot; class=&apos;name&apos;&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-  &lt;!-- 主页 聊天使用 --&gt;
-  &lt;h2 class=&apos;text-center&apos;&gt;欢迎来到南南ChatRoom&lt;br&gt;&lt;small&gt;xxx 正在输入...&lt;/small&gt;&lt;/h2&gt;
-  &lt;ul&gt;&lt;/ul&gt;
-  &lt;div class=&quot;input-group ipt&quot;&gt;
-    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;请输入聊天内容&quot; aria-describedby=&quot;send&quot;&gt;
-    &lt;span class=&quot;input-group-addon&quot; id=&quot;send&quot;&gt;发送&lt;/span&gt;
-  &lt;/div&gt;
-
-  &lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
-  &lt;script src=&apos;/lib/jquery.min.js&apos;&gt;&lt;/script&gt;
-  &lt;script src=&apos;./index.js&apos;&gt;&lt;/script&gt;
-&lt;/body&gt;
-</code></pre><h5 id="JS部分"><a href="#JS部分" class="headerlink" title="JS部分"></a>JS部分</h5><ul>
-<li><p>先定义一些变量</p>
-<pre><code>var login = false; //还未登陆
-var nameIpt = $(&apos;.content input&apos;) //输入用户名
-var mesIpt = $(&apos;.ipt input&apos;) //消息输入框
-var myModal = $(&apos;.mymodal&apos;); //首次进入的modal框
-var ul = $(&apos;ul&apos;) //详细列表box
-var typing = $(&apos;small&apos;); //正在输入
-var username = &apos;&apos;; //用户名
-var sendBtn = $(&apos;#send&apos;) //发送按钮
-//定义socket
-var socket = io();
-</code></pre></li>
-<li><p>定义几个常用的函数</p>
-<pre><code>//输入框获得焦点
-function _focus(){
-  //获取焦点
-  if(!login &amp;&amp; !(event.ctrlKey || event.metaKey || event.altKey)){
-    //如果没有登录
-    nameIpt.focus()
-  }else if(!(event.ctrlKey || event.metaKey || event.altKey)){
-    //登录成功
-    mesIpt.focus()
-  }
-}
-
-//添加一条聊天消息
-function addMessage(data){
-  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;strong style=&apos;color:${data.color}&apos;&gt;${data.username}：&lt;/strong&gt;&lt;span&gt;${data.message}&lt;/span&gt;`)
-  li.fadeIn(3000)
-  ul.append(li)
-  ul.scrollTop(ul[0].scrollHeight)
-  mesIpt.val(&apos;&apos;)
-}
-
-//添加欢迎消息
-function welcome(data){
-  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p&gt;欢迎 ${data.username} 加入了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
-  ul.append(li)
-  ul.scrollTop(ul[0].scrollHeight)
-}
-//输出日志
-function log(data){
-  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;${data}&lt;/p&gt;&lt;/li&gt;`)
-  ul.append(li)
-  ul.scrollTop(ul[0].scrollHeight)
-}
-</code></pre></li>
-<li><p>socket使用，监听/触发方法</p>
-<pre><code>//登录成功
-socket.on(&apos;loginSuccess&apos;,function(data){
-  login = true;
-  username = data.username
-  myModal.fadeOut()
-  welcome(data)
-})
-//欢迎加入房间
-socket.on(&apos;welcome&apos;,function(data){
-    welcome(data)
-})
-//xxx离开房间
-socket.on(&apos;leave&apos;,function(data){
-  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;额.. ${data.username} 离开了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
-  ul.append(li)
-  ul.scrollTop(ul[0].scrollHeight)
-})
-//消息发送成功
-socket.on(&apos;sendMessageSuccess&apos;,function(data){
-    addMessage(data)
-})
-//显示正在输入
-socket.on(&apos;typingSuccess&apos;, function (username) {
-    typing.text(`${username}正在输入...`).css(&apos;display&apos;,&apos;block&apos;).delay(2000).fadeOut();;
-});
-//本人失去连接
-socket.on(&apos;disconnect&apos;, function () {
-    log(&apos;您已失去连接正在尝试重连...&apos;)
-});
-//本人重连失败
-socket.on(&apos;reconnect_error&apos;, function () {
-    log(&apos;重连失败，再次尝试...&apos;)
-});
-//重连成功
-socket.on(&apos;reconnect&apos;, function () {
-  log(&apos;连接成功！&apos;);
-  if (username) {
-    //如果还在房间里，重新加入房间
-    socket.emit(&apos;addUserRequest&apos;, username);
-  }
-});
-</code></pre></li>
-<li><p>主入口用户触发函数</p>
-<pre><code>//设置屏幕点击和按键按下 输入框自动获得焦点
-$(window).on(&apos;click&apos;,function(e){    
-    _focus();
-})
-$(window).on(&apos;keydown&apos;,function(e){
- _focus();
- //输入名字后按回车进入聊天室
- if(e.which === 13){
-   if(!login){
-     //如果没有登录 发送登录请求
-     var _name = nameIpt.val().trim()
-     if(_name){
-       socket.emit(&apos;addUserRequest&apos;, _name);
-     }
-   }else{
-     //已经登录发送消息
-     var message = mesIpt.val().trim()
-     if(message){
-       socket.emit(&apos;sendMessageRequest&apos;, message);
-     }
-   }
- }
-//按钮发送
-sendBtn.click(function(){
-  var message = mesIpt.val().trim()
-   if(message){
-     addMessage({username,message})
-     socket.emit(&apos;sendMessageRequest&apos;, message);
-   }
-})
-//用户输入消息是触发typing
-mesIpt.on(&apos;input&apos;, function() {
-    socket.emit(&apos;typingRequest&apos;, username);
-});  
-</code></pre></li>
-</ul>
-<h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/06/11/聊天室/" class="archive-article-date">
-  	<time datetime="2017-06-10T22:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/socket/">socket</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-canvas粒子运动" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/07/canvas粒子运动/">canvas粒子运动</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="今天说一说Canvas的粒子运动：效果图戳这里"><a href="#今天说一说Canvas的粒子运动：效果图戳这里" class="headerlink" title="今天说一说Canvas的粒子运动：效果图戳这里"></a>今天说一说Canvas的粒子运动：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/particleMove/blob/master/index.html" target="_blank" rel="external">效果图戳这里</a></h3><h2 id="首先我们需要创建一个HTML"><a href="#首先我们需要创建一个HTML" class="headerlink" title="首先我们需要创建一个HTML"></a>首先我们需要创建一个HTML</h2><pre><code>&lt;style&gt;
-  body{
-    margin: 0;
-    height:1500px;
-    background: #000;
-  }
-  canvas{
-    width: 100%;
-    height: 100%;
-  }
-&lt;/style&gt;
-&lt;body&gt;
-  &lt;canvas id=&apos;canvas&apos;&gt;&lt;/canvas&gt;
-  &lt;script src=&apos;index.js&apos;&gt;&lt;/script&gt;
-&lt;/body&gt;
-</code></pre><h2 id="最主要的就是JS啦☺"><a href="#最主要的就是JS啦☺" class="headerlink" title="最主要的就是JS啦☺"></a>最主要的就是JS啦☺</h2><h4 id="获取canvsa-设置画布和宽高"><a href="#获取canvsa-设置画布和宽高" class="headerlink" title="获取canvsa 设置画布和宽高"></a>获取canvsa 设置画布和宽高</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var ctx = canvas.getContext(&apos;2d&apos;);</div><div class="line">var _width = canvas.width = canvas.offsetWidth;</div><div class="line">var _height = canvas.height = canvas.offsetHeight;</div></pre></td></tr></table></figure>
-<h4 id="更新页面用requestAnimationFrame替代setTimeout"><a href="#更新页面用requestAnimationFrame替代setTimeout" class="headerlink" title="更新页面用requestAnimationFrame替代setTimeout"></a>更新页面用requestAnimationFrame替代setTimeout</h4><pre><code>window.requestAnimationFrame =  window.requestAnimationFrame ||
-                                window.mozRequestAnimationFrame ||
-                                window.webkitRequestAnimationFrame ||
-                                window.msRequestAnimationFrame;
-</code></pre><h4 id="创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动-连线-和-远离的方法）"><a href="#创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动-连线-和-远离的方法）" class="headerlink" title="创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动 连线 和 远离的方法）"></a>创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动 连线 和 远离的方法）</h4><pre><code>function Particle(x, y, r, color){
-  this.x = x;
-  this.y = y;
-  this.r = r;
-  this.color = color;
-  this.movex = Math.random()/3;
-  this.movey = Math.random()/3;
-}
-
-//画圆
-Particle.prototype.draw = function () {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0 ,360);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.restore();
-};
-
-// 连线
-Particle.prototype.line = function (other) {
-  var dx = this.x - other.x;
-  var dy = this.y - other.y;
-  let gap = Math.sqrt(dxdx + dydy)
-  if(gap &lt; 80){
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.lineTo(other.x, other.y);
-    ctx.strokeStyle = &quot;rgba(255,255,255,.3)&quot;;
-    ctx.lineWidth = .7;
-    ctx.stroke();
-    ctx.restore();
-  }
-};
-
-//运动 (改变x,y的坐标)
-Particle.prototype.move = function () {
-  this.movex = (this.x &lt;_width &amp;&amp; this.x&gt;0)?this.movex:-this.movex;
-  this.movey = (this.x &lt;_height &amp;&amp; this.x&gt;0)?this.movex:-this.movey;
-  this.x += this.movex;
-  this.y += this.movey;
-};
-
-//远离鼠标
-Particle.prototype.faraway = function (other) {
-  var fx = this.x - other.x;
-  var fy = this.y - other.y;
-  var fd = Math.sqrt(fxfx + fyfy);
-  if(fd &lt; 50){
-    if(fx&lt;0 &amp;&amp; fy&lt;0){
-      this.x -= 50;
-      this.y -= 50;
-    }else if(fx&lt;0 &amp;&amp; fy&gt;0){
-      this.x -= 50;
-      this.y += 50;
-    }else if(fx&gt;0 &amp;&amp; fy&lt;0){
-      this.x += 50;
-      this.y -= 50;
-    }else{
-      this.x += 50;
-      this.y += 50;
-    }
-  }
-};
-</code></pre><h4 id="创建远离点"><a href="#创建远离点" class="headerlink" title="创建远离点"></a>创建远离点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function Away(x, y)&#123;</div><div class="line">  this.x = x;</div><div class="line">  this.y = y;</div><div class="line">  this.color = &apos;red&apos;;</div><div class="line">&#125;</div><div class="line">Away.prototype.awaydraw = function () &#123;</div><div class="line">  ctx.save();</div><div class="line">  ctx.beginPath();</div><div class="line">  ctx.arc(this.x, this.y, Math.random()*20, 0 , 360);</div><div class="line">  ctx.fillStyle = this.color;</div><div class="line">  ctx.fill();</div><div class="line">  ctx.restore();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h4 id="远离点跟随鼠标移动"><a href="#远离点跟随鼠标移动" class="headerlink" title="远离点跟随鼠标移动"></a>远离点跟随鼠标移动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var _away = new Away(0, 0)</div><div class="line">window.onmousemove = function(e)&#123;</div><div class="line">  var _scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</div><div class="line">  var e = e || window.event;</div><div class="line">  _away.x = e.clientX;</div><div class="line">  _away.y = e.clientY + _scrollTop;</div><div class="line">&#125;</div><div class="line">window.onmouseout = function()&#123;</div><div class="line">  _away.x = null;</div><div class="line">  _away.y = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="运动-起来"><a href="#运动-起来" class="headerlink" title="运动 起来"></a>运动 起来</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function run()&#123;</div><div class="line">  ctx.clearRect(0, 0, _width, _height)</div><div class="line">  //如果鼠标在窗口内，就画远离点</div><div class="line">  if(_away.x)&#123;</div><div class="line">    _away.awaydraw();</div><div class="line">  &#125;</div><div class="line">  for(var i=0; i&lt;length; i++)&#123;</div><div class="line">    P_array[i].move();</div><div class="line">    P_array[i].draw();</div><div class="line">    P_array[i].faraway(_away)</div><div class="line">    //逐个判断连线</div><div class="line">    for(var j=0; j&lt;length; j++)&#123;</div><div class="line">      P_array[i].line(P_array[j])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  //循环执行</div><div class="line">  requestAnimationFrame(run);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="初始化页面"><a href="#初始化页面" class="headerlink" title="初始化页面"></a>初始化页面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var P_array =[];</div><div class="line">var P_num = 360;</div><div class="line">var length = 0;</div><div class="line">//初始化页面</div><div class="line">function init()&#123;</div><div class="line">  //创建很多个 粒子</div><div class="line">  for(var i=0; i&lt; P_num; i++)&#123;</div><div class="line">    var _color = `rgb($&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;)`;</div><div class="line">    console.log(_color)</div><div class="line">    P_array.push(new Particle(Math.random()*_width, Math.random()*_height, Math.random()*5, _color))</div><div class="line">  &#125;</div><div class="line">  length = P_array.length;</div><div class="line">  //页面 动 起来</div><div class="line">  run();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>其实这个效果有个思路的话没那么难的，运动面向对象的思想一步一步很容易就可以做出来的，我脑子笨做了几个小时😢</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/06/07/canvas粒子运动/" class="archive-article-date">
-  	<time datetime="2017-06-07T02:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-常用几个正则" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/20/常用几个正则/">常用几个正则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>表单验证经常需要用到正则，不知道规则纵使熟练REG也是无济于事，下面整理几个常用正则</p>
-</blockquote>
-<ul>
-<li><p>手机号码验证</p>
-<p> function isPhone(tel){</p>
-<pre><code>  var phone= /^((\+?[0-9]{1,4})|(\(\+86\)))?(13[0-9]|14[57]|15[012356789]|17[0678]|18[0-9])\d{8}$/;
-  if (phone.test(tel)){
-      return true;
-  }else{
-      return false;
-  }
-}
-</code></pre></li>
-<li><p>邮箱验证</p>
-<p> function isEmail(email){</p>
-<pre><code>  var isEmail= /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
-  if (isEmail.test(email)){
-      return true;
-  }else{
-      return false;
-  }
-}
-</code></pre></li>
-<li><p>身份证验证</p>
-<p> function isID(id){</p>
-<pre><code>  var reg15 = /^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}$/;
-  var _reg15 = /^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}$/;
-  var reg18 = /^[1-9][0-9]{5}19[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$/;
-  var _reg18 = /^[1-9][0-9]{5}19[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}[0-9Xx]$/;
-  if (reg15.test(id)||_reg15.test(id)||reg18.test(id)||_reg18.test(id)){
-      return true;
-  }else{
-      return false;
-  }
-}
-</code></pre><p> ​</p>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/20/常用几个正则/" class="archive-article-date">
-  	<time datetime="2017-05-20T05:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-20</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regexp/">regexp</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1584,7 +1468,7 @@ Particle.prototype.faraway = function (other) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 12.5px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>JSON | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。
+
+JSON常用的无非就2个方法：序列化(stringify)让我们先把小明这个对象序列化成JSON格式的字符串：
+var xiaoming = {
+      name:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSON">
+<meta property="og:url" content="http://Jasonellen.github.io/2017/09/21/json/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。
+
+JSON常用的无非就2个方法：序列化(stringify)让我们先把小明这个对象序列化成JSON格式的字符串：
+var xiaoming = {
+      name:">
+<meta property="og:updated_time" content="2017-10-08T02:41:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSON">
+<meta name="twitter:description" content="几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。
+
+JSON常用的无非就2个方法：序列化(stringify)让我们先把小明这个对象序列化成JSON格式的字符串：
+var xiaoming = {
+      name:">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-json" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JSON
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。</p>
+</blockquote>
+<h3 id="JSON常用的无非就2个方法："><a href="#JSON常用的无非就2个方法：" class="headerlink" title="JSON常用的无非就2个方法："></a>JSON常用的无非就2个方法：</h3><h4 id="序列化-stringify"><a href="#序列化-stringify" class="headerlink" title="序列化(stringify)"></a>序列化(stringify)</h4><p>让我们先把小明这个对象序列化成JSON格式的字符串：</p>
+<pre><code>var xiaoming = {
+      name: &apos;小明&apos;,
+      age: 14,
+      gender: true,
+      height: 1.65,
+      grade: null,
+      &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
+      skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;]
+  };
+</code></pre><p>JSON.stringify(xiaoming); // ‘{“name”:”小明”,”age”:14,”gender”:true,”height”:1.65,”grade”:null,”middle-school”:”\”W3C\” Middle School”,”skills”:[“JavaScript”,”Java”,”Python”,”Lisp”]}’</p>
+<p>要输出得好看一些，可以加上参数，按缩进输出：</p>
+<pre><code>JSON.stringify(xiaoming, null, &apos;  &apos;);
+</code></pre><p>结果：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;age&quot;: 14,
+  &quot;gender&quot;: true,
+  &quot;height&quot;: 1.65,
+  &quot;grade&quot;: null,
+  &quot;middle-school&quot;: &quot;\&quot;W3C\&quot; Middle School&quot;,
+  &quot;skills&quot;: [
+    &quot;JavaScript&quot;,
+    &quot;Java&quot;,
+    &quot;Python&quot;,
+    &quot;Lisp&quot;
+  ]
+}
+</code></pre><p>第二个参数用于控制如何筛选对象的键值，如果我们只想输出指定的属性，可以传入Array：</p>
+<pre><code>JSON.stringify(xiaoming, [&apos;name&apos;, &apos;skills&apos;], &apos;  &apos;);
+</code></pre><p>结果：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;skills&quot;: [
+    &quot;JavaScript&quot;,
+    &quot;Java&quot;,
+    &quot;Python&quot;,
+    &quot;Lisp&quot;
+  ]
+}
+</code></pre><p>还可以传入一个函数，这样对象的每个键值对都会被函数先处理：</p>
+<pre><code>function convert(key, value) {
+    if (typeof value === &apos;string&apos;) {
+        return value.toUpperCase();
+    }
+    return value;
+}
+</code></pre><p>JSON.stringify(xiaoming, convert, ‘  ‘);<br>上面的代码把所有属性值都变成大写：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;小明&quot;,
+  &quot;age&quot;: 14,
+  &quot;gender&quot;: true,
+  &quot;height&quot;: 1.65,
+  &quot;grade&quot;: null,
+  &quot;middle-school&quot;: &quot;\&quot;W3C\&quot; MIDDLE SCHOOL&quot;,
+  &quot;skills&quot;: [
+    &quot;JAVASCRIPT&quot;,
+    &quot;JAVA&quot;,
+    &quot;PYTHON&quot;,
+    &quot;LISP&quot;
+  ]
+}
+</code></pre><p>如果我们还想要精确控制如何序列化小明，可以给xiaoming定义一个<code>toJSON()</code>的方法，直接返回JSON应该序列化的数据：</p>
+<pre><code>var xiaoming = {
+    name: &apos;小明&apos;,
+    age: 14,
+    gender: true,
+    height: 1.65,
+    grade: null,
+    &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
+    skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;],
+    toJSON: function () {
+        return { // 只输出name和age，并且改变了key：
+            &apos;Name&apos;: this.name,
+            &apos;Age&apos;: this.age
+        };
+    }
+};
+JSON.stringify(xiaoming); // &apos;{&quot;Name&quot;:&quot;小明&quot;,&quot;Age&quot;:14}&apos;
+</code></pre><h4 id="反序列化-parse"><a href="#反序列化-parse" class="headerlink" title="反序列化(parse)"></a>反序列化(parse)</h4><p>拿到一个JSON格式的字符串，我们直接用<code>JSON.parse()</code>把它变成一个JavaScript对象：</p>
+<pre><code>JSON.parse(&apos;[1,2,3,true]&apos;); // [1, 2, 3, true]
+JSON.parse(&apos;{&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14}&apos;); // Object {name: &apos;小明&apos;, age: 14}
+JSON.parse(&apos;true&apos;); // true
+JSON.parse(&apos;123.45&apos;); // 123.45
+</code></pre><p><code>JSON.parse()</code>还可以接收一个函数，用来转换解析出的属性：</p>
+<pre><code>JSON.parse(&apos;{&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14}&apos;, function (key, value) {
+    // 把number * 2:
+    if (key === &apos;name&apos;) {
+        return value + &apos;同学&apos;;
+    }
+    return value;
+}); // Object {name: &apos;小明同学&apos;, age: 14}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/21/json/" class="archive-article-date">
+  	<time datetime="2017-09-21T15:19:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSON/">JSON</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/11/JS运算符和进制转换/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS运算符和进制转换</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 12.5px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>

@@ -236,6 +236,552 @@
       <div class="body-wrap">
         
   
+    <article id="post-Javascript的this用法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/28/Javascript的this用法/">Javascript的this用法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="this是Javascript语言的一个关键字。"><a href="#this是Javascript语言的一个关键字。" class="headerlink" title="this是Javascript语言的一个关键字。"></a>this是Javascript语言的一个关键字。</h3><h3 id="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"><a href="#它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，" class="headerlink" title="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"></a>它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，</h3><pre><code>function test(){
+    this.x = 1;
+}
+</code></pre><h3 id="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"><a href="#随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。" class="headerlink" title="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"></a>随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</h3><h3 id="下面分四种情况，详细讨论this的用法。"><a href="#下面分四种情况，详细讨论this的用法。" class="headerlink" title="下面分四种情况，详细讨论this的用法。"></a>下面分四种情况，详细讨论this的用法。</h3><h1 id="情况一：纯粹的函数调用"><a href="#情况一：纯粹的函数调用" class="headerlink" title="情况一：纯粹的函数调用"></a>情况一：纯粹的函数调用</h1><h3 id="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"><a href="#这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。" class="headerlink" title="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"></a>这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。</h3><h3 id="请看下面这段代码，它的运行结果是1。"><a href="#请看下面这段代码，它的运行结果是1。" class="headerlink" title="请看下面这段代码，它的运行结果是1。"></a>请看下面这段代码，它的运行结果是1。</h3><pre><code>　function test(){
+    this.x = 1;
+    alert(this.x);
+}
+test(); // 1
+</code></pre><h3 id="为了证明this就是全局对象，我对代码做一些改变："><a href="#为了证明this就是全局对象，我对代码做一些改变：" class="headerlink" title="为了证明this就是全局对象，我对代码做一些改变："></a>为了证明this就是全局对象，我对代码做一些改变：</h3><pre><code>var x = 1;
+function test(){
+    alert(this.x);
+}
+test(); // 1
+</code></pre><h3 id="运行结果还是1。再变一下"><a href="#运行结果还是1。再变一下" class="headerlink" title="运行结果还是1。再变一下"></a>运行结果还是1。再变一下</h3><pre><code>var x = 1;
+function test(){
+    this.x = 0;
+}
+test();
+alert(x); //0
+</code></pre><h1 id="情况二：作为对象方法的调用"><a href="#情况二：作为对象方法的调用" class="headerlink" title="情况二：作为对象方法的调用"></a>情况二：作为对象方法的调用</h1><h3 id="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"><a href="#函数还可以作为某个对象的方法调用，这时this就指这个上级对象。" class="headerlink" title="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"></a>函数还可以作为某个对象的方法调用，这时this就指这个上级对象。</h3><pre><code>function test(){
+    alert(this.x);
+}
+var o = {};
+o.x = 1;
+o.m = test;
+o.m(); // 1
+</code></pre><h1 id="情况三-作为构造函数调用"><a href="#情况三-作为构造函数调用" class="headerlink" title="情况三 作为构造函数调用"></a>情况三 作为构造函数调用</h1><h3 id="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"><a href="#所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。" class="headerlink" title="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"></a>所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。</h3><pre><code>function test(){
+    this.x = 1;
+}
+var o = new test();
+alert(o.x); // 1
+</code></pre><h3 id="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："><a href="#运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：" class="headerlink" title="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："></a>运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：</h3><pre><code>var x = 2;
+function test(){
+    this.x = 1;
+}
+var o = new test();
+alert(x); //2
+</code></pre><h3 id="运行结果为2，表明全局变量x的值根本没变"><a href="#运行结果为2，表明全局变量x的值根本没变" class="headerlink" title="运行结果为2，表明全局变量x的值根本没变"></a>运行结果为2，表明全局变量x的值根本没变</h3><h1 id="情况四-apply调用"><a href="#情况四-apply调用" class="headerlink" title="情况四 apply调用"></a>情况四 apply调用</h1><h3 id="apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"><a href="#apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。" class="headerlink" title="apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"></a>apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。</h3><pre><code>var x = 0;
+function test(){
+    alert(this.x);
+}
+var o={};
+o.x = 1;
+o.m = test;
+o.m.apply(); //0
+</code></pre><h3 id="apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"><a href="#apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。" class="headerlink" title="apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"></a>apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。</h3><h3 id="如果把最后一行代码修改为"><a href="#如果把最后一行代码修改为" class="headerlink" title="如果把最后一行代码修改为"></a>如果把最后一行代码修改为</h3><pre><code>o.m.apply(o); //1
+</code></pre><h3 id="运行结果就变成了1，证明了这时this代表的是对象o。"><a href="#运行结果就变成了1，证明了这时this代表的是对象o。" class="headerlink" title="运行结果就变成了1，证明了这时this代表的是对象o。"></a>运行结果就变成了1，证明了这时this代表的是对象o。</h3>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/28/Javascript的this用法/" class="archive-article-date">
+  	<time datetime="2016-11-28T13:25:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/this/">this</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-php缓存文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/27/php缓存文件/">php缓存文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PHP缓存文件"><a href="#PHP缓存文件" class="headerlink" title="PHP缓存文件"></a>PHP缓存文件</h1><p><strong>对前端ajax上传的文件进行缓存，并保存到数据库</strong></p>
+<p><code>HTML</code></p>
+<pre><code>&lt;body&gt;
+    名字：&lt;input type=&quot;text&quot; id=&quot;username&quot;&gt;&lt;br&gt;
+    密码：&lt;input type=&quot;text&quot; id=&quot;pwd&quot;&gt;&lt;br&gt;
+    文件：&lt;input type=&quot;file&quot; id=&quot;file&quot;&gt;&lt;br&gt;
+    &lt;button onclick=&quot;ajax()&quot;&gt;提交&lt;/button&gt;
+
+
+    &lt;script&gt;
+        function ajax(){
+            var username = $(&apos;#username&apos;);    
+            var psd = $(&apos;#psd&apos;);
+            var file = $(&apos;#file&apos;)[0][&apos;files&apos;][0];    
+            console.log( $(&apos;#file&apos;))
+
+            var form = new FormData();
+            form.append(&apos;username&apos;,username);
+            form.append(&apos;pwd&apos;,pwd);
+            form.append(&apos;file&apos;,file);
+
+            $.ajax({
+                type:&apos;post&apos;, //传输数据的格式
+                url:&apos;ajax.php&apos;,    //请求路径
+                async:true, //true 异步  默认
+                data:form,  //上传表单数据
+                //如果上传文件下面2个必须要设置为false
+                processData:false,    
+                contentType:false,
+                success:function(data){
+                    console.log(data)
+                }
+            })
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+</code></pre><p><code>PHP</code></p>
+<pre><code>$data[&apos;username&apos;] = $_POST[&apos;username&apos;];
+$data[&apos;password&apos;] = $_POST[&apos;pwd&apos;];
+
+//处理文件
+if(!file_exists(&apos;./uploads&apos;)){
+    mkdir(&apos;uploads&apos;);
+}
+$tmpPath = $_FILES[&apos;img&apos;][&apos;tmp_name&apos;];  //获取文件路径
+$newName = $_FILES[&apos;img&apos;][&apos;name&apos;]; //获取文件的名字
+$res = move_uploaded_file($tmpPath,&quot;uploads/{$newName}&quot;); //原名上传到指定文件夹
+
+if($res){
+    $data[&apos;imgurl&apos;] =&quot;uploads/{$newName}&quot;;
+    echo &quot;上传成功&quot;;
+}
+
+//存储数据
+$data = json_encode($data);
+$reslut = file_put_contents(&apos;data.txt&apos;,$data);
+if($reslut){
+    echo &apos;数据存储成功&apos;;
+}else{
+    echo &apos;数据存储失败&apos;;
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/27/php缓存文件/" class="archive-article-date">
+  	<time datetime="2016-11-27T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-数据库基本操作二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/23/数据库基本操作二/">数据库基本操作二</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="php5-5以下用mysql来连接（面向过程），php5-5以上使用mysqli来连接（面向过程，面向对象）"><a href="#php5-5以下用mysql来连接（面向过程），php5-5以上使用mysqli来连接（面向过程，面向对象）" class="headerlink" title="php5.5以下用mysql来连接（面向过程），php5.5以上使用mysqli来连接（面向过程，面向对象）;"></a>php5.5以下用mysql来连接（面向过程），php5.5以上使用mysqli来连接（面向过程，面向对象）;</h3><h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><p><code>面向过程</code></p>
+<pre><code>//默认用户名都是root，我的密码为空,四参是要连接的数据库
+$link=mysqli_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+if(mysqli_errno($link)){
+    echo mysqli_error($link);
+}else{
+    echo &apos;连接数据库成功&lt;br/&gt;&apos;;
+}
+//插入字段
+$sql = &apos;INSERT INTO users(username,age,pwd) VALUES(&quot;张飞&quot;,99,123456)&apos;;
+
+//设置编码格式  utf8不能写成utf-8
+//方式一 常用        
+mysqli_query($link,&apos;set names utf8&apos;);
+//方式二
+mysqli_set_charset($link,&apos;utf-8&apos;);
+
+//执行sql语句
+// $res = mysqli_query($link,$sql);
+// if($res){
+//     echo &quot;添加成功&quot;;
+// }else{
+//     echo &quot;添加失败&quot;;
+// }
+
+$name = &apos;马云2&apos;;
+$age = 38;
+$pwd = 44444;                                   //注意这里有引号
+$sql = &quot;INSERT INTO users(username,age,pwd)VALUES(&apos;$name&apos;,$age,$pwd)&quot;;
+// echo $sql;die;
+// addData2($sql);
+</code></pre><p><code>数据库添加函数</code></p>
+<pre><code>//对添加进行函数封装--面向对象
+function addData($sql){
+    $mysqli = new mysqli(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+    if($mysqli-&gt;errno){
+        echo $mysqli-&gt;error;
+    };
+    //设置编码
+    $mysqli-&gt;query(&apos;set names utf8&apos;);
+    $res = $mysqli-&gt;query($sql);
+    if($res){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+//对添加进行函数封装--面向过程
+function addData2($sql){
+    $link = mysqli_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+    // if(mysqli_errno($link)){
+    //     echo mysqli_error($link);
+    // }else{
+    //     echo &apos;连接数据库成功&lt;br/&gt;&apos;;
+    // }
+    //设置编码
+    mysqli_query($link,&apos;set names utf8&apos;);
+    //执行
+    $res = mysqli_query($link,$sql);
+    if($res){
+        return ture;
+    }else{
+        return false;
+    }
+}
+</code></pre><p><code>面向对象</code></p>
+<pre><code>// $mysqli = new mysqli(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+// if($mysqli-&gt;errno){
+//     echo $mysqli-&gt;error;
+// }else{
+//     echo &apos;连接数据库成功了&apos;;
+// }
+
+
+
+$sql = &quot;UPDATE users SET username=&apos;马云3&apos; WHERE id = 21&quot;;
+// update($sql);
+
+$sql = &quot;SELECT * FROM users&quot;;
+$res = getlist($sql);
+echo &quot;&lt;pre&gt;&quot;;
+print_r($res);
+echo &quot;&lt;/pre&gt;&quot;;
+
+$sql = &quot;DELETE FROM users WHERE id=8&quot;;
+// remove($sql);
+</code></pre><p><code>获取数据库函数</code></p>
+<pre><code>function getlist($sql){
+    $link = mysqli_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+    //设置编码
+    mysqli_query($link,&apos;set names utf8&apos;);
+    //执行
+    $res = mysqli_query($link,$sql);
+    //获取
+    $list = array();
+    while($li = mysqli_fetch_assoc($res)){
+        $list[] = $li;
+    }
+
+    return $list;
+}
+</code></pre><p><code>其他数据库函数</code></p>
+<pre><code>//面向过程  后面的封装都是一样的，就桑传入的参数不一样
+function update($sql){
+    $link = mysqli_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+    //设置编码
+    mysqli_query($link,&apos;set names utf8&apos;);
+    //执行
+    $res = mysqli_query($link,$sql);
+    if($res){
+        echo &apos;更新成功&apos;;
+    }else{
+        echo &apos;更新失败&apos;;
+    }
+}
+
+function remove($sql){
+    $link = mysqli_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+    //设置编码
+    mysqli_query($link,&apos;set names utf8&apos;);
+    //执行
+    $res = mysqli_query($link,$sql);
+    if($res){
+        echo &apos;删除成功&apos;;
+    }else{
+        echo &apos;删除失败&apos;;
+    }
+}
+
+
+// function update($sql){
+//     $link = mysqli_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mydb&apos;);
+//     //设置编码
+//     mysqli_query($link,&apos;set names utf8&apos;);
+//     //执行
+//     $res = mysqli_query($link,$sql);
+//     if($res){
+//         echo &apos;更新成功&apos;;
+//     }else{
+//         echo &apos;更新失败&apos;;
+//     }
+// }
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/23/数据库基本操作二/" class="archive-article-date">
+  	<time datetime="2016-11-23T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL/">MYSQL</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-php文件操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/21/php文件操作/">php文件操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>文件操作，</li>
+<li>目录操作(文件夹操作)</li>
+</ol>
+<p><code>1.文件的读取</code></p>
+<pre><code>$res = file_get_contents(&apos;php3.txt&apos;);  //读  一般配合 file_put_contents 写使用
+
+// $res =file_get_contents(&apos;http://www.baidu.com&apos;);
+</code></pre><p><code>2.文件的写入</code></p>
+<pre><code>$a = file_get_contents(&apos;http://www.baidu.com&apos;); //或者其他文件
+$res =file_put_contents(&apos;php3.txt&apos;,&apos;写入方式二 常用&apos;);  //从头写入，覆盖  也可以是上面的$a
+if($res){
+    echo &apos;写入成功&apos;;
+}else{
+    echo &apos;写入失败&apos;;
+}
+</code></pre><p><code>3.文件的删除</code></p>
+<pre><code>// $res = unlink(&apos;6.txt&apos;);
+// if($res){
+//     echo &apos;删除成功&apos;;
+// }else{
+//     echo &apos;删除失败&apos;;
+// }
+</code></pre><p><code>php文件夹操作</code></p>
+<pre><code>//创建文件夹📂
+// $rem = mkdir(&apos;test1&apos;);
+// if($res){
+//     echo &apos;创建成功&apos;;
+// }else{
+//     echo &apos;创建失败&apos;;
+// }
+</code></pre><p><code>读取文件夹📂</code></p>
+<pre><code>$xx = scandir(&apos;test&apos;); //读取文件夹，以数组形式返回
+foreach ($xx as $key =&gt; $value) {
+    // $xx[$key] = iconv(&apos;gbk&apos;,&quot;utf-8&quot;,$value); //如果中文文件夹乱码加上这个就好了
+    $url = &quot;test/&quot;.$value;
+    if(is_file($url)){
+        echo &quot;&lt;font color=&apos;red&apos;&gt;&quot;.$value.&apos;&lt;/font&gt;&lt;br&gt;&apos;;
+    }else{
+        echo &quot;&lt;font color=&apos;green&apos;&gt;&quot;.$value.&apos;&lt;/font&gt;&lt;br&gt;&apos;;
+    }
+}
+// print_r ($xx);
+</code></pre><p><code>删除文件夹</code></p>
+<pre><code>// $res = rmdir(&apos;test1&apos;);  //这个只能删除空文件夹
+
+
+//删除文件夹及内部文件
+function removeDir($path){
+    $arr = scandir($path);
+//    print_r($arr);die;
+    if(count($arr)&gt;2){
+        //目录不为空
+        for($i=2;$i&lt;count($arr);$i++){
+             $url = $path.&apos;/&apos;.$arr[$i];
+            //$arr[$i] = 1.txt  test1
+             if(is_dir($url)){
+                 //为目录. 
+                 removeDir($url);
+             }else{
+                 //是文件
+                unlink($url);
+             }
+        }
+    }
+    $res = rmdir($path);
+    return $res;
+}
+// removeDir($path)
+</code></pre><p><code>获取文件的最后创建时间</code></p>
+<pre><code>//$res = filectime(&apos;1.txt&apos;)  //返回时间戳
+//echo date(&apos;Y-m-d H:i:s&apos;,$res)
+
+//file_exists: 判断文件是否存在；
+if(!file_exists(&apos;test&apos;)){
+    mkdir(&apos;test&apos;);
+}
+
+//判断是否可读
+is_readable(filename);
+//判断是否可写
+is_writable(filename);
+</code></pre><p><code>修改目录权限</code></p>
+<pre><code>chmod(&apos;test&apos;, 0755); //7=1+4+2   5=1+4  
+// 1.执行权限(1)  2.读取(4) 3.可写(2)
+//如果是手动创建的是不能用代码来更改权限的
+</code></pre><p><code>页面跳转</code></p>
+<pre><code>header(&apos;Location:file.php&apos;) //跳转显示file.php文件
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/21/php文件操作/" class="archive-article-date">
+  	<time datetime="2016-11-21T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-php入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1361,602 +1907,6 @@ var child = parent.$refs.profile;
 
 
   
-    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/12/Vue之数据绑定/">Vue数据绑定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
-<p><strong> $ npm install vue </strong></p>
-<h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
-<pre><code>var app = new Vue({
-      el: &apos;#app&apos;,
-      //实例代理属性data
-      data: {
-        message: &apos;Hello Vue!&apos;,
-        seen: true,
-        todos: [
-              { text: &apos;Learn JavaScript&apos; },
-              { text: &apos;Learn Vue&apos; },
-              { text: &apos;Build something awesome&apos; }
-        ],
-        html:&apos;&lt;p&gt;这是插入的p标签&lt;/p&gt;&apos;,
-        ...
-        filters: {
-            capitalize: function (value) {
-              if (!value) return &apos;&apos;
-              value = value.toString()
-              return value.charAt(0).toUpperCase() + value.slice(1)
-           }
-      },
-      //计算属性
-      computed:{
-          reverseMessage:function(){...},
-          //绑定fullName，没有参数默认执行getter，有参数默认执行setter
-          fullName: {
-            // getter
-            get: function () {
-                  return this.firstName + &apos; &apos; + this.lastName
-            },
-            // setter
-            set: function (newValue) {
-                  var names = newValue.split(&apos; &apos;)
-                  this.firstName = names[0]
-                  this.lastName = names[names.length - 1]
-            }
-          }
-      },
-      //方法
-      methods:{
-          myclick:function(){...}
-      },
-      watch:{
-          seen:function(){...}
-      },
-      //钩子函数 
-      //mounted当组件被挂载并解析完成后执行
-      mounted:function(){
-          ...
-      },
-      ...
-
-})
-</code></pre><p><code>内容绑定</code></p>
-<pre><code>//内容绑定
-&lt;div id=&quot;app&quot;&gt;{{ message }}&lt;/div&gt;
-</code></pre><p><code>属性绑定</code></p>
-<pre><code>//绑定title属性到message上
-&lt;span v-bind:title=&quot;message&quot;&gt;&lt;/span&gt;
-</code></pre><p><code>v-if</code><br>​<br>    //执行的是append和remove  和show有本质的区别<br>    //如果seen为true则now you see 显示，否则no see显示<br>    </p><p v-if="seen">Now you see me</p><br>    <p v-else="">no see</p><p></p>
-<p><code>v-show</code><br>​<br>    //执行的是 diplay:none 与 display：block<br>    //不支持给组件设置 如<template v-show="seen"><br>    <h1 v-show="seen">Hello!</h1></template></p>
-<p><code>v-for循环</code></p>
-<pre><code>&lt;ol&gt;
-    //建议提供key,以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
-    &lt;li v-for=&quot;(todo,index) in todos&quot; :key=&quot;item.id&gt;               {{ todo.text }}
-       &lt;/li&gt;
-&lt;/ol&gt;
-
-//遍历对象不用一一对应，一参 键值，二参键名(可选)，三参索引(可选)
-&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
-      {{ index }}. {{ key }} : {{ value }}
-&lt;/div&gt;
-
-//取整数
-&lt;span v-for=&quot;n in 10&quot;&gt;{{ n }}&lt;/span&gt;
-&lt;li v-for=&quot;n in evenNumbers&quot;&gt;{{ n }}&lt;/li&gt; //计算属性
-&lt;li v-for=&quot;n in even(10)&quot;&gt;{{ n }}&lt;/li&gt;
-
-//v-for 支持 &lt;template&gt; 循环渲染很多模板--数据需要绑定，不能自动传进组件里
-&lt;my-component
-      v-for=&quot;(item, index) in items&quot;
-      v-bind:item=&quot;item&quot;
-     v-bind:index=&quot;index&quot;&gt;
-&lt;/my-component&gt;
-</code></pre><p><code>事件绑定</code></p>
-<pre><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;
-//缩写
-v-bind:href=&quot;url&quot;  ==  :href=&quot;url&quot;
-v-on:click=&quot;reverseMessage&quot;  ==  @click=&quot;reverseMessage&quot;
-</code></pre><p><code>表单双向绑定</code></p>
-<pre><code>  &lt;input v-model=&quot;message&quot;&gt;
-  &lt;p&gt;{{ message }}&lt;/p&gt;
-
-  //需要换行？    white-space: pre直接空格/换行
-  &lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
-&lt;br&gt;
-&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
-</code></pre><p><code>标签插值</code></p>
-<pre><code>//span将被忽略
-&lt;div v-html=&apos;html&apos;&gt;{{html}}&lt;span&gt;11111&lt;/span&gt;&lt;/div&gt;
-</code></pre><p><code>模板表达式</code></p>
-<pre><code>//模板表达式中还可以使用 Math 和 Date不能访问用户定义的全局变量
-{{ number + 1 }}
-{{ ok ? 'YES' : 'NO' }}
-{{ message.split('').reverse().join('') }}
-//list- 是字符串 id是绑定的变量
-&lt;div v-bind:id=&quot;&apos;list-&apos; + id&quot;&gt;&lt;/div&gt;
-</code></pre><p><code>过滤</code></p>
-<pre><code>//默认参数是message或message表达式的返回值
-&lt;div&gt;{{ message | filterA | filterB }}&lt;/div&gt;
-//传入的参数表示过滤函数的第二参和第三参
-{{ message | filterA('arg1', arg2) }}
-</code></pre><p><code>事件修饰符</code><br>​<br>    <!-- 阻止单击事件冒泡 --><br>    <a v-on:click.stop="doThis"></a></p>
-<pre><code>&lt;!-- 提交事件不再重载页面 --&gt;
-&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
-
-&lt;!-- 修饰符可以串联  --&gt;
-&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
-
-&lt;!-- 只有修饰符 --&gt;
-&lt;form v-on:submit.prevent&gt;&lt;/form&gt;
-
-&lt;!-- 添加事件侦听器时使用事件捕获模式 --&gt;
-&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
-
-&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;
-&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
-</code></pre><p><code>按键修饰符</code></p>
-<pre><code>&lt;!-- 只有在 keyCode 是 13 时调用 vm.submit() --&gt;
-&lt;input v-on:keyup.13=&quot;submit&quot;&gt;
-
-//记不住所有的code？用名字呗
-&lt;!-- 同上 --&gt;
-&lt;input v-on:keyup.enter=&quot;submit&quot;&gt;
-//enter，tab，delete，esc，space，up，down，left，right
-
-&lt;!-- 没有想用的？自定义喽 --&gt;
-// 可以使用 v-on:keyup.f1
-Vue.config.keyCodes.A = 112
-</code></pre><p><code>对象/数组语法</code></p>
-<pre><code>//当对象的值isActive为真时 class将会有类名 对象的键  一直都有div的类名
-v-bind:class=&quot;{ active: isActive, &apos;text-danger&apos;: hasError }&quot; class=‘div’&gt;
-
-//activeClass和errorClass为真时才会被赋值给class
-&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
-
-//样式绑定     --前缀vue会自动添加
-&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &apos;px&apos; }&quot;&gt;&lt;/div&gt;
-...清晰的写法...
-&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;    
-data: {
-      styleObject: {
-        color: &apos;red&apos;,
-        fontSize: &apos;13px&apos;
-      }
-}
-</code></pre><p><code>数组方法</code></p>
-<pre><code>如下两项改变data不会重新渲染页面
-1，vm.items[indexOfItem] = newValue
-    改为：Vue.set(example1.items, indexOfItem, newValue)
-    或：example1.items.splice(indexOfItem, 1, newValue)
-
-2，vm.items.length = newLength
-    改为：example1.items.splice(newLength)
-</code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
-<li>只有当data属性里的值改变才会重新渲染view视图</li>
-<li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速<ul>
-<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
-</ul>
-</li>
-<li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
-</ul>
-<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
-  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JS经典题解析" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/02/JS经典题解析/">JS经典题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目如下："><a href="#题目如下：" class="headerlink" title="题目如下："></a>题目如下：</h1><pre><code>1，function fn(){
-    getName = function(){alert(&apos;大木&apos;)};
-    return this;
-}
-
-2，fn.getName = function(){ alert(&apos;大木2&apos;)}
-
-3，fn.prototype.getName = function(){ alert(&apos;大木3&apos;)}
-
-4，var getName = function(){ alert(&apos;大木4&apos;)}
-
-5，function getName(){ alert(&apos;大木5&apos;)}
-</code></pre><p><code>请输入如下结果</code></p>
-<ol>
-<li>fn.getName();</li>
-<li>getName();</li>
-<li>fn().getName()</li>
-<li>getName()</li>
-<li>new fn.getName()</li>
-<li>new fn().getName()</li>
-<li>new new fn().getName()</li>
-</ol>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<p>-</p>
-<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><ol>
-<li><p>fn.getName();     ———-  大木2</p>
-</li>
-<li><p>getName();    ————-  大木4</p>
-</li>
-<li><p>fn().getName() ———-  大木</p>
-</li>
-<li><p>getName() ————— 大木</p>
-</li>
-<li><p>new fn.getName()——–大木2</p>
-</li>
-<li><p>new fn().getName()—— 大木3</p>
-</li>
-<li><p>new new fn().getName()–大木3</p>
-</li>
-</ol>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><ol>
-<li>该题首先定义了一个构造函数fn，fn内部定义了一个全局变量 getName 然后返回 this</li>
-<li>给fn定义了一个静态属性getName,注意次属性只能由 fn函数自己调用</li>
-<li>给构造函数fn原型链添加一个getName方法</li>
-<li>var 定义一个变量 getName</li>
-<li>定义一个普通函数getName</li>
-</ol>
-<p><code>JS变量解析方式是先将变量申明和函数申明放到作用域最顶部，函数和变量同名会用函数申明覆盖变量申明，然后再进行赋值操作，所以解析后代码如下</code></p>
-<p><del>var getName;</del> //无效，被覆盖</p>
-<p><del>function getName(){ alert(‘大木5’)}</del>   //覆盖上面的变量申明</p>
-<p>function fn(){<br>    getName = function(){<br>    alert(‘大木’    );<br>    return tis;<br>}</p>
-<p>fn.getName = function(){ alert(‘木2’)}</p>
-<p>fn.prototype.getName = function(){ alert(‘木3’)}</p>
-<p>getName = function(){ alert(‘大木4’)} //普通函数被重新指向一个新函数</p>
-<pre><code>第一问 fn.getName(); 是执行函数的静态变量  ---大木2
-第二问 getName() 执行普通函数 ---大木4
-第三问 fn().getName() ==先执行fn(),将全局变量getName指向新函数 alert(&apos;大木&apos;)
-      返回this--&gt;指向window,再执行window.getName()  --大木
-第四问 getName() 直接执行被在fn内部改变指向后的getName --大木
-第五问 new fn.getName() 是JS运算符优先级.语法高于new，所以是先执行(fn.getName)()，
-      然后将执行后的函数实例化操作 --大木2
-第六文 new fn().getName()--new 带参数（即 new Foo()）和函数自调用（即先 Foo()），
-      而 new 带参数的优先级是高于函数调用的! 所以此处执行顺序为(new fn()).getName()
-      即fn数理化后执行原型链方法getName --大木3
-第七问 同理先执行new fn()返回实例化对象A，new A.getName()同第五问==new(A.getName)()--大木3
-</code></pre><p><code>注意点：</code><br>​<br>    1，变量提升，同名函数申明会覆盖变量申明<br>    2，“.”语法操作优先级高于 new语法操作<br>    3，函数自调用 fn() 优先级 小于 new fn()</p>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/02/JS经典题解析/" class="archive-article-date">
-  	<time datetime="2016-10-02T09:55:18.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS试题/">JS试题</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/29/弹性球/">弹性球</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本文实现JS原生弹性球"><a href="#本文实现JS原生弹性球" class="headerlink" title="本文实现JS原生弹性球"></a>本文实现JS原生弹性球</h1><h2 id="创造一个球先"><a href="#创造一个球先" class="headerlink" title="创造一个球先"></a>创造一个球先</h2><p><code>HTML</code></p>
-<pre><code>&lt;div class=&quot;ball&quot;&gt;&lt;/div&gt;    
-</code></pre><p><code>CSS</code></p>
-<pre><code>&lt;style&gt;
-    div{
-        width:100px;
-        height:100px;
-        position: absolute;
-        bottom:0;
-        left:200px;
-        background: url(img/ball.png) no-repeat;
-    }
-&lt;/style&gt;
-</code></pre><h3 id="球球创建好了呢，如下："><a href="#球球创建好了呢，如下：" class="headerlink" title="球球创建好了呢，如下："></a>球球创建好了呢，如下：</h3><p><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fa814luaqqj202s02sq2s.jpg" alt="ball"></p>
-<h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><p><code>获取元素，初始化设置</code></p>
-<pre><code>var ball = document.querySelector(&quot;.ball&quot;);
-</code></pre><p><code>添加移除事件兼容性处理</code></p>
-<pre><code>function addHandler(element,type,handler){
-    if(element.addEventListener){//检测是否为DOM2级方法
-        element.addEventListener(type, handler, false);
-    }else if (element.attachEvent){//检测是否为IE级方法
-        element.attachEvent(&quot;on&quot; + type, handler);
-    } else {//检测是否为DOM0级方法
-        element[&quot;on&quot; + type] = handler;
-    }
-}
-function removeHandler(element, type, handler){
-    if (element.removeEventListener){
-        element.removeEventListener(type, handler, false);
-    } else if (element.detachEvent){
-        element.detachEvent(&quot;on&quot; + type, handler);
-    } else {
-        element[&quot;on&quot; + type] = null;
-    }
-}         
-</code></pre><p><code>封装函数</code><br>​<br>        function gravBall(obj){<br>            var timer = null;<br>            var speedX =0, speedY=0,x=0,y=0;<br>            var gapX =0, gapY=0;</p>
-<pre><code>    // obj.onmousedown = down;
-    addHandler(obj,&apos;mousedown&apos;,down);
-    addHandler(obj,&apos;mouseup&apos;,up);
-
-    function down(ev){           
-        clearInterval(timer); 
-        var ev = ev || window.event;
-        gapX = ev.clientX - obj.offsetLeft;
-        gapY = ev.clientY - obj.offsetTop;
-        addHandler(document,&apos;mousemove&apos;,move);    
-    }
-    function up(){
-        var currentX=0,currentY=0,l=0,t=0;
-        removeHandler(document,&apos;mousemove&apos;,move)
-        clearInterval(timer); 
-        timer = setInterval(function(){
-            speedY +=3;  //一直有一个Y方向的增加，仿重力
-            currentX = window.innerWidth - obj.offsetWidth;
-            currentY = window.innerHeight - obj.offsetHeight;
-            l = obj.offsetLeft + speedX;
-            t = obj.offsetTop + speedY;
-            //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
-            if(l &gt; currentX){
-                speedX *= -0.8;
-                l =currentX;
-            }
-            if(l &lt; 0){
-                speedX *= -0.8;
-                l = 0;
-            }
-            if(t &gt; currentY){
-                speedY *= -0.8;
-                speedX *= 0.8;
-                t = currentY;
-            }
-            if(t &lt; 0){
-                speedY *= -0.8;
-                speedX *= 0.8;
-                t = 0;
-            }
-            if( Math.abs(t-currentY)&lt;1 &amp;&amp; Math.abs(speedY)&lt;1.5 &amp;&amp; Math.abs(speedX)&lt;1.5){
-                clearInterval(timer);
-            }
-            obj.style.left = l  + &quot;px&quot;;
-            obj.style.top = t  + &quot;px&quot;;
-        },30)
-    }
-
-    function move(ev){
-        var ev = ev || window.event;
-        //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
-        speedX = ev.clientX - x - gapX;
-        speedY = ev.clientY - y - gapY;
-        //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
-        x = obj.offsetLeft;
-        y = obj.offsetTop;
-        var evX = ev.clientX;
-        var evY = ev.clientY;
-        if(ev.clientX&lt;gapX || ev.clientX&gt;window.innerWidth-gapX || ev.clientY&lt;0 || ev.clientY&gt;window.innerHeight){
-            up();
-        }
-        obj.style.left = evX - gapX  + &quot;px&quot;;
-        obj.style.top = evY - gapY  + &quot;px&quot;;
-    }
-}
-</code></pre><h2 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h2>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/29/弹性球/" class="archive-article-date">
-  	<time datetime="2016-09-29T13:02:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-29</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/弹球/">弹球</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-元素坐标" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/27/元素坐标/">元素坐标</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析"><a href="#本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析" class="headerlink" title="本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析"></a>本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析</h1><p><br></p>
-<h2 id="screenX"><a href="#screenX" class="headerlink" title="screenX"></a>screenX</h2><p>鼠标在屏幕中的位置，指的是鼠标到电脑屏幕左侧的距离。 <code>各个浏览器相同。</code></p>
-<h2 id="pageX、clientX、offsetX、-X"><a href="#pageX、clientX、offsetX、-X" class="headerlink" title="pageX、clientX、offsetX、    X"></a>pageX、clientX、offsetX、    X</h2><pre><code>e.pageX——相对整个页面的坐标
-e.offsetX——相对当前元素的border左上角开始的坐标
-e.clientX——相对可视区域的坐标
-e.x——相对可视区域的坐标
-</code></pre><p><code>浏览器支持情况如下</code></p>
-<p><code>chrome</code></p>
-<pre><code>e.pageX  ——支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>safari:(这个和chrome是一样的)</code><br>​<br>​<br>​<br><code>ff</code></p>
-<pre><code>e.pageX  ——支持
-e.offsetX——不支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>opera</code></p>
-<pre><code>e.pageX  ——支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>IE9</code></p>
-<pre><code>e.pageX——支持
-e.offsetX——支持
-e.clientX——支持
-e.x——支持
-</code></pre><p><code>IE8</code></p>
-<pre><code>e.pageX  ——不支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>IE7</code></p>
-<pre><code>e.pageX  ——不支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p>​    </p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/27/元素坐标/" class="archive-article-date">
-  	<time datetime="2016-09-27T05:12:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -2020,7 +1970,7 @@ e.x      ——支持
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 12.5px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
