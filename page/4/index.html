@@ -236,6 +236,195 @@
       <div class="body-wrap">
         
   
+    <article id="post-彻底弄懂事件委托" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/彻底弄懂事件委托/">彻底弄懂事件委托</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>事件委托又叫事件代理，JavaScript高级程序设计上讲：事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理<code>某一类型</code>的所有事件。何为事件冒泡呢？就是事件从最深的节点开始，然后逐步向上传播事件，举个例子：页面上有这么一个节点树，div&gt;ul&gt;li&gt;a;比如给最里面的a加一个click点击事件，那么这个事件就会一层一层的往外执行，执行顺序a&gt;li&gt;ul&gt;div，有这样一个机制，那么我们给最外面的div加点击事件，那么里面的ul，li，a做点击事件的时候，都会冒泡到最外层的div上，所以都会触发，这就是事件委托，委托它们父级代为执行事件。</p>
+</blockquote>
+<h2 id="举例说明："><a href="#举例说明：" class="headerlink" title="举例说明："></a>举例说明：</h2><p>有三个同事预计会在周一收到快递。为签收快递，有两种办法：一是三个人在公司门口等快递；二是委托给前台MM代为签收。现实当中，我们大都采用委托的方案。前台MM收到快递后，她会判断收件人是谁，然后按照收件人的要求签收，甚至代为付款。这种方案还有一个<code>优势，那就是即使公司里来了新员工（不管多少），前台MM也会在收到寄给新员工的快递后核实并代为签收</code>。</p>
+<h2 id="Why-we-use❓"><a href="#Why-we-use❓" class="headerlink" title="Why we use❓"></a>Why we use❓</h2><h4 id="先看一段代码"><a href="#先看一段代码" class="headerlink" title="先看一段代码"></a>先看一段代码</h4><pre><code>&lt;ul id=&quot;ul1&quot;&gt;
+    &lt;li&gt;111&lt;/li&gt;
+    &lt;li&gt;222&lt;/li&gt;
+    &lt;li&gt;333&lt;/li&gt;
+    &lt;li&gt;444&lt;/li&gt;
+&lt;/ul&gt;
+
+window.onload = function(){
+    var oUl = document.getElementById(&quot;ul1&quot;);
+    var aLi = oUl.getElementsByTagName(&apos;li&apos;);
+    for(var i=0;i&lt;aLi.length;i++){
+        aLi[i].onclick = function(){
+            alert(123);
+        }
+    }
+}
+</code></pre><p>看看有多少次的dom操作，首先要找到ul，然后遍历li，然后点击li的时候，又要找一次目标的li的位置，才能执行最后的操作，每次点击都要找一次li</p>
+<p><hr><br>当然，这是常规的做法，一般来说，dom需要有事件处理程序，我们都会直接给它设事件处理程序就好了，那如果是很多的dom需要添加事件处理呢？比如我们有100个li，1000个li,每个li都有相同的click点击事件，可能我们会用for循环的方法，来遍历所有的li，然后给它们添加事件，那这么做会存在什么影响呢？</p>
+<blockquote>
+<p>在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能，因为需要不断的与dom节点进行交互，访问dom的次数越多，引起浏览器重绘与重排的次数也就越多，就会延长整个页面的交互就绪时间，这就是为什么性能优化的主要思想之一就是减少DOM操作的原因；如果要用事件委托，就会将所有的操作放到js程序里面，与dom的操作就只需要交互一次，这样就能大大的减少与dom的交互次数，提高性能；</p>
+</blockquote>
+<h4 id="事件委托触发相同事件"><a href="#事件委托触发相同事件" class="headerlink" title="事件委托触发相同事件"></a>事件委托触发相同事件</h4><pre><code>window.onload = function(){
+    var oUl = document.getElementById(&quot;ul1&quot;);
+    oUl.onclick = function(){
+        alert(123);
+    }
+}
+</code></pre><p>这里用父级ul做事件处理，当li被点击时，由于冒泡原理，事件就会冒泡到ul上，因为ul上有点击事件，所以事件就会触发，这里是用ul的点击达到同样的效果<code>那么问题来了，如果单纯的点击ul也会触发li本该触发的事件，更精确点，我们只想要li点击时才触发事件怎么办？继续往下走...</code><br><br></p>
+<blockquote>
+<p>Event对象提供了一个属性叫target，可以返回事件的目标节点，我们称为事件源，也就是说，target就可以表示为当前的事件操作的dom，当然，这个是有兼容性的，标准浏览器用ev.target，IE浏览器用event.srcElement，此时只是获取了当前节点的位置，并不知道是什么节点名称，这里我们用nodeName来获取具体是什么标签名，这个返回的是一个大写的，我们需要转成小写再做比较(强迫症是很难改的…)</p>
+</blockquote>
+<pre><code>window.onload = function(){
+    var oUl = document.getElementById(&quot;ul1&quot;);
+    oUl.onclick = function(ev){
+        var ev = ev || window.event;
+        var target = ev.target || ev.srcElement;
+        if(target.nodeName.toLowerCase() == &apos;li&apos;){
+            alert(123);
+            alert(target.innerHTML);
+        }
+    }
+}
+</code></pre><p>这样改下就只有点击li会触发事件了，且每次只执行一次dom操作，如果li数量很多的话，将大大减少dom的操作，优化的性能可想而知！</p>
+<hr>
+
+<h4 id="事件委托触发不同事件"><a href="#事件委托触发不同事件" class="headerlink" title="事件委托触发不同事件"></a>事件委托触发不同事件</h4><p>上面的例子是说li操作的是同样的效果，要是每个li被点击的效果都不一样，那么用事件委托还有用吗？答案是肯定的，如果有标记的话😁<br>​<br><code>未使用委托：4个按钮，点击每一个做不同的操作，那么至少需要4次dom操作，</code></p>
+<pre><code>&lt;div id=&quot;box&quot;&gt;
+    &lt;input type=&quot;button&quot; id=&quot;add&quot; value=&quot;添加&quot; /&gt;
+    &lt;input type=&quot;button&quot; id=&quot;remove&quot; value=&quot;删除&quot; /&gt;
+    &lt;input type=&quot;button&quot; id=&quot;move&quot; value=&quot;移动&quot; /&gt;
+    &lt;input type=&quot;button&quot; id=&quot;select&quot; value=&quot;选择&quot; /&gt;
+&lt;/div&gt;
+
+window.onload = function(){
+   var Add = document.getElementById(&quot;add&quot;);
+   var Remove = document.getElementById(&quot;remove&quot;);
+   var Move = document.getElementById(&quot;move&quot;);
+   var Select = document.getElementById(&quot;select&quot;);
+
+   Add.onclick = function(){
+       alert(&apos;添加&apos;);
+   };
+   Remove.onclick = function(){
+       alert(&apos;删除&apos;);
+   };
+   Move.onclick = function(){
+       alert(&apos;移动&apos;);
+   };
+   Select.onclick = function(){
+       alert(&apos;选择&apos;);
+   }
+
+}
+</code></pre><p><code>使用委托：可以只用一次dom操作就能实现所有的效果</code></p>
+<pre><code>window.onload = function(){
+        var oBox = document.getElementById(&quot;box&quot;);
+        oBox.onclick = function (ev) {
+            var ev = ev || window.event;
+            var target = ev.target || ev.srcElement;
+            if(target.nodeName.toLocaleLowerCase() == &apos;input&apos;){
+                switch(target.id){
+                    case &apos;add&apos; :
+                        alert(&apos;添加&apos;);
+                        break;
+                    case &apos;remove&apos; :
+                        alert(&apos;删除&apos;);
+                        break;
+                    case &apos;move&apos; :
+                        alert(&apos;移动&apos;);
+                        break;
+                    case &apos;select&apos; :
+                        alert(&apos;选择&apos;);
+                        break;
+                }
+            }
+        }
+
+    }
+</code></pre><h3 id="关于动态添加新元素"><a href="#关于动态添加新元素" class="headerlink" title="关于动态添加新元素"></a>关于动态添加新元素</h3><p><code>未使用事件委托</code></p>
+<pre><code>for(var i=0; i&lt;aLi.length;i++){
+    aLi[i].onclick = function(){
+        this.style.background = &apos;red&apos;;
+    };
+}
+//添加新节点
+oBtn.onclick = function(){
+    var oLi = document.createElement(&apos;li&apos;);
+    oLi.innerHTML = 111*num;
+    oUl.appendChild(oLi);
+};
+</code></pre><p>这是一般的做法，你会发现，新增的li是没有点击事件的</p>
+<p><code>使用事件委托</code></p>
+<pre><code>oUl.onclick = function(ev){
+  var ev = ev || window.event;
+  var target = ev.target || ev.srcElement;
+  if(target.nodeName.toLowerCase() == &apos;li&apos;){
+      target.style.background = &quot;red&quot;;
+  }
+};
+oBtn.onclick = function(){
+  var oLi = document.createElement(&apos;li&apos;);
+  oLi.innerHTML = 111*num;
+  oUl.appendChild(oLi);
+};
+</code></pre><p>这里你会发现，新添加的li元素无需做其他操作，已有点击事件</p>
+<hr>
+
+
+<h1 id="事件委托适用场景"><a href="#事件委托适用场景" class="headerlink" title="事件委托适用场景"></a>事件委托适用场景</h1><ul>
+<li>适合用事件委托的事件：click，mousedown，mouseup，keydown，keyup，keypress。</li>
+<li>不适合使用的事件：mouseover,mouseout和mousemove,因为不是单纯地点击等操作，每次触发都需要重新计算一下位置，处理起来也不是很方便，就不用喽</li>
+<li>focus，blur之类的，本身就没用冒泡的特性，自然就不能用事件委托了。</li>
+</ul>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/23/彻底弄懂事件委托/" class="archive-article-date">
+  	<time datetime="2016-12-23T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-博观而约取，厚积而薄发" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1317,121 +1506,6 @@ alert(&quot;type&quot; in cat1); // true
 
 
   
-    <article id="post-学习Javascript闭包" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/30/学习Javascript闭包/">学习Javascript闭包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。"><a href="#闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。" class="headerlink" title="闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。"></a>闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。</h2><h2 id="下面就是我的学习笔记，对于Javascript初学者应该是很有用的。"><a href="#下面就是我的学习笔记，对于Javascript初学者应该是很有用的。" class="headerlink" title="下面就是我的学习笔记，对于Javascript初学者应该是很有用的。"></a>下面就是我的学习笔记，对于Javascript初学者应该是很有用的。</h2><p><code>1. 变量的作用域</code></p>
-<h4 id="要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。"><a href="#要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。" class="headerlink" title="要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。"></a>要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。</h4><pre><code>var n=999;
-function fn(){
-alert(n)
-}
-fn()
-</code></pre><h4 id="另一方面，在函数外部自然无法读取函数内的局部变量。"><a href="#另一方面，在函数外部自然无法读取函数内的局部变量。" class="headerlink" title="另一方面，在函数外部自然无法读取函数内的局部变量。"></a>另一方面，在函数外部自然无法读取函数内的局部变量。</h4><pre><code>function f1(){
-var n=999;
-}
-alert(n); // error
-</code></pre><h4 id="这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！"><a href="#这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！" class="headerlink" title="这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！"></a>这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！</h4><pre><code>function f1(){
-n=999;
-}
-f1();    
-alert(n); // 999
-</code></pre><p><code>2. 如何从外部读取局部变量？</code></p>
-<pre><code>function f1(){
-
-    var n=999;
-
-    function f2(){
-        alert(n);//999
-    }
-
-}
-</code></pre><h4 id="在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain-scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。"><a href="#在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain-scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。" class="headerlink" title="在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。"></a>在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。</h4><h4 id="既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！"><a href="#既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！" class="headerlink" title="既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！"></a>既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！</h4><pre><code>function f1(){
-
-    var n=999;
-
-    function f2(){
-        alert(n); 
-    }
-
-    return f2;
-
-}
-
-var result=f1();
-
-result(); // 999
-</code></pre><p><code>3. 闭包的概念</code></p>
-<h4 id="各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。"><a href="#各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。" class="headerlink" title="各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。"></a>各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。</h4><h4 id="由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。"><a href="#由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。" class="headerlink" title="由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。"></a>由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。</h4><h4 id="所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。"><a href="#所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。" class="headerlink" title="所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。"></a>所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。</h4><p><code>4. 闭包的用途</code></p>
-<h4 id="闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。"><a href="#闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。" class="headerlink" title="闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。"></a>闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。</h4><pre><code>function f1(){
-
-var n=999;
-
-nAdd=function(){n+=1}
-
-function f2(){
-    alert(n);
-}
-
-return f2;
-
-}
-
-var result=f1();
-
-result(); // 999
-
-nAdd();
-
-result(); // 1000
-</code></pre><h4 id="在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。"><a href="#在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。" class="headerlink" title="在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。"></a>在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。</h4><h4 id="为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage-collection）回收。"><a href="#为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage-collection）回收。" class="headerlink" title="为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。"></a>为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。</h4><h4 id="这段代码中另一个值得注意的地方，就是”nAdd-function-n-1-”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous-function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。"><a href="#这段代码中另一个值得注意的地方，就是”nAdd-function-n-1-”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous-function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。" class="headerlink" title="这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。"></a>这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。</h4>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/30/学习Javascript闭包/" class="archive-article-date">
-  	<time datetime="2016-11-30T06:37:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1495,7 +1569,7 @@ result(); // 1000
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 12.5px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 12.5px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
