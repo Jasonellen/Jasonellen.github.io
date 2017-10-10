@@ -236,6 +236,295 @@
       <div class="body-wrap">
         
   
+    <article id="post-mobiscroll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/02/mobiscroll/">mobiscroll</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>mobiscroll一款使用简单而强大的JQ插件，依赖文件可以在我的<a href="https://github.com/Jasonellen/relyOn/tree/master/timepicker" target="_blank" rel="external">github</a>中找到，这种timepicker在手机端还是非常常见的，实用！</p>
+</blockquote>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><pre><code>引入依赖文件
+&lt;link rel=&quot;stylesheet&quot; href=&quot;mobiscroll.custom-2.17.0.min.css&quot;&gt;
+&lt;script src=&apos;jquery.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;mobiscroll.custom-2.17.0.min.js&apos;&gt;&lt;/script&gt;
+</code></pre><p><br>    </p>
+<pre><code>目标对象
+&lt;input id=&quot;demo&quot; placeholder=&quot;Please Select...&quot; /&gt;
+&lt;button id=&quot;show&quot;&gt;show&lt;/button&gt;
+&lt;button id=&quot;clear&quot;&gt;clear&lt;/button&gt;
+</code></pre><p><br></p>
+<pre><code>初始化，及调用mobiscroll方法
+$(function () {
+    var now = new Date(),
+        minDate = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate()),
+        maxDate = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+
+    $(&apos;#demo&apos;).mobiscroll().datetime({
+        theme: &apos;mobiscroll&apos;,
+        lang: &apos;zh&apos;,
+        display: &apos;bottom&apos;,
+        min: minDate,
+        max: maxDate,
+        stepMinute: 1 , //设置分钟间隔
+
+        dateFormat: &apos;yy-mm-dd&apos;, //日期格式
+        // timeFormat: &apos;HH:ii&apos;, //事件格式 大写24H 小写12H
+           // timeWheels: &apos;HHii&apos;
+           //dateOrder: &apos;ddyymm&apos;, //面板中日期排列格式
+
+    });
+
+    $(&apos;#show&apos;).click(function () {  
+        $(&apos;#demo&apos;).mobiscroll(&apos;show&apos;);
+        return false;  
+    }); 
+
+    $(&apos;#clear&apos;).click(function () {  
+        $(&apos;#demo&apos;).mobiscroll(&apos;clear&apos;);  
+        return false;  
+    });
+});
+</code></pre><blockquote>
+<p>样式肯定不止这一种啦，更多使用demo请直接转官网<a href="https://demo.mobiscroll.com/v3/jquery/datetime#demo=rtl" target="_blank" rel="external">demo.mobiscroll.com</a>    </p>
+<h2 id="修改基本样式"><a href="#修改基本样式" class="headerlink" title="修改基本样式"></a>修改基本样式</h2><pre><code>如果你愿意，当然后找一找还是能找到很多样式接口：
+&lt;style&gt;
+    .mbsc-mobiscroll .dwb0{
+        color: red;
+        /*确定按钮的颜色*/
+    }
+    .dw-ul{
+        color: lightgrey;  
+        /*所有字体的颜色*/
+    }
+    .dw-sel{
+        color: brown;
+        /*当前选中字体的颜色*/
+    }
+    ....    
+&lt;/style&gt;
+</code></pre></blockquote>
+<h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p>不要下手太重，<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/relyOn/blob/master/timepicker/timepicker.html" target="_blank" rel="external">轻轻戳我预览</a>😁</p>
+<h2 id="不只是timepicker"><a href="#不只是timepicker" class="headerlink" title="不只是timepicker"></a>不只是timepicker</h2><p>看一个完整的例子</p>
+<h4 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h4><pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width:device-width,initial-scale=1.0&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;content/Content/mobiscroll-2.13.2.full.min.css&quot;&gt;
+&lt;script src=&apos;jquery.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;content/Scripts/mobiscroll-2.13.2.full.min.js&apos;&gt;&lt;/script&gt;
+</code></pre><h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;style&gt;  
+.mbsc-android-holo .dwv { text-align:left;text-indent:.8em; }  
+&lt;/style&gt;  
+&lt;ul id=&quot;treelist&quot;&gt; 
+  &lt;li&gt;  
+      &lt;span&gt;奥迪&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;奥迪A3&lt;/li&gt;  
+          &lt;li&gt;奥迪A4L&lt;/li&gt;  
+          &lt;li&gt;奥迪A6L&lt;/li&gt;  
+          &lt;li&gt;奥迪Q3&lt;/li&gt;  
+          &lt;li&gt;奥迪Q5&lt;/li&gt;  
+          &lt;li&gt;奥迪A4&lt;/li&gt;  
+          &lt;li&gt;奥迪A6&lt;/li&gt;  
+          &lt;li&gt;奥迪A1&lt;/li&gt;  
+          &lt;li&gt;奥迪A3(进口)&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;  
+  &lt;li&gt;  
+      &lt;span&gt;宝马&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;宝马X1&lt;/li&gt;  
+          &lt;li&gt;宝马i3&lt;/li&gt;  
+          &lt;li&gt;宝马1系&lt;/li&gt;  
+          &lt;li&gt;宝马3系&lt;/li&gt;  
+          &lt;li&gt;宝马5系&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;  
+  &lt;li&gt;  
+      &lt;span&gt;奔驰&lt;/span&gt;  
+      &lt;ul&gt;  
+          &lt;li&gt;奔驰A级&lt;/li&gt;  
+          &lt;li&gt;奔驰C级&lt;/li&gt;  
+          &lt;li&gt;奔驰E级&lt;/li&gt;  
+          &lt;li&gt;奔驰S级&lt;/li&gt;  
+          &lt;li&gt;奔驰GLK级&lt;/li&gt;  
+          &lt;li&gt;奔驰CLA级&lt;/li&gt;  
+          &lt;li&gt;奔驰CLS级&lt;/li&gt;  
+      &lt;/ul&gt;  
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>$(function () {
+  var i = Math.floor($(&apos;#treelist&gt;li&apos;).length / 2),  
+      j = Math.floor($(&apos;#treelist&gt;li&apos;).eq(i).find(&apos;ul li&apos;).length / 2);  
+  $(&quot;#treelist&quot;).mobiscroll().treelist({  
+      theme: &quot;android-ics light&quot;,  
+      lang: &quot;zh&quot;,  
+      defaultValue: [i,j],  
+      cancelText: &apos;取消&apos;,  
+      placeholder: &apos;选择车型&apos;,  
+      headerText: function (valueText) { return &quot;选择车型&quot;; },  
+      formatResult: function (array) { //返回自定义格式结果  
+          return $(&apos;#treelist&gt;li&apos;).eq(array[0]).children(&apos;span&apos;).text() +&apos; --&apos;+ $(&apos;#treelist&gt;li&apos;).eq(array[0]).find(&apos;ul li&apos;).eq(array[1]).text().trim(&apos; &apos;);  
+      }  
+  }); 
+}) 
+</code></pre><h3 id="效果预览-1"><a href="#效果预览-1" class="headerlink" title="效果预览"></a>效果预览</h3><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/relyOn/blob/master/timepicker/%E8%87%AA%E5%AE%9A%E4%B9%89picker.html" target="_blank" rel="external">轻轻戳我预览</a>😁，注意这个自定义用的文件上是<code>mobiscroll-2.13.2.full.min</code>文件哦。</p>
+<h2 id="API参考"><a href="#API参考" class="headerlink" title="API参考"></a>API参考</h2><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><pre><code>theme: &apos;android-ics light&apos;, //皮肤样式
+display: &apos;modal&apos;, //显示方式
+mode:&apos;scroller&apos;,
+dateFormat: &apos;yy-mm-dd&apos;, // 日期格式
+setText: &apos;确定&apos;, //确认按钮名称
+cancelText: &apos;取消&apos;,//取消按钮
+dateOrder: &apos;yymmdd&apos;, //面板中日期排列格式
+headerText: function (valueText) { array = valueText.split(&apos;-&apos;); return array[0] + &quot;年&quot; + array[1] + &quot;月&quot;+array[2]+&quot;日&quot;; }, //自定义弹出框头部格式
+rows:5,//滚动区域内的行数 
+</code></pre><h4 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h4><pre><code>（1）onBeforeClose(valueText, btn, inst)
+描述：在list关闭之前执行，如果返回false则不会关闭list。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onBeforeClose: function (valueText, btn, inst) {
+    }
+});
+
+（2）onBeforeShow(inst)
+描述：在list显示之前执行的事件，一样如果返回false则list不会显示。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onBeforeShow: function (inst) {
+    }
+});
+
+（3）onCancel(valueText, inst)
+描述：当取消按钮被点击的时候执行的事件。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onCancel: function (valueText, inst) {
+    }
+});
+
+（4）onChange(valueText, inst)
+描述：当value值改变的时候执行
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onChange: function (valueText, inst) {
+    }
+});
+
+（5）onClosed(valueText, inst)
+描述：当list关闭的时候执行的回调函数
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onClosed: function (valueText, inst) {
+    }
+});
+
+（6）onDestroy(inst)
+描述：当miboscroll实例被destoroy的时候回调
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onDestroy: function (inst) {
+    }
+});
+
+（7）onHide(inst)
+描述：list 关闭的动画执行完毕后回调
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onHide: function (inst) {
+    }
+});
+
+（8）onInit(inst)
+描述：mobiscroll实例初始化完成后执行
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onInit: function (inst) {
+    }
+});
+
+（9）onMarkupReady(html, inst)
+描述：list的html代码已经生成，但是还没有显示到页面中的时候，这个时候可以进行标签的修改。例如添加自定义元素。它会在定位完成前执行。
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onMarkupReady: function (html, inst) {
+    }
+});
+
+（10）onPosition(html, windowWidth, windowHeight, inst)
+描述：list定位完成后调用（包括初始化完成以及大小/方向调整之后）
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onPosition: function (html, windowWidth, windowHeight, inst) {
+    }
+});
+
+（11）onSelect(valueText, inst)
+描述：当value被设置的时候，简单理解就是选择好了原始点击确定之后
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onSelect: function (valueText, inst) {
+    }
+});
+（12）onShow(html, valueText, inst)
+描述：当list出现的时候
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onShow: function (html, valueText, inst) {
+    }
+});
+
+（13）onValueTap(item, inst)
+描述：当用户点击list上面的值是调用
+demo：
+$(&apos;#mobiscroll&apos;).mobiscroll().list({
+    onValueTap: function (item, inst) {
+    }
+});
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/02/mobiscroll/" class="archive-article-date">
+  	<time datetime="2017-01-02T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mobiscroll/">mobiscroll</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-彻底弄懂事件委托" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1397,115 +1686,6 @@ touch.trigger(element, type);
 
 
   
-    <article id="post-面向对象编程（一）：封装" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/02/面向对象编程（一）：封装/">面向对象编程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。"><a href="#Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。" class="headerlink" title="Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。"></a>Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有<code>class</code>（类）。</h4><h4 id="那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？"><a href="#那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？" class="headerlink" title="那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？"></a>那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？</h4><h1 id="一、-生成实例对象的原始模式"><a href="#一、-生成实例对象的原始模式" class="headerlink" title="一、 生成实例对象的原始模式"></a>一、 生成实例对象的原始模式</h1><h4 id="一、-生成实例对象的原始模式-1"><a href="#一、-生成实例对象的原始模式-1" class="headerlink" title="一、 生成实例对象的原始模式"></a>一、 生成实例对象的原始模式</h4><pre><code>var Cat = {
-    name : &apos;&apos;,
-    color : &apos;&apos;
-}
-</code></pre><h4 id="现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。"><a href="#现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。" class="headerlink" title="现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。"></a>现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。</h4><pre><code>var cat1 = {}; // 创建一个空对象
-    cat1.name = &quot;大毛&quot;; // 按照原型对象的属性赋值
-    cat1.color = &quot;黄色&quot;;
-var cat2 = {};
-    cat2.name = &quot;二毛&quot;;
-    cat2.color = &quot;黑色&quot;;
-</code></pre><h4 id="好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。"><a href="#好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。" class="headerlink" title="好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。"></a>好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。</h4><h1 id="二、-原始模式的改进"><a href="#二、-原始模式的改进" class="headerlink" title="二、 原始模式的改进"></a>二、 原始模式的改进</h1><h4 id="我们可以写一个函数，解决代码重复的问题。"><a href="#我们可以写一个函数，解决代码重复的问题。" class="headerlink" title="我们可以写一个函数，解决代码重复的问题。"></a>我们可以写一个函数，解决代码重复的问题。</h4><pre><code>function Cat(name,color) {
-    return {
-        name:name,
-        color:color
-    }
-}
-</code></pre><h4 id="然后生成实例对象，就等于是在调用函数："><a href="#然后生成实例对象，就等于是在调用函数：" class="headerlink" title="然后生成实例对象，就等于是在调用函数："></a>然后生成实例对象，就等于是在调用函数：</h4><pre><code>var cat1 = Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = Cat(&quot;二毛&quot;,&quot;黑色&quot;);
-</code></pre><h4 id="这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。"><a href="#这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。" class="headerlink" title="这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。"></a>这种方法的问题依然是，<code>cat1</code>和<code>cat2</code>之间没有内在的联系，不能反映出它们是同一个原型对象的实例。</h4><h1 id="三、-构造函数模式"><a href="#三、-构造函数模式" class="headerlink" title="三、 构造函数模式"></a>三、 构造函数模式</h1><h4 id="为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。"><a href="#为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。" class="headerlink" title="为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。"></a>为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。</h4><h4 id="所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。"><a href="#所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。" class="headerlink" title="所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。"></a>所谓”构造函数”，其实就是一个普通函数，但是内部使用了<code>this</code>变量。对构造函数使用<code>new</code>运算符，就能生成实例，并且<code>this</code>变量会绑定在实例对象上。</h4><h4 id="比如，猫的原型对象现在可以这样写，"><a href="#比如，猫的原型对象现在可以这样写，" class="headerlink" title="比如，猫的原型对象现在可以这样写，"></a>比如，猫的原型对象现在可以这样写，</h4><pre><code>function Cat(name,color){
-    this.name=name;
-    this.color=color;
-}
-</code></pre><h4 id="我们现在就可以生成实例对象了。"><a href="#我们现在就可以生成实例对象了。" class="headerlink" title="我们现在就可以生成实例对象了。"></a>我们现在就可以生成实例对象了。</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);
-alert(cat1.name); // 大毛
-alert(cat1.color); // 黄色
-</code></pre><h4 id="这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。"><a href="#这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。" class="headerlink" title="这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。"></a>这时<code>cat1</code>和<code>cat2</code>会自动含有一个<code>constructor</code>属性，指向它们的构造函数。</h4><pre><code>alert(cat1.constructor == Cat); //true
-alert(cat2.constructor == Cat); //true
-</code></pre><h4 id="Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。"><a href="#Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。" class="headerlink" title="Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。"></a>Javascript还提供了一个<code>instanceof</code>运算符，验证原型对象与实例对象之间的关系。</h4><h1 id="四、构造函数模式的问题"><a href="#四、构造函数模式的问题" class="headerlink" title="四、构造函数模式的问题"></a>四、构造函数模式的问题</h1><h4 id="构造函数方法很好用，但是存在一个浪费内存的问题。"><a href="#构造函数方法很好用，但是存在一个浪费内存的问题。" class="headerlink" title="构造函数方法很好用，但是存在一个浪费内存的问题。"></a>构造函数方法很好用，但是存在一个浪费内存的问题。</h4><h4 id="请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样："><a href="#请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样：" class="headerlink" title="请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样："></a>请看，我们现在为<code>Cat</code>对象添加一个不变的属性<code>type</code>（种类），再添加一个方法<code>eat</code>（吃）。那么，原型对象Cat就变成了下面这样：</h4><pre><code>function Cat(name,color){
-    this.name = name;
-    this.color = color;
-    this.type = &quot;猫科动物&quot;;
-    this.eat = function(){alert(&quot;吃老鼠&quot;);};
-}
-</code></pre><h4 id="还是采用同样的方法，生成实例："><a href="#还是采用同样的方法，生成实例：" class="headerlink" title="还是采用同样的方法，生成实例："></a>还是采用同样的方法，生成实例：</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = new Cat (&quot;二毛&quot;,&quot;黑色&quot;);
-alert(cat1.type); // 猫科动物
-cat1.eat(); // 吃老鼠
-</code></pre><h4 id="表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat-方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。"><a href="#表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat-方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。" class="headerlink" title="表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat()方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。"></a>表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，<code>type</code>属性和<code>eat()</code>方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。</h4><pre><code>alert(cat1.eat == cat2.eat); //false
-</code></pre><h4 id="能不能让type属性和eat-方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。"><a href="#能不能让type属性和eat-方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。" class="headerlink" title="能不能让type属性和eat()方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。"></a>能不能让<code>type</code>属性和<code>eat()</code>方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。</h4><h1 id="五、-Prototype模式"><a href="#五、-Prototype模式" class="headerlink" title="五、 Prototype模式"></a>五、 Prototype模式</h1><h4 id="Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。"><a href="#Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。" class="headerlink" title="Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。"></a>Javascript规定，每一个构造函数都有一个<code>prototype</code>属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。</h4><h4 id="这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。"><a href="#这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。" class="headerlink" title="这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。"></a>这意味着，我们可以把那些不变的属性和方法，直接定义在<code>prototype</code>对象上。</h4><pre><code>function Cat(name,color){
-    this.name = name;
-    this.color = color;
-}
-Cat.prototype.type = &quot;猫科动物&quot;;
-Cat.prototype.eat = function(){alert(&quot;吃老鼠&quot;)};
-</code></pre><h4 id="然后，生成实例"><a href="#然后，生成实例" class="headerlink" title="然后，生成实例"></a>然后，生成实例</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
-var cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);
-alert(cat1.type); // 猫科动物
-cat1.eat(); // 吃老鼠
-</code></pre><h4 id="这时所有实例的type属性和eat-方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率"><a href="#这时所有实例的type属性和eat-方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率" class="headerlink" title="这时所有实例的type属性和eat()方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率"></a>这时所有实例的<code>type</code>属性和<code>eat()</code>方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率</h4><pre><code>　　alert(cat1.eat == cat2.eat); //true
-</code></pre><h1 id="六、-Prototype模式的验证方法"><a href="#六、-Prototype模式的验证方法" class="headerlink" title="六、 Prototype模式的验证方法"></a>六、 Prototype模式的验证方法</h1><h4 id="为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。"><a href="#为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。" class="headerlink" title="为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。"></a>为了配合<code>prototype</code>属性，Javascript定义了一些辅助方法，帮助我们使用它。</h4><h2 id="6-1-isPrototypeOf"><a href="#6-1-isPrototypeOf" class="headerlink" title="6.1 isPrototypeOf()"></a>6.1 isPrototypeOf()</h2><h4 id="这个方法用来判断，某个proptotype对象和某个实例之间的关系。"><a href="#这个方法用来判断，某个proptotype对象和某个实例之间的关系。" class="headerlink" title="这个方法用来判断，某个proptotype对象和某个实例之间的关系。"></a>这个方法用来判断，某个<code>proptotype</code>对象和某个实例之间的关系。</h4><pre><code>alert(Cat.prototype.isPrototypeOf(cat1)); //true
-alert(Cat.prototype.isPrototypeOf(cat2)); //true
-</code></pre><h2 id="6-2-hasOwnProperty"><a href="#6-2-hasOwnProperty" class="headerlink" title="6.2 hasOwnProperty()"></a>6.2 hasOwnProperty()</h2><h4 id="每个实例对象都有一个hasOwnProperty-方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。"><a href="#每个实例对象都有一个hasOwnProperty-方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。" class="headerlink" title="每个实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。"></a>每个实例对象都有一个<code>hasOwnProperty()</code>方法，用来判断某一个属性到底是本地属性，还是继承自<code>prototype</code>对象的属性。</h4><pre><code>alert(cat1.hasOwnProperty(&quot;name&quot;)); // true
-alert(cat1.hasOwnProperty(&quot;type&quot;)); // false
-</code></pre><h2 id="6-3-in运算符"><a href="#6-3-in运算符" class="headerlink" title="6.3 in运算符"></a>6.3 in运算符</h2><h4 id="in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。"><a href="#in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。" class="headerlink" title="in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。"></a><code>in</code>运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。</h4><pre><code>alert(&quot;name&quot; in cat1); // true
-alert(&quot;type&quot; in cat1); // true
-</code></pre><h4 id="in运算符还可以用来遍历某个对象的所有属性。"><a href="#in运算符还可以用来遍历某个对象的所有属性。" class="headerlink" title="in运算符还可以用来遍历某个对象的所有属性。"></a><code>in</code>运算符还可以用来遍历某个对象的所有属性。</h4><pre><code>for(var prop in cat1) { alert(&quot;cat1[&quot;+prop+&quot;]=&quot;+cat1[prop]); }
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/02/面向对象编程（一）：封装/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:38:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1569,7 +1749,7 @@ alert(&quot;type&quot; in cat1); // true
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/ES6/" style="font-size: 12.5px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 12.5px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 12.5px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 17.5px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 15px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 15px;">php</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/regexp/" style="font-size: 12.5px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 12.5px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
