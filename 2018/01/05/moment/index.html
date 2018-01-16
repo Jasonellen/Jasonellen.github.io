@@ -7,14 +7,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="baidu-site-verification" content="ggTdcuuNh2" />
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Archives: 2017/1 | 奋斗蚁🐜</title>
+  <title>时间工具-moment | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/archives/2017/01/index.html">
+  <meta name="description" content="moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：moment.js
+
+head&amp;lt;script src=&amp;apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&amp;apos;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;scr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时间工具-moment">
+<meta property="og:url" content="http://Jasonellen.github.io/2018/01/05/moment/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：moment.js
+
+head&amp;lt;script src=&amp;apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&amp;apos;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;scr">
+<meta property="og:updated_time" content="2018-01-16T13:41:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:title" content="时间工具-moment">
+<meta name="twitter:description" content="moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：moment.js
+
+head&amp;lt;script src=&amp;apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&amp;apos;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;scr">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -234,214 +247,236 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-moment" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      时间工具-moment
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
+        <blockquote>
+<p>moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：<a href="http://momentjs.com/" target="_blank" rel="external">moment.js</a></p>
+</blockquote>
+<h3 id="head"><a href="#head" class="headerlink" title="head"></a>head</h3><pre><code>&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/zh-cn.js&apos;&gt;&lt;/script&gt;
+</code></pre><p><strong> 这里引入了cdn <code>moment.min.js</code> 和 <code>汉化包</code> </strong></p>
+<h3 id="页面输出"><a href="#页面输出" class="headerlink" title="页面输出"></a>页面输出</h3><p><span style="color:red">当前时间moment()</span> = Fri Jan 05 2018 16:54:35 GMT+0800</p>
+<hr>
+<p><span style="color:red">初始格式化moment().format()</span> = 2018-01-05T16:54:35+08:00</p>
+<hr>
+<p><span style="color:red">设置时间moment(“2010-3-5 15:10:3:123”)</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
+<hr>
+<p><span style="color:red">.date()是获取，.date(-7)是设置时间</span></p>
+<hr>
+<p><span style="color:red">moment().date()</span> = 5<br><span style="color:red">moment().date(-7).format(“YYYY-MM-DD”)</span> = 2017-12-24</p>
+<hr>
+<p><span style="color:red">取值</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
+<hr>
+<p>moment().get(‘year’);</p>
+<pre><code>moment().get(&apos;month&apos;);  // 0 to 11
+
+moment().get(&apos;date&apos;);
+
+moment().get(&apos;hour&apos;);
+
+moment().get(&apos;minute&apos;);
+
+moment().get(&apos;second&apos;);
+
+moment().get(&apos;millisecond&apos;);
+</code></pre><hr>
+<p><span style="color:red">moment().set(“year”, 2013) == moment().year(2013)</span><br>…</p>
+<hr>
+<p><span style="color:red">设置相对时间：moment().add(-3, “d”)=</span>Tue Jan 02 2018 16:54:35 GMT+0800</p>
+<pre><code>Key    Shorthand    
+years  y
+quarters Q
+months    M
+weeks    w
+days    d
+hours    h
+minutes    m
+seconds    s
+milliseconds    ms
+</code></pre><hr>
+<p><span style="color:red">格式化format()</span><span style="color:red">moment().format(“[today] dddd”) = </span>today 星期五<br><span style="color:red">moment().format(“YYYY-MM-DD”) = </span>2018-01-05<br><span style="color:red">moment(2015/12/2).format(“YYYY-MM-DD”) = </span>2015-12-02</p>
+<hr>
+<p><span style="color:red">转化为时间戳：moment()-0 = </span>1515142475927</p>
+<hr>
+<p><span style="color:red">相对时间：moment(“2017-9-10”).fromNow() = </span>4 个月前<br><span style="color:red">相对时间：moment(“2017-9-10”).fromNow(true); = </span>4 个月</p>
+<hr>
+<p><span style="color:red">日历时间：moment().calendar() = </span>今天16:54<br><span style="color:red">日历时间：moment(“2018-1-4”).calendar(); = </span>昨天00:00</p>
+<hr>
+<p><span style="color:red">时差 (毫秒) ：<br>                var a = moment(“2017-1-20”);<br>                var b = moment(“2017-1-19”);<br>                a.diff(b) = </span>86400000<br><span style="color:red">日历时间：a.diff(b, “days”); = </span>1</p>
+<hr>
+<p><span style="color:red">时间比较：moment(‘2010-10-20’).isBefore(‘2010-10-21’)</span><br><span style="color:red">isBefore、isSame、isAfter、isBetween</span></p>
+<hr>
+<p>​    </p>
+<h3 id="script提供js支持"><a href="#script提供js支持" class="headerlink" title="script提供js支持"></a>script提供js支持</h3><pre><code>&lt;script &gt;
+    window.onload=function(){
+        moment.locale(&apos;zh-cn&apos;)  //设置中文  需要引入带locale的js文件生效
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;当前时间moment()&lt;/span&gt; = &apos;,moment())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;初始格式化moment().format()&lt;/span&gt; = &apos;, moment().format())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置时间moment(&quot;2010-3-5 15:10:3:123&quot;)&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;.date()是获取，.date(-7)是设置时间&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date()&lt;/span&gt; = &apos;,moment().date())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date(-7).format(&quot;YYYY-MM-DD&quot;)&lt;/span&gt; = &apos;,moment().date(-7).format(&apos;YYYY-MM-DD&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;取值&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(`moment().get(&apos;year&apos;);&lt;br/&gt;
+                                        moment().get(&apos;month&apos;);  // 0 to 11&lt;br/&gt;
+                                        moment().get(&apos;date&apos;);&lt;br/&gt;
+                                        moment().get(&apos;hour&apos;);&lt;br/&gt;
+                                        moment().get(&apos;minute&apos;);&lt;br/&gt;
+                                        moment().get(&apos;second&apos;);&lt;br/&gt;
+                                        moment().get(&apos;millisecond&apos;);&lt;br/&gt;`
+        )
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().set(&quot;year&quot;, 2013) == moment().year(2013)&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;...&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置相对时间：moment().add(-3, &quot;d&quot;)=&lt;/span&gt;&apos;,moment().add(-3, &apos;d&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(`
+            Key    Shorthand&lt;br/&gt;
+            years    y&lt;br/&gt;
+            quarters    Q&lt;br/&gt;
+            months    M&lt;br/&gt;
+            weeks    w&lt;br/&gt;
+            days    d&lt;br/&gt;
+            hours    h&lt;br/&gt;
+            minutes    m&lt;br/&gt;
+            seconds    s&lt;br/&gt;
+            milliseconds    ms&lt;br/&gt;
+        `)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;格式化format()&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;[today] dddd&quot;) = &lt;/span&gt;&apos;, moment().format(&apos;[today] dddd&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment().format(&quot;YYYY-MM-DD&quot;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment(2015/12/2).format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment(&apos;2015/12/2&apos;).format(&quot;YYYY-MM-DD&quot;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;转化为时间戳：moment()-0 = &lt;/span&gt;&apos;, moment()-0)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow() = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow(true); = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow(true))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment().calendar() = &lt;/span&gt;&apos;, moment().calendar())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment(&quot;2018-1-4&quot;).calendar(); = &lt;/span&gt;&apos;, moment(&quot;2018-1-4&quot;).calendar())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        var a = moment(&quot;2017-1-20&quot;);
+        var b = moment(&quot;2017-1-19&quot;);
+        document.write(`
+            &lt;span style=&quot;color:red&quot;&gt;时差 (毫秒) ：
+            var a = moment(&quot;2017-1-20&quot;);
+            var b = moment(&quot;2017-1-19&quot;);
+            a.diff(b) = &lt;/span&gt;`, a.diff(b))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：a.diff(b, &quot;days&quot;); = &lt;/span&gt;&apos;, a.diff(b, &apos;days&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(`&lt;span style=&quot;color:red&quot;&gt;时间比较：moment(&apos;2010-10-20&apos;).isBefore(&apos;2010-10-21&apos;)&lt;/span&gt;`)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(`&lt;span style=&quot;color:red&quot;&gt;isBefore、isSame、isAfter、isBetween&lt;/span&gt;`)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+    }
+&lt;/script&gt;
+</code></pre><p><strong> 常用的方法直接输出到页面，看的已经很直白明显了喔 </strong></p>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/24/vuex/" class="archive-article-date">
-  	<time datetime="2017-01-24T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-24</time>
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/01/05/moment/" class="archive-article-date">
+  	<time datetime="2018-01-05T11:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/24/vuex/">vuex</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/moment/">moment</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/21/扒一扒jquery的几个技巧/" class="archive-article-date">
-  	<time datetime="2017-01-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/21/扒一扒jquery的几个技巧/">扒一扒JQuery的几个技巧</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/16/开启一个简单的cdn加速/" class="archive-article-date">
-  	<time datetime="2017-01-16T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-16</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/16/开启一个简单的cdn加速/">开启一个简单的CDN加速</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN加速/">CDN加速</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/08/jQuery对象之deferred/" class="archive-article-date">
-  	<time datetime="2017-01-08T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/08/jQuery对象之deferred/">jQuery对象之deferred</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/" class="archive-article-date">
-  	<time datetime="2017-01-03T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/">微信小程序</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信小程序/">微信小程序</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/02/mobiscroll/" class="archive-article-date">
-  	<time datetime="2017-01-02T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/02/mobiscroll/">mobiscroll</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mobiscroll/">mobiscroll</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+    <a href="/2018/01/26/翻页列表+记住当前位置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          翻页列表(记住当前位置)
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/12/02/移动端适配/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">移动端适配</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
+</nav>
 
-    
+
+
+
+
+
+
+
+
+
+
+
 
 
       </div>
@@ -461,8 +496,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
