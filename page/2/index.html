@@ -236,6 +236,357 @@
       <div class="body-wrap">
         
   
+    <article id="post-iscroll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/15/iscroll/">IScroll</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://iscrolljs.com/#onscroll" target="_blank" rel="external">IScroll官网</a></p>
+<blockquote>
+<p>IScroll还是很不错的，尤其是应用在移动端，移动端body自带滚动，那么内部的列表滚动就不会那么自然，起码没有缓冲效果</p>
+</blockquote>
+<h3 id="记录基本使用demo"><a href="#记录基本使用demo" class="headerlink" title="记录基本使用demo"></a>记录基本使用demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;script type=&quot;text/javascript&quot; src=&apos;iscroll-probe.js&apos;&gt;&lt;/script&gt;</div><div class="line">&lt;style&gt;</div><div class="line">	html,body&#123;</div><div class="line">		margin:0;</div><div class="line">	&#125;</div><div class="line">	ul,li&#123;</div><div class="line">		margin:0;padding:0;list-style: none;</div><div class="line">	&#125;</div><div class="line">	.warp&#123;</div><div class="line">		width: 100%;</div><div class="line">		height: 50vh;</div><div class="line">		overflow: hidden;</div><div class="line">		position: relative; /*用了定位后才能将滚动条相对于当前窗口而不是文档*/</div><div class="line">	&#125;</div><div class="line">	ul&#123;</div><div class="line">		/*width: 2000px;*/</div><div class="line">	&#125;</div><div class="line">	li&#123;</div><div class="line">		height: 74px;</div><div class="line">		background: green;</div><div class="line">		border: 5px solid;</div><div class="line">		box-sizing: border-box;</div><div class="line">		/*float: left;</div><div class="line">		width:200px;*/</div><div class="line">	&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;body id=&apos;body&apos;&gt;</div><div class="line"></div><div class="line"></div><div class="line">		&lt;div class=&quot;warp&quot;&gt;</div><div class="line">			&lt;ul&gt;</div><div class="line">				&lt;li&gt;1&lt;/li&gt;</div><div class="line">				&lt;li&gt;2&lt;/li&gt;</div><div class="line">				&lt;li&gt;3&lt;/li&gt;</div><div class="line">				&lt;li&gt;4&lt;/li&gt;</div><div class="line">				&lt;li&gt;5&lt;/li&gt;</div><div class="line">				&lt;li&gt;6&lt;/li&gt;</div><div class="line">				&lt;li&gt;7&lt;/li&gt;</div><div class="line">				&lt;li&gt;8&lt;/li&gt;</div><div class="line">				&lt;li&gt;9&lt;/li&gt;</div><div class="line">				&lt;li&gt;10&lt;/li&gt;</div><div class="line">				&lt;li&gt;11&lt;/li&gt;</div><div class="line">				&lt;li&gt;12&lt;/li&gt;</div><div class="line">				&lt;li&gt;13&lt;/li&gt;</div><div class="line">				&lt;li&gt;14&lt;/li&gt;</div><div class="line">				&lt;li&gt;15&lt;/li&gt;</div><div class="line">				&lt;li&gt;16&lt;/li&gt;</div><div class="line">				&lt;li&gt;17&lt;/li&gt;</div><div class="line">				&lt;li&gt;18&lt;/li&gt;</div><div class="line">				&lt;li&gt;19&lt;/li&gt;</div><div class="line">				&lt;li&gt;20&lt;/li&gt;</div><div class="line">				&lt;li&gt;21&lt;/li&gt;</div><div class="line">				&lt;li&gt;22&lt;/li&gt;</div><div class="line">				&lt;li id=&quot;abc&quot;&gt;abc&lt;/li&gt;</div><div class="line">				&lt;li&gt;23&lt;/li&gt;</div><div class="line">				&lt;li&gt;24&lt;/li&gt;</div><div class="line">				&lt;li&gt;25&lt;/li&gt;</div><div class="line">				&lt;li&gt;26&lt;/li&gt;</div><div class="line">				&lt;li&gt;27&lt;/li&gt;</div><div class="line">				&lt;li&gt;28&lt;/li&gt;</div><div class="line">				&lt;li&gt;29&lt;/li&gt;</div><div class="line">				&lt;li&gt;30&lt;/li&gt;</div><div class="line">			&lt;/ul&gt;</div><div class="line">		&lt;/div&gt;</div><div class="line"></div><div class="line">	&lt;script&gt;</div><div class="line">	window.onload=function()&#123;</div><div class="line">		var myScroll = new IScroll(&apos;.warp&apos;, &#123;</div><div class="line">				mouseWheel: true,</div><div class="line">				scrollbars: true,</div><div class="line">				fadeScrollbars:true,</div><div class="line">				interactiveScrollbars:true, //滚动条可拖动</div><div class="line">				probeType: 2,  //监听位置必须要搭配这个</div><div class="line">				// snap:true //开启分页，自动计算内容占滚动容器的多少页</div><div class="line">				snap:&apos;li&apos;, //以每个li作为分页，不会停留在li的一半的位置</div><div class="line">				// scrollX: true,scrollY: false, //水平滚动</div><div class="line">				// eventPassthrough:true,</div><div class="line">				// freeScroll:true</div><div class="line">		&#125;);</div><div class="line"></div><div class="line">		//scrollStart scrollEnd...</div><div class="line">		myScroll.on(&apos;scroll&apos;, function () &#123;</div><div class="line">			console.log(this.y, this.maxScrollY)</div><div class="line">		&#125;);</div><div class="line">		// myScroll.scrollTo(0, -74, 1000); //滚动到位置  三参是时间</div><div class="line">		// myScroll.goToPage(0, 1, 1000); // 滚动到水平第0页 竖直的第1页 配合snap使用</div><div class="line"></div><div class="line">		myScroll.scrollToElement(&apos;#abc&apos;,500,0,-74) //滚动到元素，时间，水平偏移，竖直偏移量</div><div class="line">		document.addEventListener(&apos;touchmove&apos;,function(e)&#123;</div><div class="line">			e.preventDefault()</div><div class="line">		&#125;,false)</div><div class="line">	&#125;</div><div class="line">	&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p>1，页面在移动端滚动条移动变得非常卡，最后加上了document.addEventListener(‘touchmove’, function (e) { e.preventDefault(); }, false);滚动条变得很流畅，并且阻止body滚动</p>
+</li>
+<li><p>2，关于页面在不刷新的情况下如果添加了新的模块或者高度发生了变化会导致无法下拉的情况，使用iscroll5可以解决这个问题，就是在你触发了变化的事件之后，加上myscroll.refresh(); 去调用它自带的刷新方法。 </p>
+</li>
+<li><p>3，用了Iscroll会阻止默认行为，那么点击事件就不能使用，需要配置中加上 click:true（移动端可以借助faskClick,还解决了300ms延迟问题）加了 click：true的话 注意 表单将无效</p>
+</li>
+<li><p>4，a标签等不能跳转的问题，可以修改源码</p>
+<ul>
+<li>preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }</li>
+</ul>
+</li>
+<li><p>3，indicators是个好东西，参考官网demo:minimap 和parallax</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/908edb0ely1fj93h1asarj20gm08ygre.jpg" alt="minimap"></p>
+<p><img src="http://wx1.sinaimg.cn/mw690/908edb0ely1fj93cs61spj208h0brgof.jpg" alt="parallax"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/15/iscroll/" class="archive-article-date">
+  	<time datetime="2017-08-15T08:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IScroll/">IScroll</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-canvas水波纹" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/06/canvas水波纹/">canvas水波纹</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="轻戳预览"><a href="#轻戳预览" class="headerlink" title="轻戳预览"></a><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/canvasWater/blob/master/index.html" target="_blank" rel="external">轻戳预览</a></h3><blockquote>
+<p>现在的水波纹效果，很多场景还是可以看到，这里用canvas实现一个类似的效果<br>思路：其实就是2个贝塞尔曲线填充2种不同颜色，然后动态改变贝塞尔的2个控制点，制造一个波纹的效果</p>
+</blockquote>
+<p>代码比较简单，废话不多少，直接贴Demo吧<br>HTML：</p>
+<pre><code>&lt;style&gt;
+    html,body{
+        height: 100%;
+        margin:0;
+        background: grey;
+    }
+    canvas{
+        width: 100%;
+        height: 100%;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
+&lt;/body&gt;
+</code></pre><p>JS：</p>
+<pre><code>var canvas = document.getElementById(&apos;canvas&apos;);
+var ctx = canvas.getContext(&apos;2d&apos;);
+var _width = canvas.width = canvas.offsetWidth;
+var _height = canvas.height = canvas.offsetHeight;
+var leftDot = rightDot = _height * 0.7  //起始点和终点高度
+var leftDotSpeed = 0.2;
+var rightDotSpeed = 0.16;
+var n = 0;
+window.requestAnimationFrame =  window.requestAnimationFrame ||
+                                window.mozRequestAnimationFrame ||
+                                window.webkitRequestAnimationFrame ||
+                                window.msRequestAnimationFrame;
+
+run();
+function drawSun(){
+    var color = ctx.createRadialGradient(_width/2,_height*0.6,1,_width/2,_height*0.8,600);
+    color.addColorStop(0,&apos;red&apos;);
+    color.addColorStop(.2,&apos;#fff&apos;);
+    color.addColorStop(0.5,&apos;lightgrey&apos;);
+    color.addColorStop(1,&apos;grey&apos;);
+    ctx.beginPath();
+    ctx.arc(_width/2, _height*0.8, 600, 0, 2*Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+function drawWater(n,color, leftDot, rightDot){
+    var angle = n * Math.PI / 180;
+    var deltaHeight = Math.sin(angle) * _height / 8;
+    var deltaHeightRight = Math.cos(angle) * _height / 7;
+    ctx.beginPath();
+    ctx.moveTo(0, leftDot);
+    ctx.bezierCurveTo(_width / 4, leftDot + deltaHeight, _width * 3 / 4, rightDot + deltaHeightRight, _width, rightDot);
+    ctx.lineTo(_width, _height);
+    ctx.lineTo(0, _height); //使得下半个矩形闭合
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+function run() {
+    ctx.clearRect(0, 0, _width, _height);
+    n+=1;
+    leftDot += leftDotSpeed
+    rightDot += rightDotSpeed
+    if(leftDot&gt;_height*0.8 || leftDot&lt;_height*0.6){
+        leftDotSpeed *= -1
+    }
+    if(rightDot&gt;_height*0.8 || rightDot&lt;_height*0.6){
+        rightDotSpeed *= -1
+    }
+    drawSun()
+    drawWater(n+50,&apos;lightcyan&apos;, leftDot, rightDot)
+    drawWater(n,&apos;cyan&apos;, leftDot, rightDot)
+    requestAnimationFrame(run);
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/06/canvas水波纹/" class="archive-article-date">
+  	<time datetime="2017-07-06T15:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-webpack之hash的意义" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/26/webpack之hash的意义/">webpack之hash、chunkhash和contenthash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​    <strong>文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。</strong></p>
+<p>​    <strong>如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。</strong></p>
+<h3 id="1-hash与chunkhash"><a href="#1-hash与chunkhash" class="headerlink" title="1.hash与chunkhash"></a>1.hash与chunkhash</h3><p>首先我们先看一下官方文档对于两者的定义：</p>
+<blockquote>
+<p>[hash] is replaced by the hash of the compilation.(<code>hash</code>代表的是<em>compilation</em>的hash值。)</p>
+<p>[chunkhash] is replaced by the hash of the chunk.(<code>chunkhash</code>代表的是<em>chunk</em>(模块)的hash值。)</p>
+</blockquote>
+<p>什么是 compilation？compilation对象代表某个版本的资源对应的编译进程。compilation在项目中任何一个文件改动后就会被重新创建，然后webpack计算新的compilation的hash值，这个hash值便是<code>hash</code>。<code>hash</code>是compilation<code>对象compiler①</code>计算所得，而不是具体的项目文件计算所得。所以所有的文件名都会使用相同的hash指纹。</p>
+<blockquote>
+<p>①compiler对象代表的是配置完备的Webpack环境。 compiler对象只在Webpack启动时构建一次，由Webpack组合所有的配置项构建生成。</p>
+</blockquote>
+<p>例如使用hash配置产生了2个相同hash文件名的js文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[hash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdef.js</div><div class="line">//b.778asdef.js</div></pre></td></tr></table></figure>
+<p>这样带来的问题是，这2个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
+<p><strong>这时候就用到了<code>chunkhash</code>,<code>chunkhash</code>是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。配置webpack的output如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[chunkhash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdfg.js</div><div class="line">//b.778afrds.js</div></pre></td></tr></table></figure>
+<p>这样每个文件的hash都不相同，上线后无改动的文件不会失去缓存。</p>
+<h3 id="2-js与css共用相同chunkhash的解决方案"><a href="#2-js与css共用相同chunkhash的解决方案" class="headerlink" title="2. js与css共用相同chunkhash的解决方案"></a>2. js与css共用相同chunkhash的解决方案</h3><p>webpack的理念是把所有类型的文件都以js为汇聚点，不支持js文件以外的文件为编译入口。所以如果我们要编译style文件，唯一的办法是在js文件中引入style文件。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import &apos;style/style.scss&apos;;</div></pre></td></tr></table></figure>
+<p>webpack默认将js/style文件统统编译到一个js文件中，可以借助<a href="https://github.com/webpack/extract-text-webpack-plugin" target="_blank" rel="external">extract-text-webpack-plugin</a>将style文件单独编译输出。但是在计算<code>chunkhash</code>时，会把所有的js代码和style代码混合在一起计算。比如<code>main.js</code>引用了<code>main.scss</code>:</p>
+<p>这时候，如果我们只是修改了css,那么不但单独编译出来的css文件hash值有改变，对应的JS文件hash也会改变。</p>
+<p>这时候就用到了<code>contenthash</code></p>
+<p><strong>extract-text-webpack-plugin提供了另外一种hash值：<code>contenthash</code>。顾名思义，<code>contenthash</code>代表的是文本文件内容的hash值，也就是只有style文件的hash值。这个hash值就是解决上述问题的银弹。修改配置如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new ExtractTextPlugin(&apos;[name].[contenthash].css&apos;);</div></pre></td></tr></table></figure>
+<p>这样编译输出的js和css文件将会有其独立的hash值。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/26/webpack之hash的意义/" class="archive-article-date">
+  	<time datetime="2017-06-26T12:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/25/Vue全家桶/">你需知道的Vue全家桶</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="external">Vuex官网</a></p>
+<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  localComputed () &#123; /* ... */ &#125;,</div><div class="line">  // 使用对象展开运算符将此对象混入到外部对象中</div><div class="line">  ...mapState(&#123;</div><div class="line">  	// 映射 this.count 为 store.state.count</div><div class="line">    count: state =&gt; state.count,  ① == ②</div><div class="line">    //计算属性的名称与 state 的子节点名称相同时</div><div class="line">  	&apos;count&apos; ② == ①</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getters= &#123;</div><div class="line">  // ...</div><div class="line">  doneTodosCount: (state, getters) =&gt; &#123;</div><div class="line">    return getters.doneTodos.length</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">mutations= &#123;</div><div class="line">  increment (state, payload) &#123;</div><div class="line">    state.count += payload.amount</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">store.commit(&apos;increment&apos;, &#123;</div><div class="line">  amount: 10</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</div><div class="line">actions= &#123;</div><div class="line">  async actionA (&#123; commit &#125;) &#123;</div><div class="line">  	//触发mutation</div><div class="line">    commit(&apos;gotData&apos;, await getData())</div><div class="line">  &#125;,</div><div class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</div><div class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</div><div class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default new Vuex.Store(&#123;</div><div class="line">  actions,  //公用的actions</div><div class="line">  getters,	//公用的getters</div><div class="line">  modules: &#123;</div><div class="line">    cart,  //拥有自己的 state、mutation、action、getter</div><div class="line">    products //拥有自己的 state、mutation、action、getter</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 mutation 和 getter，接收的第一个参数是模块的局部状态对象。</li>
+<li>对于模块内部的 action，局部状态通过 context.state 暴露出来， 根节点状态则为 context.rootState</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  actions: &#123;</div><div class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</div><div class="line">     //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 getter，根节点状态会作为第三个参数暴露出来</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  getters: &#123;</div><div class="line">    sumWithRootCount (state, getters, rootState) &#123;</div><div class="line">      return state.count + rootState.count</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">export default function createWebSocketPlugin (socket) &#123;</div><div class="line">  return store =&gt; &#123;</div><div class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</div><div class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</div><div class="line">      store.commit(&apos;receiveData&apos;, data)</div><div class="line">    &#125;)</div><div class="line">    //store监听到mutation触发后发送socket到后台 ②</div><div class="line">    store.subscribe(mutation =&gt; &#123;</div><div class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</div><div class="line">        socket.emit(&apos;update&apos;, mutation.payload)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const plugin = createWebSocketPlugin(socket)</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  state,</div><div class="line">  mutations,</div><div class="line">  plugins: [plugin]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="内置-Logger-插件"><a href="#内置-Logger-插件" class="headerlink" title="内置 Logger 插件"></a>内置 Logger 插件</h5><blockquote>
+<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">vue-devtools</a>，你可能不需要此插件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import createLogger from &apos;vuex/dist/logger&apos;</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  plugins: [createLogger()]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<h2 id="二、项目实战"><a href="#二、项目实战" class="headerlink" title="二、项目实战"></a>二、项目实战</h2><blockquote>
+<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="external">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/25/Vue全家桶/" class="archive-article-date">
+  	<time datetime="2017-06-24T17:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-4个必须知道的数组方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1170,1062 +1521,9 @@ Particle.prototype.faraway = function (other) {
 
 
   
-    <article id="post-eslint使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/06/eslint使用/">配置相关-eslint</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。在许多方面，它和 JSLint、JSHint 相似，除了少数的例外：</p>
-</blockquote>
-<h4 id="ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置"><a href="#ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置" class="headerlink" title="ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置"></a>ESlint的安装使用还是推荐用编辑器插件的方式，自动检测，更不要开多余的命令行，详情参见各种编辑器配置</h4><h2 id="规则定义"><a href="#规则定义" class="headerlink" title="规则定义:"></a>规则定义:</h2><h4 id="ESLint-支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint-只会使用一个。优先级顺序如下："><a href="#ESLint-支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint-只会使用一个。优先级顺序如下：" class="headerlink" title="ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint 只会使用一个。优先级顺序如下："></a>ESLint 支持几种格式的配置文件，如果同一个目录下有多个配置文件，ESLint 只会使用一个。优先级顺序如下：</h4><ol>
-<li>JavaScript - 使用 .eslintrc.js 然后输出一个配置对象。</li>
-<li>YAML - 使用 .eslintrc.yaml 或 .eslintrc.yml 去定义配置的结构。</li>
-<li>JSON -使用 .eslintrc.json 去定义配置的结构，ESLint 的 JSON 文件允许 JavaScript 风格的注释。</li>
-<li>Deprecated -使用 .eslintrc，可以使 JSON 也可以是 YAML。</li>
-<li>package.json - 在 package.json 里创建一个 eslintConfig属性，在那里定义你的配置。</li>
-</ol>
-<h4 id="规则释义："><a href="#规则释义：" class="headerlink" title="规则释义："></a>规则释义：</h4><pre><code>{
-    // 环境定义了预定义的全局变量。
-    &quot;env&quot;: {
-        //环境定义了预定义的全局变量。更多在官网查看
-        &quot;browser&quot;:true,
-        &quot;node&quot;:true,
-        &quot;commonjs&quot;:true,
-        &quot;amd&quot;:true,
-        &quot;es6&quot;:true,
-        &quot;mocha&quot;:true
-    },
-    // JavaScript 语言选项
-    &quot;parserOptions&quot;: {
-        // ECMAScript 版本
-        &quot;ecmaVersion&quot;:6,
-        &quot;sourceType&quot;:&quot;script&quot;,//module
-        // 想使用的额外的语言特性:
-        &quot;ecmaFeatures&quot;: {
-            // 允许在全局作用域下使用 return 语句
-            &quot;globalReturn&quot;:true,
-            // impliedStric
-            &quot;impliedStrict&quot;:true,
-            // 启用 JSX
-            &quot;jsx&quot;:true
-        }
-     },
-    /**
-     * &quot;off&quot; 或 0 - 关闭规则
-     * &quot;warn&quot; 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),
-     * &quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
-     */
-    &quot;rules&quot;: {
-        // 禁止条件表达式中出现赋值操作符
-        &quot;no-cond-assign&quot;:2,
-        // 禁用 console
-        &quot;no-console&quot;:0,
-        // 禁止在条件中使用常量表达式
-        // if (false) {
-        // doSomethingUnfinished();
-        // } //cuowu
-        &quot;no-constant-condition&quot;:2,
-        // 禁止在正则表达式中使用控制字符 ：new RegExp(&quot;\x1f&quot;)
-        &quot;no-control-regex&quot;:2,
-        // 数组和对象键值对最后一个逗号， never参数：不能带末尾的逗号, always参数：必须带末尾的逗号，
-        // always-multiline：多行模式必须带逗号，单行模式不能带逗号
-        &quot;comma-dangle&quot;: [1,&quot;always-multiline&quot;],
-        // 禁用 debugger
-        &quot;no-debugger&quot;:2,
-        // 禁止 function 定义中出现重名参数
-        &quot;no-dupe-args&quot;:2,
-        // 禁止对象字面量中出现重复的 key
-        &quot;no-dupe-keys&quot;:2,
-        // 禁止重复的 case 标签
-        &quot;no-duplicate-case&quot;:2,
-        // 禁止空语句块
-        &quot;no-empty&quot;:2,
-        // 禁止在正则表达式中使用空字符集 (/^abc[]/)
-        &quot;no-empty-character-class&quot;:2,
-        // 禁止对 catch 子句的参数重新赋值
-        &quot;no-ex-assign&quot;:2,
-        // 禁止不必要的布尔转换
-        &quot;no-extra-boolean-cast&quot;:2,
-        // 禁止不必要的括号 //(a * b) + c;//报错
-        &quot;no-extra-parens&quot;:0,
-        // 禁止不必要的分号
-        &quot;no-extra-semi&quot;:2,
-        // 禁止对 function 声明重新赋值
-        &quot;no-func-assign&quot;:2,
-        // 禁止在嵌套的块中出现 function 或 var 声明
-        &quot;no-inner-declarations&quot;: [2,&quot;functions&quot;],
-        // 禁止 RegExp 构造函数中无效的正则表达式字符串
-        &quot;no-invalid-regexp&quot;:2,
-        // 禁止在字符串和注释之外不规则的空白
-        &quot;no-irregular-whitespace&quot;:2,
-        // 禁止在 in 表达式中出现否定的左操作数
-        &quot;no-negated-in-lhs&quot;:2,
-        // 禁止把全局对象 (Math 和 JSON) 作为函数调用 错误：var math = Math();
-        &quot;no-obj-calls&quot;:2,
-        // 禁止直接使用 Object.prototypes 的内置属性
-        &quot;no-prototype-builtins&quot;:0,
-        // 禁止正则表达式字面量中出现多个空格
-        &quot;no-regex-spaces&quot;:2,
-        // 禁用稀疏数组
-        &quot;no-sparse-arrays&quot;:2,
-        // 禁止出现令人困惑的多行表达式
-        &quot;no-unexpected-multiline&quot;:2,
-        // 禁止在return、throw、continue 和 break语句之后出现不可达代码
-        /*
-         function foo() {
-         return true;
-         console.log(&quot;done&quot;);
-         }//错误
-         */
-        &quot;no-unreachable&quot;:2,
-        // 要求使用 isNaN() 检查 NaN
-        &quot;use-isnan&quot;:2,
-        // 强制使用有效的 JSDoc 注释
-        &quot;valid-jsdoc&quot;:1,
-        // 强制 typeof 表达式与有效的字符串进行比较
-        // typeof foo === &quot;undefimed&quot; 错误
-        &quot;valid-typeof&quot;:2,
-        // 定义对象的set存取器属性时，强制定义get
-        &quot;accessor-pairs&quot;:2,
-        // 强制数组方法的回调函数中有 return 语句
-        &quot;array-callback-return&quot;:0,
-        // 强制把变量的使用限制在其定义的作用域范围内
-        &quot;block-scoped-var&quot;:0,
-        // 限制圈复杂度，也就是类似if else能连续接多少个
-        &quot;complexity&quot;: [2,9],
-        // 要求 return 语句要么总是指定返回的值，要么不指定
-        &quot;consistent-return&quot;:0,
-        // 强制所有控制语句使用一致的括号风格
-        &quot;curly&quot;: [2,&quot;all&quot;],
-        // switch 语句强制 default 分支，也可添加 // no default 注释取消此次警告
-        &quot;default-case&quot;:2,
-        // 强制object.key 中 . 的位置，参数:
-        // property，&apos;.&apos;号应与属性在同一行
-        // object, &apos;.&apos; 号应与对象名在同一行
-        &quot;dot-location&quot;: [2,&quot;property&quot;],
-        // 强制使用.号取属性
-        // 参数： allowKeywords：true 使用保留字做属性名时，只能使用.方式取属性
-        // false 使用保留字做属性名时, 只能使用[]方式取属性 e.g [2, {&quot;allowKeywords&quot;: false}]
-        // allowPattern: 当属性名匹配提供的正则表达式时，允许使用[]方式取值,否则只能用.号取值 e.g [2, {&quot;allowPattern&quot;: &quot;^[a-z]+(_[a-z]+)+$&quot;}]
-        &quot;dot-notation&quot;: [2, {&quot;allowKeywords&quot;:false}],
-        // 使用 === 替代 == allow-null允许null和undefined==
-        &quot;eqeqeq&quot;: [2,&quot;allow-null&quot;],
-        // 要求 for-in 循环中有一个 if 语句
-        &quot;guard-for-in&quot;:2,
-        // 禁用 alert、confirm 和 prompt
-        &quot;no-alert&quot;:0,
-        // 禁用 arguments.caller 或 arguments.callee
-        &quot;no-caller&quot;:2,
-        // 不允许在 case 子句中使用词法声明
-        &quot;no-case-declarations&quot;:2,
-        // 禁止除法操作符显式的出现在正则表达式开始的位置
-        &quot;no-div-regex&quot;:2,
-        // 禁止 if 语句中有 return 之后有 else
-        &quot;no-else-return&quot;:0,
-        // 禁止出现空函数.如果一个函数包含了一条注释，它将不会被认为有问题。
-        &quot;no-empty-function&quot;:2,
-        // 禁止使用空解构模式no-empty-pattern
-        &quot;no-empty-pattern&quot;:2,
-        // 禁止在没有类型检查操作符的情况下与 null 进行比较
-        &quot;no-eq-null&quot;:1,
-        // 禁用 eval()
-        &quot;no-eval&quot;:2,
-        // 禁止扩展原生类型
-        &quot;no-extend-native&quot;:2,
-        // 禁止不必要的 .bind() 调用
-        &quot;no-extra-bind&quot;:2,
-        // 禁用不必要的标签
-        &quot;no-extra-label:&quot;:0,
-        // 禁止 case 语句落空
-        &quot;no-fallthrough&quot;:2,
-        // 禁止数字字面量中使用前导和末尾小数点
-        &quot;no-floating-decimal&quot;:2,
-        // 禁止使用短符号进行类型转换(!!fOO)
-        &quot;no-implicit-coercion&quot;:0,
-        // 禁止在全局范围内使用 var 和命名的 function 声明
-        &quot;no-implicit-globals&quot;:1,
-        // 禁止使用类似 eval() 的方法
-        &quot;no-implied-eval&quot;:2,
-        // 禁止 this 关键字出现在类和类对象之外
-        &quot;no-invalid-this&quot;:0,
-        // 禁用 __iterator__ 属性
-        &quot;no-iterator&quot;:2,
-        // 禁用标签语句
-        &quot;no-labels&quot;:2,
-        // 禁用不必要的嵌套块
-        &quot;no-lone-blocks&quot;:2,
-        // 禁止在循环中出现 function 声明和表达式
-        &quot;no-loop-func&quot;:1,
-        // 禁用魔术数字(3.14什么的用常量代替)
-        &quot;no-magic-numbers&quot;:[1,{&quot;ignore&quot;: [0,-1,1] }],
-        // 禁止使用多个空格
-        &quot;no-multi-spaces&quot;:2,
-        // 禁止使用多行字符串，在 JavaScript 中，可以在新行之前使用斜线创建多行字符串
-        &quot;no-multi-str&quot;:2,
-        // 禁止对原生对象赋值
-        &quot;no-native-reassign&quot;:2,
-        // 禁止在非赋值或条件语句中使用 new 操作符
-        &quot;no-new&quot;:2,
-        // 禁止对 Function 对象使用 new 操作符
-        &quot;no-new-func&quot;:0,
-        // 禁止对 String，Number 和 Boolean 使用 new 操作符
-        &quot;no-new-wrappers&quot;:2,
-        // 禁用八进制字面量
-        &quot;no-octal&quot;:2,
-        // 禁止在字符串中使用八进制转义序列
-        &quot;no-octal-escape&quot;:2,
-        // 不允许对 function 的参数进行重新赋值
-        &quot;no-param-reassign&quot;:0,
-        // 禁用 __proto__ 属性
-        &quot;no-proto&quot;:2,
-        // 禁止使用 var 多次声明同一变量
-        &quot;no-redeclare&quot;:2,
-        // 禁用指定的通过 require 加载的模块
-        &quot;no-return-assign&quot;:0,
-        // 禁止使用 javascript: url
-        &quot;no-script-url&quot;:0,
-        // 禁止自我赋值
-        &quot;no-self-assign&quot;:2,
-        // 禁止自身比较
-        &quot;no-self-compare&quot;:2,
-        // 禁用逗号操作符
-        &quot;no-sequences&quot;:2,
-        // 禁止抛出非异常字面量
-        &quot;no-throw-literal&quot;:2,
-        // 禁用一成不变的循环条件
-        &quot;no-unmodified-loop-condition&quot;:2,
-        // 禁止出现未使用过的表达式
-        &quot;no-unused-expressions&quot;:0,
-        // 禁用未使用过的标签
-        &quot;no-unused-labels&quot;:2,
-        // 禁止不必要的 .call() 和 .apply()
-        &quot;no-useless-call&quot;:2,
-        // 禁止不必要的字符串字面量或模板字面量的连接
-        &quot;no-useless-concat&quot;:2,
-        // 禁用不必要的转义字符
-        &quot;no-useless-escape&quot;:0,
-        // 禁用 void 操作符
-        &quot;no-void&quot;:0,
-        // 禁止在注释中使用特定的警告术语
-        &quot;no-warning-comments&quot;:0,
-        // 禁用 with 语句
-        &quot;no-with&quot;:2,
-        // 强制在parseInt()使用基数参数
-        &quot;radix&quot;:2,
-        // 要求所有的 var 声明出现在它们所在的作用域顶部
-        &quot;vars-on-top&quot;:0,
-        // 要求 IIFE 使用括号括起来
-        &quot;wrap-iife&quot;: [2,&quot;any&quot;],
-        // 要求或禁止 “Yoda” 条件
-        &quot;yoda&quot;: [2,&quot;never&quot;],
-        // 要求或禁止使用严格模式指令
-        &quot;strict&quot;:0,
-        //////////////
-        // 变量声明 //
-        //////////////
-
-        // 要求或禁止 var 声明中的初始化(初值)
-        &quot;init-declarations&quot;:0,
-        // 不允许 catch 子句的参数与外层作用域中的变量同名
-        &quot;no-catch-shadow&quot;:0,
-        // 禁止删除变量
-        &quot;no-delete-var&quot;:2,
-        // 不允许标签与变量同名
-        &quot;no-label-var&quot;:2,
-        // 禁用特定的全局变量
-        &quot;no-restricted-globals&quot;:0,
-        // 禁止 var 声明 与外层作用域的变量同名
-        &quot;no-shadow&quot;:0,
-        // 禁止覆盖受限制的标识符
-        &quot;no-shadow-restricted-names&quot;:2,
-        // 禁用未声明的变量，除非它们在 /*global */ 注释中被提到
-        &quot;no-undef&quot;:2,
-        // 禁止将变量初始化为 undefined
-        &quot;no-undef-init&quot;:2,
-        // 禁止将 undefined 作为标识符
-        &quot;no-undefined&quot;:0,
-        // 禁止出现未使用过的变量
-        &quot;no-unused-vars&quot;: [2, {&quot;vars&quot;:&quot;all&quot;,&quot;args&quot;:&quot;none&quot;}],
-        // 不允许在变量定义之前使用它们
-        &quot;no-use-before-define&quot;:0,
-
-        //////////////////////////
-        // Node.js and CommonJS //
-        //////////////////////////
-
-        // require return statements after callbacks
-        &quot;callback-return&quot;:0,
-        // 要求 require() 出现在顶层模块作用域中
-        &quot;global-require&quot;:1,
-        // 要求回调函数中有容错处理
-        &quot;handle-callback-err&quot;: [2,&quot;^(err|error)$&quot;],
-        // 禁止混合常规 var 声明和 require 调用
-        &quot;no-mixed-requires&quot;:0,
-        // 禁止调用 require 时使用 new 操作符
-        &quot;no-new-require&quot;:2,
-        // 禁止对 __dirname 和 __filename进行字符串连接
-        &quot;no-path-concat&quot;:0,
-        // 禁用 process.env
-        &quot;no-process-env&quot;:0,
-        // 禁用 process.exit()
-        &quot;no-process-exit&quot;:0,
-        // 禁用同步方法
-        &quot;no-sync&quot;:0,
-
-        //////////////
-        // 风格指南 //
-        //////////////
-
-        // 指定数组的元素之间要以空格隔开(, 后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格
-        &quot;array-bracket-spacing&quot;: [2,&quot;never&quot;],
-        // 禁止或强制在单行代码块中使用空格(禁用)
-        &quot;block-spacing&quot;:[1,&quot;never&quot;],
-        //强制使用一致的缩进 第二个参数为 &quot;tab&quot; 时，会使用tab，
-        // if while function 后面的{必须与if在同一行，java风格。
-        &quot;brace-style&quot;: [2,&quot;1tbs&quot;, {&quot;allowSingleLine&quot;:true}],
-        // 双峰驼命名格式
-        &quot;camelcase&quot;:2,
-        // 控制逗号前后的空格
-        &quot;comma-spacing&quot;: [2, {&quot;before&quot;:false,&quot;after&quot;:true}],
-        // 控制逗号在行尾出现还是在行首出现 (默认行尾)
-        // http://eslint.org/docs/rules/comma-style
-        &quot;comma-style&quot;: [2,&quot;last&quot;],
-        //&quot;SwitchCase&quot; (默认：0) 强制 switch 语句中的 case 子句的缩进水平
-        // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
-        &quot;computed-property-spacing&quot;: [2,&quot;never&quot;],
-        // 用于指统一在回调函数中指向this的变量名，箭头函数中的this已经可以指向外层调用者，应该没卵用了
-        // e.g [0,&quot;that&quot;] 指定只能 var that = this. that不能指向其他任何值，this也不能赋值给that以外的其他值
-        &quot;consistent-this&quot;: [1,&quot;that&quot;],
-        // 强制使用命名的 function 表达式
-        &quot;func-names&quot;:0,
-        // 文件末尾强制换行
-        &quot;eol-last&quot;:2,
-        &quot;indent&quot;: [2,4, {&quot;SwitchCase&quot;:1}],
-        // 强制在对象字面量的属性中键和值之间使用一致的间距
-        &quot;key-spacing&quot;: [2, {&quot;beforeColon&quot;:false,&quot;afterColon&quot;:true}],
-        // 强制使用一致的换行风格
-        &quot;linebreak-style&quot;: [1,&quot;unix&quot;],
-        // 要求在注释周围有空行 ( 要求在块级注释之前有一空行)
-        &quot;lines-around-comment&quot;: [1,{&quot;beforeBlockComment&quot;:true}],
-        // 强制一致地使用函数声明或函数表达式，方法定义风格，参数：
-        // declaration: 强制使用方法声明的方式，function f(){} e.g [2, &quot;declaration&quot;]
-        // expression：强制使用方法表达式的方式，var f = function() {} e.g [2, &quot;expression&quot;]
-        // allowArrowFunctions: declaration风格中允许箭头函数。 e.g [2, &quot;declaration&quot;, { &quot;allowArrowFunctions&quot;: true }]
-        &quot;func-style&quot;:0,
-        // 强制回调函数最大嵌套深度 5层
-        &quot;max-nested-callbacks&quot;: [1,5],
-        // 禁止使用指定的标识符
-        &quot;id-blacklist&quot;:0,
-        // 强制标识符的最新和最大长度
-        &quot;id-length&quot;:0,
-        // 要求标识符匹配一个指定的正则表达式
-        &quot;id-match&quot;:0,
-        // 强制在 JSX 属性中一致地使用双引号或单引号
-        &quot;jsx-quotes&quot;:0,
-        // 强制在关键字前后使用一致的空格 (前后腰需要)
-        &quot;keyword-spacing&quot;:2,
-        // 强制一行的最大长度
-        &quot;max-len&quot;:[1,200],
-        // 强制最大行数
-        &quot;max-lines&quot;:0,
-        // 强制 function 定义中最多允许的参数数量
-        &quot;max-params&quot;:[1,7],
-        // 强制 function 块最多允许的的语句数量
-        &quot;max-statements&quot;:[1,200],
-        // 强制每一行中所允许的最大语句数量
-        &quot;max-statements-per-line&quot;:0,
-        // 要求构造函数首字母大写 （要求调用 new 操作符时有首字母大小的函数，允许调用首字母大写的函数时没有 new 操作符。）
-        &quot;new-cap&quot;: [2, {&quot;newIsCap&quot;:true,&quot;capIsNew&quot;:false}],
-        // 要求调用无参构造函数时有圆括号
-        &quot;new-parens&quot;:2,
-        // 要求或禁止 var 声明语句后有一行空行
-        &quot;newline-after-var&quot;:0,
-        // 禁止使用 Array 构造函数
-        &quot;no-array-constructor&quot;:2,
-        // 禁用按位运算符
-        &quot;no-bitwise&quot;:0,
-        // 要求 return 语句之前有一空行
-        &quot;newline-before-return&quot;:0,
-        // 要求方法链中每个调用都有一个换行符
-        &quot;newline-per-chained-call&quot;:1,
-        // 禁用 continue 语句
-        &quot;no-continue&quot;:0,
-        // 禁止在代码行后使用内联注释
-        &quot;no-inline-comments&quot;:0,
-        // 禁止 if 作为唯一的语句出现在 else 语句中
-        &quot;no-lonely-if&quot;:0,
-        // 禁止混合使用不同的操作符
-        &quot;no-mixed-operators&quot;:0,
-        // 不允许空格和 tab 混合缩进
-        &quot;no-mixed-spaces-and-tabs&quot;:2,
-        // 不允许多个空行
-        &quot;no-multiple-empty-lines&quot;: [2, {&quot;max&quot;:2}],
-        // 不允许否定的表达式
-        &quot;no-negated-condition&quot;:0,
-        // 不允许使用嵌套的三元表达式
-        &quot;no-nested-ternary&quot;:0,
-        // 禁止使用 Object 的构造函数
-        &quot;no-new-object&quot;:2,
-        // 禁止使用一元操作符 ++ 和 --
-        &quot;no-plusplus&quot;:0,
-        // 禁止使用特定的语法
-        &quot;no-restricted-syntax&quot;:0,
-        // 禁止 function 标识符和括号之间出现空格
-        &quot;no-spaced-func&quot;:2,
-        // 不允许使用三元操作符
-        &quot;no-ternary&quot;:0,
-        // 禁用行尾空格
-        &quot;no-trailing-spaces&quot;:2,
-        // 禁止标识符中有悬空下划线_bar
-        &quot;no-underscore-dangle&quot;:0,
-        // 禁止可以在有更简单的可替代的表达式时使用三元操作符
-        &quot;no-unneeded-ternary&quot;:2,
-        // 禁止属性前有空白
-        &quot;no-whitespace-before-property&quot;:0,
-        // 强制花括号内换行符的一致性
-        &quot;object-curly-newline&quot;:0,
-        // 强制在花括号中使用一致的空格
-        &quot;object-curly-spacing&quot;:0,
-        // 强制将对象的属性放在不同的行上
-        &quot;object-property-newline&quot;:0,
-        // 强制函数中的变量要么一起声明要么分开声明
-        &quot;one-var&quot;: [2, {&quot;initialized&quot;:&quot;never&quot;}],
-        // 要求或禁止在 var 声明周围换行
-        &quot;one-var-declaration-per-line&quot;:0,
-        // 要求或禁止在可能的情况下要求使用简化的赋值操作符
-        &quot;operator-assignment&quot;:0,
-        // 强制操作符使用一致的换行符
-        &quot;operator-linebreak&quot;: [2,&quot;after&quot;, {&quot;overrides&quot;: {&quot;?&quot;:&quot;before&quot;,&quot;:&quot;:&quot;before&quot;} }],
-        // 要求或禁止块内填充
-        &quot;padded-blocks&quot;:0,
-        // 要求对象字面量属性名称用引号括起来
-        &quot;quote-props&quot;:0,
-        // 强制使用一致的反勾号、双引号或单引号
-        &quot;quotes&quot;: [2,&quot;single&quot;,&quot;avoid-escape&quot;],
-        // 要求使用 JSDoc 注释
-        &quot;require-jsdoc&quot;:1,
-        // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）
-        &quot;semi&quot;: [2,&quot;always&quot;],
-        // 强制分号之前和之后使用一致的空格
-        &quot;semi-spacing&quot;:0,
-        // 要求同一个声明块中的变量按顺序排列
-        &quot;sort-vars&quot;:0,
-        // 强制在块之前使用一致的空格
-        &quot;space-before-blocks&quot;: [2,&quot;always&quot;],
-        // 强制在 function的左括号之前使用一致的空格
-        &quot;space-before-function-paren&quot;: [2,&quot;always&quot;],
-        // 强制在圆括号内使用一致的空格
-        &quot;space-in-parens&quot;: [2,&quot;never&quot;],
-        // 要求操作符周围有空格
-        &quot;space-infix-ops&quot;:2,
-        // 强制在一元操作符前后使用一致的空格
-        &quot;space-unary-ops&quot;: [2, {&quot;words&quot;:true,&quot;nonwords&quot;:false}],
-        // 强制在注释中 // 或 /* 使用一致的空格
-        &quot;spaced-comment&quot;: [2,&quot;always&quot;, {&quot;markers&quot;: [&quot;global&quot;,&quot;globals&quot;,&quot;eslint&quot;,&quot;eslint-disable&quot;,&quot;*package&quot;,&quot;!&quot;] }],
-        // 要求或禁止 Unicode BOM
-        &quot;unicode-bom&quot;:0,
-        // 要求正则表达式被括号括起来
-        &quot;wrap-regex&quot;:0,
-
-        //////////////
-        // ES6.相关 //
-        //////////////
-
-        // 要求箭头函数体使用大括号
-        &quot;arrow-body-style&quot;:2,
-        // 要求箭头函数的参数使用圆括号
-        &quot;arrow-parens&quot;:2,
-        &quot;arrow-spacing&quot;:[2,{&quot;before&quot;:true,&quot;after&quot;:true}],
-        // 强制在子类构造函数中用super()调用父类构造函数，TypeScrip的编译器也会提示
-        &quot;constructor-super&quot;:0,
-        // 强制 generator 函数中 * 号周围使用一致的空格
-        &quot;generator-star-spacing&quot;: [2, {&quot;before&quot;:true,&quot;after&quot;:true}],
-        // 禁止修改类声明的变量
-        &quot;no-class-assign&quot;:2,
-        // 不允许箭头功能，在那里他们可以混淆的比较
-        &quot;no-confusing-arrow&quot;:0,
-        // 禁止修改 const 声明的变量
-        &quot;no-const-assign&quot;:2,
-        // 禁止类成员中出现重复的名称
-        &quot;no-dupe-class-members&quot;:2,
-        // 不允许复制模块的进口
-        &quot;no-duplicate-imports&quot;:0,
-        // 禁止 Symbol 的构造函数
-        &quot;no-new-symbol&quot;:2,
-        // 允许指定模块加载时的进口
-        &quot;no-restricted-imports&quot;:0,
-        // 禁止在构造函数中，在调用 super() 之前使用 this 或 super
-        &quot;no-this-before-super&quot;:2,
-        // 禁止不必要的计算性能键对象的文字
-        &quot;no-useless-computed-key&quot;:0,
-        // 要求使用 let 或 const 而不是 var
-        &quot;no-var&quot;:0,
-        // 要求或禁止对象字面量中方法和属性使用简写语法
-        &quot;object-shorthand&quot;:0,
-        // 要求使用箭头函数作为回调
-        &quot;prefer-arrow-callback&quot;:0,
-        // 要求使用 const 声明那些声明后不再被修改的变量
-        &quot;prefer-const&quot;:0,
-        // 要求在合适的地方使用 Reflect 方法
-        &quot;prefer-reflect&quot;:0,
-        // 要求使用扩展运算符而非 .apply()
-        &quot;prefer-spread&quot;:0,
-        // 要求使用模板字面量而非字符串连接
-        &quot;prefer-template&quot;:0,
-        // Suggest using the rest parameters instead of arguments
-        &quot;prefer-rest-params&quot;:0,
-        // 要求generator 函数内有 yield
-        &quot;require-yield&quot;:0,
-        // enforce spacing between rest and spread operators and their expressions
-        &quot;rest-spread-spacing&quot;:0,
-        // 强制模块内的 import 排序
-        &quot;sort-imports&quot;:0,
-        // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
-        &quot;template-curly-spacing&quot;:1,
-        // 强制在 yield* 表达式中 * 周围使用空格
-        &quot;yield-star-spacing&quot;:2
-     }
-}
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/04/06/eslint使用/" class="archive-article-date">
-  	<time datetime="2017-04-06T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eslint/">eslint</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-saga-begining" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/04/saga-begining/">saga-begining</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>redux-saga 是一个用于管理 Redux 应用异步操作的中间件（又称异步 action）。 redux-saga 通过创建 <em>Sagas</em> 将所有的异步操作逻辑收集在一个地方集中处理，可以用来代替 <code>redux-thunk</code> 中间件。</p>
-<p>这意味着应用的逻辑会存在两个地方：</p>
-<ul>
-<li>Reducers 负责处理 action 的 state 更新。</li>
-<li>Sagas 负责协调那些复杂或异步的操作。</li>
-</ul>
-</blockquote>
-<ul>
-<li>此篇文章重在完成saga的基本应用，其中会用到一些其他很有用的插件，<code>saga</code>详细说明请参考文档<a href="http://leonshi.com/redux-saga-in-chinese/" target="_blank" rel="external">Redux-saga中文文档</a></li>
-<li>文章项目源码戳<a href="https://github.com/Jasonellen/saga-begining" target="_blank" rel="external">github</a></li>
-</ul>
-<h3 id="这里我们用saga完整一个Counter的使用"><a href="#这里我们用saga完整一个Counter的使用" class="headerlink" title="这里我们用saga完整一个Counter的使用"></a>这里我们用saga完整一个Counter的使用</h3><h4 id="index-js—挂在到项目元素root上"><a href="#index-js—挂在到项目元素root上" class="headerlink" title="index.js—挂在到项目元素root上"></a>index.js—挂在到项目元素root上</h4><pre><code>import React from &apos;react&apos;;
-import ReactDOM from &apos;react-dom&apos;;
-import {Provider} from &apos;react-redux&apos;;
-import createStore from &apos;./store/configureStore&apos;
-import App from &apos;./App&apos;;
-
-const store = createStore();
-ReactDOM.render(
-  &lt;Provider store={store}&gt;
-      &lt;App /&gt;
-  &lt;/Provider&gt;,
-  document.getElementById(&apos;root&apos;)
-);
-</code></pre><h4 id="上面index-js用到的creatrStore-js"><a href="#上面index-js用到的creatrStore-js" class="headerlink" title="上面index.js用到的creatrStore.js"></a>上面index.js用到的creatrStore.js</h4><pre><code>import {createLogger} from &apos;redux-logger&apos;;
-// const createLogger = require(&apos;redux-logger&apos;);
-import createSagaMiddleware from &apos;redux-saga&apos;;
-import {createStore, applyMiddleware } from &apos;redux&apos;;
-import rootReducer from &apos;../redux&apos;
-import rootSaga from &apos;../saga&apos;
-
-const middlewares = [];
-// 创建中间件saga
-const sagaMiddleware = createSagaMiddleware();
-middlewares.push(sagaMiddleware)
-
-if (process.env.NODE_ENV === &apos;development&apos;) {
-    //创建中间件logger
-    const logger = createLogger();
-    middlewares.push(logger);
-}
-
-export default function configureStore(initialState) {
-   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
-   sagaMiddleware.run(rootSaga) //saga中间键挂在到store后需要run一下 所有的saga文件
-   return store;
-}
-</code></pre><h4 id="createStore用到的rootRedux"><a href="#createStore用到的rootRedux" class="headerlink" title="createStore用到的rootRedux"></a>createStore用到的rootRedux</h4><pre><code>import {combineReducers} from &apos;redux&apos;;
-const rootReducer = combineReducers({
-  counterReducer1: require(&apos;./counterReducer1&apos;).reducer,
-  counterReducer2: require(&apos;./counterReducer2&apos;).reducer,
-})
-export default rootReducer
-</code></pre><h4 id="createStore用到的rootSaga"><a href="#createStore用到的rootSaga" class="headerlink" title="createStore用到的rootSaga"></a>createStore用到的rootSaga</h4><pre><code>import { takeLatest } from &apos;redux-saga/effects&apos;
-/* ------------- Types ------------- */
-import { CounterTypes1 } from &apos;../redux/counterReducer1&apos;
-import { CounterTypes2 } from &apos;../redux/counterReducer2&apos;
-/* ------------- Sagas ------------- */
-import { counterPlus1, counterMinus1 } from &apos;./counterSaga1&apos;
-import { counterPlus2, counterMinus2 } from &apos;./counterSaga2&apos;
-/* ------------- Connect Types To Sagas ------------- */
-export default function * rootSaga () {
-  yield [
-    takeLatest(CounterTypes1.PLUS_NUM_SAGA, counterPlus1),
-    takeLatest(CounterTypes1.MINUS_NUM_SAGA, counterMinus1),
-    takeLatest(CounterTypes2.PLUS_NUM_SAGA2, counterPlus2),
-    takeLatest(CounterTypes2.MINUS_NUM_SAGA2, counterMinus2),
-  ]
-}
-</code></pre><h4 id="rootRedux-引入的counterReducer1"><a href="#rootRedux-引入的counterReducer1" class="headerlink" title="rootRedux 引入的counterReducer1"></a>rootRedux 引入的counterReducer1</h4><pre><code>import { createReducer, createActions } from &apos;reduxsauce&apos;
-import Immutable from &apos;seamless-immutable&apos;
-/* ------------- Types and Action Creators ------------- */
-const { Types, Creators } = createActions({
-  plusNum: [&apos;text&apos;], //type名驼峰，生成的是全大写PLUS_NUM
-  minusNum: null,
-  plusNumSaga: [&apos;text&apos;],
-  minusNumSaga: [&apos;text&apos;],
-})
-
-export const CounterTypes1 = Types //这里导出是给saga监听使用
-export default Creators
-//导出action生成器 Creators，
-//Creators.plusNum =(text) =&gt; {type:&apos;PLUS_NUM&apos; ,text:text}
-/* ------------- Initial State ------------- */
-export const INITIAL_STATE = Immutable({
-  value:0
-})
-/* ------------- Reducers ------------- */
-export const plus = (state,action) =&gt; {
-  const { text } = action
-  return state.merge({ value:state.value+text })
-}
-export const minus = (state,action) =&gt; {
-  return state.merge({ value:state.value-1 })
-}
-/* ------------- Hookup Reducers To Types ------------- */
-export const reducer = createReducer(INITIAL_STATE, {
-  [Types.PLUS_NUM]: plus,
-  [Types.MINUS_NUM]: minus
-  //这里reducer监听Types是PLUS_NUM的action,执行对应的plus放法
-})
-// reducer生成器，生成对应type的reducer
-</code></pre><h4 id="rootSaga引入的counterSaga1"><a href="#rootSaga引入的counterSaga1" class="headerlink" title="rootSaga引入的counterSaga1"></a>rootSaga引入的counterSaga1</h4><pre><code>import { put,select,call } from &apos;redux-saga/effects&apos;
-import CounterActions1 from &apos;../redux/counterReducer1&apos;
-
-// attempts to get state
-// const getState = (state) =&gt; state.login
-
-// let API={
-//     request:(text)=&gt;{
-//         return fetch(...)
-//     }
-// }
-
-export function * counterPlus1 (action) {
-    // const data = yield select(selectState) //通过select可以获取全局state
-
-  // const check = yield call(API.request, text) //如果有异步请求，用call调用
-  // if(check.ok == &apos;ok&apos;){
-  //     yield put(CounterActions1.xxx(xxx, xxx))
-  // }
-   const {text} = action
-   alert(text)
-   yield put(CounterActions1.plusNum(2))
-
-}
-
-export function * counterMinus1 (action) {
-   const {text} = action
-   alert(text)
-   yield put(CounterActions1.minusNum())
-}
-</code></pre><h2 id="谨记"><a href="#谨记" class="headerlink" title="谨记"></a>谨记</h2><ul>
-<li><code>saga</code>和<code>reducer</code>都会监听<code>action</code>监听的顺序是先<code>reducer</code>后<code>saga</code>,所以如果<code>reducer</code>和<code>saga</code>都监听了相同的<code>action</code>,那么<code>saga</code>逻辑执行在<code>reducer</code>改变后的状态基础上，尽量不要用<code>saga</code>和<code>reducer</code>监听相同的reducer</li>
-<li>相同的<code>action</code>内容，不管是谁触发的，所有监听此<code>action</code>的<code>reducer</code>和<code>action</code>都会触发，所以请区分好<code>action</code>的触发及监听操作</li>
-<li>和<code>thunk</code>一样<code>(dispatch,getState)</code> 第二个参数会将全局的<code>state</code>函数当参数传递进来，<code>saga</code>的<code>select(()=&gt;fn(state))</code>也可以调用全局<code>state</code></li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/04/04/saga-begining/" class="archive-article-date">
-  	<time datetime="2017-04-04T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-imgClipUpload" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/imgClipUpload/">imgClipUpload</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
-</blockquote>
-<h3 id="直接在gitHub查看imgClipUpload🚘"><a href="#直接在gitHub查看imgClipUpload🚘" class="headerlink" title="直接在gitHub查看imgClipUpload🚘"></a>直接在gitHub查看<a href="https://github.com/Jasonellen/imgClipUpload" target="_blank" rel="external">imgClipUpload</a>🚘</h3><h4 id="✨HTML："><a href="#✨HTML：" class="headerlink" title="✨HTML："></a>✨HTML：</h4><pre><code>&lt;!-- 带Id的标签是必须要的 --&gt;
-&lt;canvas id=&quot;canvas&quot; &gt;&lt;/canvas&gt; //画布
-&lt;div class=&quot;file rake&quot;&gt;
-    &lt;input type=&quot;file&quot; id=&quot;file&quot;/&gt;上传图片
-&lt;/div&gt;
-&lt;div id=&quot;rotateR&quot; class=&quot;rake&quot;&gt;旋转&lt;/div&gt;
-&lt;div class=&quot;cancle rake&quot;&gt;取消&lt;/div&gt;
-&lt;div id=&quot;save&quot; class=&quot;rake&quot;&gt;截图&lt;/div&gt;
-&lt;div class=&quot;upload rake&quot;&gt;上传&lt;/div&gt;
-&lt;img src=&quot;&quot; alt=&quot;&quot; id=&quot;img&quot;/&gt; //截图或保存的图片
-</code></pre><h4 id="✨JS："><a href="#✨JS：" class="headerlink" title="✨JS："></a>✨JS：</h4><ul>
-<li><p>按钮移入移除动画效果</p>
-<pre><code>$(&apos;.rake&apos;).mouseenter(function(){
-    $(this).addClass(&apos;rubberBand animated infinite&apos;)
-})
-.mouseleave(function(){
-    $(this).removeClass(&apos;rubberBand animated infinite&apos;)
-})
-</code></pre></li>
-<li><p>创建截图</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var cut = new ImgClip(&#123;</div><div class="line">  canvas : &apos;canvas&apos;, // canvas id</div><div class="line">  width:$(window).width(), //canvas 宽度</div><div class="line">  height:$(window).height(), //canvas 高度</div><div class="line">  fileObj : &apos;file&apos;, // file id</div><div class="line">  cutBtn : &apos;save&apos;, // cut btn id</div><div class="line">  resultObj : &apos;img&apos;, // result img id</div><div class="line">  rotateR : &apos;rotateR&apos;,</div><div class="line">  cutScale : 3/4, // 高:宽</div><div class="line">  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-<li><p>点击选择本地图片预览</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(this)[0].value=&apos;&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>取消预览</p>
-<pre><code>$(&apos;.cancle&apos;).click(function(){
-  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
-  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
-})
-</code></pre><p>  ​</p>
-</li>
-<li><p>保存截图</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(&apos;#save&apos;).click(function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>点击上传图片</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">$(&apos;.upload&apos;).click(function()&#123;</div><div class="line">  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)</div><div class="line">  var file = dataURItoBlob(url)</div><div class="line">  var fd=new FormData();</div><div class="line">  fd.append(&apos;file&apos;,file);</div><div class="line">  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);</div><div class="line">  $.ajax(&#123;</div><div class="line">     url:&quot;php/upload.php&quot;,</div><div class="line">     type:&quot;POST&quot;,</div><div class="line">     data:fd,</div><div class="line">     processData: false,</div><div class="line">     contentType: false,</div><div class="line">     success:function(data)&#123;</div><div class="line">         console.log(data)</div><div class="line">     &#125;</div><div class="line">  &#125;); </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>base64转Blob</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function dataURItoBlob (base64Data) &#123;</div><div class="line">   var byteString;</div><div class="line">   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)</div><div class="line">       byteString = atob(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   else</div><div class="line">       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];</div><div class="line">   var ia = new Uint8Array(byteString.length);</div><div class="line">   for (var i = 0; i &lt; byteString.length; i++) &#123;</div><div class="line">       ia[i] = byteString.charCodeAt(i);</div><div class="line">   &#125;</div><div class="line">   // canvas.toDataURL 返回的默认格式是 image/png</div><div class="line">   return new Blob([ia], &#123;type: type&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><pre><code>&lt;?php
-  header(&apos;Access-Control-Allow-Origin:*&apos;);
-  //处理文件
-  if(!file_exists(&apos;./img&apos;)){
-      mkdir(&apos;./img&apos;);
-  }
-  $file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
-  $newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
-  $res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
-  print_r($_FILES)
-?&gt;
-</code></pre><p>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/27/imgClipUpload/" class="archive-article-date">
-  	<time datetime="2017-03-26T17:01:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-package" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/11/package/">配置相关—package.json</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
-<p>name是这个东西的名字。注意：</p>
-<ul>
-<li>不要把node或者js放在名字中。因为你写了package.json它就被假定成为了js，不过你可以用”engine”字段指定一个引擎（见后文）。</li>
-<li>这个名字会作为在URL的一部分、命令行的参数或者文件夹的名字。任何non-url-safe的字符都是不能用的。</li>
-<li>这个名字可能会作为参数被传入require()，所以它应该比较短，但也要意义清晰。</li>
-<li>在你爱上你的名字之前，你可能要去npm registry查看一下这个名字是否已经被使用了。 <a href="http://registry.npmjs.org/" target="_blank" rel="external">http://registry.npmjs.org/</a></li>
-</ul>
-<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
-<p>version必须能被 <a href="https://github.com/isaacs/node-semver" target="_blank" rel="external">node-semver</a>解析，它被包在npm的依赖中。（要自己用可以执行<code>npm install semver</code>）</p>
-<p>更多可用的“数字”或者“范围”见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
-<h2 id="description"><a href="#description" class="headerlink" title="description"></a>description</h2><p>Put a description in it. It’s a string. This helps people discover your package, as it’s listed in <code>npm search</code>.</p>
-<h2 id="keywords"><a href="#keywords" class="headerlink" title="keywords"></a>keywords</h2><p>放简介，字符串。方便屌丝们在 <code>npm search</code>中搜索。</p>
-<h2 id="homepage"><a href="#homepage" class="headerlink" title="homepage"></a>homepage</h2><p>项目官网的url。</p>
-<h2 id="bugs"><a href="#bugs" class="headerlink" title="bugs"></a>bugs</h2><p>你项目的提交问题的url和（或）邮件地址。这对遇到问题的屌丝很有帮助。</p>
-<p>差不多长这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;url&quot; : &quot;http://github.com/owner/project/issues&quot;</div><div class="line">, &quot;email&quot; : &quot;project@hostname.com&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>你可以指定一个或者指定两个。如果你只想提供一个url，那就不用对象了，字符串就行。</p>
-<p>如果提供了url，它会被<code>npm bugs</code>命令使用。</p>
-<h2 id="license"><a href="#license" class="headerlink" title="license"></a>license</h2><p>你应该要指定一个许可证，让人知道使用的权利和限制的。</p>
-<p>最简单的方法是，假如你用一个像BSD或者MIT这样通用的许可证，就只需要指定一个许可证的名字，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;license&quot; : &quot;BSD&quot; &#125;</div></pre></td></tr></table></figure>
-<h2 id="people-fields-author-contributors"><a href="#people-fields-author-contributors" class="headerlink" title="people fields: author, contributors"></a>people fields: author, contributors</h2><p>author是一个人。contributors是一堆人的数组。person是一个有name字段，可选的有url、email字段的对象，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;Barney Rubble&quot;</div><div class="line">, &quot;email&quot; : &quot;b@rubble.com&quot;</div><div class="line">, &quot;url&quot; : &quot;http://barnyrubble.tumblr.com/&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="files"><a href="#files" class="headerlink" title="files"></a>files</h2><p>files是一个包含项目中的文件的数组。如果命名了一个文件夹，那也会包含文件夹中的文件。（除非被其他条件忽略了）</p>
-<p>你也可以提供一个.npmignore文件，即,使被包含在files字段中得文件被留下。其实就像.gitignore一样。</p>
-<h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>main字段配置一个文件名指向模块的入口程序。如果你包的名字叫foo，然后用户require(“foo”)，main配置的模块的exports对象会被返回。</p>
-<p>这应该是一个相对于根目录的文件路径。</p>
-<p>对于大多数模块，它是非常有意义的，其他的都没啥。</p>
-<h2 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h2><p>很多包都有一个或多个可执行的文件希望被放到PATH中。npm让妈妈再也不用担心了（实际上，就是这个功能让npm可执行的）。</p>
-<p>要用这个功能，给package.json中的<code>bin</code>字段一个命令名到文件位置的map。初始化的时候npm会将他链接到<code>prefix/bin</code>（全局初始化）或者<code>./node_modules/.bin/</code>（本地初始化）。</p>
-<p>比如，npm有：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;bin&quot; : &#123; &quot;npm&quot; : &quot;./cli.js&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>所以，当你初始化npm，它会创建一个符号链接到<code>cli.js</code>脚本到<code>/usr/local/bin/npm</code>。</p>
-<p>如果你只有一个可执行文件，并且名字和包名一样。那么你可以只用一个字符串，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot;: &quot;./path/to/program&quot; &#125;</div></pre></td></tr></table></figure>
-<p>结果和这个一样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot; : &#123; &quot;my-program&quot; : &quot;./path/to/program&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<h2 id="repository"><a href="#repository" class="headerlink" title="repository"></a>repository</h2><p>指定你的代码存放的地方。这个对希望贡献的人有帮助。如果git仓库在github上，那么<code>npm docs</code>命令能找到你。</p>
-<p>这样做：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;git&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://github.com/isaacs/npm.git&quot;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;svn&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://v8.googlecode.com/svn/trunk/&quot;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>URL应该是公开的（即便是只读的）能直接被未经过修改的版本控制程序处理的url。不应该是一个html的项目页面。因为它是给计算机看的。</p>
-<h2 id="scripts"><a href="#scripts" class="headerlink" title="scripts"></a>scripts</h2><p>“scripts”是一个由脚本命令组成的hash对象，他们在包不同的生命周期中被执行。key是生命周期事件，value是要运行的命令。其中<code>start</code>和<code>test</code>可以简写像这样<code>npn start</code> 而不用<code>npm run start</code></p>
-<p>参见 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a></p>
-<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>“config” hash可以用来配置用于包脚本中的跨版本参数。在实例中，如果一个包有下面的配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;foo&quot;</div><div class="line">, &quot;config&quot; : &#123; &quot;port&quot; : &quot;8080&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>然后有一个“start”命令引用了<code>npm_package_config_port</code>环境变量，用户可以通过<code>npm config set foo:port 8001</code>来重写他。</p>
-<p>参见 <a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a> 和 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a>。</p>
-<h2 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h2><p>项目运行需要依赖的插件</p>
-<p><strong>请不要将测试或过渡性的依赖放在<code>dependencies</code>中。</strong>见下文的<code>devDependencies</code>。</p>
-<p>详见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
-<ul>
-<li><code>version</code> 必须完全和<code>version</code>一致</li>
-<li><code>&gt;version</code> 必须比<code>version</code>大</li>
-<li><code>&gt;=version</code> 同上</li>
-<li><code>&lt;version</code> 同上</li>
-<li><code>&lt;=version</code> 同上</li>
-<li><code>~version</code> 约等于，见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a></li>
-<li><code>^version</code> 相同大版本的最新版本</li>
-<li><code>1.2.x</code> 1.2.0, 1.2.1, 等，但不包括1.3.0</li>
-<li><code>http://...</code> 见下文’依赖URL’</li>
-<li><code>*</code> 所有</li>
-<li><code>&quot;&quot;</code> 空，同<code>*</code></li>
-<li><code>version1 - version2</code> 同 <code>&gt;=version1 &lt;=version2</code>.</li>
-<li><code>range1 || range2</code> 二选一。</li>
-<li><code>git...</code> 见下文’依赖Git URL’</li>
-<li><code>user/repo</code> 见下文’GitHub URLs’</li>
-</ul>
-<p>比如下面都是合法的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;dependencies&quot; :</div><div class="line">  &#123; &quot;foo&quot; : &quot;1.0.0 - 2.9999.9999&quot;</div><div class="line">  , &quot;bar&quot; : &quot;&gt;=1.0.2 &lt;2.1.2&quot;</div><div class="line">  , &quot;baz&quot; : &quot;&gt;1.0.2 &lt;=2.3.4&quot;</div><div class="line">  , &quot;boo&quot; : &quot;2.0.1&quot;</div><div class="line">  , &quot;boo&quot; : &quot;^2.0.1&quot;</div><div class="line">  , &quot;qux&quot; : &quot;&lt;1.0.0 || &gt;=2.3.1 &lt;2.4.5 || &gt;=2.5.2 &lt;3.0.0&quot;</div><div class="line">  , &quot;asd&quot; : &quot;http://asdf.com/asdf.tar.gz&quot;</div><div class="line">  , &quot;til&quot; : &quot;~1.2&quot;</div><div class="line">  , &quot;elf&quot; : &quot;~1.2.3&quot;</div><div class="line">  , &quot;two&quot; : &quot;2.x&quot;</div><div class="line">  , &quot;thr&quot; : &quot;3.3.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="依赖URL"><a href="#依赖URL" class="headerlink" title="依赖URL"></a>依赖URL</h3><p>可以指定一个tarball URL，这个tarball将在包被初始化的时候下载并初始化。</p>
-<h3 id="依赖Git-URL"><a href="#依赖Git-URL" class="headerlink" title="依赖Git URL"></a>依赖Git URL</h3><p>Git urls 可以是下面几种形式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git://github.com/user/project.git#commit-ish</div><div class="line">git+ssh://user@hostname:project.git#commit-ish</div><div class="line">git+ssh://user@hostname/project.git#commit-ish</div><div class="line">git+http://user@hostname/project/blah.git#commit-ish</div><div class="line">git+https://user@hostname/project/blah.git#commit-ish</div></pre></td></tr></table></figure>
-<p><code>commit-ish</code>是可以被<code>git checkout</code>的任何tag、sha或者branch。默认为<code>master</code>。</p>
-<h2 id="GitHub-URLs"><a href="#GitHub-URLs" class="headerlink" title="GitHub URLs"></a>GitHub URLs</h2><p>1.1.65版后，你可以仅仅用“user/foo-project”引用GitHub urls，比如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"foo"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"express"</span>: <span class="string">"visionmedia/express"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="devDependencies"><a href="#devDependencies" class="headerlink" title="devDependencies"></a>devDependencies</h2><p>如果有人要用你的模块，但他们可能不需要你开发所使用的外部测试或者文档框架。</p>
-<p>在这种情况下，最好将这些附属的项目列在<code>devDependencies</code>中。</p>
-<p>这些东西会在根目录执行<code>npm link</code>或者<code>npm install</code>的时候初始化，并可以像其他npm配置参数一样管理</p>
-<p>对于非特定平台的构建步骤，比如需要编译CoffeeScript，可以用<code>prepublish</code>脚本去实现，并把它依赖的包放在devDependency中。（译者注：<code>prepublish</code>定义了在执行<code>npm publish</code>的时候先行执行的脚本。详见<code>scripts</code>）</p>
-<p>比如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">"name"</span>: <span class="string">"ethopia-waza"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"a delightfully fruity coffee varietal"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.2.3"</span>,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"coffee-script"</span>: <span class="string">"~1.6.3"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"prepublish"</span>: <span class="string">"coffee -o lib/ -c src/waza.coffee"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"main"</span>: <span class="string">"lib/waza.js"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>prepublish</code>脚本会在publishing前运行，这样用户就不用自己去require来编译就能使用。并且在开发模式中（比如本地运行<code>npm install</code>）会运行这个脚本以便更好地测试。</p>
-<h2 id="peerDependencies"><a href="#peerDependencies" class="headerlink" title="peerDependencies"></a>peerDependencies</h2><p>在一些场景中，如在一个host中不必须进行<code>require</code>时候，你想表现你的package与一个host工具或者库的兼容关键。这一般用来引用<em>插件</em>。尤其是你的模块可能要暴露一个特定的接口，并由host文档来预期和指定。</p>
-<p>比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;tea-latte&quot;,</div><div class="line">  &quot;version&quot;: &quot;1.3.5&quot;</div><div class="line">  &quot;peerDependencies&quot;: &#123;</div><div class="line">    &quot;tea&quot;: &quot;2.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这能保证你的package可以只和tea的2.x版本一起初始化。<code>npm install tea-latte</code>可能会产生下面的依赖关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">â”œâ”€â”€ tea-latte@1.3.5</div><div class="line">â””â”€â”€ tea@2.2.0</div></pre></td></tr></table></figure>
-<p>试图初始化另一个有会冲突的依赖的插件将导致一个错误。因此，确保你的插件的需求约束越弱越好，而不要去把它锁定到一个特定的版本。</p>
-<p>假设这个host遵守semver规范，只改变这个package的主版本会打破你的插件。因此，如果你在package中用过每个1.x版本，就用”^1.0”或者”1.x”来表示。如果你依赖于功能介绍1.5.2，用”&gt;= 1.5.2 &lt; 2”。</p>
-<h2 id="bundledDependencies"><a href="#bundledDependencies" class="headerlink" title="bundledDependencies"></a>bundledDependencies</h2><p>一组包名，他们会在发布的时候被打包进去。</p>
-<p>拼成<code>&quot;bundleDependencies&quot;</code>（缺d）也可以。</p>
-<h2 id="optionalDependencies"><a href="#optionalDependencies" class="headerlink" title="optionalDependencies"></a>optionalDependencies</h2><p>如果一个依赖可用，但你希望在它安装错误的时候npm也能继续初始化，那么你可以把它放在<code>optionalDependencies</code> hash中。这是一个包名到版本或者url的map，就像<code>dependencies</code> hash一样。只是它运行错误。</p>
-<p>处理缺乏依赖也是你的程序的责任。比如像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">  var foo = require(&apos;foo&apos;)</div><div class="line">  var fooVersion = require(&apos;foo/package.json&apos;).version</div><div class="line">&#125; catch (er) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line">if ( notGoodFooVersion(fooVersion) ) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line"></div><div class="line">// .. then later in your program ..</div><div class="line"></div><div class="line">if (foo) &#123;</div><div class="line">  foo.doFooThings()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>optionalDependencies</code>会覆盖<code>dependencies</code>中同名的项，所以通常比只放在一个地方好。</p>
-<h2 id="engines"><a href="#engines" class="headerlink" title="engines"></a>engines</h2><p>你可以指定工作的node的版本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;node&quot; : &quot;&gt;=0.10.3 &lt;0.12&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>并且，像dependensies一样，如果你不指定版本或者指定“*”作为版本，那么所有版本的node都可以。</p>
-<p>如果指定一个“engines”字段，那么npm会需要node在里面，如果“engines”被省略，npm会假定它在node上工作。</p>
-<p>你也可以用“engines”字段来指定哪一个npm版本能更好地初始化你的程序，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;npm&quot; : &quot;~1.0.20&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>记住，除非用户设置<code>engine-strict</code>标记，这个字段只是建议值。</p>
-<h2 id="engineStrict"><a href="#engineStrict" class="headerlink" title="engineStrict"></a>engineStrict</h2><p>如果你确定你的模块<em>一定不</em>会运行在你指定版本之外的node或者npm上，你可以在package.json文件中设置<code>&quot;engineStrict&quot;:true</code>。它会重写用户的<code>engine-strict</code>设置。</p>
-<p>除非你非常非常确定，否则不要这样做。如果你的engines hash过度地限制，很可能轻易让自己陷入窘境。慎重地考虑这个选择。如果大家滥用它，它会再以后的npm版本中被删除。</p>
-<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>你可以指定你的模块要运行在哪些操作系统中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;darwin&quot;, &quot;linux&quot; ]</div></pre></td></tr></table></figure>
-<p>你也可以用黑名单代替白名单，在名字前面加上“!”就可以了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;!win32&quot; ]</div></pre></td></tr></table></figure>
-<p>操作系统用<code>process.platform</code>来探测。</p>
-<p>虽然没有很好地理由，但它是同时支持黑名单和白名单的。</p>
-<h2 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h2><p>如果你的代码只能运行在特定的cpu架构下，你可以指定一个：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;x64&quot;, &quot;ia32&quot; ]</div></pre></td></tr></table></figure>
-<p>就像<code>os</code>选项，你也可以黑一个架构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;!arm&quot;, &quot;!mips&quot; ]</div></pre></td></tr></table></figure>
-<p>cpu架构用<code>process.arch</code>探测。</p>
-<h2 id="preferGlobal"><a href="#preferGlobal" class="headerlink" title="preferGlobal"></a>preferGlobal</h2><p>如果包主要是需要全局安装的命令行程序，就设置它为<code>true</code>来提供一个warning给只在局部安装的人。</p>
-<p>它不会真正的防止用户在局部安装，但如果它没有按预期工作它会帮助防止产生误会。</p>
-<h2 id="private"><a href="#private" class="headerlink" title="private"></a>private</h2><p>如果你设置<code>&quot;private&quot;: true</code>，npm就不会发布它。</p>
-<p>这是一个防止意外发布私有库的方式。如果你要确定给定的包是只发布在特定registry（如内部registry）的，用<code>publishConfig</code>hash的描述来重写<code>registry</code>的publish-time配置参数。</p>
-<h2 id="publishConfig"><a href="#publishConfig" class="headerlink" title="publishConfig"></a>publishConfig</h2><p>这是一个在publish-time使用的配置集合。当你想设置tag或者registry的时候它非常有用，所以你可以确定一个给定的包没有打上“lastest”的tag或者被默认发布到全局的公开registry。</p>
-<p>任何配置都可以被重写，但当然可能只有“tag”和“registry”与发布的意图有关。</p>
-<p>参见<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a>有可以被重写的列表。</p>
-<h2 id="DEFAULT-VALUES"><a href="#DEFAULT-VALUES" class="headerlink" title="DEFAULT VALUES"></a>DEFAULT VALUES</h2><p>npm会根据包的内容设置一些默认值。</p>
-<ul>
-<li><p><code>&quot;scripts&quot;: {&quot;start&quot;: &quot;node server.js&quot;}</code></p>
-<p>如果包的根目录有<code>server.js</code>文件，npm会默认将<code>start</code>命令设置为<code>node server.js</code>。</p>
-</li>
-<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-waf clean || true; node-waf configure build&quot;}</code></p>
-<p>  如果包的根目录有<code>wscript</code>文件，npm会默认将<code>preinstall</code>命令用node-waf进行编译。</p>
-</li>
-<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-gyp rebuild&quot;}</code></p>
-<p>  如果包的根目录有<code>binding.gyp</code>文件，npm会默认将<code>preinstall</code>命令用node-gyp进行编译。</p>
-</li>
-<li><p><code>&quot;contributors&quot;: [...]</code></p>
-<p>  如果有<code>AUTHORS</code>文件，npm会默认逐行按<code>Name &lt;email&gt; (url)</code>格式处理，邮箱和url是可选的。<code>#</code>号和空格开头的行会被忽略。</p>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/11/package/" class="archive-article-date">
-  	<time datetime="2017-03-11T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/package/">package</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -2235,7 +1533,7 @@ export function * counterMinus1 (action) {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Jasonellen
+    		&copy; 2018 Jasonellen
     	</div>
     </div>
   </div>
@@ -2286,7 +1584,7 @@ export function * counterMinus1 (action) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

@@ -236,6 +236,525 @@
       <div class="body-wrap">
         
   
+    <article id="post-翻页列表+记住当前位置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/26/翻页列表+记住当前位置/">翻页列表(记住当前位置)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>为了更好的用户体验，列表页大都选择分页加载的方式，现在的问题是什么呢，就是从分页列表第三页点击进图列表详情页，按浏览器返回键后回到列表页，如果停留在之前的位置😆，说到底就是能监听路由变化，不改变原页面。</p>
+</blockquote>
+<h2 id="实现思路一"><a href="#实现思路一" class="headerlink" title="实现思路一"></a>实现思路一</h2><h3 id="1-项目使用browserHistory路由默认"><a href="#1-项目使用browserHistory路由默认" class="headerlink" title="1.项目使用browserHistory路由默认"></a>1.项目使用<code>browserHistory</code>路由默认</h3><pre><code>如果项目是合并到后端部署需要后端同步配置，在后端项目路由最后一行，match *path 直接渲染前端html文件，
+比如 ruby项目-&gt;config/routes.rb文件最后一行需添加
+     match &quot;*path&quot;, to: &quot;pc#index&quot;, via: :all
+</code></pre><h3 id="2-列表点击路由不做跳转，push哈希值"><a href="#2-列表点击路由不做跳转，push哈希值" class="headerlink" title="2.列表点击路由不做跳转，push哈希值"></a>2.列表点击路由不做跳转，<code>push</code>哈希值</h3><pre><code>onClick=function(){
+    browserHistory.push(&apos;/#123&apos;)
+    fetch({xxx:123})...
+}
+此刻详情页以模态框的形式显示
+</code></pre><h3 id="3-监听浏览器-哈希值-的改变"><a href="#3-监听浏览器-哈希值-的改变" class="headerlink" title="3.监听浏览器 哈希值 的改变"></a>3.监听浏览器 哈希值 的改变</h3><p><strong>如果存在hash则请求详情数据，同时显示模态框，否则影藏模态框</strong></p>
+<pre><code>window.onhashchange = function(location) {
+    console.log(location,&apos;------&apos;)
+    if(location.xxx){
+        fetch(...)
+    }
+}
+</code></pre><h2 id="实现思路二-参考上儿科普教育"><a href="#实现思路二-参考上儿科普教育" class="headerlink" title="实现思路二(参考上儿科普教育)"></a>实现思路二(<small>参考上儿科普教育</small>)</h2><h4 id="路由页面："><a href="#路由页面：" class="headerlink" title="路由页面："></a>路由页面：</h4><pre><code>&lt;Route path=&apos;/KePuJY&apos; getComponent={KePuJY} onEnter={()=&gt;this.setTitleAndShare(&apos;科普教育&apos;)}&gt;
+    &lt;Route path=&apos;:id&apos; getComponent={ArticleDetail} onEnter={()=&gt;this.setTitleAndShare(&apos;文章详情&apos;)}&gt;&lt;/Route&gt;
+&lt;/Route&gt;
+</code></pre><h4 id="文章列表页："><a href="#文章列表页：" class="headerlink" title="文章列表页："></a>文章列表页：</h4><pre><code>import { browserHistory} from &apos;react-router&apos;
+componentDidMount(){
+    browserHistory.listen((location)=&gt;{
+        if(location.action == &apos;POP&apos;){
+            this.setState({display:&apos;none&apos;})
+        }else{
+            this.setState({display:&apos;block&apos;})
+        }
+    })
+}
+render(){
+    return (
+        &lt;div className=&quot;xx&quot;&gt;
+            ul&gt;li*10
+            &lt;div style={{display:this.state.display,width:'100%',height:'100%'}}&gt;
+                {this.props.children}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+</code></pre><h4 id="详情页："><a href="#详情页：" class="headerlink" title="详情页："></a>详情页：</h4><pre><code>.ArticleDetail{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+</code></pre><h1 id="就先酱紫吧😯"><a href="#就先酱紫吧😯" class="headerlink" title="就先酱紫吧😯"></a>就先酱紫吧😯</h1><p>**<br>温馨提示：<br></p>
+<ol>
+<li>iscroll内部盒子元素padding会导致高度计算不准确<br></li>
+<li>getBoundingClientRect在苹果手机首次加载的时候不正确，滚动后才正确<br>**</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/01/26/翻页列表+记住当前位置/" class="archive-article-date">
+  	<time datetime="2018-01-26T06:37:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react-router/">react-router</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-moment" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: 时间工具-moment<br>date: 2018-1-5 19:07:48<br>tags: moment</p>
+<blockquote>
+<p>moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：<a href="http://momentjs.com/" target="_blank" rel="external">moment.js</a></p>
+</blockquote>
+<h3 id="head"><a href="#head" class="headerlink" title="head"></a>head</h3><pre><code>&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/zh-cn.js&apos;&gt;&lt;/script&gt;
+</code></pre><p><strong> 这里引入了cdn <code>moment.min.js</code> 和 <code>汉化包</code> </strong></p>
+<h3 id="页面输出"><a href="#页面输出" class="headerlink" title="页面输出"></a>页面输出</h3><p><span style="color:red">当前时间moment()</span> = Fri Jan 05 2018 16:54:35 GMT+0800</p>
+<hr>
+<p><span style="color:red">初始格式化moment().format()</span> = 2018-01-05T16:54:35+08:00</p>
+<hr>
+<p><span style="color:red">设置时间moment(“2010-3-5 15:10:3:123”)</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
+<hr>
+<p><span style="color:red">.date()是获取，.date(-7)是设置时间</span></p>
+<hr>
+<p><span style="color:red">moment().date()</span> = 5<br><span style="color:red">moment().date(-7).format(“YYYY-MM-DD”)</span> = 2017-12-24</p>
+<hr>
+<p><span style="color:red">取值</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
+<hr>
+<p>moment().get(‘year’);</p>
+<pre><code>moment().get(&apos;month&apos;);  // 0 to 11
+
+moment().get(&apos;date&apos;);
+
+moment().get(&apos;hour&apos;);
+
+moment().get(&apos;minute&apos;);
+
+moment().get(&apos;second&apos;);
+
+moment().get(&apos;millisecond&apos;);
+</code></pre><hr>
+<p><span style="color:red">moment().set(“year”, 2013) == moment().year(2013)</span><br>…</p>
+<hr>
+<p><span style="color:red">设置相对时间：moment().add(-3, “d”)=</span>Tue Jan 02 2018 16:54:35 GMT+0800</p>
+<pre><code>Key    Shorthand    
+years  y
+quarters Q
+months    M
+weeks    w
+days    d
+hours    h
+minutes    m
+seconds    s
+milliseconds    ms
+</code></pre><hr>
+<p><span style="color:red">格式化format()</span><span style="color:red">moment().format(“[today] dddd”) = </span>today 星期五<br><span style="color:red">moment().format(“YYYY-MM-DD”) = </span>2018-01-05<br><span style="color:red">moment(2015/12/2).format(“YYYY-MM-DD”) = </span>2015-12-02</p>
+<hr>
+<p><span style="color:red">转化为时间戳：moment()-0 = </span>1515142475927</p>
+<hr>
+<p><span style="color:red">相对时间：moment(“2017-9-10”).fromNow() = </span>4 个月前<br><span style="color:red">相对时间：moment(“2017-9-10”).fromNow(true); = </span>4 个月</p>
+<hr>
+<p><span style="color:red">日历时间：moment().calendar() = </span>今天16:54<br><span style="color:red">日历时间：moment(“2018-1-4”).calendar(); = </span>昨天00:00</p>
+<hr>
+<p><span style="color:red">时差 (毫秒) ：<br>                var a = moment(“2017-1-20”);<br>                var b = moment(“2017-1-19”);<br>                a.diff(b) = </span>86400000<br><span style="color:red">日历时间：a.diff(b, “days”); = </span>1</p>
+<hr>
+<p><span style="color:red">时间比较：moment(‘2010-10-20’).isBefore(‘2010-10-21’)</span><br><span style="color:red">isBefore、isSame、isAfter、isBetween</span></p>
+<hr>
+<p>​    </p>
+<h3 id="script提供js支持"><a href="#script提供js支持" class="headerlink" title="script提供js支持"></a>script提供js支持</h3><pre><code>&lt;script &gt;
+    window.onload=function(){
+        moment.locale(&apos;zh-cn&apos;)  //设置中文  需要引入带locale的js文件生效
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;当前时间moment()&lt;/span&gt; = &apos;,moment())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;初始格式化moment().format()&lt;/span&gt; = &apos;, moment().format())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置时间moment(&quot;2010-3-5 15:10:3:123&quot;)&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;.date()是获取，.date(-7)是设置时间&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date()&lt;/span&gt; = &apos;,moment().date())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date(-7).format(&quot;YYYY-MM-DD&quot;)&lt;/span&gt; = &apos;,moment().date(-7).format(&apos;YYYY-MM-DD&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;取值&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(`moment().get(&apos;year&apos;);&lt;br/&gt;
+                                        moment().get(&apos;month&apos;);  // 0 to 11&lt;br/&gt;
+                                        moment().get(&apos;date&apos;);&lt;br/&gt;
+                                        moment().get(&apos;hour&apos;);&lt;br/&gt;
+                                        moment().get(&apos;minute&apos;);&lt;br/&gt;
+                                        moment().get(&apos;second&apos;);&lt;br/&gt;
+                                        moment().get(&apos;millisecond&apos;);&lt;br/&gt;`
+        )
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().set(&quot;year&quot;, 2013) == moment().year(2013)&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;...&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置相对时间：moment().add(-3, &quot;d&quot;)=&lt;/span&gt;&apos;,moment().add(-3, &apos;d&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(`
+            Key    Shorthand&lt;br/&gt;
+            years    y&lt;br/&gt;
+            quarters    Q&lt;br/&gt;
+            months    M&lt;br/&gt;
+            weeks    w&lt;br/&gt;
+            days    d&lt;br/&gt;
+            hours    h&lt;br/&gt;
+            minutes    m&lt;br/&gt;
+            seconds    s&lt;br/&gt;
+            milliseconds    ms&lt;br/&gt;
+        `)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;格式化format()&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;[today] dddd&quot;) = &lt;/span&gt;&apos;, moment().format(&apos;[today] dddd&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment().format(&quot;YYYY-MM-DD&quot;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment(2015/12/2).format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment(&apos;2015/12/2&apos;).format(&quot;YYYY-MM-DD&quot;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;转化为时间戳：moment()-0 = &lt;/span&gt;&apos;, moment()-0)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow() = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow(true); = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow(true))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment().calendar() = &lt;/span&gt;&apos;, moment().calendar())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment(&quot;2018-1-4&quot;).calendar(); = &lt;/span&gt;&apos;, moment(&quot;2018-1-4&quot;).calendar())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        var a = moment(&quot;2017-1-20&quot;);
+        var b = moment(&quot;2017-1-19&quot;);
+        document.write(`
+            &lt;span style=&quot;color:red&quot;&gt;时差 (毫秒) ：
+            var a = moment(&quot;2017-1-20&quot;);
+            var b = moment(&quot;2017-1-19&quot;);
+            a.diff(b) = &lt;/span&gt;`, a.diff(b))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：a.diff(b, &quot;days&quot;); = &lt;/span&gt;&apos;, a.diff(b, &apos;days&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(`&lt;span style=&quot;color:red&quot;&gt;时间比较：moment(&apos;2010-10-20&apos;).isBefore(&apos;2010-10-21&apos;)&lt;/span&gt;`)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(`&lt;span style=&quot;color:red&quot;&gt;isBefore、isSame、isAfter、isBetween&lt;/span&gt;`)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+    }
+&lt;/script&gt;
+</code></pre><p><strong> 常用的方法直接输出到页面，看的已经很直白明显了喔 </strong></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/01/16/moment/" class="archive-article-date">
+  	<time datetime="2018-01-16T12:29:25.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-移动端适配" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/02/移动端适配/">移动端适配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>移动端要适配什么？先来一个震文图</p>
+</blockquote>
+<p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fm18sc6s2pj20y957uwpx.jpg" alt=""></p>
+<blockquote>
+<p>flexible 是 2014年5月诞生的，国内的大前端对于移动端的经验还不算成熟，而手机淘宝能有这种思路，已经是非常厉害的一个方案！</p>
+<h2 id="现在出现了很多新的机型，适配方案需要稍加更改，修改如下"><a href="#现在出现了很多新的机型，适配方案需要稍加更改，修改如下" class="headerlink" title="现在出现了很多新的机型，适配方案需要稍加更改，修改如下"></a>现在出现了很多新的机型，适配方案需要稍加更改，修改如下</h2></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line">;(function(win) &#123;</div><div class="line">    var doc = win.document;</div><div class="line">    var docEl = doc.documentElement;</div><div class="line">    var metaEl = doc.querySelector(&apos;meta[name=&quot;viewport&quot;]&apos;);</div><div class="line">    var dpr = 0;</div><div class="line">    var scale = 0;</div><div class="line">    var tid;</div><div class="line">    var flexible = &#123;&#125;;</div><div class="line">    if (metaEl) &#123;</div><div class="line">        console.warn(&apos;将根据已有的meta标签来设置缩放比例&apos;);</div><div class="line">        var match = metaEl.getAttribute(&apos;content&apos;).match(/initial\-scale=([\d\.]+)/);</div><div class="line">        if (match) &#123;</div><div class="line">            scale = parseFloat(match[1]);</div><div class="line">            dpr = parseInt(1 / scale);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (!dpr &amp;&amp; !scale) &#123;</div><div class="line">        var isAndroid = win.navigator.appVersion.match(/android/gi);</div><div class="line">        var isIPhone = win.navigator.appVersion.match(/iphone/gi);</div><div class="line">        var devicePixelRatio = win.devicePixelRatio;</div><div class="line">        if (isIPhone) &#123;</div><div class="line">            // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案</div><div class="line">            if (devicePixelRatio &gt;= 3 &amp;&amp; (!dpr || dpr &gt;= 3)) &#123;                </div><div class="line">                dpr = 3;</div><div class="line">            &#125; else if (devicePixelRatio &gt;= 2 &amp;&amp; (!dpr || dpr &gt;= 2))&#123;</div><div class="line">                dpr = 2;</div><div class="line">            &#125; else &#123;</div><div class="line">                dpr = 1;</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            // 其他设备下，仍旧使用1倍的方案</div><div class="line">            dpr = 1;</div><div class="line">        &#125;</div><div class="line">        scale = 1 / dpr;</div><div class="line">    &#125;</div><div class="line">    docEl.setAttribute(&apos;data-dpr&apos;, dpr);</div><div class="line">    if (!metaEl) &#123;</div><div class="line">        metaEl = doc.createElement(&apos;meta&apos;);</div><div class="line">        metaEl.setAttribute(&apos;name&apos;, &apos;viewport&apos;);</div><div class="line">        metaEl.setAttribute(&apos;content&apos;, &apos;initial-scale=&apos; + scale + &apos;, maximum-scale=&apos; + scale + &apos;, minimum-scale=&apos; + scale + &apos;, user-scalable=no&apos;);</div><div class="line">        if (docEl.firstElementChild) &#123;</div><div class="line">            docEl.firstElementChild.appendChild(metaEl);</div><div class="line">        &#125; else &#123;</div><div class="line">            var wrap = doc.createElement(&apos;div&apos;);</div><div class="line">            wrap.appendChild(metaEl);</div><div class="line">            doc.write(wrap.innerHTML);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    function refreshRem()&#123;</div><div class="line">        var width = docEl &amp;&amp; docEl.clientWidth || doc.body.clientWidth || win.innerWidth;</div><div class="line">        var rem = width / 10;</div><div class="line">        docEl.style.fontSize = rem + &apos;px&apos;;</div><div class="line">        flexible.rem = win.rem = rem;</div><div class="line">    &#125;</div><div class="line">    win.addEventListener(&apos;resize&apos;, function() &#123;</div><div class="line">        clearTimeout(tid);</div><div class="line">        tid = setTimeout(refreshRem, 300);</div><div class="line">    &#125;, false);</div><div class="line">    win.addEventListener(&apos;pageshow&apos;, function(e) &#123;</div><div class="line">        if (e.persisted) &#123;</div><div class="line">            clearTimeout(tid);</div><div class="line">            tid = setTimeout(refreshRem, 300);</div><div class="line">        &#125;</div><div class="line">    &#125;, false);</div><div class="line"></div><div class="line">    if (doc.readyState === &apos;complete&apos;) &#123;</div><div class="line">        doc.body.style.fontSize = 12 * dpr + &apos;px&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        doc.addEventListener(&apos;DOMContentLoaded&apos;, function(e) &#123;</div><div class="line">            doc.body.style.fontSize = 12 * dpr + &apos;px&apos;;</div><div class="line">        &#125;, false);</div><div class="line">    &#125;</div><div class="line">    refreshRem();</div><div class="line">    flexible.rem2px = function(d) &#123;</div><div class="line">        var val = parseFloat(d) * this.rem;</div><div class="line">        if (typeof d === &apos;string&apos; &amp;&amp; d.match(/rem$/)) &#123;</div><div class="line">            val += &apos;px&apos;;</div><div class="line">        &#125;</div><div class="line">        return val;</div><div class="line">    &#125;</div><div class="line">    flexible.px2rem = function(d) &#123;</div><div class="line">        var val = parseFloat(d) / this.rem;</div><div class="line">        if (typeof d === &apos;string&apos; &amp;&amp; d.match(/px$/)) &#123;</div><div class="line">            val += &apos;rem&apos;;</div><div class="line">        &#125;</div><div class="line">        return val;</div><div class="line">    &#125;</div><div class="line">    win.flexible = flexible;</div><div class="line">&#125;)(window);</div></pre></td></tr></table></figure>
+<h2 id="其中有几点需要说明一下"><a href="#其中有几点需要说明一下" class="headerlink" title="其中有几点需要说明一下"></a>其中有几点需要说明一下</h2><h4 id="1-对安卓手机统一修改dpr-1"><a href="#1-对安卓手机统一修改dpr-1" class="headerlink" title="1.对安卓手机统一修改dpr=1"></a>1.对安卓手机统一修改dpr=1</h4><p><img src="http://wx2.sinaimg.cn/mw690/908edb0egy1fm19e8t4ckj20i603hdgc.jpg" alt=""><br>详情请参见：<br><a href="https://www.quirksmode.org/mobile/metaviewport/#link18" target="_blank" rel="external">Meta viewport</a></p>
+<h4 id="2-去掉了refreshRem函数中对宽度的限制"><a href="#2-去掉了refreshRem函数中对宽度的限制" class="headerlink" title="2.去掉了refreshRem函数中对宽度的限制"></a>2.去掉了<code>refreshRem</code>函数中对宽度的限制</h4><p>部分高分辨率安卓机会显得字体很小等问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (width / dpr &gt; 540) &#123;</div><div class="line">   width = 540 * dpr;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="3-替换getBoundingClientRect"><a href="#3-替换getBoundingClientRect" class="headerlink" title="3.替换getBoundingClientRect"></a>3.替换<code>getBoundingClientRect</code></h4><p>此属性还是存在兼容性问题，部分安卓机获取的值是空</p>
+<blockquote>
+<p>适配的关键是设置根目录<code>font-size</code>的大小，至于设置设置的<code>viewport</code>的<code>scale</code>是为了保证屏幕尺寸和设计稿尺寸一致，便于开发调试,设置缩放比<code>scale</code>后会直接影响到获取的页面的宽高尺寸</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/12/02/移动端适配/" class="archive-article-date">
+  	<time datetime="2017-12-02T04:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rem适配/">Rem适配</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-input[type=file]图片上传" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/09/input[type=file]图片上传/">input[type=file]图片上传</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>图片上传到处都能遇到，如何子定义一个截图上传的组件?那就需要了解下面几点基础知识啦~</p>
+</blockquote>
+<h4 id="开发一个本地上传图片控件，需要支持三种上传方式："><a href="#开发一个本地上传图片控件，需要支持三种上传方式：" class="headerlink" title="开发一个本地上传图片控件，需要支持三种上传方式："></a>开发一个本地上传图片控件，需要支持三种上传方式：</h4><ol>
+<li>选择本地图片上传</li>
+<li>拖曳图片上传</li>
+<li>截图上传</li>
+</ol>
+<h3 id="Action1-选择本地图片上传"><a href="#Action1-选择本地图片上传" class="headerlink" title="Action1.选择本地图片上传"></a>Action1.选择本地图片上传</h3><pre><code>&lt;input id=&apos;img-input&apos; type=&apos;file&apos; accept=&apos;image/*.jpg&apos;/&gt;&lt;br/&gt;
+&lt;img src=&quot;&quot; alt=&quot;&quot; width=&apos;200&apos; id=&apos;img1&apos;&gt;
+var ipt = document.getElementById(&apos;img-input&apos;)
+// 置空input value
+function clearImgInputValue () {
+  ipt.value = &apos;&apos;
+}
+ipt.onchange = function(e){
+  console.log(&apos;choose a image&apos;)
+  // 获取File对象
+  const file = e.target.files[0]
+  let size = file.size
+  // if (!file.type.match(&apos;image.*&apos;)) {
+  //   this.clearImgInputValue()
+  //   return;
+  // }
+  // if (size &gt; 5000) {
+  //   this.clearImgInputValue()
+  //   return;
+  // }
+  const reader = new FileReader()  // FileReader
+  // 将图片转换为base64
+  reader.readAsDataURL(file)
+  reader.onload = (arg) =&gt; {
+    // 获取到base64图片内容
+    document.querySelector(&apos;#img1&apos;).src = arg.target.result
+    clearImgInputValue()
+  }
+}
+</code></pre><h3 id="Action2-拖曳图片上传"><a href="#Action2-拖曳图片上传" class="headerlink" title="Action2.拖曳图片上传"></a>Action2.拖曳图片上传</h3><pre><code>&lt;div id=&apos;drop-zone&apos; style=&quot;width:100px;height:100px&quot;&gt;拖拽到这里放手~&lt;/div&gt;
+&lt;img src=&quot;&quot; alt=&quot;&quot; width=&apos;200&apos; id=&apos;img2&apos;&gt;
+function handleDragOver(event){
+  event.stopPropagation()
+  event.preventDefault()
+  event.dataTransfer.dropEffect = &apos;copy&apos;
+}
+
+// 必须阻止dragenter和dragover事件的默认行为，这样才能触发 drop 事件
+function handleFileSelect(event){
+  event.stopPropagation()
+  event.preventDefault()
+
+  const files = event.dataTransfer.files // 文件对象
+  const file = files[0]
+  const size = file.size
+  const type = file.type
+
+  // if (!type.match(&apos;image.*&apos;)) {
+  //   return;
+  // }
+  // if (size &gt; 5000) {
+  //   return;
+  // }
+  const reader = new FileReader()
+  // 将图片转换为base64
+  reader.readAsDataURL(file)
+  reader.onload = (arg) =&gt; {
+    // 获取到base64图片内容
+    document.querySelector(&apos;#img2&apos;).src = arg.target.result
+  }
+}
+
+const dropZone = document.getElementById(&apos;drop-zone&apos;);
+dropZone.addEventListener(&apos;dragover&apos;, handleDragOver, false);
+dropZone.addEventListener(&apos;drop&apos;, handleFileSelect, false);
+</code></pre><h3 id="Action3-截图上传"><a href="#Action3-截图上传" class="headerlink" title="Action3.截图上传"></a>Action3.截图上传</h3><pre><code>document.addEventListener(&apos;paste&apos;, function(e){
+  console.log(&apos;paste a image&apos;)
+  const clipboard = e.clipboardData
+  // 有无内容
+  if (!clipboard.items || !clipboard.items.length) {
+    return;
+  }
+  let item = clipboard.items[0]
+  if (item.kind === &apos;file&apos; &amp;&amp; item.type.match(&apos;image.*&apos;)) {
+      // 获取图片文件
+      let imgFile = item.getAsFile()
+      // if (imgFile.size &gt; maxSize) {
+      //   return;
+      // }
+      const reader = new FileReader()
+      // 将图片转换为base64
+      reader.readAsDataURL(imgFile)
+      reader.onload = (arg) =&gt; {
+        // 获取到base64图片内容
+        const fileStream = arg.target.result
+      }
+  } else {
+    console.log(&apos;...&apos;)
+  }
+}, false)
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/11/09/input[type=file]图片上传/" class="archive-article-date">
+  	<time datetime="2017-11-09T14:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UpLoad/">UpLoad</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-css3高级动画" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -898,360 +1417,9 @@ b.next(13) // { value:42, done:true }
 
 
   
-    <article id="post-iscroll" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/15/iscroll/">IScroll</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://iscrolljs.com/#onscroll" target="_blank" rel="external">IScroll官网</a></p>
-<blockquote>
-<p>IScroll还是很不错的，尤其是应用在移动端，移动端body自带滚动，那么内部的列表滚动就不会那么自然，起码没有缓冲效果</p>
-</blockquote>
-<h3 id="记录基本使用demo"><a href="#记录基本使用demo" class="headerlink" title="记录基本使用demo"></a>记录基本使用demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;script type=&quot;text/javascript&quot; src=&apos;iscroll-probe.js&apos;&gt;&lt;/script&gt;</div><div class="line">&lt;style&gt;</div><div class="line">	html,body&#123;</div><div class="line">		margin:0;</div><div class="line">	&#125;</div><div class="line">	ul,li&#123;</div><div class="line">		margin:0;padding:0;list-style: none;</div><div class="line">	&#125;</div><div class="line">	.warp&#123;</div><div class="line">		width: 100%;</div><div class="line">		height: 50vh;</div><div class="line">		overflow: hidden;</div><div class="line">		position: relative; /*用了定位后才能将滚动条相对于当前窗口而不是文档*/</div><div class="line">	&#125;</div><div class="line">	ul&#123;</div><div class="line">		/*width: 2000px;*/</div><div class="line">	&#125;</div><div class="line">	li&#123;</div><div class="line">		height: 74px;</div><div class="line">		background: green;</div><div class="line">		border: 5px solid;</div><div class="line">		box-sizing: border-box;</div><div class="line">		/*float: left;</div><div class="line">		width:200px;*/</div><div class="line">	&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;body id=&apos;body&apos;&gt;</div><div class="line"></div><div class="line"></div><div class="line">		&lt;div class=&quot;warp&quot;&gt;</div><div class="line">			&lt;ul&gt;</div><div class="line">				&lt;li&gt;1&lt;/li&gt;</div><div class="line">				&lt;li&gt;2&lt;/li&gt;</div><div class="line">				&lt;li&gt;3&lt;/li&gt;</div><div class="line">				&lt;li&gt;4&lt;/li&gt;</div><div class="line">				&lt;li&gt;5&lt;/li&gt;</div><div class="line">				&lt;li&gt;6&lt;/li&gt;</div><div class="line">				&lt;li&gt;7&lt;/li&gt;</div><div class="line">				&lt;li&gt;8&lt;/li&gt;</div><div class="line">				&lt;li&gt;9&lt;/li&gt;</div><div class="line">				&lt;li&gt;10&lt;/li&gt;</div><div class="line">				&lt;li&gt;11&lt;/li&gt;</div><div class="line">				&lt;li&gt;12&lt;/li&gt;</div><div class="line">				&lt;li&gt;13&lt;/li&gt;</div><div class="line">				&lt;li&gt;14&lt;/li&gt;</div><div class="line">				&lt;li&gt;15&lt;/li&gt;</div><div class="line">				&lt;li&gt;16&lt;/li&gt;</div><div class="line">				&lt;li&gt;17&lt;/li&gt;</div><div class="line">				&lt;li&gt;18&lt;/li&gt;</div><div class="line">				&lt;li&gt;19&lt;/li&gt;</div><div class="line">				&lt;li&gt;20&lt;/li&gt;</div><div class="line">				&lt;li&gt;21&lt;/li&gt;</div><div class="line">				&lt;li&gt;22&lt;/li&gt;</div><div class="line">				&lt;li id=&quot;abc&quot;&gt;abc&lt;/li&gt;</div><div class="line">				&lt;li&gt;23&lt;/li&gt;</div><div class="line">				&lt;li&gt;24&lt;/li&gt;</div><div class="line">				&lt;li&gt;25&lt;/li&gt;</div><div class="line">				&lt;li&gt;26&lt;/li&gt;</div><div class="line">				&lt;li&gt;27&lt;/li&gt;</div><div class="line">				&lt;li&gt;28&lt;/li&gt;</div><div class="line">				&lt;li&gt;29&lt;/li&gt;</div><div class="line">				&lt;li&gt;30&lt;/li&gt;</div><div class="line">			&lt;/ul&gt;</div><div class="line">		&lt;/div&gt;</div><div class="line"></div><div class="line">	&lt;script&gt;</div><div class="line">	window.onload=function()&#123;</div><div class="line">		var myScroll = new IScroll(&apos;.warp&apos;, &#123;</div><div class="line">				mouseWheel: true,</div><div class="line">				scrollbars: true,</div><div class="line">				fadeScrollbars:true,</div><div class="line">				interactiveScrollbars:true, //滚动条可拖动</div><div class="line">				probeType: 2,  //监听位置必须要搭配这个</div><div class="line">				// snap:true //开启分页，自动计算内容占滚动容器的多少页</div><div class="line">				snap:&apos;li&apos;, //以每个li作为分页，不会停留在li的一半的位置</div><div class="line">				// scrollX: true,scrollY: false, //水平滚动</div><div class="line">				// eventPassthrough:true,</div><div class="line">				// freeScroll:true</div><div class="line">		&#125;);</div><div class="line"></div><div class="line">		//scrollStart scrollEnd...</div><div class="line">		myScroll.on(&apos;scroll&apos;, function () &#123;</div><div class="line">			console.log(this.y, this.maxScrollY)</div><div class="line">		&#125;);</div><div class="line">		// myScroll.scrollTo(0, -74, 1000); //滚动到位置  三参是时间</div><div class="line">		// myScroll.goToPage(0, 1, 1000); // 滚动到水平第0页 竖直的第1页 配合snap使用</div><div class="line"></div><div class="line">		myScroll.scrollToElement(&apos;#abc&apos;,500,0,-74) //滚动到元素，时间，水平偏移，竖直偏移量</div><div class="line">		document.addEventListener(&apos;touchmove&apos;,function(e)&#123;</div><div class="line">			e.preventDefault()</div><div class="line">		&#125;,false)</div><div class="line">	&#125;</div><div class="line">	&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li><p>1，页面在移动端滚动条移动变得非常卡，最后加上了document.addEventListener(‘touchmove’, function (e) { e.preventDefault(); }, false);滚动条变得很流畅，并且阻止body滚动</p>
-</li>
-<li><p>2，关于页面在不刷新的情况下如果添加了新的模块或者高度发生了变化会导致无法下拉的情况，使用iscroll5可以解决这个问题，就是在你触发了变化的事件之后，加上myscroll.refresh(); 去调用它自带的刷新方法。 </p>
-</li>
-<li><p>3，用了Iscroll会阻止默认行为，那么点击事件就不能使用，需要配置中加上 click:true（移动端可以借助faskClick,还解决了300ms延迟问题）加了 click：true的话 注意 表单将无效</p>
-</li>
-<li><p>4，a标签等不能跳转的问题，可以修改源码</p>
-<ul>
-<li>preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }</li>
-</ul>
-</li>
-<li><p>3，indicators是个好东西，参考官网demo:minimap 和parallax</p>
-<p><img src="http://wx2.sinaimg.cn/mw690/908edb0ely1fj93h1asarj20gm08ygre.jpg" alt="minimap"></p>
-<p><img src="http://wx1.sinaimg.cn/mw690/908edb0ely1fj93cs61spj208h0brgof.jpg" alt="parallax"></p>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/08/15/iscroll/" class="archive-article-date">
-  	<time datetime="2017-08-15T08:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IScroll/">IScroll</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-canvas水波纹" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/06/canvas水波纹/">canvas水波纹</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="轻戳预览"><a href="#轻戳预览" class="headerlink" title="轻戳预览"></a><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/canvasWater/blob/master/index.html" target="_blank" rel="external">轻戳预览</a></h3><blockquote>
-<p>现在的水波纹效果，很多场景还是可以看到，这里用canvas实现一个类似的效果<br>思路：其实就是2个贝塞尔曲线填充2种不同颜色，然后动态改变贝塞尔的2个控制点，制造一个波纹的效果</p>
-</blockquote>
-<p>代码比较简单，废话不多少，直接贴Demo吧<br>HTML：</p>
-<pre><code>&lt;style&gt;
-    html,body{
-        height: 100%;
-        margin:0;
-        background: grey;
-    }
-    canvas{
-        width: 100%;
-        height: 100%;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
-&lt;/body&gt;
-</code></pre><p>JS：</p>
-<pre><code>var canvas = document.getElementById(&apos;canvas&apos;);
-var ctx = canvas.getContext(&apos;2d&apos;);
-var _width = canvas.width = canvas.offsetWidth;
-var _height = canvas.height = canvas.offsetHeight;
-var leftDot = rightDot = _height * 0.7  //起始点和终点高度
-var leftDotSpeed = 0.2;
-var rightDotSpeed = 0.16;
-var n = 0;
-window.requestAnimationFrame =  window.requestAnimationFrame ||
-                                window.mozRequestAnimationFrame ||
-                                window.webkitRequestAnimationFrame ||
-                                window.msRequestAnimationFrame;
-
-run();
-function drawSun(){
-    var color = ctx.createRadialGradient(_width/2,_height*0.6,1,_width/2,_height*0.8,600);
-    color.addColorStop(0,&apos;red&apos;);
-    color.addColorStop(.2,&apos;#fff&apos;);
-    color.addColorStop(0.5,&apos;lightgrey&apos;);
-    color.addColorStop(1,&apos;grey&apos;);
-    ctx.beginPath();
-    ctx.arc(_width/2, _height*0.8, 600, 0, 2*Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
-}
-function drawWater(n,color, leftDot, rightDot){
-    var angle = n * Math.PI / 180;
-    var deltaHeight = Math.sin(angle) * _height / 8;
-    var deltaHeightRight = Math.cos(angle) * _height / 7;
-    ctx.beginPath();
-    ctx.moveTo(0, leftDot);
-    ctx.bezierCurveTo(_width / 4, leftDot + deltaHeight, _width * 3 / 4, rightDot + deltaHeightRight, _width, rightDot);
-    ctx.lineTo(_width, _height);
-    ctx.lineTo(0, _height); //使得下半个矩形闭合
-    ctx.fillStyle = color;
-    ctx.fill();
-}
-function run() {
-    ctx.clearRect(0, 0, _width, _height);
-    n+=1;
-    leftDot += leftDotSpeed
-    rightDot += rightDotSpeed
-    if(leftDot&gt;_height*0.8 || leftDot&lt;_height*0.6){
-        leftDotSpeed *= -1
-    }
-    if(rightDot&gt;_height*0.8 || rightDot&lt;_height*0.6){
-        rightDotSpeed *= -1
-    }
-    drawSun()
-    drawWater(n+50,&apos;lightcyan&apos;, leftDot, rightDot)
-    drawWater(n,&apos;cyan&apos;, leftDot, rightDot)
-    requestAnimationFrame(run);
-}
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/07/06/canvas水波纹/" class="archive-article-date">
-  	<time datetime="2017-07-06T15:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-webpack之hash的意义" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/26/webpack之hash的意义/">webpack之hash、chunkhash和contenthash</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>​    <strong>文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。</strong></p>
-<p>​    <strong>如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。</strong></p>
-<h3 id="1-hash与chunkhash"><a href="#1-hash与chunkhash" class="headerlink" title="1.hash与chunkhash"></a>1.hash与chunkhash</h3><p>首先我们先看一下官方文档对于两者的定义：</p>
-<blockquote>
-<p>[hash] is replaced by the hash of the compilation.(<code>hash</code>代表的是<em>compilation</em>的hash值。)</p>
-<p>[chunkhash] is replaced by the hash of the chunk.(<code>chunkhash</code>代表的是<em>chunk</em>(模块)的hash值。)</p>
-</blockquote>
-<p>什么是 compilation？compilation对象代表某个版本的资源对应的编译进程。compilation在项目中任何一个文件改动后就会被重新创建，然后webpack计算新的compilation的hash值，这个hash值便是<code>hash</code>。<code>hash</code>是compilation<code>对象compiler①</code>计算所得，而不是具体的项目文件计算所得。所以所有的文件名都会使用相同的hash指纹。</p>
-<blockquote>
-<p>①compiler对象代表的是配置完备的Webpack环境。 compiler对象只在Webpack启动时构建一次，由Webpack组合所有的配置项构建生成。</p>
-</blockquote>
-<p>例如使用hash配置产生了2个相同hash文件名的js文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[hash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdef.js</div><div class="line">//b.778asdef.js</div></pre></td></tr></table></figure>
-<p>这样带来的问题是，这2个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
-<p><strong>这时候就用到了<code>chunkhash</code>,<code>chunkhash</code>是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。配置webpack的output如下：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[chunkhash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdfg.js</div><div class="line">//b.778afrds.js</div></pre></td></tr></table></figure>
-<p>这样每个文件的hash都不相同，上线后无改动的文件不会失去缓存。</p>
-<h3 id="2-js与css共用相同chunkhash的解决方案"><a href="#2-js与css共用相同chunkhash的解决方案" class="headerlink" title="2. js与css共用相同chunkhash的解决方案"></a>2. js与css共用相同chunkhash的解决方案</h3><p>webpack的理念是把所有类型的文件都以js为汇聚点，不支持js文件以外的文件为编译入口。所以如果我们要编译style文件，唯一的办法是在js文件中引入style文件。如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import &apos;style/style.scss&apos;;</div></pre></td></tr></table></figure>
-<p>webpack默认将js/style文件统统编译到一个js文件中，可以借助<a href="https://github.com/webpack/extract-text-webpack-plugin" target="_blank" rel="external">extract-text-webpack-plugin</a>将style文件单独编译输出。但是在计算<code>chunkhash</code>时，会把所有的js代码和style代码混合在一起计算。比如<code>main.js</code>引用了<code>main.scss</code>:</p>
-<p>这时候，如果我们只是修改了css,那么不但单独编译出来的css文件hash值有改变，对应的JS文件hash也会改变。</p>
-<p>这时候就用到了<code>contenthash</code></p>
-<p><strong>extract-text-webpack-plugin提供了另外一种hash值：<code>contenthash</code>。顾名思义，<code>contenthash</code>代表的是文本文件内容的hash值，也就是只有style文件的hash值。这个hash值就是解决上述问题的银弹。修改配置如下：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new ExtractTextPlugin(&apos;[name].[contenthash].css&apos;);</div></pre></td></tr></table></figure>
-<p>这样编译输出的js和css文件将会有其独立的hash值。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/06/26/webpack之hash的意义/" class="archive-article-date">
-  	<time datetime="2017-06-26T12:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/25/Vue全家桶/">你需知道的Vue全家桶</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="external">Vuex官网</a></p>
-<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  localComputed () &#123; /* ... */ &#125;,</div><div class="line">  // 使用对象展开运算符将此对象混入到外部对象中</div><div class="line">  ...mapState(&#123;</div><div class="line">  	// 映射 this.count 为 store.state.count</div><div class="line">    count: state =&gt; state.count,  ① == ②</div><div class="line">    //计算属性的名称与 state 的子节点名称相同时</div><div class="line">  	&apos;count&apos; ② == ①</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getters= &#123;</div><div class="line">  // ...</div><div class="line">  doneTodosCount: (state, getters) =&gt; &#123;</div><div class="line">    return getters.doneTodos.length</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">mutations= &#123;</div><div class="line">  increment (state, payload) &#123;</div><div class="line">    state.count += payload.amount</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">store.commit(&apos;increment&apos;, &#123;</div><div class="line">  amount: 10</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</div><div class="line">actions= &#123;</div><div class="line">  async actionA (&#123; commit &#125;) &#123;</div><div class="line">  	//触发mutation</div><div class="line">    commit(&apos;gotData&apos;, await getData())</div><div class="line">  &#125;,</div><div class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</div><div class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</div><div class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default new Vuex.Store(&#123;</div><div class="line">  actions,  //公用的actions</div><div class="line">  getters,	//公用的getters</div><div class="line">  modules: &#123;</div><div class="line">    cart,  //拥有自己的 state、mutation、action、getter</div><div class="line">    products //拥有自己的 state、mutation、action、getter</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<ul>
-<li>对于模块内部的 mutation 和 getter，接收的第一个参数是模块的局部状态对象。</li>
-<li>对于模块内部的 action，局部状态通过 context.state 暴露出来， 根节点状态则为 context.rootState</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  actions: &#123;</div><div class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</div><div class="line">     //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>对于模块内部的 getter，根节点状态会作为第三个参数暴露出来</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  getters: &#123;</div><div class="line">    sumWithRootCount (state, getters, rootState) &#123;</div><div class="line">      return state.count + rootState.count</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">export default function createWebSocketPlugin (socket) &#123;</div><div class="line">  return store =&gt; &#123;</div><div class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</div><div class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</div><div class="line">      store.commit(&apos;receiveData&apos;, data)</div><div class="line">    &#125;)</div><div class="line">    //store监听到mutation触发后发送socket到后台 ②</div><div class="line">    store.subscribe(mutation =&gt; &#123;</div><div class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</div><div class="line">        socket.emit(&apos;update&apos;, mutation.payload)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const plugin = createWebSocketPlugin(socket)</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  state,</div><div class="line">  mutations,</div><div class="line">  plugins: [plugin]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h5 id="内置-Logger-插件"><a href="#内置-Logger-插件" class="headerlink" title="内置 Logger 插件"></a>内置 Logger 插件</h5><blockquote>
-<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">vue-devtools</a>，你可能不需要此插件</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import createLogger from &apos;vuex/dist/logger&apos;</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  plugins: [createLogger()]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
-<h2 id="二、项目实战"><a href="#二、项目实战" class="headerlink" title="二、项目实战"></a>二、项目实战</h2><blockquote>
-<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="external">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
-</blockquote>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/06/25/Vue全家桶/" class="archive-article-date">
-  	<time datetime="2017-06-24T17:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1261,7 +1429,7 @@ function run() {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Jasonellen
+    		&copy; 2018 Jasonellen
     	</div>
     </div>
   </div>
@@ -1312,7 +1480,7 @@ function run() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

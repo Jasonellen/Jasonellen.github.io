@@ -236,6 +236,875 @@
       <div class="body-wrap">
         
   
+    <article id="post-扒一扒jquery的几个技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/21/扒一扒jquery的几个技巧/">扒一扒JQuery的几个技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-jQuery方法-实际上是拥有两个参数的"><a href="#1-jQuery方法-实际上是拥有两个参数的" class="headerlink" title="1.jQuery方法$()实际上是拥有两个参数的"></a>1.jQuery方法$()实际上是拥有两个参数的</h3><h5 id="Create-an-element-The-second-argument-is-an-object-with-jQuery-methods-to-be-called"><a href="#Create-an-element-The-second-argument-is-an-object-with-jQuery-methods-to-be-called" class="headerlink" title="Create an element. The second argument is an object with jQuery methods to be called"></a>Create an element. The second argument is an object with jQuery methods to be called</h5><pre><code>var div = $(&apos;&lt;div&gt;&apos;,{
+    &quot;class&quot;: &quot;bigBlue&quot;,
+    &quot;css&quot;: {
+        &quot;background-color&quot;:&quot;purple&quot;,
+        &quot;width&quot; : 20,
+        &quot;height&quot;: 20,
+    },
+    &quot;animate&quot; : {   // You can use any jQuery method as a property!
+        &quot;width&quot;: 200,
+        &quot;height&quot;:50
+    }
+});
+
+div.appendTo(&apos;#eleID&apos;);
+</code></pre><h3 id="2-使用js给多个元素添加样式时更好的做法是创建一个style元素。"><a href="#2-使用js给多个元素添加样式时更好的做法是创建一个style元素。" class="headerlink" title="2.使用js给多个元素添加样式时更好的做法是创建一个style元素。"></a>2.使用js给多个元素添加样式时更好的做法是创建一个style元素。</h3><pre><code>var style = $(&apos;&lt;style&gt;&apos;);
+// Try commenting out this line, or change the color:
+style.text(&apos;.div{ color:red;}&apos;);
+style.prependTo(&apos;body&apos;);
+</code></pre><h3 id="3-阻止contextmenu默认事件。（右键菜单）"><a href="#3-阻止contextmenu默认事件。（右键菜单）" class="headerlink" title="3.阻止contextmenu默认事件。（右键菜单）"></a>3.阻止contextmenu默认事件。（右键菜单）</h3><pre><code>$(document).on(&quot;contextmenu&quot;,function(e){
+    e.preventDefault();
+});
+</code></pre><h3 id="4-监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。"><a href="#4-监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。" class="headerlink" title="4.监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。"></a>4.监听不存在的元素上的事件。因为on方法可以传递一个元素的子元素选择器作为参数。</h3><pre><code>var list = $(&apos;#testList&apos;);
+// Binding an event on the list, but listening for events on the li items:
+list.on(&apos;click&apos;,&apos;li&apos;,function(){
+    $(this).remove();
+});
+// This allows us to create li elements at a later time,
+// while keeping the functionality(功能) in the event listener
+list.append(&apos;&lt;li&gt;New item (click me!)&lt;/li&gt;&apos;);
+</code></pre><h3 id="5-使用trigger模拟触发一个click等事件或其他自定义事件。"><a href="#5-使用trigger模拟触发一个click等事件或其他自定义事件。" class="headerlink" title="5.使用trigger模拟触发一个click等事件或其他自定义事件。"></a>5.使用trigger模拟触发一个click等事件或其他自定义事件。</h3><pre><code>// Just a regular event listener:
+press.on(&apos;click&apos;,function(e, how){
+    how = how || &apos;&apos;;
+    alert(&apos;The buton was clicked &apos; + how + &apos;!&apos;);
+});
+
+// Trigger the click event
+press.trigger(&apos;click&apos;);
+
+// Trigger it with an argument   也可以自定义事件
+press.trigger(&apos;click&apos;,[&apos;fast&apos;]);
+</code></pre><h3 id="6-传递参数到e-data执行供执行的函数使用"><a href="#6-传递参数到e-data执行供执行的函数使用" class="headerlink" title="6.传递参数到e.data执行供执行的函数使用"></a>6.传递参数到e.data执行供执行的函数使用</h3><pre><code>//参数只会之心过一次，所以下面的random不管自行几次都是相同的结果
+$(document).on(&apos;click&apos;, Math.round(Math.random()*20), function(e){
+    // This will print the same number over and over again,
+    // as the random number above is generated only once:
+    console.log(&apos;Random number: &apos; + e.data,e.target);
+});
+</code></pre><h3 id="7-Using-event-delegation-事件代理"><a href="#7-Using-event-delegation-事件代理" class="headerlink" title="7.Using event delegation 事件代理"></a>7.Using event delegation 事件代理</h3><pre><code>$(&apos;#holder&apos;).on(&apos;click&apos;, &apos;#clear&apos;, function(){
+    clear();
+});
+</code></pre><h3 id="8-绑定多个事件"><a href="#8-绑定多个事件" class="headerlink" title="8.绑定多个事件"></a>8.绑定多个事件</h3><pre><code>clear.on(&apos;mouseup click&apos;,function(){
+    //...
+})
+
+clear.on({
+    &apos;mousedown&apos;:function(){
+       // ...
+    },
+    &apos;mouseup&apos;:function(){
+        // ...
+    }
+});
+</code></pre><h3 id="9-阻止默认事件"><a href="#9-阻止默认事件" class="headerlink" title="9.阻止默认事件"></a>9.阻止默认事件</h3><h5 id="更快地阻止默认事件行为。"><a href="#更快地阻止默认事件行为。" class="headerlink" title="更快地阻止默认事件行为。"></a>更快地阻止默认事件行为。</h5><pre><code>$(&apos;#goToGoogle&apos;).click(false);
+</code></pre><h5 id="函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，-链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。"><a href="#函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，-链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。" class="headerlink" title="函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，\链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。"></a>函数handler的返回值为false，则表示阻止元素的默认事件行为，并停止事件在DOM树中冒泡。例如，\<a>链接的click事件的处理函数返回false，可以阻止链接的默认URL跳转行为。</a></h5><pre><code>$(&apos;#goToGoogle&apos;).click(function(){
+    return false;
+});
+</code></pre><h3 id="10-平行的运行多个Ajax请求。"><a href="#10-平行的运行多个Ajax请求。" class="headerlink" title="10.平行的运行多个Ajax请求。"></a>10.平行的运行多个Ajax请求。</h3><h5 id="当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。"><a href="#当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。" class="headerlink" title="当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。"></a>当我们需要发送多个Ajax请求是，相反于等待一个发送结束再发送下一个，我们可以平行地发送来加速Ajax请求发送。</h5><pre><code>// The trick is in the $.when() function:
+$.when($.get(&apos;assets/misc/1.json&apos;), $.get(&apos;assets/misc/2.json&apos;)).then(function(r1, r2){
+    log(r1[0].message + &quot; &quot; + r2[0].message);
+});
+</code></pre><h3 id="11-jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。"><a href="#11-jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。" class="headerlink" title="11.jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。"></a>11.jQuery（使用ajax）提供了一个速记的方法来快速下载内容并添加在一个元素中。</h3><pre><code>&lt;p class=&quot;content&quot;&gt;&lt;/p&gt; &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;
+var contentDivs = $(&apos;.content&apos;);
+// Fetch the contents of a text file:
+contentDivs.eq(0).load(&apos;1.txt&apos;);
+// Fetch the contents of a HTML file, and display a specific element:
+contentDivs.eq(1).load(&apos;1.html #header&apos;);
+</code></pre><h3 id="12-JQuery扩展"><a href="#12-JQuery扩展" class="headerlink" title="12.JQuery扩展"></a>12.JQuery扩展</h3><h5 id="jQuery-prototype-jQuery-fn-jQuery-fn-init-prototype"><a href="#jQuery-prototype-jQuery-fn-jQuery-fn-init-prototype" class="headerlink" title="jQuery.prototype = jQuery.fn = jQuery.fn.init.prototype"></a>jQuery.prototype = jQuery.fn = jQuery.fn.init.prototype</h5><pre><code>$.fn.abs=function(){
+    console.log(&apos;abs&apos;)
+}
+$(document).abs();
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/21/扒一扒jquery的几个技巧/" class="archive-article-date">
+  	<time datetime="2017-01-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-开启一个简单的cdn加速" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/16/开启一个简单的cdn加速/">开启一个简单的CDN加速</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度，但是对于大部分的个人网站或者普通企业网站来说，自己建立cdn加速的服务器集群是一笔较高的费用，而且需要专业的技术。这里说一种最简单的网站cdn加速方法。</p>
+</blockquote>
+<p><img src="http://a.hiphotos.baidu.com/exp/w=500/sign=c93d5757c15c1038247ecec28210931c/d4628535e5dde711b08214bba0efce1b9d16612e.jpg" alt=""></p>
+<p><strong>备注：CDN只是在你的服务器给出数据之后，进行加快传输。举个例子，你的服务器响应是10秒，网络传输占2秒，整体是12秒响应。而CDN可以将你的网络传输2秒加速到1秒，但是你的服务器吐出查询数据还是10秒，整体时间是11秒。</strong></p>
+<h2 id="方法-步骤"><a href="#方法-步骤" class="headerlink" title="方法/步骤"></a>方法/步骤</h2><h4 id="1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。"><a href="#1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。" class="headerlink" title="1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。"></a>1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。</h4><p><img src="http://d.hiphotos.baidu.com/exp/w=500/sign=3f0b53d0ccef76093c0b999f1edca301/9825bc315c6034a86d20efcccc134954082376b8.jpg" alt=""></p>
+<h4 id="2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"><a href="#2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。" class="headerlink" title="2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"></a>2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=a65259542af5e0feee1889016c6134e5/6609c93d70cf3bc7c9709ba1d600baa1cd112a0e.jpg" alt=""></p>
+<h4 id="3-进入我的网站管理界面后，点击“添加网站”按钮。"><a href="#3-进入我的网站管理界面后，点击“添加网站”按钮。" class="headerlink" title="3.进入我的网站管理界面后，点击“添加网站”按钮。"></a>3.进入我的网站管理界面后，点击“添加网站”按钮。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=4729466292cad1c8d0bbfc274f3f67c4/0824ab18972bd407429d85b07c899e510fb30920.jpg" alt=""></p>
+<h4 id="4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"><a href="#4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" class="headerlink" title="4.在添加网站页面，输入你的网址（不带http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"></a>4.在添加网站页面，输入你的网址（不带<a href="http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" target="_blank" rel="external">http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”</a></h4><p><img src="http://f.hiphotos.baidu.com/exp/w=500/sign=6d4dfc5f750e0cf3a0f74efb3a47f23d/9213b07eca806538f1c8f55e90dda144ad348259.jpg" alt=""></p>
+<h4 id="5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"><a href="#5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。" class="headerlink" title="5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"></a>5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=c6afe4b63edbb6fd255be5263925aba6/cefc1e178a82b901dde5937e748da9773912ef37.jpg" alt=""></p>
+<h4 id="6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"><a href="#6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。" class="headerlink" title="6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"></a>6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。</h4><p><img src="http://b.hiphotos.baidu.com/exp/w=500/sign=053f52d559df8db1bc2e7c643922dddb/d000baa1cd11728b1e4fdf6fcffcc3cec3fd2c18.jpg" alt=""></p>
+<h4 id="7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"><a href="#7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。" class="headerlink" title="7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"></a>7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=827831339558d109c4e3a9b2e159ccd0/c2cec3fdfc03924589a4b3428094a4c27d1e256d.jpg" alt=""></p>
+<h4 id="8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"><a href="#8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。" class="headerlink" title="8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"></a>8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=29a31cb60d46f21fc9345e53c6256b31/0dd7912397dda144535d3effb5b7d0a20cf48623.jpg" alt=""></p>
+<h4 id="9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"><a href="#9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！" class="headerlink" title="9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"></a>9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！</h4><p><img src="http://e.hiphotos.baidu.com/exp/w=500/sign=b7de0a5f484a20a4311e3cc7a0539847/342ac65c103853430f3ad56c9413b07ecb808882.jpg" alt=""></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>网站域名备案后才能使用百度云加速的国内CDN加速节点。</li>
+<li>在dns修改并等待生效的时间内，不会影响网站的正常访问。</li>
+</ul>
+<h5 id="转自百度经验"><a href="#转自百度经验" class="headerlink" title="转自百度经验"></a>转自<a href="http://jingyan.baidu.com/article/fedf0737ac414f35ac897704.html" target="_blank" rel="external">百度经验</a></h5>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/16/开启一个简单的cdn加速/" class="archive-article-date">
+  	<time datetime="2017-01-16T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN加速/">CDN加速</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-jQuery对象之deferred" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/08/jQuery对象之deferred/">jQuery对象之deferred</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>什么是deferred对象？简单说，deferred对象就是jQuery的回调函数解决方案。在英语中，defer的意思是”延迟”，所以deferred对象的含义就是”延迟”到未来某个点再执行。从而优雅的编写回调函数.</p>
+</blockquote>
+<h2 id="1-ajax操作写法"><a href="#1-ajax操作写法" class="headerlink" title="1,ajax操作写法"></a>1,ajax操作写法</h2><h3 id="非链式"><a href="#非链式" class="headerlink" title="非链式"></a>非链式</h3><pre><code>$.ajax({
+   type:&apos;get&apos;
+   url: &quot;test.html&quot;,
+   success: function(){
+          alert(&quot;哈哈，成功了！&quot;);
+      },
+      error:function(){
+          alert(&quot;出错啦！&quot;);
+      }
+});
+</code></pre><h3 id="链式"><a href="#链式" class="headerlink" title="链式"></a>链式</h3><p>高于1.5.0版本的jq，<code>ajax()返回的是deferred对象</code>，可以直接进行链式操作。</p>
+<pre><code>$.ajax(&quot;test.html&quot;)
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>可以看到，<code>done()</code>相当于<code>success</code>方法，<code>fail()</code>相当于<code>error</code>方法。采用链式写法以后，代码的可读性大大提高。</p>
+<p>如果ajax操作成功后，除了原来的回调函数，我还想再运行一个回调函数，怎么办？直接在结尾追加就好了，回调函数可以添加任意多个，它们按照添加顺序执行。像酱紫：</p>
+<pre><code>$.ajax(&quot;test.html&quot;)
+.done(function(){ alert(&quot;哈哈，成功了！&quot;);} )
+.fail(function(){ alert(&quot;出错啦！&quot;); } )
+.done(function(){ alert(&quot;第二个回调函数！&quot;);} );
+.done(function(){ alert(&quot;第三个回调函数！&quot;);} );
+</code></pre><h2 id="2-为多个操作指定回调函数"><a href="#2-为多个操作指定回调函数" class="headerlink" title="2,为多个操作指定回调函数"></a>2,为多个操作指定回调函数</h2><pre><code>$.when($.ajax(&quot;test1.html&quot;), $.ajax(&quot;test2.html&quot;))
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>这段代码的意思是，先执行两个操作<code>$.ajax(&quot;test1.html&quot;)</code>和<code>$.ajax(&quot;test2.html&quot;)</code>，如果都成功了，就运行<code>done()</code>指定的回调函数；如果有一个失败或都失败了，就执行<code>fail()</code>指定的回调函数。</p>
+<h2 id="3-回调函数接口实现"><a href="#3-回调函数接口实现" class="headerlink" title="3,回调函数接口实现"></a>3,回调函数接口实现</h2><p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作—-不管是ajax操作还是本地操作，也不管是异步操作还是同步操作—-都可以使用deferred对象的各种方法，指定回调函数。</p>
+<p>假定有一个很耗时的操作wait：</p>
+<pre><code>function wait(){
+    var tasks = function(){
+        alert(&quot;执行完毕！&quot;);
+    };
+    setTimeout(tasks,5000);
+};
+
+为它指定回调函数: 错误❌的写法如下
+
+$.when(wait())
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><p>上述写法，done()方法会立即执行，起不到回调函数的作用。原因在于<code>$.when()的参数只能是deferred对象</code>，所以必须对wait()进行改写：<br>​<br>    var dtd = $.Deferred(); // 新建一个deferred对象<br>    var wait = function(){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变deferred对象的执行状态为已完成<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise();<br>    };<br>现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。<br>​<br>    $.when(wait())<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
+<blockquote>
+<p>jQuery规定，deferred对象有三种执行状态—-未完成，已完成和已失败。如果执行状态是”已完成”（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是”已失败”，调用fail()方法指定的回调函数；如果执行状态是”未完成”，则继续等待.<br>deferred.reject()方法，作用是将dtd对象的执行状态从”未完成”改为”已失败”，从而触发fail()方法。<br>jQuery提供了deferred.promise()方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被外界改变造成干扰。</p>
+</blockquote>
+<p><code>**********************************</code></p>
+<h2 id="上面说些原理，下面是2种经常使用的回调接口方法"><a href="#上面说些原理，下面是2种经常使用的回调接口方法" class="headerlink" title="上面说些原理，下面是2种经常使用的回调接口方法"></a>上面说些原理，下面是2种经常使用的回调接口方法</h2><p><code>**********************************</code></p>
+<h4 id="1，将deferred对象变成wait-）函数的内部对象。"><a href="#1，将deferred对象变成wait-）函数的内部对象。" class="headerlink" title="1，将deferred对象变成wait(）函数的内部对象。"></a>1，将deferred对象变成wait(）函数的内部对象。</h4><pre><code>function wait(){
+    var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
+    var tasks = function(){
+        alert(&quot;执行完毕！&quot;);
+        dtd.resolve(); // 改变Deferred对象的执行状态
+    };
+    setTimeout(tasks,5000);
+    return dtd.promise(); // 返回promise对象
+};
+$.when(wait())
+.done(function(){ alert(&quot;哈哈，成功了！&quot;); })
+.fail(function(){ alert(&quot;出错啦！&quot;); });
+</code></pre><h4 id="2，使用deferred对象的建构函数-Deferred"><a href="#2，使用deferred对象的建构函数-Deferred" class="headerlink" title="2，使用deferred对象的建构函数$.Deferred()"></a>2，使用deferred对象的建构函数$.Deferred()</h4><p>jQuery规定，$.Deferred()可以接受一个函数名<code>（注意，是函数名）--当然也是立即执行该函数</code>作为参数，<code>$.Deferred()所生成的deferred对象将作为这个函数的默认参数</code>。<br>​<br>    function wait(dtd){<br>        var tasks = function(){<br>            alert(“执行完毕！”);<br>            dtd.resolve(); // 改变Deferred对象的执行状态<br>        };<br>        setTimeout(tasks,5000);<br>        return dtd.promise(); // 返回promise对象<br>    };<br>    $.Deferred(wait)<br>    .done(function(){ alert(“哈哈，成功了！”); })<br>    .fail(function(){ alert(“出错啦！”); });</p>
+<h3 id="小结：deferred对象的方法"><a href="#小结：deferred对象的方法" class="headerlink" title="小结：deferred对象的方法"></a>小结：deferred对象的方法</h3><ol>
+<li>$.Deferred() 生成一个deferred对象。    </li>
+<li>deferred.done() 指定操作成功时的回调函数</li>
+<li>deferred.fail() 指定操作失败时的回调函数</li>
+<li>deferred.promise() 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。</li>
+<li>deferred.resolve() 手动改变deferred对象的运行状态为”已完成”，从而立即触发done()方法。</li>
+<li>deferred.reject() 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为”已失败”，从而立即触发fail()方法。</li>
+<li>$.when() 为多个操作指定回调函数。<br><br><h4 id="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"><a href="#除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。" class="headerlink" title="除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。"></a>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。</h4></li>
+<li><p>deferred.then()有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。<br><br><code>$.when($.ajax( &quot;/main.php&quot; ))</code><br><br><code>.then(successFunc, failureFunc );</code><br><br>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。</p>
+</li>
+<li><p>deferred.always()<br>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。<br><br><code>$.ajax( &quot;test.html&quot; )</code><br></p>
+<p><code>.always( function() { alert(&quot;已执行！&quot;);} );</code></p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/08/jQuery对象之deferred/" class="archive-article-date">
+  	<time datetime="2017-01-08T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-微信小程序实战，从入门到弃坑（转）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/">微信小程序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="微信小程序实战，从入门到弃坑（转）"><a href="#微信小程序实战，从入门到弃坑（转）" class="headerlink" title="微信小程序实战，从入门到弃坑（转）"></a>微信小程序实战，从入门到弃坑（转）</h1><p><a href="http://www.jianshu.com/p/4433d46e6235" target="_blank" rel="external">原文链接</a></p>
+<p>最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-6c7ccf0f8e3019b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。<strong>文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文</strong>，简书没有目录，也挺伤感的。</p>
+<p>值得再次声明的是：<strong>微信小程序的内容部分是hybrid模式，并非原生</strong>，所以性能并不好，绑定的tap事件也有明显的延迟。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-ef6d4c647e8b188c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>如上图<em><code>每一个由边框围起来的部分，都是一个最小粒度的原生view</code></em>可以看出，整个微信小程序的内容部分，就是一个原生view。</p>
+<h2 id="小程序有哪些基础知识？"><a href="#小程序有哪些基础知识？" class="headerlink" title="小程序有哪些基础知识？"></a>小程序有哪些基础知识？</h2><p>一个完整的微信小程序是由一个App实例和多个Page实例构成，其中App实例表示该小程序应用，多个Page表示该小程序的多个页面。<br>此外，微信小程序并没有提供自定义组件的方式，这就导致微信小程序在开发较复杂应用时，可能会比较艰难。</p>
+<p>微信小程序本身很简单，和一个模板语言的难度几乎相当，翻翻官方教程就可以开始动手搞。</p>
+<p>我也建议大家先动起来，然后再细致啃啃官方文档。由于微信官方文档仍在不断大幅更新中，所以务必查看最新官方文档。</p>
+<p>微信小程序的基础知识主要分为以下几个部分：</p>
+<ul>
+<li>两种配置文件 &amp;&amp; 两个核心函数</li>
+<li>WXML模板语法，页面渲染</li>
+<li>页面间的跳转</li>
+<li>交互事件</li>
+<li>官方组件和官方API</li>
+</ul>
+<h3 id="两种配置文件-amp-amp-两个核心函数"><a href="#两种配置文件-amp-amp-两个核心函数" class="headerlink" title="两种配置文件 &amp;&amp; 两个核心函数"></a>两种配置文件 &amp;&amp; 两个核心函数</h3><p><code>app.json</code><strong>应用的全局配置文件</strong></p>
+<p><code>app.json</code>是针对微信小程序的全局配置，主要包含以下几个配置：</p>
+<ul>
+<li>pages：页面路径的数组，表示小程序要加载的所有页面，其中数组第一项代表小程序的初始页面。</li>
+<li>window：微信原生功能，定制化不强。可设置小程序的状态栏、导航条、标题以及窗口背景色。</li>
+<li>tabBar：微信原生功能，定制化不强。适用于常规的Tab应用，Tab栏可置于顶部或底部；tabBar是一个数组，仅支持2-5个tab。</li>
+<li>networkTimeout：配置小程序网络请求的超时时间。</li>
+<li>debug：调试模式开关，开发模式下建议开启，正式发布别忘了关闭。</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1158202-719f23c56cd215ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><code>page.json</code> <strong>页面的全局配置文件</strong></p>
+<p>除了上面提到的全局配置，每个页面还可以单独配置page.json，page.json会覆盖app.json中的配置，并只对当前页面生效。</p>
+<p>page.json只能对window配置，有两个比较有用的配置项分别是：</p>
+<ul>
+<li>enablePullDownRefresh：是否开启下拉刷新</li>
+<li>disableScroll：只能在page.json配置，禁止页面上下滚动，猜测可以实现完美滑屏滑动（未验证）</li>
+</ul>
+<p><code>App()</code> <strong>小程序注册入口，全局唯一</strong></p>
+<p>App()用来注册一个小程序，全局只有一个，全局的数据也可以放到这里面来操作。</p>
+<pre><code>// 注册微信小程序，全局只有一个
+let appConfig = {
+    // 小程序生命周期的各个阶段
+    onLaunch: function(){},
+    onShow: function(){},
+    onHide: function(){},
+    onError: function(){},
+
+    // 自定义函数或者属性
+    ...
+};
+App(appConfig);
+
+// 在别的地方可以获取这个全局唯一的小程序实例
+const app = getApp();
+</code></pre><p>小程序并没有提供销毁的方式，所以只有当小程序进入后台一定时间、或者系统资源占用过高的时候，才会被真正的销毁。</p>
+<p><code>Page()</code> <strong>页面注册入口</strong></p>
+<p>Page()用来注册一个页面，维护该页面的生命周期以及数据。</p>
+<pre><code>// 注册微信小程序，全局只有一个
+let pageConfig = {
+    data: {},
+    // 页面生命周期的各个阶段
+    onLoad: function(){},
+    onShow: function(){},
+    onReady: function(){},
+    onHide: function(){},
+    onUnload: function(){},
+    onPullDownRefresh: function(){},
+    onReachBottom: function(){},
+    onShareAppMessage: function(){},
+
+    // 自定义函数或者属性
+    ...
+};
+Page(pageConfig);
+
+// 获取页面堆栈，表示历史访问过的页面，最后一个元素为当前页面
+const page = getCurrentPages();
+</code></pre><p>关于各个生命周期的细节以及流程，参考下图，可以细细品味：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-481a42f6d299528e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><code>app.json</code> 和 <code>page.json</code> 维护了应用和页面的配置属性。<code>App()</code> 和 <code>Page()</code> 维护了应用和页面的各个生命周期以及数据。</p>
+<p>那么，<code>APP</code> 和 <code>Page</code> 如何将数据传递到页面呢？页面又是如何渲染呢？</p>
+<h3 id="WXML模板语法，页面渲染"><a href="#WXML模板语法，页面渲染" class="headerlink" title="WXML模板语法，页面渲染"></a>WXML模板语法，页面渲染</h3><p>小程序虽然是hybrid模式，但并不使用HTML渲染，而是全部通过自定义标签来渲染页面。这样做的好处我不清楚，但问题却不少：不能跨浏览器、富文本解析困难，iframe视频不支持，没办法外链跳转。<br>和所有的模板语言一样，WXML支持数据绑定、条件渲染、循环、模块化等功能。</p>
+<h3 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h3><p>在 WXML 中可以使用<code>双大括号</code>将 <code>Page</code> 的变量或者表达式包裹起来，实现数据绑定，举个例子：</p>
+<pre><code>// 将message的值渲染到view中
+&lt;view&gt; {{ message }} &lt;/view&gt;
+
+// 将id的值渲染到view的id属性中
+&lt;view id=&quot;item-{{id}}&quot;&gt; &lt;/view&gt;
+
+// 根据isSelected的值，输出不同的class
+&lt;view class=&quot;{{isSelected ? 'selected' : ''}}&quot;&gt; HelloWorld &lt;/view&gt;
+
+// 结合template，可以传入更复杂的数据
+&lt;template is=&quot;objectCombine&quot; data=&quot;{{...article, categoty, tag: '埃隆马斯克'}}&quot;&gt;&lt;/template&gt;
+</code></pre><h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><p>循环渲染，适合遍历数据输出多段 WXML，举个例子：</p>
+<pre><code>// wx:for 表示需要遍历的数据
+// wx:key 使用唯一的字段来标识，有利于提升性能
+// wx:for-index 表示数组的下标
+// wx:for-item 表示数组的元素
+&lt;view wx:for=&quot;{{[{id:1, message: 'HelloWorld1'}, {id:2, message: 	'HelloWorld2'}]}}&quot; 
+    wx:key=&quot;id&quot; 
+    wx:for-index=&quot;idx&quot; 
+    wx:for-item=&quot;item&quot;&gt;
+    {{idx}}: {{item.message}}
+&lt;/view&gt;
+</code></pre><p><code>wx:key</code> 有利于提升重新渲染时的效率，建议添加</p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>WXML的模块化，可以让我们复用一些wxml片段，还挺重要的，举个例子：</p>
+<pre><code>// 引入wxml模块
+&lt;import src=&quot;../../components/grid-article/index&quot;&gt;&lt;/import&gt;
+
+&lt;block wx:for=&quot;{{posts}}&quot; wx:for-item=&quot;post&quot; wx:key=&quot;id&quot;&gt;
+    // 调用wxml模块，同时可传入数据
+    &lt;template is=&quot;grid-article&quot; data=&quot;{{post}}&quot;&gt;&lt;/template&gt;
+&lt;/block&gt;
+</code></pre><p>数据和页面的状态是一一对应的，微信小程序中，设计一份好的数据结构，对于Page和页面的代码都有很大的帮助。<br>微信小程序并不支持a标签，那么多个页面之间如何跳转呢？</p>
+<h3 id="页面间的跳转"><a href="#页面间的跳转" class="headerlink" title="页面间的跳转"></a>页面间的跳转</h3><p>小程序以栈的形式维护了历史访问的所有页面，并提供了多种页面间的跳转方式；结合前文提到的App()和Page()的各个生命周期，不同的跳转方式和不同的生命周期关联，如下图：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-cf7de8f472d6a147.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>举个例子，Tab 切换对应的生命周期（以 A、B 页面为 Tabbar 页面，C 是从 A 页面打开的页面，D 页面是从 C 页面打开的页面为例）<br><img src="http://upload-images.jianshu.io/upload_images/1158202-80ab7b1ea2766468.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>好了，APP和Page负责维护小程序的生命周期和数据，模板负责接受数据完成页面渲染，页面间的跳转负责将多个页面贯穿起来，那么，如何发生交互呢？接下来我们简单说一下事件。</p>
+<h3 id="交互事件"><a href="#交互事件" class="headerlink" title="交互事件"></a>交互事件</h3><h4 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h4><pre><code>// bindtap 和 catchtap的区别在于
+// bindtap 不会阻止事件冒泡
+// catchtap会冒泡事件冒泡
+&lt;view id=&quot;tapTest&quot; data-hi=&quot;WeChat&quot; bindtap=&quot;tapName&quot;&gt; Click me! &lt;/view&gt;
+&lt;view id=&quot;tapTest&quot; data-hi=&quot;WeChat&quot; catchtap=&quot;tapName&quot;&gt; Click me! &lt;/view&gt;
+
+// 绑定的函数tapName只是一个函数名称，默认接受一个event对象作为参数
+Page({
+    tapName: function(event) {
+        console.log(event)
+        }
+    })
+</code></pre><p>接下来，另一个问题是：<code>tapName()</code> 如何接受自定义参数呢？</p>
+<h4 id="事件传参"><a href="#事件传参" class="headerlink" title="事件传参"></a>事件传参</h4><p>传递自定义参数主要有两种方式：</p>
+<p>第一种：将参数绑定到wxml标签上，然后通过event.target.dataset获取</p>
+<p>第二种：直接使用Page.data或其他数据</p>
+<p>到目前为止，一个完整的小程序框架已经实现</p>
+<ul>
+<li>小程序只有逻辑和视图两部分，而且不提供组件化解决方案</li>
+<li>逻辑主要包含四个东西：两个配置文件 &amp;&amp; 两个核心函数</li>
+<li>视图很简单，模板语法稍微有点不完善</li>
+<li>逻辑层的数据绑定到视图层是由小程序框架自动支持，数据变化，视图自动变化</li>
+<li>视图层到逻辑层的，主要通过事件的方式来实现</li>
+<li>视图之间的跳转，小程序也提供了它自己的方式，并不支持a标签</li>
+</ul>
+<p>框架有了，小程序还提供了官方组件以便快速开发，提供了API以增强应用能力。</p>
+<p>这块就不具体介绍了，也需要注意小程序的官方文档还在大规模的更新中，务必查看最新版</p>
+<p>官方组件：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222</a></p>
+<p>官方API：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222</a></p>
+<p>微信小程序的基础知识就是以上的内容，并不复杂，边查边写都可以。</p>
+<p>接下来会介绍更进阶一些的内容，内容主要结合好奇心日报这个小程序项目，先看效果：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-50ade533c922cb0d.gif?imageMogr2/auto-orient/strip" alt=""></p>
+<h2 id="如何设计微信小程序？"><a href="#如何设计微信小程序？" class="headerlink" title="如何设计微信小程序？"></a>如何设计微信小程序？</h2><h3 id="构建系统-amp-amp-目录结构"><a href="#构建系统-amp-amp-目录结构" class="headerlink" title="构建系统 &amp;&amp; 目录结构"></a>构建系统 &amp;&amp; 目录结构</h3><h4 id="构建系统"><a href="#构建系统" class="headerlink" title="构建系统"></a>构建系统</h4><p>由于微信小程序本身对工程化几乎没有任何的支持，所以动手搭建一份：<a href="https://github.com/qixiuss/wxapp-redux-starter" target="_blank" rel="external">wxapp-redux-starter</a>。</p>
+<p><strong>使用gulp进行编译构建，主要功能包括：</strong></p>
+<ul>
+<li>集成了<code>Redux</code>，数据管理更方便</li>
+<li>开发过程中，使用<code>xml</code>取代<code>wxml</code>，对开发工具更友好</li>
+<li>开发过程中，使用<code>less</code>取代<code>wxss</code>，功能更强大</li>
+<li>引入<code>es-promise</code>，以便可以创建并使用<code>Promise</code></li>
+<li>添加<code>promisify</code>工具函数，可以便捷的将官方<code>Api</code>转换成<code>Pormise</code>模式</li>
+<li>引入<code>normalizr</code>，可以将数据扁平化，更方便进行数据管理</li>
+<li>引入<code>babel</code>自动进行<code>ES2015</code>特性转换</li>
+<li>对<code>wxml/wxss/js/img</code>压缩，相对开发者工具提供的压缩，会减小一丢丢体积。<h4 id="目录结构设计"><a href="#目录结构设计" class="headerlink" title="目录结构设计"></a>目录结构设计</h4>按照pages、components、redux、vendors/libs、images几个核心部分拆分，直接上目录。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-6583ba0c0928481c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+<li>dist目录：构建输出的文件存放到这个目录。</li>
+<li>src目录：开发模式的文件，包括app、页面、组件、图片等静态资源、辅助函数库、Redux数据管理器、第三方工具库。</li>
+<li>gulpfile.js：不用多说，gulp构建任务的入口文件。</li>
+<li>package.json：不用多说，管理者构建任务的依赖。</li>
+<li>thirdPlugins：由于小程序并不支持直接使用npm，我们可以自主拉取构建，然后拷贝到vendors里，有时候需要简单修改。</li>
+</ul>
+<p>构建系统会将src目录下的代码，编译处理后输出到dist目录，小程序开发工具只需要引入dist目录即可。</p>
+<p>有了构建工具，代码开发起来更舒心，但很快就遇到另外一个糟心的问题，那就是如何管理散布在各处的数据？<br>要知道，微信小程序并没有提供组件化方案，所以<strong>把组件写成无状态组件</strong>特别适合，但是页面管理太多数据很凌乱，有什么办法可以将数据集中管理呢？</p>
+<h3 id="引入Redux进行数据集中管理"><a href="#引入Redux进行数据集中管理" class="headerlink" title="引入Redux进行数据集中管理"></a>引入Redux进行数据集中管理</h3><p>关于Redux相关的内容，之前有三篇博客详细介绍，有兴趣的建议先移步：</p>
+<ul>
+<li>Redux整体介绍：<a href="http://www.jianshu.com/p/d296a8c34936" target="_blank" rel="external">Redux 入门教程，应用的状态管理器</a></li>
+<li>对State进行横向和纵向拆分设计：<a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="external">State设计，Redux 开发第一步</a></li>
+<li>Reducer的最佳实践：<a href="http://www.jianshu.com/p/938f8121ba0f" target="_blank" rel="external">Reducer 最佳实践，Redux 开发最重要的部分</a></li>
+</ul>
+<p>这儿就简单介绍一下，如何在微信小程序中引入Redux 以及 如何将微信小程序和Redux连接起来。</p>
+<h4 id="引入Redux"><a href="#引入Redux" class="headerlink" title="引入Redux"></a>引入Redux</h4><p>直接在 <code>thirdPlugins</code>目录 运行 <code>yarn add redux / npm install redux</code>，等<code>redux</code>安装好了之后，将 <code>dist</code>目录 的 <code>redux.js/redux.min.js</code> 拷贝到<code>vendors</code>目录中。<br>需要进行简单的修改才能使用，将压缩版208行代码 <code>(i)</code> 改成 <code>(i || {})</code>即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-143fad06f8c52bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="连接微信小程序和Redux"><a href="#连接微信小程序和Redux" class="headerlink" title="连接微信小程序和Redux"></a>连接微信小程序和Redux</h4><p>将Redux和微信小程序连接起来才会真的有用处。找了个现成的方案<a href="https://github.com/charleyw/wechat-weapp-redux" target="_blank" rel="external">charleyw/wechat-weapp-redux</a>，可以直接使用。</p>
+<p>一个完整的Redux方案如下，包括：将Store注入到App中、将state的数据和reducer的方法映射到Page中。一旦state发生变化，Page.data也会更新，进而触发页面的重新渲染。</p>
+<pre><code>// APP的逻辑
+import { createStore, applyMiddleware, combineReducers } from &apos;./vendors/redux.js&apos;;
+import thunk from &apos;./vendors/redux-thunk.js&apos;;
+import { Provider } from &apos;./vendors/weapp-redux.js&apos;;
+
+// import reducers
+import { rootReducer } from &apos;./redux/reducer.js&apos;;
+
+// 从Storage读取数据
+let entities = wx.getStorageSync(&apos;entities&apos;) || {};
+
+const store = createStore(
+    rootReducer, {
+        // 将读取的数据注入到store中
+        entities: entities
+    },
+    applyMiddleware(
+        thunk
+    )
+);
+
+let appConfig = {
+    onLaunch: function() {},
+
+    onHide: function() {
+        let state = store.getState(),
+            cacheEntities = {};
+
+        // 体积大于2M，直接清空，防止缓存占用过大体积
+        if (sizeof(state.entities) &lt;= 2 * 1024 * 1024) {
+            cacheEntities = state.entities;
+        }
+
+        // 退出时将entities缓存下来
+        wx.setStorageSync(&apos;entities&apos;, cacheEntities);
+    }
+};
+
+App(Provider(store)(appConfig));
+// Page的逻辑
+import { connect } from &apos;../../vendors/weapp-redux.js&apos;;
+
+import { fetchArticleDetail } from &apos;../../redux/models/articles.js&apos;;
+
+let pageConfig = {
+    data: {
+        id: 0,
+        postsHash: {}
+    },
+    onLoad: function(params) {
+        var me = this,
+            { id, postsHash } = me.data;
+
+        me.fetchArticleDetail(id, function() {}, function() {});
+    }
+}
+
+// 考虑到列表页已经获取到部分数据
+// 为了在详情页第一时间利用这些数据，我们将params传入
+// 防止以后需要用data的数据，我们将data也一并传入
+let mapStateToData = (state, params, data) =&gt; {
+    return {
+        id: params.id,
+        postsHash: state.entities.posts
+    }
+};
+
+let mapDispatchToPage = dispatch =&gt; ({
+    fetchArticleDetail: (id, callback, errorCallback) =&gt; dispatch(fetchArticleDetail(id, callback, errorCallback)),
+});
+
+pageConfig = connect(mapStateToData, mapDispatchToPage)(pageConfig)
+Page(pageConfig);
+</code></pre><p>需要注意的是，为了保证第一时间能拿到数据，我们对<code>wechat-weapp-redux/src/connect.js</code>做了优化调整，修改的地方如下</p>
+<pre><code>// 修改了以下两个函数
+// 可以对照原项目修改，也可以直接拿我的模板项目使用
+function handleChange(options) {
+    if (!this.unsubscribe) {
+        return
+    }
+
+    const state = this.store.getState();
+    // 将data也一并传入
+    const mappedState = mapState(state, options, this.data);
+    if (!this.data || shallowEqual(this.data, mappedState)) {
+        return;
+    }
+    this.setData(mappedState)
+}
+
+function onLoad(options) {
+    this.store = app.store;
+    if (!this.store) {
+        warning(&quot;Store对象不存在!&quot;)
+    }
+    if (shouldSubscribe) {
+        this.unsubscribe = this.store.subscribe(handleChange.bind(this, options))
+        // 第一次处理的时候也传入options
+        handleChange.apply(this, [options])
+    }
+    if (typeof _onLoad === &apos;function&apos;) {
+        _onLoad.call(this, options)
+    }
+}
+</code></pre><h4 id="引入Redux的优势"><a href="#引入Redux的优势" class="headerlink" title="引入Redux的优势"></a>引入Redux的优势</h4><p>引入Redux的好处在于可以集中管理数据，并且让Page的代码保持绝对简单，让所有的组件都变成简单可复用的无状态组件。<br>此外，Redux还让离线缓存更方便，数据复用更简单。</p>
+<p>引入Redux解决了数据散布各处的问题，参考Redux的管理思路，我们构思了一套简单组件化解决方案：假设我们把所有的组件都设计成无状态组件，而组件的数据来源是Page.data，那么我们是否也可以将组件数据的管理抽离到一个单独的文件中呢？接下来讲讲我们使用的简单的组件化解决方案。</p>
+<h4 id="简单的组件化解决方案"><a href="#简单的组件化解决方案" class="headerlink" title="简单的组件化解决方案"></a>简单的组件化解决方案</h4><p>这份组件化解决方案的核心就在于把组件的关联数据集中起来管理，只暴露出默认数据和数据的操作函数。</p>
+<p>比如好奇心日报的详情页有个Toolbar，该Toolbar并不复杂，主要提供返回和点赞功能，其中点赞功能只对文章详情有效，研究所详情页会将点赞功能隐藏。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-2d1dc48a1ecaf25b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<pre><code>// components/toolbar/index.js 文件
+// 仅提供默认值，不需要和page中的数据保持同步
+let defaultData = {
+    isPraised: false,
+    praiseCount: 0,
+    showPraiseIcon: false,
+};
+// 切换点赞状态
+function togglePraise() {
+    // 本质上是修改Page.data中的toolbarData
+}
+// 返回上一级
+function navigateToBack(wx) {
+    wx.navigateBack({ delta: 1 });
+}
+module.exports = {
+    defaultData,
+
+    togglePraise,
+    navigateToBack
+}
+
+// pages/articles/show.js 文件
+import Toolbar from &apos;../../components/toolbar/index.js&apos;;
+
+let pageConfig = {
+    data: {
+        // 其他数据
+        id: 0,
+        // Toolbar数据，单独的一份数据，便于维护
+        toolbarData: Toolbar.defaultData
+    },
+    // 点赞或者取消赞
+    togglePraise: function() {
+        let me = this;
+
+        Toolbar.togglePraise.call(me);
+    }
+}
+
+// 这儿的组件化并不是真正的组件化
+// 而是将组件相关的逻辑和函数抽离到单独的文件中，保证Page代码清晰。
+// 同时也为这部分组件逻辑复用提供了可能。
+// 本质上来说，抽离出的组件都是“操作Page.data的工具函数”，他们也是纯函数，和“操作state的reducer”类似。
+</code></pre><p>这种Redux的组件化解决方案既简单又好用，保持一定的代码规范即可。这样设计当然是为了复用，同时也让Page的逻辑保持极度精简。</p>
+<h2 id="开发中遇到了哪些难点-amp-amp-微信小程序有多少坑？"><a href="#开发中遇到了哪些难点-amp-amp-微信小程序有多少坑？" class="headerlink" title="开发中遇到了哪些难点 &amp;&amp; 微信小程序有多少坑？"></a>开发中遇到了哪些难点 &amp;&amp; 微信小程序有多少坑？</h2><p>微信小程序目前的确算不上公测的版本，开发者工具不完善、真机表现和开发环境差异很大、部分组件性能较差、部分功能有缺陷，只有经历了这些大坑，才会真的知道你有多“爱”微信小程序。这儿总结了开发中的难点以及微信小程序中遇到的比较明显的坑。</p>
+<h3 id="富文本解析"><a href="#富文本解析" class="headerlink" title="富文本解析"></a>富文本解析</h3><p>微信小程序并不支持HTML标签，所以对于富文本解析来说，难度较大，而且有些功能还没有办法实现，比如：iframe视频、连接跳转等<br>这块功能建议由后台统一转换，如果非得前端转换，建议参考下面的思路。</p>
+<p>非常感谢 <a href="https://github.com/icindy/wxParse" target="_blank" rel="external">wxParse</a> 这款组件，替我省了不少时间。推荐大家使用，期间遇到一些问题，也分享给大家。</p>
+<ul>
+<li>wxParse 默认层级只支持10层html嵌套，如果想要支持更深的层级，在wxParse.xml复制几份template即可。</li>
+<li>wxParse 提供了图片加载成功的回调<code>wxParseImgLoad</code>，很好用。但如果富文本中的图片已经预设宽高比，那么可以不用依赖该回调，在html2jons.js中根据屏幕宽度直接计算出图片高度，先占位，可以避免页面频繁抖动的问题。</li>
+<li>如果你的富文本中有自定义模块，对wxParse.xml中的template进行改造即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-52ce324bcc9879bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="数据扁平化"><a href="#数据扁平化" class="headerlink" title="数据扁平化"></a>数据扁平化</h3>具体如何扁平化，请移步上一篇博客 <a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="external">State设计，Redux 开发第一步</a>。<br>这儿只简单介绍下扁平化应用场景：<br>好奇心日报的研究所是三级表结构：<code>papers &gt; questions &gt; options</code>，后台返回的数据是三级嵌套数据，如果想要修改option.selected字段，需要三级嵌套循环！如果想要获取所有选中的option，需要三级嵌套循环！<h3 id="页面展现速度优化"><a href="#页面展现速度优化" class="headerlink" title="页面展现速度优化"></a>页面展现速度优化</h3>数据复用，比如复用列表页的数据，可以让详情页的标题等字段第一时间呈现出来。<br>离线缓存，同样可以让列表页和详情页第一时间呈现出来，甚至有可能减少请求数量。</li>
+</ul>
+<p>无论是数据复用还是离线缓存，配合数据扁平化，都非常好用。</p>
+<h3 id="小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）"><a href="#小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）" class="headerlink" title="小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）"></a>小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）</h3><p>解决方法很简单，设置微信小程序不使用代理；或者临时关闭VPN即可。<br>最新版开发者工具已经解决该问题。</p>
+<h3 id="最新版微信小程序移除了对Promise的支持。"><a href="#最新版微信小程序移除了对Promise的支持。" class="headerlink" title="最新版微信小程序移除了对Promise的支持。"></a>最新版微信小程序移除了对Promise的支持。</h3><p>开发者自行引入兼容库即可，推荐<a href="https://github.com/stefanpenner/es6-promise" target="_blank" rel="external">es6-promise</a>。使用的时候，直接引入Promise即可。</p>
+<pre><code>// 引入Promise
+import Promise from &apos;../vendors/es6-promise.js&apos;;
+
+// 用Promise封装wx.request网络请求
+function request(method = &apos;GET&apos;) {
+    return function(url, data = {}) {
+        return new Promise(function(resolve, reject) {
+            wx.request({
+                url,
+                data,
+                method,
+                header: {
+                    &apos;Content-Type&apos;: &apos;application/json&apos;
+                },
+                success: function(res) {
+                    let { statusCode, errMsg, data } = res;
+
+                    if (statusCode == 200 &amp;&amp; data.meta &amp;&amp; data.meta.status == 200) {
+                        resolve(data.response);
+                    } else {
+                        reject(&apos;网路请求错误，请稍后再试~&apos;);
+                    }
+                },
+                fail: function(err) {
+                    reject(&apos;网路请求不符合规范，请检查域名是否符合要求~&apos;);
+                }
+            });
+        })
+    }
+}
+export const GET = request(&apos;GET&apos;);
+export const POST = request(&apos;POST&apos;);
+export const PUT = request(&apos;PUT&apos;);
+export const DELETE = request(&apos;DELETE&apos;);
+
+// 用Promise封装小程序的其他API
+export const promisify = (api) =&gt; {
+    return (options, ...params) =&gt; {
+        return new Promise((resolve, reject) =&gt; {
+            api(Object.assign({}, options, { success: resolve, fail: reject }), ...params);
+        });
+    }
+}
+// 使用
+const getLocation = promisify(wx.getLocation);
+</code></pre><p>不清楚微信为何会临时移除Promise，统一内置不也挺好？</p>
+<h3 id="小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。"><a href="#小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。" class="headerlink" title="小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。"></a>小程序不能实现完美的fullpage效果，会出现上下拉扯的感觉（最新版预计已修复，待实际验证）。</h3><p>小程序一旦滚动顶部或者底部，继续滑动的时候，就会出现拉扯现象。而这个拉扯现象还无法禁止。<br>最新版可以对页面配置disableScroll，预计可以修复这个问题，待实际验证。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-691d39e8e75dc7b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）"><a href="#swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）" class="headerlink" title="swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）"></a>swiper组件不支持轮播，性能差，文档模糊（部分最新版已修复）</h4><ul>
+<li>swiper组件之前并不支持轮播，最新版已修复</li>
+<li>swiper组件之前是通过设置left属性来实现动画，在小米5、华为V8等高端等安卓机上能够感受到明显的卡顿，当然原因是X5内核引起的。最新版已修复，换成了transform，性能有一定的提升。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-942330479da5c884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+<li><p>文档并未标记可以垂直轮播，但其实是可以的。</p>
+<pre><code>// 简单设置vertical即可，但由于官方文档并未备注，尽量不要使用。可以自己开发一个swiper组件。
+&lt;swiper vertical=&quot;true&quot;&gt;&lt;/swiper&gt;
+</code></pre></li>
+<li>swiper组件的小圆点其实是可以定制化的，但是官方文档并未说明，而且开发者工具也看不出来，只有鼠标hover到元素上的时候可以看到相关的class，简单猜测一下，最后分析出来它的实现方式。</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1158202-70f78f4950ce9817.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<pre><code>// 圆点的父元素，用来控制圆点间的间距
+.wx-swiper-dot {
+    width: 30rpx;
+    // 圆点，可以通过font-size修改圆点的大小，color修改圆点的颜色
+    &amp;:before {
+        width: 100%;
+        display: inline-block;
+        font-size: 56rpx;
+        content: &apos;圆点编码&apos;;
+    }
+    // active状态的圆点
+    &amp;.wx-swiper-dot-active {
+        &amp;:before {
+            color: #ffc81f;
+        }
+    }
+}
+</code></pre><h3 id="小程序WXSS的font-face的url不接受路径作为参数"><a href="#小程序WXSS的font-face的url不接受路径作为参数" class="headerlink" title="小程序WXSS的font-face的url不接受路径作为参数"></a>小程序WXSS的font-face的url不接受路径作为参数</h3><p>可以将字体文件转换为base64，然后引用。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-4d8cf6721984b58c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>同样，如果想要使用iconfont，也可以使用类似的方案，将iconfont字体文件base64之后再引入。</p>
+<h4 id="小程序的margin表现有问题（最新版已经修复）"><a href="#小程序的margin表现有问题（最新版已经修复）" class="headerlink" title="小程序的margin表现有问题（最新版已经修复）"></a>小程序的margin表现有问题（最新版已经修复）</h4><p>之前发生margin折叠的时候，会取小的那个值。会导致底部留白等设置失效。</p>
+<h4 id="canvas问题"><a href="#canvas问题" class="headerlink" title="canvas问题"></a>canvas问题</h4><p>canvas并没有深入研究，目前的发现的问题主要是两个，如下图标记：</p>
+<ul>
+<li>层级问题，canvas总是会盖在其他元素上面。</li>
+<li>支持度不好，在小米5、iPhone5s画图会出现畸形。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-aaea239242906e8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+</ul>
+<p>最后通过CSS3的方式绘制饼图</p>
+<pre><code>&lt;template name=&quot;pie&quot;&gt;
+    &lt;view class=&quot;com-pie&quot;&gt;
+        &lt;!-- 小于50% --&gt;
+        &lt;view class=&quot;percent-1&quot; style=&quot;transform: rotate(0.4turn);&quot;&gt;&lt;/view&gt;
+        &lt;view class=&quot;percent-2&quot;&gt;&lt;/view&gt;
+        &lt;!-- 大于50% --&gt;
+        &lt;view class=&quot;percent-1&quot; style=&quot;transform: rotate(0.5turn);&quot;&gt;&lt;/view&gt;
+        &lt;view class=&quot;percent-2&quot; style=&quot;opacity:1; transform: rotate(0.3turn);&quot;&gt;&lt;/view&gt;
+    &lt;/view&gt;
+&lt;/template&gt;
+
+.com-pie {
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    width: 100rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-radius: 50%;
+    color: #000;
+    background-color: #ebebeb;
+    background-image: linear-gradient(to right, transparent 50%, #cccccc 0);
+    overflow: hidden;
+    .percent-1,
+    .percent-2 {
+        position: absolute;
+        top: 0;
+        width: 60%;
+        height: 100%;
+        left: 50%;
+        transform-origin: center left;
+    }
+    .percent-1 {
+        background-color: inherit;
+        z-index: -2;
+    }
+    .percent-2 {
+        height: 110%;
+        opacity: 0;
+        z-index: -1;
+        background-color: #cccccc;
+    }
+    &amp;.selected {
+        background-color: #ffe9a5;
+        background-image: linear-gradient(to right, transparent 50%, #ffc81f 0);
+        .percent-2 {
+            background-color: #ffc81f;
+        }
+    }
+}
+</code></pre><h3 id="微信小程序的rpx会出现精度问题"><a href="#微信小程序的rpx会出现精度问题" class="headerlink" title="微信小程序的rpx会出现精度问题"></a>微信小程序的rpx会出现精度问题</h3><p>设置margin-left/margin-right负值，可能导致页面能够左右晃动。猜测 是rpx导致的精度问题。<br>rpx本质上会转换为px，在不同宽度的设备上，实际的rpx值会转换为带小数的px值，四舍五入可能出现问题，之前使用rem布局的时候在QQ浏览器遇到过类似的问题。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-83e69b31a569928f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="wx-request表现不合理，并且携带特殊字符会报错"><a href="#wx-request表现不合理，并且携带特殊字符会报错" class="headerlink" title="wx.request表现不合理，并且携带特殊字符会报错"></a>wx.request表现不合理，并且携带特殊字符会报错</h4><ul>
+<li>请求返回404错误，也会触发success回调。<br>不要想当然的认为会触发fail回调，判断一个请求成功或失败，请使用wx.request返回的状态来判断。只有不符合规范的请求，才会触发fail。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-ebad0e91ac279124.png?imageMogr2/auto-orient/strip%7CimageView2/2" alt=""></li>
+<li>请求的数据中，如果有特殊字符（比如\u2820），会报错。<br>只会在真机上出现，开发者工具没毛病。估计会有更多的特殊字符会导致这个问题。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-9110f7d78b3fb4aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="开发者工具，切换页面的时候，有时候wxml不会同步切换"><a href="#开发者工具，切换页面的时候，有时候wxml不会同步切换" class="headerlink" title="开发者工具，切换页面的时候，有时候wxml不会同步切换"></a>开发者工具，切换页面的时候，有时候wxml不会同步切换</h3>希望微信什么时候能解决一下。<h3 id="微信小程序给wxml模板赋值的时候，解构放到前面可能会报错"><a href="#微信小程序给wxml模板赋值的时候，解构放到前面可能会报错" class="headerlink" title="微信小程序给wxml模板赋值的时候，解构放到前面可能会报错"></a>微信小程序给wxml模板赋值的时候，解构放到前面可能会报错</h3>最新版会遇到这个问题，老版本虽然不会报错，但是在部分真机上会出现问题。<br>原因未知，遇到这个问题的朋友可以考虑绕过去。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-e379fd7fca1b99cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="微信小程序的scroll-view暴露的bindscroll函数并不能实时监听"><a href="#微信小程序的scroll-view暴露的bindscroll函数并不能实时监听" class="headerlink" title="微信小程序的scroll-view暴露的bindscroll函数并不能实时监听"></a>微信小程序的scroll-view暴露的bindscroll函数并不能实时监听</h3>依赖实时获取滚动位置的功能不能实现。比如滚动时toolbar的动态隐藏和显示。<h3 id="最新版开发工具不能关掉自动刷新"><a href="#最新版开发工具不能关掉自动刷新" class="headerlink" title="最新版开发工具不能关掉自动刷新"></a>最新版开发工具不能关掉自动刷新</h3>微信小程序的会默认监听文件变化，然后自动刷新。<br>但不足的是每次都是全量刷新，而不是模块的热替换，反而会影响开发速度，尤其对于喜欢频繁Command + S的开发者，你会发现你的小程序在不断的刷新。建议关闭。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-1418bc0e4b307f56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>但最新版开发者工具，不勾选也会自动刷新。</li>
+</ul>
+<h3 id="微信小程序不支持requestAnimationFrame"><a href="#微信小程序不支持requestAnimationFrame" class="headerlink" title="微信小程序不支持requestAnimationFrame"></a>微信小程序不支持<code>requestAnimationFrame</code></h3><p>微信小程序不支持<code>requestAnimationFrame</code>，所以部分性能优化做不了。不支持的原因未知。</p>
+<h3 id="Page-onload函数可以接受参数"><a href="#Page-onload函数可以接受参数" class="headerlink" title="Page.onload函数可以接受参数"></a>Page.onload函数可以接受参数</h3><p>该参数是有URL决定的，也就是URL携带的参数。<br>官方文档这块写的有点混淆，特意拿出来说一下。举个例子：url中传递的时候<code>id=1</code>，那么<code>option.id=1</code>，而不是什么<code>option.query</code>。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-8135e6e4e97b2ec6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="真机上有概率卡死，目前不确定是代码问题还是小程序的问题。"><a href="#真机上有概率卡死，目前不确定是代码问题还是小程序的问题。" class="headerlink" title="真机上有概率卡死，目前不确定是代码问题还是小程序的问题。"></a>真机上有概率卡死，目前不确定是代码问题还是小程序的问题。</h3><p>有遇到类似问题的朋友欢迎指出。</p>
+<h4 id="总结说点啥？"><a href="#总结说点啥？" class="headerlink" title="总结说点啥？"></a>总结说点啥？</h4><p>本文主要围绕微信小程序的基础知识、如何设计微信小程序、开发过程中遇到的问题三个方面介绍。<br>微信小程序的基础知识主要包括：</p>
+<ul>
+<li>两种配置文件 &amp;&amp; 两个核心函数</li>
+<li>WXML模板语法，页面渲染</li>
+<li>页面间的跳转</li>
+<li>交互事件</li>
+<li>官方组件和官方API</li>
+</ul>
+<p>如何设计微信小程序的内容主要包括：</p>
+<ul>
+<li>构建系统 &amp;&amp; 目录结构</li>
+<li>引入Redux进行数据集中管理</li>
+<li>简单的组件化解决方案</li>
+</ul>
+<p>最后还介绍开发过程中遇到的难点 以及 微信小程序的大小坑。</p>
+<p>微信小程序本身并不复杂，开发过程却比较艰辛，尤其是第一次在真机上运行的时候，觉得这个世界恶意满满。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/03/微信小程序实战，从入门到弃坑（转）/" class="archive-article-date">
+  	<time datetime="2017-01-03T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-03</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信小程序/">微信小程序</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-mobiscroll" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1270,425 +2139,9 @@ export default class WelcomePage extends Component {
 
 
   
-    <article id="post-SVG图标使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/SVG图标使用/">SVG图标使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在网页设计中，经常会用掉SVG图标，或者自己画或者别人画，画好的SVG该如何使用，本文对此做点使用介绍</p>
-</blockquote>
-<h2 id="首先这里需要借助第三方图标库icomoon"><a href="#首先这里需要借助第三方图标库icomoon" class="headerlink" title="首先这里需要借助第三方图标库icomoon"></a>首先这里需要借助第三方图标库icomoon</h2><p><a href="https://icomoon.io/" target="_blank" rel="external">icomoon入口</a></p>
-<h2 id="网站进入后依次进行如下："><a href="#网站进入后依次进行如下：" class="headerlink" title="网站进入后依次进行如下："></a>网站进入后依次进行如下：</h2><p><code>1.点击进入IcoMoon App</code><br><img src="http://ww2.sinaimg.cn/mw690/908edb0egw1fajg72bsqzj20ix02w74o.jpg" alt=""></p>
-<p><code>2.点击import icons上传本地.svg文件</code><br><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fajg72mkubj20lq0cdac6.jpg" alt=""></p>
-<p><code>3.上传后如下图显示</code><br><img src="http://ww2.sinaimg.cn/mw690/908edb0egw1fajg72z1oij20oj07d3yz.jpg" alt=""></p>
-<p><code>4.shift+鼠标左键选中上传的图标，点击右下角Generate Font</code><br><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fajg73mw8wj20sf0nx425.jpg" alt=""></p>
-<p><code>5.显示如下图，记住图标对应的类名,然后点击右下角download下载到本地</code></p>
-<pre><code>类名使用的时候需要icon-add_circle    
-&lt;span class=&apos;icon-add_circle&apos;&gt;&lt;/span&gt;
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fajg748jzuj20s50o30v0.jpg" alt=""></p>
-<p><code>6.把下载下来的font和style.css拷贝到项目目录下</code><br><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fajg74le3kj206u040wen.jpg" alt=""></p>
-<p><code>7.使用方式如下，直接引入css文件，用color和font-size改变颜色和大小</code><br>​<br>    &lt;!DOCTYPE html&gt;<br>    <html lang="en"><br>    <head><br>        <meta charset="UTF-8"><br>        <title>Document</title><br>        <link rel="stylesheet" href="style.css"><br>        <style><br>            span{<br>                color: red;<br>                font-size: 56px;<br>            }<br>        </style><br>    </head><br>    <body><br>        <span class="icon-add_circle"></span><br>    </body><br>    </html></p>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/09/SVG图标使用/" class="archive-article-date">
-  	<time datetime="2016-12-09T08:11:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SVG/">SVG</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-CSS布局之Stickyfooters" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/08/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。</p>
-</blockquote>
-<h2 id="这里说2个实现的原理"><a href="#这里说2个实现的原理" class="headerlink" title="这里说2个实现的原理"></a>这里说2个实现的原理</h2><pre><code>因为兼容性问题，请在高端浏览器或手机端使用~
-</code></pre><h3 id="1-使用CSS取值函数calc"><a href="#1-使用CSS取值函数calc" class="headerlink" title="1.使用CSS取值函数calc()"></a>1.使用CSS取值函数calc()</h3><p><code>注意运算符的前后一定要➕空格</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;style&gt;
-        *{margin:0;}
-        header,footer{
-            height: 50px;
-            color: red;
-            background: #000;
-        }
-        div{
-            background: blue;
-            min-height: calc(100vh - 100px);
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;header&gt;头部&lt;/header&gt;
-    &lt;div&gt;内容部分&lt;/div&gt;
-    &lt;footer&gt;底部&lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><em>效果就不展示了，自己建一个html运行一下吧…</em><br>​    </p>
-<h3 id="2-使用flex布局"><a href="#2-使用flex布局" class="headerlink" title="2.使用flex布局"></a>2.使用flex布局</h3><pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;style&gt;
-        *{margin:0;}
-        body{
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;   //给body一个最小的高度
-        }
-        header,footer{
-            height: 50px;
-            color: red;
-            background: #000;
-        }
-        div{
-            background: blue;
-            flex:1;  //头部底部固定，中间占据剩余空间
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;header&gt;头部&lt;/header&gt;
-    &lt;div&gt;内容部分&lt;/div&gt;
-    &lt;footer&gt;底部&lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h1 id="OVRE"><a href="#OVRE" class="headerlink" title="OVRE"></a>OVRE</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
-  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-手机端自适应单位换算" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/07/手机端自适应单位换算/">手机端自适应单位换算</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="移动端自适应布局之单位换算"><a href="#移动端自适应布局之单位换算" class="headerlink" title="移动端自适应布局之单位换算"></a>移动端自适应布局之单位换算</h1><h2 id="首先头部全部需要引入如下文件"><a href="#首先头部全部需要引入如下文件" class="headerlink" title="首先头部全部需要引入如下文件"></a>首先头部全部需要引入如下文件</h2><p><a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/flexible.debug.js" target="_blank" rel="external">flexible.debug.js</a> + <a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/flexible_css.debug.js" target="_blank" rel="external">flexible_css.debug.js</a>+<a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/update.js" target="_blank" rel="external">update.js</a></p>
-<h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><pre><code>使用cssrem+sublime,布局开始时，设置配置文件（例如：视觉稿640*1136）就设置为64
-width:100p + tab 自动生成rem单位
-</code></pre><h2 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h2><p><code>使用这个源文件还是px，容易修改，上面的源文件都改为rem了</code><br>    使用gulp转换<br>    npm install gulp-postcss</p>
-<pre><code>var gulp = require(&apos;gulp&apos;);
-var postcss = require(&apos;gulp-postcss&apos;);
-var px2rem = require(&apos;postcss-px2rem&apos;);
-
-             //这里的75和cssrem一样根据视觉稿更改
-gulp.task(&apos;default&apos;, function() {
-      var processors = [px2rem({remUnit: 75})];
-       return gulp.src(&apos;./src/*.css&apos;)
-        .pipe(postcss(processors))
-        .pipe(gulp.dest(&apos;./dest&apos;));
-    });
-</code></pre><h2 id="vue文件"><a href="#vue文件" class="headerlink" title=".vue文件"></a>.vue文件</h2><pre><code>这个和方式一相同，可以直接在sublime中使用
-</code></pre><p>​<br>​    </p>
-<h2 id="react-native"><a href="#react-native" class="headerlink" title="react native"></a>react native</h2><pre><code>import {Dimensions} from &apos;react-native&apos;;
-//app 只有竖屏模式，所以可以只获取一次 width
-const deviceWidthDp = Dimensions.get(&apos;window&apos;).width;
-// UI 默认给图是 640
-const uiWidthPx = 640;
-
-function pxToDp(uiElementPx) {
-    return uiElementPx *  deviceWidthDp / uiWidthPx;
-}
-export default pxToDp;
-
-
-调用方法
-import pxToDp from &apos;./pxToDp&apos;;
-&lt;View style={{width:pxToDp(100),height:pxToDp(100)}}&gt;&lt;/View&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/07/手机端自适应单位换算/" class="archive-article-date">
-  	<time datetime="2016-12-07T14:13:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-移动端布局-事件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/06/移动端布局-事件/">移动端布局+事件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="针对移动端做点自我总结…"><a href="#针对移动端做点自我总结…" class="headerlink" title="针对移动端做点自我总结…"></a>针对移动端做点自我总结…</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p><code>文本超过一行用…代替</code></p>
-<pre><code>white-space: nowrap;
-text-overflow: ellipsis;
-overflow: hidden;
-</code></pre><p><code>文本超过2行用…代替</code></p>
-<pre><code>width:200px;
-word-break:break-all;
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:vertical;
-overflow:hidden;
-background-color: burlywood;
-</code></pre><p><code>animate.css动画库使用</code></p>
-<pre><code>animated 动画库使用方法在对应标签上加上对应类名就好了 
-如：class=“animated  flash” 闪烁
-默认执行一次，如果需要修改就修改css
- animation-duration: 3000ms;
- animation-direction: alternate;
- animation-iteration-count: infinite;
-</code></pre><h2 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h2><h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><pre><code>1，html和body必须同时设置宽高100%，下面的div的高才会有100%的高度
-2，最外层标签元素也要设置100%宽高，不然直接给内部设置100%,页面会高出一截，导致会有上下晃动
-3，来一波meta标签
-    &lt;!-- 显示苹果工具栏和菜单栏(默认)，改为no不显示 --&gt;
-    &lt;meta content=&quot;yes&quot; name=&quot;apple-mobile-web-app-capable&quot;&gt;  
-    &lt;!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览； --&gt;  
-    &lt;meta content=&quot;yes&quot; name=&quot;apple-touch-fullscreen&quot;&gt;
-
-    &lt;!-- iphone的私有标签，它指定的iphone中safari顶端的状态条的样式；默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明） 
-    注意：若值为“black-translucent”将会占据页面px位置，浮在页面上方
-    （会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。
-    --&gt;
-    &lt;meta content=&quot;black&quot; name=&quot;apple-mobile-web-app-status-bar-style&quot;&gt;   
-    &lt;!-- 告诉设备忽略将页面中的数字识别为电话号码。 --&gt;
-    &lt;meta content=&quot;telephone=no&quot; name=&quot;format-detection&quot;&gt;
-
-
-    &lt;!-- 苹果手机safari浏览器上可以使用添加到主屏按钮将网站添加到主屏幕上显示的图标 --&gt;
-    &lt;link rel=&quot;apple-touch-icon&quot; href=&quot;favicon.png&quot;&gt;
-
-    &lt;!-- 浏览器网址左侧的图标 --&gt;
-    &lt;link rel=&quot;Shortcut Icon&quot; href=&quot;favicon.png&quot; type=&quot;image/x-icon&quot;&gt;
-</code></pre><h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><pre><code>在事件出发前记得组件默认拖拽事件
-$(&apos;body&apos;).on(&apos;touchmove&apos;, function (event) {
-    event.preventDefault();
-});
-</code></pre><h4 id="JS原生事件"><a href="#JS原生事件" class="headerlink" title="JS原生事件"></a>JS原生事件</h4><pre><code>touchstart --- onmousedown
-touchmove --- onmousemove
-touchend --- onmouseup
-需要用事件绑定的第二种形式触发
-
-//如下是获取坐标点以便完成拖拽
-$(&apos;.drag&apos;).on(&apos;touchstart&apos;,function(e){
-    console.log(e.originalEvent.touches[0])
-})
-
-var div = document.querySelector(&apos;.drag&apos;);
-div.addEventListener(&quot;touchstart&quot;, function(e) {
-      console.log(e.touches[0]); //方式一
-       console.log(e.targetTouches[0]);//方式二
- },false)
-</code></pre><h4 id="touch-js插件"><a href="#touch-js插件" class="headerlink" title="touch.js插件"></a>touch.js插件</h4><blockquote>
-<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="external">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="external">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="external">touch3.js</a></p>
-</blockquote>
-<p><code>touch1.js</code><br>​<br>    依赖文件：不依赖任何文件<br>    完成功能：上下左右滑动和点击<br>    使用：document.querySelector(‘div’).touch({<br>            tap:function(ev){<br>                //var e = ev || window.event; 不需要了<br>                console.log(‘哎呀，被点击了’,e)<br>            },<br>            swipeUp:function(ev){<br>                console.log(‘哎呀，执行了上滑’,e)<br>            },<br>            swipeDown:function(){<br>                console.log(‘哎呀，执行了下滑’)<br>            },<br>            swipeLeft:function(){<br>                console.log(‘哎呀，执行了左滑’)<br>            },<br>            swipeRight:function(){<br>                console.log(‘哎呀，执行了右滑’)<br>            },<br>        })<br>    JQ使用：如果是用jq就—get()是获取DOM元素，eq()是获取jq对象<br>    $(‘div’).get(0).touch({<br>        tap:function(){<br>            console.log(‘哎呀，被点击了’,e)<br>        },<br>        …<br>    })</p>
-<p><code>touch2.js</code><br>​<br>    依赖文件：依赖jquery，必须在jq之后引入<br>    完成功能：上下左右滑动，单击，双击(doubleTap)，长按(longTap)<br>    使用：<br>        <script src="js/jquery.min.js"></script><br>        <script src="js/touch2.js"></script><br>                //必须用驼峰标示<br>        $(‘.begin’).doubleTap(function(){<br>            alert(123)<br>           })</p>
-<p><code>touch3.js</code><br>​<br>    依赖文件：不依赖任何文件            //必须全部小写<br>    完成功能：滑动，上下左右滑动，单击，双击(doubletap)，长按(hold)，旋转，缩放<br>    使用：<br>        1，对手势事件库进行全局配置。<br>        touch.config({   //可以不配置，就用默认的就好<br>            tap: true,                  //tap类事件开关, 默认为true<br>            doubleTap: true,            //doubleTap事件开关， 默认为true<br>            hold: true,                //hold事件开关, 默认为true<br>            holdTime: 650,               //hold时间长度<br>            swipe: true,               //swipe事件开关<br>            swipeTime: 300,            //触发swipe事件的最大时长<br>            swipeMinDistance: 18,       //swipe移动最小距离<br>            swipeFactor: 5,            //加速因子, 值越大变化速率越快<br>            drag: true,                //drag事件开关<br>            pinch: true,               //pinch类事件开关<br>        }) </p>
-<pre><code>2，事件绑定
-touch.on( element, types, callback );
-//多个手势同个效果，用空格隔开即可
-touch.on(&apos;#target&apos;, &apos;hold tap doubletap&apos;, function(ev){  } 
-
-旋转：
-var div1 = document.querySelector(&apos;.d&apos;);
-var angel = 0;//初始角度
-touch.on(&quot;.d&quot;,&quot;touchstart&quot;,function(e){
-    e.startRotate();//开启旋转
-    e.preventDefault();//阻止默认事件
-})
-
-touch.on(&quot;.d&quot;,&quot;rotate&quot;,function(e){
-    console.log(e)
-    var deg = angel + e.rotation;//计算当前旋转角度
-    div1.innerHTML = deg;
-    if(e.fingerStatus == &quot;end&quot;){//判断手指的状态，如果手势已停止
-        angel = deg;
-    }
-    div1.style.transform = &quot;rotate(&quot;+deg+&quot;deg)&quot;;
-})
-
-缩放：
-touch.on(&quot;.d&quot;,&apos;pinch&apos;,function(e){
-    alert(e.scale)  //这是缩放倍数
-})    
-
-3，解除某元素上的事件绑定
-touch.off( element, types, callback )    
-
-4，触发事件
-touch.trigger(element, type);
-</code></pre><blockquote>
-<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="external">touch3.js</a></p>
-</blockquote>
-<p>​        </p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/06/移动端布局-事件/" class="archive-article-date">
-  	<time datetime="2016-12-06T08:16:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 
@@ -1698,7 +2151,7 @@ touch.trigger(element, type);
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Jasonellen
+    		&copy; 2018 Jasonellen
     	</div>
     </div>
   </div>
@@ -1749,7 +2202,7 @@ touch.trigger(element, type);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

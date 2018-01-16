@@ -236,6 +236,422 @@
       <div class="body-wrap">
         
   
+    <article id="post-SVG图标使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/09/SVG图标使用/">SVG图标使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在网页设计中，经常会用掉SVG图标，或者自己画或者别人画，画好的SVG该如何使用，本文对此做点使用介绍</p>
+</blockquote>
+<h2 id="首先这里需要借助第三方图标库icomoon"><a href="#首先这里需要借助第三方图标库icomoon" class="headerlink" title="首先这里需要借助第三方图标库icomoon"></a>首先这里需要借助第三方图标库icomoon</h2><p><a href="https://icomoon.io/" target="_blank" rel="external">icomoon入口</a></p>
+<h2 id="网站进入后依次进行如下："><a href="#网站进入后依次进行如下：" class="headerlink" title="网站进入后依次进行如下："></a>网站进入后依次进行如下：</h2><p><code>1.点击进入IcoMoon App</code><br><img src="http://ww2.sinaimg.cn/mw690/908edb0egw1fajg72bsqzj20ix02w74o.jpg" alt=""></p>
+<p><code>2.点击import icons上传本地.svg文件</code><br><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fajg72mkubj20lq0cdac6.jpg" alt=""></p>
+<p><code>3.上传后如下图显示</code><br><img src="http://ww2.sinaimg.cn/mw690/908edb0egw1fajg72z1oij20oj07d3yz.jpg" alt=""></p>
+<p><code>4.shift+鼠标左键选中上传的图标，点击右下角Generate Font</code><br><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fajg73mw8wj20sf0nx425.jpg" alt=""></p>
+<p><code>5.显示如下图，记住图标对应的类名,然后点击右下角download下载到本地</code></p>
+<pre><code>类名使用的时候需要icon-add_circle    
+&lt;span class=&apos;icon-add_circle&apos;&gt;&lt;/span&gt;
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fajg748jzuj20s50o30v0.jpg" alt=""></p>
+<p><code>6.把下载下来的font和style.css拷贝到项目目录下</code><br><img src="http://ww1.sinaimg.cn/mw690/908edb0egw1fajg74le3kj206u040wen.jpg" alt=""></p>
+<p><code>7.使用方式如下，直接引入css文件，用color和font-size改变颜色和大小</code><br>​<br>    &lt;!DOCTYPE html&gt;<br>    <html lang="en"><br>    <head><br>        <meta charset="UTF-8"><br>        <title>Document</title><br>        <link rel="stylesheet" href="style.css"><br>        <style><br>            span{<br>                color: red;<br>                font-size: 56px;<br>            }<br>        </style><br>    </head><br>    <body><br>        <span class="icon-add_circle"></span><br>    </body><br>    </html></p>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/09/SVG图标使用/" class="archive-article-date">
+  	<time datetime="2016-12-09T08:11:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SVG/">SVG</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CSS布局之Stickyfooters" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/08/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。</p>
+</blockquote>
+<h2 id="这里说2个实现的原理"><a href="#这里说2个实现的原理" class="headerlink" title="这里说2个实现的原理"></a>这里说2个实现的原理</h2><pre><code>因为兼容性问题，请在高端浏览器或手机端使用~
+</code></pre><h3 id="1-使用CSS取值函数calc"><a href="#1-使用CSS取值函数calc" class="headerlink" title="1.使用CSS取值函数calc()"></a>1.使用CSS取值函数calc()</h3><p><code>注意运算符的前后一定要➕空格</code></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        *{margin:0;}
+        header,footer{
+            height: 50px;
+            color: red;
+            background: #000;
+        }
+        div{
+            background: blue;
+            min-height: calc(100vh - 100px);
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;头部&lt;/header&gt;
+    &lt;div&gt;内容部分&lt;/div&gt;
+    &lt;footer&gt;底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><em>效果就不展示了，自己建一个html运行一下吧…</em><br>​    </p>
+<h3 id="2-使用flex布局"><a href="#2-使用flex布局" class="headerlink" title="2.使用flex布局"></a>2.使用flex布局</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        *{margin:0;}
+        body{
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;   //给body一个最小的高度
+        }
+        header,footer{
+            height: 50px;
+            color: red;
+            background: #000;
+        }
+        div{
+            background: blue;
+            flex:1;  //头部底部固定，中间占据剩余空间
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;头部&lt;/header&gt;
+    &lt;div&gt;内容部分&lt;/div&gt;
+    &lt;footer&gt;底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h1 id="OVRE"><a href="#OVRE" class="headerlink" title="OVRE"></a>OVRE</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
+  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-手机端自适应单位换算" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/07/手机端自适应单位换算/">手机端自适应单位换算</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="移动端自适应布局之单位换算"><a href="#移动端自适应布局之单位换算" class="headerlink" title="移动端自适应布局之单位换算"></a>移动端自适应布局之单位换算</h1><h2 id="首先头部全部需要引入如下文件"><a href="#首先头部全部需要引入如下文件" class="headerlink" title="首先头部全部需要引入如下文件"></a>首先头部全部需要引入如下文件</h2><p><a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/flexible.debug.js" target="_blank" rel="external">flexible.debug.js</a> + <a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/flexible_css.debug.js" target="_blank" rel="external">flexible_css.debug.js</a>+<a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/update.js" target="_blank" rel="external">update.js</a></p>
+<h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><pre><code>使用cssrem+sublime,布局开始时，设置配置文件（例如：视觉稿640*1136）就设置为64
+width:100p + tab 自动生成rem单位
+</code></pre><h2 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h2><p><code>使用这个源文件还是px，容易修改，上面的源文件都改为rem了</code><br>    使用gulp转换<br>    npm install gulp-postcss</p>
+<pre><code>var gulp = require(&apos;gulp&apos;);
+var postcss = require(&apos;gulp-postcss&apos;);
+var px2rem = require(&apos;postcss-px2rem&apos;);
+
+             //这里的75和cssrem一样根据视觉稿更改
+gulp.task(&apos;default&apos;, function() {
+      var processors = [px2rem({remUnit: 75})];
+       return gulp.src(&apos;./src/*.css&apos;)
+        .pipe(postcss(processors))
+        .pipe(gulp.dest(&apos;./dest&apos;));
+    });
+</code></pre><h2 id="vue文件"><a href="#vue文件" class="headerlink" title=".vue文件"></a>.vue文件</h2><pre><code>这个和方式一相同，可以直接在sublime中使用
+</code></pre><p>​<br>​    </p>
+<h2 id="react-native"><a href="#react-native" class="headerlink" title="react native"></a>react native</h2><pre><code>import {Dimensions} from &apos;react-native&apos;;
+//app 只有竖屏模式，所以可以只获取一次 width
+const deviceWidthDp = Dimensions.get(&apos;window&apos;).width;
+// UI 默认给图是 640
+const uiWidthPx = 640;
+
+function pxToDp(uiElementPx) {
+    return uiElementPx *  deviceWidthDp / uiWidthPx;
+}
+export default pxToDp;
+
+
+调用方法
+import pxToDp from &apos;./pxToDp&apos;;
+&lt;View style={{width:pxToDp(100),height:pxToDp(100)}}&gt;&lt;/View&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/07/手机端自适应单位换算/" class="archive-article-date">
+  	<time datetime="2016-12-07T14:13:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-移动端布局-事件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/06/移动端布局-事件/">移动端布局+事件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="针对移动端做点自我总结…"><a href="#针对移动端做点自我总结…" class="headerlink" title="针对移动端做点自我总结…"></a>针对移动端做点自我总结…</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p><code>文本超过一行用…代替</code></p>
+<pre><code>white-space: nowrap;
+text-overflow: ellipsis;
+overflow: hidden;
+</code></pre><p><code>文本超过2行用…代替</code></p>
+<pre><code>width:200px;
+word-break:break-all;
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+overflow:hidden;
+background-color: burlywood;
+</code></pre><p><code>animate.css动画库使用</code></p>
+<pre><code>animated 动画库使用方法在对应标签上加上对应类名就好了 
+如：class=“animated  flash” 闪烁
+默认执行一次，如果需要修改就修改css
+ animation-duration: 3000ms;
+ animation-direction: alternate;
+ animation-iteration-count: infinite;
+</code></pre><h2 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h2><h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><pre><code>1，html和body必须同时设置宽高100%，下面的div的高才会有100%的高度
+2，最外层标签元素也要设置100%宽高，不然直接给内部设置100%,页面会高出一截，导致会有上下晃动
+3，来一波meta标签
+    &lt;!-- 显示苹果工具栏和菜单栏(默认)，改为no不显示 --&gt;
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-mobile-web-app-capable&quot;&gt;  
+    &lt;!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览； --&gt;  
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-touch-fullscreen&quot;&gt;
+
+    &lt;!-- iphone的私有标签，它指定的iphone中safari顶端的状态条的样式；默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明） 
+    注意：若值为“black-translucent”将会占据页面px位置，浮在页面上方
+    （会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。
+    --&gt;
+    &lt;meta content=&quot;black&quot; name=&quot;apple-mobile-web-app-status-bar-style&quot;&gt;   
+    &lt;!-- 告诉设备忽略将页面中的数字识别为电话号码。 --&gt;
+    &lt;meta content=&quot;telephone=no&quot; name=&quot;format-detection&quot;&gt;
+
+
+    &lt;!-- 苹果手机safari浏览器上可以使用添加到主屏按钮将网站添加到主屏幕上显示的图标 --&gt;
+    &lt;link rel=&quot;apple-touch-icon&quot; href=&quot;favicon.png&quot;&gt;
+
+    &lt;!-- 浏览器网址左侧的图标 --&gt;
+    &lt;link rel=&quot;Shortcut Icon&quot; href=&quot;favicon.png&quot; type=&quot;image/x-icon&quot;&gt;
+</code></pre><h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><pre><code>在事件出发前记得组件默认拖拽事件
+$(&apos;body&apos;).on(&apos;touchmove&apos;, function (event) {
+    event.preventDefault();
+});
+</code></pre><h4 id="JS原生事件"><a href="#JS原生事件" class="headerlink" title="JS原生事件"></a>JS原生事件</h4><pre><code>touchstart --- onmousedown
+touchmove --- onmousemove
+touchend --- onmouseup
+需要用事件绑定的第二种形式触发
+
+//如下是获取坐标点以便完成拖拽
+$(&apos;.drag&apos;).on(&apos;touchstart&apos;,function(e){
+    console.log(e.originalEvent.touches[0])
+})
+
+var div = document.querySelector(&apos;.drag&apos;);
+div.addEventListener(&quot;touchstart&quot;, function(e) {
+      console.log(e.touches[0]); //方式一
+       console.log(e.targetTouches[0]);//方式二
+ },false)
+</code></pre><h4 id="touch-js插件"><a href="#touch-js插件" class="headerlink" title="touch.js插件"></a>touch.js插件</h4><blockquote>
+<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="external">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="external">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="external">touch3.js</a></p>
+</blockquote>
+<p><code>touch1.js</code><br>​<br>    依赖文件：不依赖任何文件<br>    完成功能：上下左右滑动和点击<br>    使用：document.querySelector(‘div’).touch({<br>            tap:function(ev){<br>                //var e = ev || window.event; 不需要了<br>                console.log(‘哎呀，被点击了’,e)<br>            },<br>            swipeUp:function(ev){<br>                console.log(‘哎呀，执行了上滑’,e)<br>            },<br>            swipeDown:function(){<br>                console.log(‘哎呀，执行了下滑’)<br>            },<br>            swipeLeft:function(){<br>                console.log(‘哎呀，执行了左滑’)<br>            },<br>            swipeRight:function(){<br>                console.log(‘哎呀，执行了右滑’)<br>            },<br>        })<br>    JQ使用：如果是用jq就—get()是获取DOM元素，eq()是获取jq对象<br>    $(‘div’).get(0).touch({<br>        tap:function(){<br>            console.log(‘哎呀，被点击了’,e)<br>        },<br>        …<br>    })</p>
+<p><code>touch2.js</code><br>​<br>    依赖文件：依赖jquery，必须在jq之后引入<br>    完成功能：上下左右滑动，单击，双击(doubleTap)，长按(longTap)<br>    使用：<br>        <script src="js/jquery.min.js"></script><br>        <script src="js/touch2.js"></script><br>                //必须用驼峰标示<br>        $(‘.begin’).doubleTap(function(){<br>            alert(123)<br>           })</p>
+<p><code>touch3.js</code><br>​<br>    依赖文件：不依赖任何文件            //必须全部小写<br>    完成功能：滑动，上下左右滑动，单击，双击(doubletap)，长按(hold)，旋转，缩放<br>    使用：<br>        1，对手势事件库进行全局配置。<br>        touch.config({   //可以不配置，就用默认的就好<br>            tap: true,                  //tap类事件开关, 默认为true<br>            doubleTap: true,            //doubleTap事件开关， 默认为true<br>            hold: true,                //hold事件开关, 默认为true<br>            holdTime: 650,               //hold时间长度<br>            swipe: true,               //swipe事件开关<br>            swipeTime: 300,            //触发swipe事件的最大时长<br>            swipeMinDistance: 18,       //swipe移动最小距离<br>            swipeFactor: 5,            //加速因子, 值越大变化速率越快<br>            drag: true,                //drag事件开关<br>            pinch: true,               //pinch类事件开关<br>        }) </p>
+<pre><code>2，事件绑定
+touch.on( element, types, callback );
+//多个手势同个效果，用空格隔开即可
+touch.on(&apos;#target&apos;, &apos;hold tap doubletap&apos;, function(ev){  } 
+
+旋转：
+var div1 = document.querySelector(&apos;.d&apos;);
+var angel = 0;//初始角度
+touch.on(&quot;.d&quot;,&quot;touchstart&quot;,function(e){
+    e.startRotate();//开启旋转
+    e.preventDefault();//阻止默认事件
+})
+
+touch.on(&quot;.d&quot;,&quot;rotate&quot;,function(e){
+    console.log(e)
+    var deg = angel + e.rotation;//计算当前旋转角度
+    div1.innerHTML = deg;
+    if(e.fingerStatus == &quot;end&quot;){//判断手指的状态，如果手势已停止
+        angel = deg;
+    }
+    div1.style.transform = &quot;rotate(&quot;+deg+&quot;deg)&quot;;
+})
+
+缩放：
+touch.on(&quot;.d&quot;,&apos;pinch&apos;,function(e){
+    alert(e.scale)  //这是缩放倍数
+})    
+
+3，解除某元素上的事件绑定
+touch.off( element, types, callback )    
+
+4，触发事件
+touch.trigger(element, type);
+</code></pre><blockquote>
+<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="external">touch3.js</a></p>
+</blockquote>
+<p>​        </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/06/移动端布局-事件/" class="archive-article-date">
+  	<time datetime="2016-12-06T08:16:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-面向对象编程（一）：封装" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1006,632 +1422,9 @@ is_writable(filename);
 
 
   
-    <article id="post-php入门" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/20/php入门/">php入门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本地服务器"><a href="#本地服务器" class="headerlink" title="本地服务器"></a>本地服务器</h1><p><code>1.打开本地服务器</code></p>
-<pre><code>sudo apachectl start
-</code></pre><p><code>2.进入服务器</code></p>
-<pre><code>/jas/资源库/webserver/Documents/    可以改权限
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/005WhkQKgw1fa13dg1visj30wa0c3q6k.jpg" alt=""></p>
-<h4 id="里面放文件访问-打开127-0-0-1"><a href="#里面放文件访问-打开127-0-0-1" class="headerlink" title="里面放文件访问,打开127.0.0.1"></a>里面放文件访问,打开127.0.0.1</h4><p><code>3.结束</code></p>
-<pre><code>sudo apachectl stop
-</code></pre><h1 id="XAMPP服务"><a href="#XAMPP服务" class="headerlink" title="XAMPP服务"></a>XAMPP服务</h1><p><code>1.打开阿帕奇</code><br><img src="http://ww2.sinaimg.cn/mw690/005WhkQKgw1fa13df8379j30ip0d5dh5.jpg" alt=""></p>
-<p><code>2.测试版本,在服务器里放入一个test.php文件</code></p>
-<p><img src="http://ww1.sinaimg.cn/mw690/005WhkQKgw1fa13os08h5j30tu0by77v.jpg" alt=""></p>
-<p><code>3.在test.php文件里写上</code></p>
-<p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13orv94yj30de0ammxp.jpg" alt=""></p>
-<h3 id="出现版本号"><a href="#出现版本号" class="headerlink" title="出现版本号"></a>出现版本号</h3><p><img src="http://ww4.sinaimg.cn/mw690/005WhkQKgw1fa13dfnm1hj30tc08p0x7.jpg" alt=""></p>
-<p><code>4.访问http://localhost/class/test/test.php</code></p>
-<h1 id="php语法入门"><a href="#php语法入门" class="headerlink" title="php语法入门"></a>php语法入门</h1><p><code>1.echo只能打印字符串和数字</code></p>
-<pre><code>echo &quot;hello world!&quot;;
-echo &quot;&lt;br&gt;&quot;;
-echo (111);//数字不加引号可以
-</code></pre><p><code>2.变量声明</code></p>
-<pre><code>$a = &quot;你好&quot;;
-echo $a;
-
-$b=&quot;hello&quot;;
-$hello=&quot;hello jas&quot;;
-echo $$b;                //hello jas
-</code></pre><p><code>3.变量解析，字符串连接使用“.”</code><br>​<br>    $c=”你好”;<br>    $res1=”张三”;<br>    echo $c.$res1;  //你好张三</p>
-<pre><code>$res2=&quot;张三$c&quot;;//必须双引号才会解析
-$res2=&quot;张三&apos;$c&apos;&quot;;//张三&apos;你好&apos;
-echo $res2;
-</code></pre><p><code>4.自动转换</code></p>
-<pre><code>$d=1;
-$e=&quot;2&quot;;
-echo gettype($d+$e);//整型integer
-echo ($d+$e);//3
-</code></pre><p><code>5.强制转换</code></p>
-<pre><code>echo gettype($e);  //string
-echo gettype((int)$e);//integer
-</code></pre><p><code>6.字符串定义方式二：</code></p>
-<pre><code>// 定界符,一般定义长字符串；注意，结尾顶头写，前后不许有空格
-$str=&lt;&lt;&lt;AAA
-fdffdfdfdfdfdff
-AAA;
-echo $str;//fdffdfdfdfdfdff
-</code></pre><p><code>7.php不会传值</code></p>
-<pre><code>$arr1=[1,2,3];
-$arr2=$arr1;//想传值加&amp;符号
-$arr2[0]=5;
-print_r($arr1);//Array ( [0] =&gt; 1 [1] =&gt; 2 [2] =&gt; 3 )
-
-
-$arr1=[1,2,3];
-$arr3=&amp;$arr1;//想传值加&amp;符号
-$arr3[0]=5;
-print_r($arr1);//Array ( [0] =&gt; 5 [1] =&gt; 2 [2] =&gt; 3 )
-</code></pre><p><code>8.数组定义方式</code></p>
-<pre><code>$arr=array(&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;);//索引数组
-print_r($arr);    //Array ( [0] =&gt; 张三 [1] =&gt; 李四 [2] =&gt; 王二 )
-var_dump();    // array(3) { [0]=&gt; string(6) &quot;张三&quot; [1]=&gt; string(6) &quot;李四&quot; [2]=&gt; string(6) &quot;王二&quot; }
-</code></pre><p><code>数组遍历</code></p>
-<pre><code>//遍历
-echo &quot;&lt;hr/&gt;&quot;; 
-$arr = array(&apos;武汉&apos;=&gt;&apos;三大火炉之一&apos;,&apos;上海&apos;=&gt;&apos;魔都&apos;);
-foreach ($arr as $key =&gt; $value) {
-    echo $key.&apos;:&apos;.$value;
-    echo &quot;&lt;hr/&gt;&quot;; 
-}
-
-$arr2 = array(
-    &apos;电子产品&apos;=&gt;array(&apos;iphone&apos;=&gt;&apos;64g&apos;,&apos;华为&apos;=&gt;&apos;32g&apos;),
-    &apos;食品&apos;=&gt;array(&apos;旺旺&apos;=&gt;&apos;雪饼&apos;,&apos;百事&apos;=&gt;&apos;可乐&apos;),
-);
-
-foreach ($arr2 as $key =&gt; $value) {
-    foreach ($value as $key1 =&gt; $value1) {
-        echo $key.&apos;-&apos;.$key1.&apos;-&apos;.$value1.&quot;&lt;hr/&gt;&quot;;
-    }
-}
-</code></pre><p><code>数组操作</code></p>
-<pre><code>$arr = array(&apos;张三&apos;,&apos;李四&apos;,&apos;王二&apos;);
-unset($arr[0]); //删除arr中的第一个
-print_r($arr); 
-echo &quot;&lt;hr/&gt;&quot;;
-
-//is_type  判断是否是某种类型，会返还boolean值
-echo is_array($arr);
-echo &quot;&lt;hr/&gt;&quot;;
-
-echo in_array(&apos;李四&apos;,$arr); //判断 张三是否在array中
-echo &quot;&lt;hr/&gt;&quot;;
-</code></pre><p><code>运算符等其他操作</code></p>
-<pre><code>//运算符等基本语法和JS基本都是一样的，来列列不同点
-$a = 4;
-echo &apos;$a+=5 ---&apos;.$a+=5;  //9
-echo &apos;&lt;hr&gt;&apos;;
-echo &apos;$a.=5 ---&apos;.$a.=5;  //95
-
-// &amp;&amp; == and(与)   || == or(或)   !(非)  xor(亦或)
-//  !=  ==  &lt;&gt; (不等于)
-echo &apos;&lt;hr&gt;&apos;;
-$a = mt_rand(1,10);  //随机一个1-10的数  包含1和10
-echo $a;
-echo &apos;&lt;hr&gt;&apos;;
-
-$b = $a &lt;= 5 ? &apos;小于5&apos; : &apos;大于5&apos;;  //记得要用一个新的值保存
-echo $b;
-echo &apos;&lt;hr&gt;&apos;;
-
-//有返还至的函数
-// 5！= 5*4*3*2*1   阶乘
-
-function jiechen($num){
-    if($num&gt;0){
-        return jiechen($num-1)*$num;
-    }else{
-        return 1;
-    }
-}
-
-echo jiechen(5);
-
-echo &apos;&lt;hr&gt;&apos;;
-$a = 5;
-function test(){
-    global $a;
-    echo $a;  //不能直接获取到外面的$a 需要用全局变量设置一下,或者传参
-
-    $GLOBALS[&apos;b&apos;] =$a;  //传递函数里面的变量到外面
-}
-test();
-echo &apos;&lt;hr&gt;&apos;;
-echo $GLOBALS[&apos;b&apos;];
-
-echo &apos;&lt;hr&gt;&apos;;
-function digui(){
-    static $a=5;  //静态变量，常驻内存，每次执行函数$a都存在不会被重新赋值
-    if($a&gt;0){
-        echo $a;
-        $a--;
-        digui();
-    }else{
-        return false;
-    }
-}
-digui();
-
-echo &apos;&lt;hr&gt;&apos;;
-$arr = [1,2,3];
-$arr[] =&apos;zhangsan&apos;;  //向数组中添加张三到最后，  也是方式三定义数组
-array_unshift($arr,&apos;lisi&apos;);
-array_push($arr,&apos;wanger&apos;);
-print_r($arr);
-
-$arr =range(1,10);   //生成一个1-10的数组  只能是整数
-count($arr);  //数组长度
-
-echo &apos;&lt;hr&gt;&apos;;
-$str = &apos;a,b,c,d&apos;;
-strlen($str); //字符串长度  注意 一个中文字符站三个字节，长度是三
-$arr=explode(&apos;,&apos;,$str);  //相当于split
-print_r($arr);
-$str = implode(&apos;-&apos;,$arr);
-echo $str;
-
-$arr = [&apos;a&apos;,&apos;c&apos;,&apos;d&apos;,&apos;b&apos;];
-sort($arr); //顺序
-rsort($arr);//倒序
-
-// $res = strops($str,&apos;a&apos;);  //找a出现的位置
-// $res = str_replace(&apos;x&apos;,&apos;y&apos;,$res); // 把$res中 x替换为y
-
-echo &apos;&lt;hr&gt;&apos;;
-$arr = array(1=&gt;&apos;zhangsan&apos;);
-$str = json_encode($arr);   //转为字符串
-echo $str;
-echo &apos;&lt;hr&gt;&apos;;
-$arr = json_decode($str);  //字符串解码为对象
-print_r($arr);
-
-$a = &apos;&lt;h1&gt;这是解析后的好&lt;/h1&gt;&apos;;  //直接输出会以标签的方式显示
-echo htmlspecialchars($a);  //将以字符串的方式返还成实体
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/20/php入门/" class="archive-article-date">
-  	<time datetime="2016-11-20T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-20</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-数据库基本操作一" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/数据库基本操作一/">数据库基本操作一</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="本文先来谈谈MYSQL内部SQL语言的基本操作"><a href="#本文先来谈谈MYSQL内部SQL语言的基本操作" class="headerlink" title="本文先来谈谈MYSQL内部SQL语言的基本操作"></a>本文先来谈谈MYSQL内部SQL语言的基本操作</h2><blockquote>
-<p>   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。</p>
-</blockquote>
-<h3 id="先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统"><a href="#先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统" class="headerlink" title="先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统"></a>先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统</h3><h2 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h2><p><em>数据库的操作无非是增删改查，下面就是针对这几条简单的进行罗列…</em></p>
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre><code>如下所示点击new 然后填入自己的数据库名字，后面的排序规则这里选utf8_general_ci,
-这里选ci的原因是ci是 case insensitive, 即 &quot;大小写不敏感&quot;, a 和 A 会在字符判断中会被当做一样的;方便查询..
-</code></pre><p><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg" alt=""></p>
-<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code>字段数选择比我们要创建的列表书+1，为了设置唯一id，username选择VARCHAR，勾选非空说明可以为空，id一栏勾选A_I注释，然后会弹出一框框，表明自增索引，直接执行就OK了
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg" alt=""></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg" alt=""></p>
-<h3 id="增加数据"><a href="#增加数据" class="headerlink" title="增加数据"></a>增加数据</h3><pre><code>//增加数据
-INSERT INTO 数据表名(字段一，字段二，字段三) VALUES (值一，值二，值三)
-INSERT INTO   users(username,pwd,age) VALUES(&apos;张三&apos;,123,25);
-如下所示，点击SQL，输入SQL语法添加相关数据，点击右下的执行即可创建一条属于你自己的数据
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa5c97uo7tj20mk05xta1.jpg" alt=""></p>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><pre><code>//DELETE FROM 表名  WHERE  条件;  
-DELETE FROM users WHERE username=&apos;李四&apos;;
-</code></pre><h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><pre><code>//修改 
-//UPDATE 表名 SET 设置的内容 WHERE 条件； 
-UPDATE `users` SET `username`=&apos;李四&apos;,`pwd`=11111,`age`=222  WHERE id=1 
-//(注意：最后条件不写会全部都改掉)
-</code></pre><h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><p><code>单表查询：</code></p>
-<pre><code>SELECT 字段 FROM 表名 WHERE 条件语句;
-SELECT username FROM `users` (查询所有的名字)
-SELECT * FROM `users` WHERE username LIKE &apos;%三&apos;  AND age=12  
-//%占位符 找到所有的叫  “某三” 的人(占位符只需要一个就够了)
-SELECT * FROM `users` ORDER BY id DESC;  查询结果DESC倒叙排列
-SELECT * FROM `users` ORDER BY age ASC;  按年龄正序查询
-SELECT * FROM  users LIMIT 2,2;  //分页用的限制查询 从第3条查询2条数据(0是第一条数据)
-SELECT COUNT(*) FROM users  //查询数据条数 
-</code></pre><p><code>联表查询：</code></p>
-<pre><code>//联表查询
-SELECT * FROM 表名1 JOIN 表名2 ON 条件； 
-
-//把2个表中id相同的展示出来（显示公共部分）
-SELECT * FROM users JOIN product ON users.id = product.id;  
-//这样取值的时候有两个相同的id，会出问题，选择的时候不能用*要像下面这样去
-SELECT users.id,users.age,product.name FROM ...
-
-//以JOIN 左边的users为主表，将联合的结果添加到users中，并显示users
-SELECT * FROM users LEFT JOIN product ON users.id = product.id;  
-
-//简写
-SELECT * FROM users AS u JOIN product ASp ON u.id = p.id; 
-</code></pre><h3 id="查询条件"><a href="#查询条件" class="headerlink" title="查询条件"></a>查询条件</h3><p><code>条件可以有 AND OR NOT BETWEEN..AND  IN  &gt; &lt; ...等等很多：</code></p>
-<pre><code>DELETE  FROM `users` WHERE id=4 OR id=6
-DELETE  FROM `users` WHERE id&gt;8
-DELETE  FROM `users` WHERE id IN(5,6)
-...
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/17/数据库基本操作一/" class="archive-article-date">
-  	<time datetime="2016-11-17T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL/">MYSQL</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-日历" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/13/日历/">日历</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原生JS打造简版日历"><a href="#原生JS打造简版日历" class="headerlink" title="原生JS打造简版日历"></a>原生JS打造简版日历</h2><p><code>先来个预览：</code><a href="http://htmlpreview.github.io?https://github.com/Jasonellen/jasonProject.github.io/blob/master/calendar.html" target="_blank" rel="external">简版日历📅</a></p>
-<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p><code>HTML:</code></p>
-<pre><code>&lt;div class=&quot;container&quot;&gt;
-    &lt;ul class=&quot;week&quot;&gt;
-        &lt;li&gt;星期日&lt;/li&gt;
-        &lt;li&gt;星期一&lt;/li&gt;
-        &lt;li&gt;星期二&lt;/li&gt;
-        &lt;li&gt;星期三&lt;/li&gt;
-        &lt;li&gt;星期四&lt;/li&gt;
-        &lt;li&gt;星期五&lt;/li&gt;
-        &lt;li&gt;星期六&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;ul class=&quot;wrap&quot;&gt;
-        &lt;li&gt;12&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;box&quot;&gt;
-    &lt;button class=&quot;preY&quot;&gt;上一年&lt;/button&gt;
-    &lt;button class=&quot;nextY&quot;&gt;下一年&lt;/button&gt;
-    &lt;button class=&quot;preM&quot;&gt;上个月&lt;/button&gt;
-    &lt;button class=&quot;nextM&quot;&gt;下个月&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;show&quot;&gt;12&lt;/div&gt;
-</code></pre><p><code>CSS:</code></p>
-<pre><code>&lt;style&gt;
-    ul,ol,li{
-        margin:0;
-        padding: 0;
-        list-style: none;
-    }
-    body{
-        background: #000;
-    }
-    .container{
-        width: 420px;
-        color: olive;
-    }
-    .container li{
-        width: 48px;
-        float: left;
-        border:1px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-    }
-    .week li{
-        text-align: center;
-        height: 25px;
-        line-height: 25px;
-        padding: 2px;
-        background: green;
-        color: white;
-    }
-    .wrap li{
-        width:48px;
-        float: left;
-        height:48px;
-        text-align: center;
-        line-height: 48px;
-        margin:2px;
-        cursor: pointer;
-    }
-
-    .box{
-        position: absolute;
-        top: 360px;
-    }
-    button{
-        padding: 10px;
-        font-size:20px;
-        color: olive;
-    }
-    .show{
-        position: absolute;
-        left: 500px;
-        top: 100px;
-        color: gold;
-        font-size: 80px;
-    }
-&lt;/style&gt;
-</code></pre><h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><pre><code>var wrap =document.querySelector(&apos;.wrap&apos;);
-var preM =document.querySelector(&apos;.preM&apos;);
-var preY =document.querySelector(&apos;.preY&apos;);
-var nextM =document.querySelector(&apos;.nextM&apos;);
-var nextY =document.querySelector(&apos;.nextY&apos;);
-var show =document.querySelector(&apos;.show&apos;);
-
-var _Date = new Date();
-//显示的年月
-var show_year = _Date.getFullYear();
-var show_month = _Date.getMonth();
-
-//当前的年月日
-var now_year = _Date.getFullYear();
-var now_month = _Date.getMonth();
-var date = _Date.getDate();
-var inner =date; //初始化显示的日期
-
-setDate();
-preY.onclick=function(){
-    show_year--;
-    setDate();
-}
-nextY.onclick=function(){
-    show_year++;
-    setDate();
-}
-preM.onclick=function(){
-    show_month--;
-    if (show_month&lt;0) {
-        show_month=11;
-        show_year--;
-    }
-    setDate();
-}
-nextM.onclick=function(){
-    show_month++;
-    if (show_month&gt;0) {
-        show_month=0;
-        show_year++;
-    }
-    setDate();
-}
-
-function setDate(){
-    wrap.innerHTML=&apos;&apos;;  //清空列表
-
-    var today = new Date(show_year,show_month,1); //获取本年本月第一天
-    var num = today.getDay(); //获取本月第一天是周几
-    for(var i=0; i&lt;num ; i++){
-        wrap.appendChild(document.createElement(&apos;li&apos;)) //本月第一天之前添加空白标签
-    }
-
-    //本月最后一天通过下个月第0天可以获取到
-    var last_date = new Date(show_year,show_month+1,0).getDate();
-
-    //循环添加本月的日期列表，并将现在的当天设置背景颜色
-    for(var i=0; i&lt;last_date; i++){
-        var li = document.createElement(&apos;li&apos;);
-        li.innerHTML = i+1;
-
-        //如果显示的年月等于当前的年月，且当前日期等于循环的添加的li,改为选中状态
-        if( date == i+1 &amp;&amp; show_year ==now_year &amp;&amp; show_month == now_month){
-            li.style.background=&apos;red&apos;;
-            li.style.color=&apos;white&apos;;
-        }
-        wrap.appendChild(li);    
-    }
-
-    //设置每个li可以点击
-    var li = wrap.getElementsByTagName(&apos;li&apos;);
-    var length =li.length;
-    for(var i=0; i&lt;length; i++){
-        li.index =i;
-        li[i].onclick=function(){
-            if(this.innerHTML){
-                for(var j=0; j&lt;length; j++){
-                    li[j].style.background=&apos;&apos;;
-                    li[j].style.color=&apos;&apos;;
-                }
-                this.style.background=&apos;red&apos;;
-                this.style.color=&apos;white&apos;;
-                inner=this.innerHTML;
-                show.innerHTML=`${show_year}年${show_month}月${inner}日`;
-            }
-        }
-    }
-    //设置显示时间
-    show.innerHTML=`${show_year}年${show_month}月${inner}日`;
-}
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/13/日历/" class="archive-article-date">
-  	<time datetime="2016-11-13T13:20:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/简版日历/">简版日历</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-filter滤镜" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/25/filter滤镜/">filter滤镜</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="今天分享一个滤镜小插件"><a href="#今天分享一个滤镜小插件" class="headerlink" title="今天分享一个滤镜小插件"></a>今天分享一个滤镜小插件</h2><p><code>使用方式非常简单,如下：</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;  
-&lt;html&gt;  
-&lt;head&gt;  
-    &lt;title&gt;Filter Demo&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;filter.css&quot;&gt;
-&lt;/head&gt;  
-&lt;body&gt;
-    &lt;div class=&quot;kelvin&quot;&gt;
-          &lt;img src=&quot;http://una.im/CSSgram/img/lakegeneva.jpg&quot;&gt;
-    &lt;/div&gt;
-&lt;/body&gt;  
-&lt;/html&gt; 
-</code></pre><p><code>头部引入插件，对应图片加上类名，所有类名已写在图片左下角，点击预览查看</code></p>
-<p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.html" target="_blank" rel="external">效果预览</a><br>文件在我的github：<a href="https://github.com/Jasonellen/jasonProject.github.io/tree/master/filter" target="_blank" rel="external">Jasonellen</a><br>或者直接点击下载：<a href="https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.css" download="" target="_blank" rel="external">文件下载</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/25/filter滤镜/" class="archive-article-date">
-  	<time datetime="2016-10-25T13:44:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/filter/">filter</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1641,7 +1434,7 @@ function setDate(){
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Jasonellen
+    		&copy; 2018 Jasonellen
     	</div>
     </div>
   </div>
@@ -1692,7 +1485,7 @@ function setDate(){
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
