@@ -9,25 +9,22 @@
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>git常用命令 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="git常用命令
-git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
+  <meta name="description" content="git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
 
-table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference">
+table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference tr:nth-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git常用命令">
 <meta property="og:url" content="http://Jasonellen.github.io/2018/02/24/git常用命令/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="git常用命令
-git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
+<meta property="og:description" content="git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
 
-table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference">
-<meta property="og:updated_time" content="2018-03-16T11:41:56.000Z">
+table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference tr:nth-">
+<meta property="og:updated_time" content="2018-03-16T11:46:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git常用命令">
-<meta name="twitter:description" content="git常用命令
-git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
+<meta name="twitter:description" content="git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
 
-table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference">
+table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference tr:nth-">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -265,10 +262,10 @@ table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bott
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h2><blockquote>
+        <blockquote>
 <p>git操作首先推荐使用<code>sourcetree</code>一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁</p>
 </blockquote>
-<div><br><br><style><br><br>table.reference, table.tecspec{<br><br>border-collapse: collapse;<br>width: 100%;<br>margin-bottom: 4px;<br>margin-top: 4px;}<br><br>table.reference tr:nth-child(odd){<br><br>background-color: #f6f4f0;<br><br>}<br>th{<br><br>min-width:200px;<br><br>}<br>.red{color:red}<br><br></style><br><br></div>
+<style>table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference tr:nth-child(odd){background-color: #f6f4f0;}th{min-width:200px;}.red{color:red}</style>
 
 <pre><code>--soft 将本地撤回点之后的所有修改文件回退到git暂存区
 --mixed 将本地撤回点之后的所有修改文件修改回退到工作区(回退的默认方式)
@@ -277,81 +274,34 @@ table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bott
     git reset，它不会改变现在的提交历史
     Revert撤销一个提交的同时会创建一个新的提交。
 因此，git revert可以用在公共分支上，git reset应该用在私有分支上。
-</code></pre><h3 id="查看、添加、提交、删除、找回，重置修改文件"><a href="#查看、添加、提交、删除、找回，重置修改文件" class="headerlink" title="查看、添加、提交、删除、找回，重置修改文件"></a>查看、添加、提交、删除、找回，重置修改文件</h3><pre><code>&lt;table class=&quot;reference&quot;&gt;
-&lt;tr&gt;
-    &lt;th&gt;Git常用命令&lt;/th&gt;
-    &lt;th&gt;命令释义&lt;/th&gt;        
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;td&gt;git help&lt;/td&gt;
-    &lt;td&gt;显示command的help&lt;/td&gt;        
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git show $id&lt;/td&gt;
-    &lt;td&gt;显示某次提交的内容(不加id显示最近一次)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git checkout -- file&lt;/td&gt;
-    &lt;td&gt;抛弃文件工作区修改&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git checkout .&lt;/td&gt;
-    &lt;td&gt;抛弃所有工作区修改(add .到git暂存区的不能取消)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;td&gt;git add file&lt;/td&gt;
-    &lt;td&gt;将工作文件修改添加到git暂存区&lt;/td&gt;        
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git add .&lt;/td&gt;
-    &lt;td&gt;将所有修改过的添加到git暂存区&lt;/td&gt;        
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;td&gt;git reset file&lt;/td&gt;
-    &lt;td&gt;从git暂存区恢复到工作区&lt;/td&gt;        
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git reset -- .&lt;/td&gt;
-    &lt;td&gt;从git暂存区(add . 到达的区域)恢复全部到工作区&lt;/td&gt;    
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git reset --hard&lt;/td&gt;
-    &lt;td&gt;删除所有git暂存区的文件修改，也不会在工作区保留，慎用啊！！&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git reset HEAD^&lt;/td&gt;
-    &lt;td&gt;回退版本，一个^表示一个版本，可以多个，另外也可以使用 git reset HEAD～n这种形式 或者 git reset commit-id，将上个版本所有的修改回退到工作区&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git reset commit-id&lt;/td&gt;
-    &lt;td&gt;删除所有git暂存区的文件修改，也不会在工作区保留，慎用啊！！&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git commit -m &apos;xxx&apos;&lt;/td&gt;
-    &lt;td&gt;将git暂存区提交到history,然后才能从history push到线上&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&apos;red&apos;&gt;
-    &lt;td&gt;git commit -am &apos;xxx&apos;&lt;/td&gt;
-    &lt;td&gt;等于git add . + git commit -m &apos;xx&apos;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr  class=&apos;red&apos;&gt;
-    &lt;td&gt;git revert HEAD&lt;/td&gt;
-    &lt;td&gt;放弃当前commit所有修改，撤销到前一次 commit内容 到 git暂存区(撤销也会作为一次提交进行保存。)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;td&gt;git revert HEAD～1&lt;/td&gt;
-    &lt;td&gt;撤销前前一次 commit&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-    &lt;td&gt;git revert commit_id&lt;/td&gt;
-    &lt;td&gt;比如：（git revert fa042ce57ebbe5bb9c8db709f719cec2c58ee7ff）撤销指定的版本，&lt;/td&gt;
-&lt;/tr&gt;    
-&lt;tr&gt;
-    &lt;td&gt;git rm file&lt;/td&gt;
-    &lt;td&gt;从版本库中删除文件&lt;/td&gt;
-&lt;/tr&gt;
-</code></pre><p></p>
-<h3 id="查看文件diff"><a href="#查看文件diff" class="headerlink" title="查看文件diff"></a>查看文件diff</h3><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr class="red"><br>        <td>git diff <file></file></td><br>        <td>比较当前文件和暂存区文件差异 git diff</td><br>    </tr><br>    <tr class="red"><br>        <td>git diff commit_id</td><br>        <td>显示某次提交的的diff</td><br>    </tr><br>    <tr><br>        <td>git diff branch1..branch2</td><br>        <td>在两个分支之间比较</td><br>    </tr><br>    <tr><br>        <td>git diff –stat</td><br>        <td>仅仅比较统计信息</td><br>    </tr><br>    </table><br>### 查看提交记录<br>    <table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git log file</td><br>        <td>查看该文件每次提交记录</td><br>    </tr><br>    <tr><br>        <td>git log -p <file></file></td><br>        <td>查看每次详细修改内容的diff</td><br>    </tr><br>    <tr class="red"><br>        <td>git log -p -2</td><br>        <td>查看最近两次详细修改内容的diff</td><br>    </tr><br>    <tr><br>        <td>git log –stat</td><br>        <td>查看提交统计信息</td><br>    </tr><br>    </table><br>### Git本地分支管理<br>##### 查看、切换、创建和删除分支<br>    <table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git branch -r <file></file></td><br>        <td>查看远程分支 /a 全部分支</td><br>    </tr><br>    <tr><br>        <td>git branch -v</td><br>        <td>查看各个分支最后提交信息</td><br>    </tr><br><br>    <tr><br>        <td>git checkout -b xx_branch</td><br>        <td>创建新的分支，并且切换过去</td><br>    </tr><br>    <tr><br>        <td>git branch new_branch</td><br>        <td>创建新的分支</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout xx_branch</td><br>        <td>切换到某个分支,没有该分支则以本分支创建一个(本地修改也会一起切换到对应分支)</td><br>    </tr><br>    <tr><br>        <td>git checkout -b new_branch branch</td><br>        <td>基于branch创建新的new_branch</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout $id</td><br>        <td>把某次历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删(主要还是用来查看旧版本信息为主)</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout $id -b new_branch</td><br>        <td>把某次历史提交记录checkout出来，创建成一个分支</td><br>    </tr><br>    <tr><br>        <td>git branch -d xx_branch</td><br>        <td>删除某个分支</td><br>    </tr><br>    <tr><br>        <td>git branch -D <branch></branch></td><br>        <td>强制删除某个分支 (未被合并的分支被删除的时候需要强制)</td><br>    </tr><br>    <tr><br>        <td>git push origin :remote_branch</td><br>        <td>删除远程分支</td><br>    </tr><br>    </table><br>##### 分支合并和rebase<br>    <table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr class="red"><br>        <td>git merge xxx_branch<file></file></td><br>        <td>将xxx_branch分支合并到当前分支</td><br>    </tr><br>    <tr><br>        <td>git merge origin/master –no-ff</td><br>        <td>不要Fast-Foward合并，这样可以生成merge提交</td><br>    </tr><br>    <tr class="red"><br>        <td>git cherry-pick commitid</td><br>        <td> 把指定commitid的变动合并到当前分支</td><br>    </tr><br>    </table><br>### Git暂存管理<br>    <table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr class="red"><br>        <td>git stash(git stash create ‘名字’)</td><br>        <td>本地暂存区暂存,当一个分支未开发完成又不想commit的时候，是不能切换到其他分支的，除非把改动的文件进行暂存，切换回来的时候再恢复就行了</td><br>    </tr><br>    <tr><br>        <td>git stash list</td><br>        <td>列所有stash本地暂存区</td><br>    </tr><br>    <tr class="red"><br>        <td>git stash apply</td><br>        <td>恢复本地暂存区的内容(恢复到工作副本)</td><br>    </tr><br>    <tr><br>        <td>git stash drop</td><br>        <td>删除本地暂存区</td><br>    </tr><br>    </table><br>### Git远程分支管理<br>    <table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git pull</td><br>        <td>抓取远程仓库所有分支更新并合并到本地</td><br>    </tr><br>    <tr><br>        <td>git pull –no-ff</td><br>        <td>不要快进合并（Create a merge commit）</td><br>    </tr><br>    <tr class="red"><br>        <td>git merge origin/master</td><br>        <td>将远程主分支合并到本地当前分支</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout –track origin/master</td><br>        <td>检出远程分支到本地</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout -b local_branch origin/remote_branch</td><br>        <td>基于远程分支创建本地分支,并切换到新建分支</td><br>    </tr><br>    <tr><br>        <td>git push</td><br>        <td>push所有分支</td><br>    </tr><br>    <tr><br>        <td>git push origin master</td><br>        <td>将本地主分支推到(已跟踪的)远程主分支</td><br>    </tr><br>    <tr class="red"><br>        <td>git push origin HEAD:master</td><br>        <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td><br>    </tr><br>    <tr class="red">/<br>        <td>git push origin local_branch</td><br>        <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td><br>    </tr><br>    </table><br>### Git远程仓库管理<br><br><table class="reference"><tr><th>命令</th><th>释义</th></tr><tr><td>git remote -v</td><td>查看远程服务器地址和仓库名称</td></tr><tr><td>git remote show origin</td><td>查看远程服务器仓库状态</td></tr><tr class="red"><td>git remote add origin git@github:robbin/robbin_site.git</td><td>添加远程仓库地址</td></tr><tr class="red"><td>git remote set-url origin git@github.com:robbin/robbin_site.git</td><td>设置远程仓库地址(用于修改远程仓库地址)</td></tr><tr><td>git remote rm<repository></repository></td><td>删除远程仓库</td></tr><tr class="red"><td>git push -u origin master</td><td>首次将本地分支提交到远程master分支，”-u”是首次提交需要增加追踪(track)，-u后以后提交到该分支的远程只需要git push,否则需要git push origin xxx</td></tr><tr><td>git remote set-head origin master</td><td>设置远程仓库的HEAD指向master分支(可以用checkout直接切换)</td></tr></table>
+</code></pre><h3 id="查看、添加、提交、删除、找回，重置修改文件"><a href="#查看、添加、提交、删除、找回，重置修改文件" class="headerlink" title="查看、添加、提交、删除、找回，重置修改文件"></a>查看、添加、提交、删除、找回，重置修改文件</h3><table class="reference"><tr>    <th>Git常用命令</th>    <th>命令释义</th>        </tr><tr>    <td>git help</td>    <td>显示command的help</td>        </tr><tr class="red">    <td>git show $id</td>    <td>显示某次提交的内容(不加id显示最近一次)</td></tr><tr class="red">    <td>git checkout – file</td>    <td>抛弃文件工作区修改</td></tr><tr class="red">    <td>git checkout .</td>    <td>抛弃所有工作区修改(add .到git暂存区的不能取消)</td></tr><tr>    <td>git add file</td>    <td>将工作文件修改添加到git暂存区</td>        </tr><tr class="red">    <td>git add .</td>    <td>将所有修改过的添加到git暂存区</td>        </tr><tr>    <td>git reset file</td>    <td>从git暂存区恢复到工作区</td>        </tr><tr class="red">    <td>git reset – .</td>    <td>从git暂存区(add . 到达的区域)恢复全部到工作区</td>    </tr><tr class="red">    <td>git reset –hard</td>    <td>删除所有git暂存区的文件修改，也不会在工作区保留，慎用啊！！</td></tr><tr class="red">    <td>git reset HEAD^</td>    <td>回退版本，一个^表示一个版本，可以多个，另外也可以使用 git reset HEAD～n这种形式 或者 git reset commit-id，将上个版本所有的修改回退到工作区</td></tr><tr class="red">    <td>git reset commit-id</td>    <td>删除所有git暂存区的文件修改，也不会在工作区保留，慎用啊！！</td></tr><tr class="red">    <td>git commit -m ‘xxx’</td>    <td>将git暂存区提交到history,然后才能从history push到线上</td></tr><tr class="red">    <td>git commit -am ‘xxx’</td>    <td>等于git add . + git commit -m ‘xx’</td></tr><tr class="red">    <td>git revert HEAD</td>    <td>放弃当前commit所有修改，撤销到前一次 commit内容 到 git暂存区(撤销也会作为一次提交进行保存。)</td></tr><tr>    <td>git revert HEAD～1</td>    <td>撤销前前一次 commit</td></tr><tr>    <td>git revert commit_id</td>    <td>比如：（git revert fa042ce57ebbe5bb9c8db709f719cec2c58ee7ff）撤销指定的版本，</td></tr>    <tr>    <td>git rm file</td>    <td>从版本库中删除文件</td></tr></table>
+
+
+<h3 id="查看文件diff"><a href="#查看文件diff" class="headerlink" title="查看文件diff"></a>查看文件diff</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr class="red">    <td>git diff<file></file></td>    <td>比较当前文件和暂存区文件差异 git diff</td>        </tr><tr class="red">    <td>git diff commit_id</td>    <td>显示某次提交的的diff</td>        </tr><tr>    <td>git diff branch1..branch2</td>    <td>在两个分支之间比较</td></tr>    <tr>    <td>git diff –stat</td>    <td>仅仅比较统计信息</td></tr>    </table>
+
+
+
+<h3 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git log file</td>    <td>查看该文件每次提交记录</td>        </tr><tr>    <td>git log -p<file></file></td>    <td>查看每次详细修改内容的diff</td>        </tr><tr class="red">    <td>git log -p -2</td>    <td>查看最近两次详细修改内容的diff</td></tr><tr>    <td>git log –stat</td>    <td>查看提交统计信息</td></tr>    </table>
+
+
+
+<h3 id="Git本地分支管理"><a href="#Git本地分支管理" class="headerlink" title="Git本地分支管理"></a>Git本地分支管理</h3><h5 id="查看、切换、创建和删除分支"><a href="#查看、切换、创建和删除分支" class="headerlink" title="查看、切换、创建和删除分支"></a>查看、切换、创建和删除分支</h5><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git branch -r<file></file></td>    <td>查看远程分支 /a 全部分支</td>        </tr><tr>    <td>git branch -v</td>    <td>查看各个分支最后提交信息</td></tr><tr>    <td>git checkout -b xx_branch</td>    <td>创建新的分支，并且切换过去</td>        </tr>    <tr>    <td>git branch new_branch</td>    <td>创建新的分支</td>        </tr><tr class="red">    <td>git checkout xx_branch</td>    <td>切换到某个分支,没有该分支则以本分支创建一个(本地修改也会一起切换到对应分支)</td></tr><tr>    <td>git checkout -b new_branch branch</td>    <td>基于branch创建新的new_branch</td></tr><tr class="red">    <td>git checkout $id</td>    <td>把某次历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删(主要还是用来查看旧版本信息为主)</td></tr><tr class="red">    <td>git checkout $id -b new_branch</td>    <td>把某次历史提交记录checkout出来，创建成一个分支</td></tr>    <tr>    <td>git branch -d xx_branch</td>    <td>删除某个分支</td>    </tr>    <tr>    <td>git branch -D<branch></branch></td>    <td>强制删除某个分支 (未被合并的分支被删除的时候需要强制)</td></tr>    <tr>    <td>git push origin :remote_branch</td>    <td>删除远程分支</td></tr>    </table>
+
+
+
+<h5 id="分支合并和rebase"><a href="#分支合并和rebase" class="headerlink" title="分支合并和rebase"></a>分支合并和rebase</h5><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr class="red">    <td>git merge xxx_branch<file></file></td>    <td>将xxx_branch分支合并到当前分支</td></tr><tr>    <td>git merge origin/master –no-ff</td>    <td>不要Fast-Foward合并，这样可以生成merge提交</td></tr><tr class="red">    <td>git cherry-pick commitid</td>    <td> 把指定commitid的变动合并到当前分支</td></tr>    </table>
+
+
+
+<h3 id="Git暂存管理"><a href="#Git暂存管理" class="headerlink" title="Git暂存管理"></a>Git暂存管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr class="red">    <td>git stash(git stash create ‘名字’)</td>    <td>本地暂存区暂存,当一个分支未开发完成又不想commit的时候，是不能切换到其他分支的，除非把改动的文件进行暂存，切换回来的时候再恢复就行了</td>        </tr><tr>    <td>git stash list</td>    <td>列所有stash本地暂存区</td></tr><tr class="red">    <td>git stash apply</td>    <td>恢复本地暂存区的内容(恢复到工作副本)</td></tr><tr>    <td>git stash drop</td>    <td>删除本地暂存区</td></tr>    </table>
+
+
+
+<h3 id="Git远程分支管理"><a href="#Git远程分支管理" class="headerlink" title="Git远程分支管理"></a>Git远程分支管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git pull</td>    <td>抓取远程仓库所有分支更新并合并到本地</td></tr><tr>    <td>git pull –no-ff</td>    <td>不要快进合并（Create a merge commit）</td></tr><tr class="red">    <td>git merge origin/master</td>    <td>将远程主分支合并到本地当前分支</td></tr><tr class="red">    <td>git checkout –track origin/master</td>    <td>检出远程分支到本地</td></tr><tr class="red">    <td>git checkout -b local_branch origin/remote_branch</td>    <td>基于远程分支创建本地分支,并切换到新建分支</td></tr><tr>    <td>git push</td>    <td>push所有分支</td></tr><tr>    <td>git push origin master</td>    <td>将本地主分支推到(已跟踪的)远程主分支</td></tr><tr class="red">    <td>git push origin HEAD:master</td>    <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td></tr><tr class="red">/    <td>git push origin local_branch</td>    <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td></tr>    </table>
+
+
+
+<h3 id="Git远程仓库管理"><a href="#Git远程仓库管理" class="headerlink" title="Git远程仓库管理"></a>Git远程仓库管理</h3><table class="reference"><tr><th>命令</th><th>释义</th></tr><tr><td>git remote -v</td><td>查看远程服务器地址和仓库名称</td></tr><tr><td>git remote show origin</td><td>查看远程服务器仓库状态</td></tr><tr class="red"><td>git remote add origin git@github:robbin/robbin_site.git</td><td>添加远程仓库地址</td></tr><tr class="red"><td>git remote set-url origin git@github.com:robbin/robbin_site.git</td><td>设置远程仓库地址(用于修改远程仓库地址)</td></tr><tr><td>git remote rm<repository></repository></td><td>删除远程仓库</td></tr><tr class="red"><td>git push -u origin master</td><td>首次将本地分支提交到远程master分支，”-u”是首次提交需要增加追踪(track)，-u后以后提交到该分支的远程只需要git push,否则需要git push origin xxx</td></tr><tr><td>git remote set-head origin master</td><td>设置远程仓库的HEAD指向master分支(可以用checkout直接切换)</td></tr></table>
 
 <h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
       
