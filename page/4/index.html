@@ -236,7 +236,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -246,7 +246,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/redux入门/">redux入门</a>
+      <a class="article-title" href="/2017/02/21/import/">import</a>
     </h1>
   
 
@@ -255,114 +255,30 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍</p>
+<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
 </blockquote>
-<h1 id="Redux-基础概念"><a href="#Redux-基础概念" class="headerlink" title="Redux 基础概念"></a>Redux 基础概念</h1><h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><pre><code>State 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
-</code></pre><h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><pre><code>Action 用来描述一个行为，并负载相应的信息。
-</code></pre><h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><pre><code>Reducer 接收两个参数，第一个参数是当前状态，而第二参数是 action, 返回更新后的状态。
-用来执行store触发的Action对应的方法
-</code></pre><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><pre><code>Store 是管理应用程序 state 的容器
+<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
+</code></pre><p>​    </p>
+<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
+</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
+<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
+</code></pre><p>​    </p>
+<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
+</code></pre><p>​    </p>
+<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
+</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
 
-store = {
-    getState,
-    dispatch,
-    subscribe,
-    replaceReducer
-}
-</code></pre><h4 id="如上，store共有4个API"><a href="#如上，store共有4个API" class="headerlink" title="如上，store共有4个API,"></a>如上，store共有4个API,</h4><pre><code>getState: (数据接口)
-使用方式: store.getState()
-功能点: redux对外导出数据的接口(getter)
-
-subscribe: (订阅接口)
-使用方式: store.subscribe(回调函数)
-功能点: 在每次执行dispatch的时候，用于执行自定义的回调函数操作
-
-dispatch: (执行接口)
-使用方式: store.dispatch(action)
-功能点: 在执行redux的state更新的同时，执行所有subscribe过的回调函数
-
-replaceReducer: (重置store接口)
-使用方式: store.replaceReducer(nextReducer)
-功能点: 重置redux的reducer，重新启动store流程
-</code></pre><h3 id="流程图如下"><a href="#流程图如下" class="headerlink" title="流程图如下"></a>流程图如下</h3><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg" alt=""></p>
-<h2 id="项目实战："><a href="#项目实战：" class="headerlink" title="项目实战："></a>项目实战：</h2><p><strong>首先安装redux到项目中</strong></p>
-<pre><code>npm install --save redux
-</code></pre><p><strong>代码编写</strong></p>
-<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;p&gt;
-    Clicked: &lt;span id=&quot;value&quot;&gt;0&lt;/span&gt;
-    &lt;button id=&quot;increment&quot;&gt;+&lt;/button&gt;
-    &lt;button id=&quot;decrement&quot;&gt;-&lt;/button&gt;
-&lt;/p&gt;
-</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>//导入createStroe
-import { createStore } from &apos;redux&apos;
-
-//初始化状态
-let initState = {
-      count: 0,
-      score: 0,
-      description:&apos;描述&apos;
-}
-
-//创建一个Reducer
-function counter(state = initState, action) {
-    switch (action.type) {
-        case &apos;INCREMENT&apos;:
-              return{
-                  count:state.count + 1,
-                score:state.score + 2,
-                description:action.data
-              } 
-        case &apos;DECREMENT&apos;:
-              return{
-                  count:state.count - 1,
-                score:state.score - 2,
-                description:action.data
-              } 
-        default:
-              return state;
-          }
-    }
-
-//将创建好的Reducer传入创建Store
-let store = Redux.createStore(counter);
-
-//获取元素节点，并绑定点击事件，点击后store将触发相应的动作Action
-let valueEl = document.getElementById(&apos;value&apos;);
-document.getElementById(&apos;increment&apos;).addEventListener(&apos;click&apos;, function() {
-    store.dispatch({
-          type: &apos;INCREMENT&apos;,
-          data:&apos;增加的&apos;
-    })
-})
-document.getElementById(&apos;decrement&apos;).addEventListener(&apos;click&apos;, function() {
-    store.dispatch({
-          type: &apos;DECREMENT&apos;,
-          data:&apos;减少的&apos;,
-    })
-})
-
-//写一个render方法，在这里动态改变元素的内容
-function render() {
-    valueEl.innerHTML = &apos;点击&apos;+store.getState().count.toString()+&apos;次-得        分&apos;+store.getState().score.toString()+store.getState().description;
-}
-
-//执行render方法
-render();
-
-//绑定subscribe回调
-store.subscribe(render);
-</code></pre><h5 id="上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render"><a href="#上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render" class="headerlink" title="上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()"></a>上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/02/21/redux入门/" class="archive-article-date">
+      <a href="/2017/02/21/import/" class="archive-article-date">
   	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
 	</div>
 
       
