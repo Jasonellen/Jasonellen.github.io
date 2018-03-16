@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://Jasonellen.github.io/2018/03/11/react深入一丢丢/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
 <meta property="og:description" content="1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous s">
-<meta property="og:updated_time" content="2018-03-16T11:52:34.000Z">
+<meta property="og:updated_time" content="2018-03-16T11:55:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React深入一丢丢">
 <meta name="twitter:description" content="1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous s">
@@ -291,8 +291,20 @@ console.log(this.state.a) //0
       }
     }
 }        
-</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起<br>    //bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key<br>    {todos.map((todo, index) =&gt;<br>        <todo {...todo}="" key="{index}"><br>    )}<br>    //good -&gt; 保持了对数据的索引<br>    {todos.map((todo) =&gt;<br>        <todo {...todo}="" key="{todo.id}"><br>    )}</todo></todo></p>
-<h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.</p>
+</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起</p>
+<pre><code>//bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key
+{todos.map((todo, index) =&gt;
+    &lt;Todo
+        {...todo}
+        key={index}
+    /&gt;
+)}
+//good -&gt; 保持了对数据的索引
+{todos.map((todo) =&gt;
+    &lt;Todo {...todo}
+    key={todo.id} /&gt;
+)}
+</code></pre><h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.</p>
 <pre><code>shouldComponentUpdate(nextProps, nextState) {
    if (nextProps.a !== this.props.a) {
          return true;
