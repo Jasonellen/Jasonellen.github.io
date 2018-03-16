@@ -236,6 +236,454 @@
       <div class="body-wrap">
         
   
+    <article id="post-聊天室" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/11/聊天室/">基于nodejs和socket.io的聊天室</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="socket-io详细介绍可以查看官网"><a href="#socket-io详细介绍可以查看官网" class="headerlink" title="socket.io详细介绍可以查看官网"></a>socket.io详细介绍可以查看<a href="https://socket.io/" target="_blank" rel="external">官网</a></h4><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="external">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
+</code></pre><h5 id="让我们来开启一个服务器"><a href="#让我们来开启一个服务器" class="headerlink" title="让我们来开启一个服务器"></a>让我们来开启一个服务器</h5><pre><code>//开启一个服务
+var express = require(&apos;express&apos;);
+var app = express();
+var server = require(&apos;http&apos;).createServer(app);
+var io = require(&apos;socket.io&apos;)(server);
+server.listen(3000, function () {
+  console.log(&apos;Server listening at http://localhost:3000&apos;);
+});
+
+// Routing
+app.use(express.static(__dirname + &apos;/src&apos;));
+
+//设置房间用户数量members
+var members = 0;
+</code></pre><h5 id="前端HTML"><a href="#前端HTML" class="headerlink" title="前端HTML"></a>前端HTML</h5><pre><code>&lt;body&gt;
+  &lt;!-- 首页供用户首次进入输入昵称 --&gt;
+  &lt;div class=&quot;mymodal&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;h1&gt;请输入你的昵称&lt;/h3&gt;
+      &lt;input type=&quot;text&quot; maxlength=&quot;14&quot; class=&apos;name&apos;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- 主页 聊天使用 --&gt;
+  &lt;h2 class=&apos;text-center&apos;&gt;欢迎来到南南ChatRoom&lt;br&gt;&lt;small&gt;xxx 正在输入...&lt;/small&gt;&lt;/h2&gt;
+  &lt;ul&gt;&lt;/ul&gt;
+  &lt;div class=&quot;input-group ipt&quot;&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;请输入聊天内容&quot; aria-describedby=&quot;send&quot;&gt;
+    &lt;span class=&quot;input-group-addon&quot; id=&quot;send&quot;&gt;发送&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&apos;/lib/jquery.min.js&apos;&gt;&lt;/script&gt;
+  &lt;script src=&apos;./index.js&apos;&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h5 id="JS部分"><a href="#JS部分" class="headerlink" title="JS部分"></a>JS部分</h5><ul>
+<li><p>先定义一些变量</p>
+<pre><code>var login = false; //还未登陆
+var nameIpt = $(&apos;.content input&apos;) //输入用户名
+var mesIpt = $(&apos;.ipt input&apos;) //消息输入框
+var myModal = $(&apos;.mymodal&apos;); //首次进入的modal框
+var ul = $(&apos;ul&apos;) //详细列表box
+var typing = $(&apos;small&apos;); //正在输入
+var username = &apos;&apos;; //用户名
+var sendBtn = $(&apos;#send&apos;) //发送按钮
+//定义socket
+var socket = io();
+</code></pre></li>
+<li><p>定义几个常用的函数</p>
+<pre><code>//输入框获得焦点
+function _focus(){
+  //获取焦点
+  if(!login &amp;&amp; !(event.ctrlKey || event.metaKey || event.altKey)){
+    //如果没有登录
+    nameIpt.focus()
+  }else if(!(event.ctrlKey || event.metaKey || event.altKey)){
+    //登录成功
+    mesIpt.focus()
+  }
+}
+
+//添加一条聊天消息
+function addMessage(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;strong style=&apos;color:${data.color}&apos;&gt;${data.username}：&lt;/strong&gt;&lt;span&gt;${data.message}&lt;/span&gt;`)
+  li.fadeIn(3000)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+  mesIpt.val(&apos;&apos;)
+}
+
+//添加欢迎消息
+function welcome(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p&gt;欢迎 ${data.username} 加入了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+}
+//输出日志
+function log(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;${data}&lt;/p&gt;&lt;/li&gt;`)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+}
+</code></pre></li>
+<li><p>socket使用，监听/触发方法</p>
+<pre><code>//登录成功
+socket.on(&apos;loginSuccess&apos;,function(data){
+  login = true;
+  username = data.username
+  myModal.fadeOut()
+  welcome(data)
+})
+//欢迎加入房间
+socket.on(&apos;welcome&apos;,function(data){
+    welcome(data)
+})
+//xxx离开房间
+socket.on(&apos;leave&apos;,function(data){
+  var li = $(&apos;&lt;li&gt;&apos;).html(`&lt;li&gt;&lt;p class=&apos;lost&apos;&gt;额.. ${data.username} 离开了聊天室 &lt;br&gt;&lt;span&gt;目前聊天室共${data.members}人&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;`)
+  ul.append(li)
+  ul.scrollTop(ul[0].scrollHeight)
+})
+//消息发送成功
+socket.on(&apos;sendMessageSuccess&apos;,function(data){
+    addMessage(data)
+})
+//显示正在输入
+socket.on(&apos;typingSuccess&apos;, function (username) {
+    typing.text(`${username}正在输入...`).css(&apos;display&apos;,&apos;block&apos;).delay(2000).fadeOut();;
+});
+//本人失去连接
+socket.on(&apos;disconnect&apos;, function () {
+    log(&apos;您已失去连接正在尝试重连...&apos;)
+});
+//本人重连失败
+socket.on(&apos;reconnect_error&apos;, function () {
+    log(&apos;重连失败，再次尝试...&apos;)
+});
+//重连成功
+socket.on(&apos;reconnect&apos;, function () {
+  log(&apos;连接成功！&apos;);
+  if (username) {
+    //如果还在房间里，重新加入房间
+    socket.emit(&apos;addUserRequest&apos;, username);
+  }
+});
+</code></pre></li>
+<li><p>主入口用户触发函数</p>
+<pre><code>//设置屏幕点击和按键按下 输入框自动获得焦点
+$(window).on(&apos;click&apos;,function(e){    
+    _focus();
+})
+$(window).on(&apos;keydown&apos;,function(e){
+ _focus();
+ //输入名字后按回车进入聊天室
+ if(e.which === 13){
+   if(!login){
+     //如果没有登录 发送登录请求
+     var _name = nameIpt.val().trim()
+     if(_name){
+       socket.emit(&apos;addUserRequest&apos;, _name);
+     }
+   }else{
+     //已经登录发送消息
+     var message = mesIpt.val().trim()
+     if(message){
+       socket.emit(&apos;sendMessageRequest&apos;, message);
+     }
+   }
+ }
+//按钮发送
+sendBtn.click(function(){
+  var message = mesIpt.val().trim()
+   if(message){
+     addMessage({username,message})
+     socket.emit(&apos;sendMessageRequest&apos;, message);
+   }
+})
+//用户输入消息是触发typing
+mesIpt.on(&apos;input&apos;, function() {
+    socket.emit(&apos;typingRequest&apos;, username);
+});  
+</code></pre></li>
+</ul>
+<h5 id="本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o"><a href="#本人还是喜欢贴出完整代码-简短叙事，逻辑看懂了什么都懂了-还有什么疑问的话可以上我的github给我留言o" class="headerlink" title="本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o"></a>本人还是喜欢贴出完整代码+简短叙事，逻辑看懂了什么都懂了..还有什么疑问的话可以上我的github给我留言o</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/11/聊天室/" class="archive-article-date">
+  	<time datetime="2017-06-10T22:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/socket/">socket</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-canvas粒子运动" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/07/canvas粒子运动/">canvas粒子运动</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="今天说一说Canvas的粒子运动：效果图戳这里"><a href="#今天说一说Canvas的粒子运动：效果图戳这里" class="headerlink" title="今天说一说Canvas的粒子运动：效果图戳这里"></a>今天说一说Canvas的粒子运动：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/particleMove/blob/master/index.html" target="_blank" rel="external">效果图戳这里</a></h3><h2 id="首先我们需要创建一个HTML"><a href="#首先我们需要创建一个HTML" class="headerlink" title="首先我们需要创建一个HTML"></a>首先我们需要创建一个HTML</h2><pre><code>&lt;style&gt;
+  body{
+    margin: 0;
+    height:1500px;
+    background: #000;
+  }
+  canvas{
+    width: 100%;
+    height: 100%;
+  }
+&lt;/style&gt;
+&lt;body&gt;
+  &lt;canvas id=&apos;canvas&apos;&gt;&lt;/canvas&gt;
+  &lt;script src=&apos;index.js&apos;&gt;&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h2 id="最主要的就是JS啦☺"><a href="#最主要的就是JS啦☺" class="headerlink" title="最主要的就是JS啦☺"></a>最主要的就是JS啦☺</h2><h4 id="获取canvsa-设置画布和宽高"><a href="#获取canvsa-设置画布和宽高" class="headerlink" title="获取canvsa 设置画布和宽高"></a>获取canvsa 设置画布和宽高</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var ctx = canvas.getContext(&apos;2d&apos;);</div><div class="line">var _width = canvas.width = canvas.offsetWidth;</div><div class="line">var _height = canvas.height = canvas.offsetHeight;</div></pre></td></tr></table></figure>
+<h4 id="更新页面用requestAnimationFrame替代setTimeout"><a href="#更新页面用requestAnimationFrame替代setTimeout" class="headerlink" title="更新页面用requestAnimationFrame替代setTimeout"></a>更新页面用requestAnimationFrame替代setTimeout</h4><pre><code>window.requestAnimationFrame =  window.requestAnimationFrame ||
+                                window.mozRequestAnimationFrame ||
+                                window.webkitRequestAnimationFrame ||
+                                window.msRequestAnimationFrame;
+</code></pre><h4 id="创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动-连线-和-远离的方法）"><a href="#创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动-连线-和-远离的方法）" class="headerlink" title="创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动 连线 和 远离的方法）"></a>创建粒子对象（具有位置、半径、颜色和速度属性，画圆、运动 连线 和 远离的方法）</h4><pre><code>function Particle(x, y, r, color){
+  this.x = x;
+  this.y = y;
+  this.r = r;
+  this.color = color;
+  this.movex = Math.random()/3;
+  this.movey = Math.random()/3;
+}
+
+//画圆
+Particle.prototype.draw = function () {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0 ,360);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.restore();
+};
+
+// 连线
+Particle.prototype.line = function (other) {
+  var dx = this.x - other.x;
+  var dy = this.y - other.y;
+  let gap = Math.sqrt(dxdx + dydy)
+  if(gap &lt; 80){
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(other.x, other.y);
+    ctx.strokeStyle = &quot;rgba(255,255,255,.3)&quot;;
+    ctx.lineWidth = .7;
+    ctx.stroke();
+    ctx.restore();
+  }
+};
+
+//运动 (改变x,y的坐标)
+Particle.prototype.move = function () {
+  this.movex = (this.x &lt;_width &amp;&amp; this.x&gt;0)?this.movex:-this.movex;
+  this.movey = (this.x &lt;_height &amp;&amp; this.x&gt;0)?this.movex:-this.movey;
+  this.x += this.movex;
+  this.y += this.movey;
+};
+
+//远离鼠标
+Particle.prototype.faraway = function (other) {
+  var fx = this.x - other.x;
+  var fy = this.y - other.y;
+  var fd = Math.sqrt(fxfx + fyfy);
+  if(fd &lt; 50){
+    if(fx&lt;0 &amp;&amp; fy&lt;0){
+      this.x -= 50;
+      this.y -= 50;
+    }else if(fx&lt;0 &amp;&amp; fy&gt;0){
+      this.x -= 50;
+      this.y += 50;
+    }else if(fx&gt;0 &amp;&amp; fy&lt;0){
+      this.x += 50;
+      this.y -= 50;
+    }else{
+      this.x += 50;
+      this.y += 50;
+    }
+  }
+};
+</code></pre><h4 id="创建远离点"><a href="#创建远离点" class="headerlink" title="创建远离点"></a>创建远离点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function Away(x, y)&#123;</div><div class="line">  this.x = x;</div><div class="line">  this.y = y;</div><div class="line">  this.color = &apos;red&apos;;</div><div class="line">&#125;</div><div class="line">Away.prototype.awaydraw = function () &#123;</div><div class="line">  ctx.save();</div><div class="line">  ctx.beginPath();</div><div class="line">  ctx.arc(this.x, this.y, Math.random()*20, 0 , 360);</div><div class="line">  ctx.fillStyle = this.color;</div><div class="line">  ctx.fill();</div><div class="line">  ctx.restore();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="远离点跟随鼠标移动"><a href="#远离点跟随鼠标移动" class="headerlink" title="远离点跟随鼠标移动"></a>远离点跟随鼠标移动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var _away = new Away(0, 0)</div><div class="line">window.onmousemove = function(e)&#123;</div><div class="line">  var _scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</div><div class="line">  var e = e || window.event;</div><div class="line">  _away.x = e.clientX;</div><div class="line">  _away.y = e.clientY + _scrollTop;</div><div class="line">&#125;</div><div class="line">window.onmouseout = function()&#123;</div><div class="line">  _away.x = null;</div><div class="line">  _away.y = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="运动-起来"><a href="#运动-起来" class="headerlink" title="运动 起来"></a>运动 起来</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function run()&#123;</div><div class="line">  ctx.clearRect(0, 0, _width, _height)</div><div class="line">  //如果鼠标在窗口内，就画远离点</div><div class="line">  if(_away.x)&#123;</div><div class="line">    _away.awaydraw();</div><div class="line">  &#125;</div><div class="line">  for(var i=0; i&lt;length; i++)&#123;</div><div class="line">    P_array[i].move();</div><div class="line">    P_array[i].draw();</div><div class="line">    P_array[i].faraway(_away)</div><div class="line">    //逐个判断连线</div><div class="line">    for(var j=0; j&lt;length; j++)&#123;</div><div class="line">      P_array[i].line(P_array[j])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  //循环执行</div><div class="line">  requestAnimationFrame(run);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="初始化页面"><a href="#初始化页面" class="headerlink" title="初始化页面"></a>初始化页面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var P_array =[];</div><div class="line">var P_num = 360;</div><div class="line">var length = 0;</div><div class="line">//初始化页面</div><div class="line">function init()&#123;</div><div class="line">  //创建很多个 粒子</div><div class="line">  for(var i=0; i&lt; P_num; i++)&#123;</div><div class="line">    var _color = `rgb($&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;)`;</div><div class="line">    console.log(_color)</div><div class="line">    P_array.push(new Particle(Math.random()*_width, Math.random()*_height, Math.random()*5, _color))</div><div class="line">  &#125;</div><div class="line">  length = P_array.length;</div><div class="line">  //页面 动 起来</div><div class="line">  run();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>其实这个效果有个思路的话没那么难的，运动面向对象的思想一步一步很容易就可以做出来的，我脑子笨做了几个小时😢</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/07/canvas粒子运动/" class="archive-article-date">
+  	<time datetime="2017-06-07T02:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-常用几个正则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/20/常用几个正则/">常用几个正则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>表单验证经常需要用到正则，不知道规则纵使熟练REG也是无济于事，下面整理几个常用正则</p>
+</blockquote>
+<ul>
+<li><p>手机号码验证</p>
+<p> function isPhone(tel){</p>
+<pre><code>  var phone= /^((\+?[0-9]{1,4})|(\(\+86\)))?(13[0-9]|14[57]|15[012356789]|17[0678]|18[0-9])\d{8}$/;
+  if (phone.test(tel)){
+      return true;
+  }else{
+      return false;
+  }
+}
+</code></pre></li>
+<li><p>邮箱验证</p>
+<p> function isEmail(email){</p>
+<pre><code>  var isEmail= /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+  if (isEmail.test(email)){
+      return true;
+  }else{
+      return false;
+  }
+}
+</code></pre></li>
+<li><p>身份证验证</p>
+<p> function isID(id){</p>
+<pre><code>  var reg15 = /^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}$/;
+  var _reg15 = /^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}$/;
+  var reg18 = /^[1-9][0-9]{5}19[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$/;
+  var _reg18 = /^[1-9][0-9]{5}19[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}[0-9Xx]$/;
+  if (reg15.test(id)||_reg15.test(id)||reg18.test(id)||_reg18.test(id)){
+      return true;
+  }else{
+      return false;
+  }
+}
+</code></pre><p> ​</p>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/05/20/常用几个正则/" class="archive-article-date">
+  	<time datetime="2017-05-20T05:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regexp/">regexp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-eslint使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1797,330 +2245,6 @@ export function * counterMinus1 (action) {
 
 
   
-    <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/redux入门/">redux入门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍</p>
-</blockquote>
-<h1 id="Redux-基础概念"><a href="#Redux-基础概念" class="headerlink" title="Redux 基础概念"></a>Redux 基础概念</h1><h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><pre><code>State 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
-</code></pre><h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><pre><code>Action 用来描述一个行为，并负载相应的信息。
-</code></pre><h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><pre><code>Reducer 接收两个参数，第一个参数是当前状态，而第二参数是 action, 返回更新后的状态。
-用来执行store触发的Action对应的方法
-</code></pre><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><pre><code>Store 是管理应用程序 state 的容器
-
-store = {
-    getState,
-    dispatch,
-    subscribe,
-    replaceReducer
-}
-</code></pre><h4 id="如上，store共有4个API"><a href="#如上，store共有4个API" class="headerlink" title="如上，store共有4个API,"></a>如上，store共有4个API,</h4><pre><code>getState: (数据接口)
-使用方式: store.getState()
-功能点: redux对外导出数据的接口(getter)
-
-subscribe: (订阅接口)
-使用方式: store.subscribe(回调函数)
-功能点: 在每次执行dispatch的时候，用于执行自定义的回调函数操作
-
-dispatch: (执行接口)
-使用方式: store.dispatch(action)
-功能点: 在执行redux的state更新的同时，执行所有subscribe过的回调函数
-
-replaceReducer: (重置store接口)
-使用方式: store.replaceReducer(nextReducer)
-功能点: 重置redux的reducer，重新启动store流程
-</code></pre><h3 id="流程图如下"><a href="#流程图如下" class="headerlink" title="流程图如下"></a>流程图如下</h3><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg" alt=""></p>
-<h2 id="项目实战："><a href="#项目实战：" class="headerlink" title="项目实战："></a>项目实战：</h2><p><strong>首先安装redux到项目中</strong></p>
-<pre><code>npm install --save redux
-</code></pre><p><strong>代码编写</strong></p>
-<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;p&gt;
-    Clicked: &lt;span id=&quot;value&quot;&gt;0&lt;/span&gt;
-    &lt;button id=&quot;increment&quot;&gt;+&lt;/button&gt;
-    &lt;button id=&quot;decrement&quot;&gt;-&lt;/button&gt;
-&lt;/p&gt;
-</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>//导入createStroe
-import { createStore } from &apos;redux&apos;
-
-//初始化状态
-let initState = {
-      count: 0,
-      score: 0,
-      description:&apos;描述&apos;
-}
-
-//创建一个Reducer
-function counter(state = initState, action) {
-    switch (action.type) {
-        case &apos;INCREMENT&apos;:
-              return{
-                  count:state.count + 1,
-                score:state.score + 2,
-                description:action.data
-              } 
-        case &apos;DECREMENT&apos;:
-              return{
-                  count:state.count - 1,
-                score:state.score - 2,
-                description:action.data
-              } 
-        default:
-              return state;
-          }
-    }
-
-//将创建好的Reducer传入创建Store
-let store = Redux.createStore(counter);
-
-//获取元素节点，并绑定点击事件，点击后store将触发相应的动作Action
-let valueEl = document.getElementById(&apos;value&apos;);
-document.getElementById(&apos;increment&apos;).addEventListener(&apos;click&apos;, function() {
-    store.dispatch({
-          type: &apos;INCREMENT&apos;,
-          data:&apos;增加的&apos;
-    })
-})
-document.getElementById(&apos;decrement&apos;).addEventListener(&apos;click&apos;, function() {
-    store.dispatch({
-          type: &apos;DECREMENT&apos;,
-          data:&apos;减少的&apos;,
-    })
-})
-
-//写一个render方法，在这里动态改变元素的内容
-function render() {
-    valueEl.innerHTML = &apos;点击&apos;+store.getState().count.toString()+&apos;次-得        分&apos;+store.getState().score.toString()+store.getState().description;
-}
-
-//执行render方法
-render();
-
-//绑定subscribe回调
-store.subscribe(render);
-</code></pre><h5 id="上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render"><a href="#上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render" class="headerlink" title="上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()"></a>上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/21/redux入门/" class="archive-article-date">
-  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-fetch_faild_in_reactnative" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/14/fetch_faild_in_reactnative/">fetch faild in reactnative</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>fetch在ReactNative中可能会报错如下：Possible unhandled promise rejection (id:0: Network request failed</p>
-</blockquote>
-<h3 id="According-to-this-post-you-should-enable-it-in-XCode"><a href="#According-to-this-post-you-should-enable-it-in-XCode" class="headerlink" title="According to this post, you should enable it in XCode."></a>According to this post, you should enable it in XCode.</h3><ol>
-<li>Click on your project in the Project Navigator</li>
-<li>Open the Info tab</li>
-<li>Click on the down arrow left to the “App Transport Security Settings”</li>
-<li>Right click on “App Transport Security Settings” and select Add Row</li>
-<li>For created row set the key “Allow Arbitrary Loads“, type to boolean and value to YES.</li>
-</ol>
-<p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fd057agsrdj20hk07yjuv.jpg" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/14/fetch_faild_in_reactnative/" class="archive-article-date">
-  	<time datetime="2017-02-14T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactNative/">ReactNative</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/24/vuex/">vuex</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..</p>
-</blockquote>
-<h1 id="什么是vuex-作用又是什么？"><a href="#什么是vuex-作用又是什么？" class="headerlink" title="什么是vuex,作用又是什么？"></a>什么是vuex,作用又是什么？</h1><blockquote>
-<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组件之间通讯的，而现在有了vuex，就组件就都和store通讯了</p>
-<h3 id="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"><a href="#简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件" class="headerlink" title="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"></a>简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件</h3><p><code>应用场景：</code><br></p>
-<ul>
-<li>多个组件依赖于同一状态。传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。</li>
-<li>来自不同组件的行为需要变更同一状态。我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><strong>当我们需要制作一个加一，减一操作按钮的时候，用下面两个demo做一个演示</strong><h3 id="未使用vuex"><a href="#未使用vuex" class="headerlink" title="未使用vuex"></a>未使用vuex</h3></li>
-<li>单纯依赖于vue.js</li>
-</ul>
-</blockquote>
-<p>   <script src="https://unpkg.com/vue/dist/vue.js"></script><br>       <div id="app"><br>             <p><br>                   <button @click="inc">+</button><br>                   <button @click="dec">-</button><br>             </p><br>         </div><br>         <script><br>         new Vue({<br>           el:’#app’,<br>           data () {<br>             return {<br>               count: 0<br>             }<br>           },<br>           methods: {<br>             inc () {<br>               this.count++<br>             },<br>             dec () {<br>               this.count–<br>             }<br>           }<br>         })<br>         </script><br>   整个代码结构非常清晰，代码是代码，数据是数据，代码就是放在methods数组内的两个函数inc、dec，被指令@click关联到button上。而data内返回一个属性count，此属性通过绑定到标签p内。从而可以动态的改为count的值。</p>
-<h2 id="使用vuex"><a href="#使用vuex" class="headerlink" title="使用vuex"></a>使用vuex</h2><ul>
-<li><p>依赖vue.js，也使用了vuex技术</p>
-<p> <script src="https://unpkg.com/vue/dist/vue.js"></script></p>
-<pre><code>&lt;script src=&quot;https://unpkg.com/vuex@next&quot;&gt;&lt;/script&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;p&gt;{{count}}
-        &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
-        &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
-    &lt;/p&gt;
-&lt;/div&gt;
-&lt;script&gt;
-    const store = new Vuex.Store({
-        state: {
-          count: 0
-        },
-        mutations: {
-            inc: state =&gt; state.count++,
-          dec: state =&gt; state.count--
-        }
-    })
-      const app = new Vue({
-        el: &apos;#app&apos;,
-        computed: {
-          count () {
-             return store.state.count
-          }
-        },
-        methods: {
-          inc () {
-                store.commit(&apos;inc&apos;) //执行store.inc放大
-          },
-          dec () {
-              store.commit(&apos;dec&apos;)
-          }
-        }
-    })
-&lt;/script&gt;
-</code></pre><h4 id="我们先看到有哪些重要的变化："><a href="#我们先看到有哪些重要的变化：" class="headerlink" title="我们先看到有哪些重要的变化："></a>我们先看到有哪些重要的变化：</h4></li>
-</ul>
-<ol>
-<li>新的代码添加了对vuex@next脚本的依赖。这是当然的，因为你需要使用vuex的技术，当然需要引用它</li>
-<li>methods数组还是这两个方法，这和demo1是一样的；但是方法内的计算逻辑，不再是在函数内进行，而是提交给store对象！这是一个新的对象！</li>
-<li>count数据也不再是一个data函数返回的对象的属性；而是通过计算字段来返回，并且在计算字段内的代码也不是自己算的，而是转发给store对象</li>
-<li>store对象是Vuex.Store的实例。在store内有分为state对象和mutations对象，其中的state放置 状态 ,mutations则是一个会引发状态改变的所有方法。正如我们看到的，目前的state对象，其中的状态就只有一个count。而mutations有两个成员，它们参数为state，在函数体内对state内的count成员做加1和减1的操作。</li>
-</ol>
-<p><strong>总结：</strong>就是说，之前在vue实例内做的操作和数据的计算现在都不再自己做了，而是交由对象store来做了。</p>
-<h4 id="用了vuex感觉更复杂了？"><a href="#用了vuex感觉更复杂了？" class="headerlink" title="用了vuex感觉更复杂了？"></a>用了<code>vuex</code>感觉更复杂了？</h4><p>你的感觉没错，这就是为什么官网再次会提到Vuex构建大型应用的价值。 如果您不打算开发大型单页应用，使用 Vuex 可能是繁琐冗余的。确实是如此——如果您的应用够简单，您最好不要使用 Vuex 。</p>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/01/24/vuex/" class="archive-article-date">
-  	<time datetime="2017-01-24T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -2184,7 +2308,7 @@ store.subscribe(render);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

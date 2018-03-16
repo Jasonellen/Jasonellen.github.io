@@ -236,6 +236,258 @@
       <div class="body-wrap">
         
   
+    <article id="post-react深入一丢丢" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/11/react深入一丢丢/">React深入一丢丢</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React深入一丢丢"><a href="#React深入一丢丢" class="headerlink" title="React深入一丢丢"></a>React深入一丢丢</h2><h3 id="1-给setState传入回调函数"><a href="#1-给setState传入回调函数" class="headerlink" title="1.给setState传入回调函数"></a>1.给setState传入回调函数</h3><p>setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous state)作为需要传入函数的参数,将一个函数作为参数传递给setState. 这样做能保证你传入的函数需要取到的state一定会是被传入的setState执行之后的state.<hr><br><strong>举个例子就是：</strong><br>​<br>    // 不使用callback<br>    state={a:0}<br>    this.setState({a:1})<br>    this.setState({a:2})<br>    console.log(this.state.a) //0</p>
+<pre><code>// 使用callback
+state={a:0}
+this.setState({a:1},()=&gt;console.log(this.state.a)) //1
+this.setState({a:2})
+console.log(this.state.a) //0
+
+// 传入函数
+state={a:0}
+this.setState({a:1})
+this.setState((nextState, nextProps)=&gt;{
+    console.log(nextState.a) //1
+})
+console.log(this.state.a) //0
+</code></pre><h3 id="2-使用无状态组件"><a href="#2-使用无状态组件" class="headerlink" title="2.使用无状态组件"></a>2.使用无状态组件</h3><pre><code>export function UIComponent(props){
+    return &lt;div&gt;{props.name}&lt;/div&gt;
+}
+</code></pre><h3 id="3-使用高阶组件"><a href="#3-使用高阶组件" class="headerlink" title="3. 使用高阶组件"></a>3. 使用高阶组件</h3><pre><code>export function HOC(WrappedComponent) {
+    return class Test extends Component {
+      render() {
+          const newProps = {
+              title: &apos;New Header&apos;,
+              footer: false,
+              showFeatureX: false,
+              showFeatureY: true
+          };
+
+          return &lt;WrappedComponent {...this.props} {...newProps} /&gt;
+      }
+    }
+}        
+</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起<br>    //bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key<br>    {todos.map((todo, index) =&gt;<br>        <todo {...todo}="" key="{index}"><br>    )}</todo></p>
+<pre><code>//good -&gt; 保持了对数据的索引
+{todos.map((todo) =&gt;
+    &lt;Todo {...todo}
+    key={todo.id} /&gt;
+)}
+</code></pre><h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.<br>     shouldComponentUpdate(nextProps, nextState) {<br>        if (nextProps.a !== this.props.a) {<br>              return true;<br>        }<br>        return false;<br>     }</p>
+<h3 id="6-使用PureComponent"><a href="#6-使用PureComponent" class="headerlink" title="6.使用PureComponent"></a>6.使用PureComponent</h3><p>Pure Component默认会在<code>shouldComponentUpdate</code>方法中做<code>浅比较</code>. 只有<code>PureComponent检测到state或者props发生变化时，PureComponent才会调用render方法</code>，这种实现可以避免发生在state或者props没有真正改变的重新渲染.<br>Recompose提供了一个叫pure的高阶组件来实现这个功能, React在v15.3.0中正式加入了React.PureComponent.<br>​<br>    浅比较只会”浅”检查组件的props和state，这就意味着嵌套对象 和 数组 是不会被比较的。<br>    handleClick() {<br>        let {items} = this.state<br>        items.push(‘new-item’)<br>        this.setState({ items })<br>    }<br>    render() {<br>        return (<br>            <div><br>                  <button onclick="{this.handleClick}"><br>                  <itemlist items="{this.state.items}"><br>            </itemlist></button></div><br>        )<br>    }<br> <strong>如果ItemList是纯组件(PureComponent)，那么这时它是不会被重新渲染的，因为尽管this.state.items的值发生了改变，但是它仍然指向同一个对象的引用<code>(浅比较)</code></strong></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/11/react深入一丢丢/" class="archive-article-date">
+  	<time datetime="2018-03-11T09:17:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-git常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/24/git常用命令/">git常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h2><blockquote>
+<p>git操作首先推荐使用<code>sourcetree</code>一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁</p>
+</blockquote>
+<div><br><br><style><br><br>    table.reference, table.tecspec{<br>        border-collapse: collapse;<br>        width: 100%;<br>        margin-bottom: 4px;<br>        margin-top: 4px;<br>    }<br>    table.reference tr:nth-child(odd){<br>        background-color: #f6f4f0;<br>    }<br>    th{<br>        min-width:200px;<br>    }<br>    .red{color:red}<br></style><br><br></div>
+
+<pre><code>--soft 将本地撤回点之后的所有修改文件回退到git暂存区
+--mixed 将本地撤回点之后的所有修改文件修改回退到工作区(回退的默认方式)
+--hard 将本地撤回点之后的所有修改文件做删除操作
+同样为撤销操作的git reset 和 git revert：
+    git reset，它不会改变现在的提交历史
+    Revert撤销一个提交的同时会创建一个新的提交。
+因此，git revert可以用在公共分支上，git reset应该用在私有分支上。
+</code></pre><h3 id="查看、添加、提交、删除、找回，重置修改文件"><a href="#查看、添加、提交、删除、找回，重置修改文件" class="headerlink" title="查看、添加、提交、删除、找回，重置修改文件"></a>查看、添加、提交、删除、找回，重置修改文件</h3><table class="reference"><br>    <tr><br>        <th>Git常用命令</th><br>        <th>命令释义</th><br>    </tr><br>    <tr><br>        <td>git help</td><br>        <td>显示command的help</td><br>    </tr><br>    <tr class="red"><br>        <td>git show $id</td><br>        <td>显示某次提交的内容(不加id显示最近一次)</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout – file</td><br>        <td>抛弃文件工作区修改</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout .</td><br>        <td>抛弃所有工作区修改(add .到git暂存区的不能取消)</td><br>    </tr><br>    <tr><br>        <td>git add file</td><br>        <td>将工作文件修改添加到git暂存区</td><br>    </tr><br>    <tr class="red"><br>        <td>git add .</td><br>        <td>将所有修改过的添加到git暂存区</td><br>    </tr><br>    <tr><br>        <td>git reset file</td><br>        <td>从git暂存区恢复到工作区</td><br>    </tr><br>    <tr class="red"><br>        <td>git reset – .</td><br>        <td>从git暂存区(add . 到达的区域)恢复全部到工作区</td><br>    </tr><br>    <tr class="red"><br>        <td>git reset –hard</td><br>        <td>删除所有git暂存区的文件修改，也不会在工作区保留，慎用啊！！</td><br>    </tr><br>    <tr class="red"><br>        <td>git reset HEAD^</td><br>        <td>回退版本，一个^表示一个版本，可以多个，另外也可以使用 git reset HEAD～n这种形式 或者 git reset commit-id，将上个版本所有的修改回退到工作区</td><br>    </tr><br>    <tr class="red"><br>        <td>git reset commit-id</td><br>        <td>删除所有git暂存区的文件修改，也不会在工作区保留，慎用啊！！</td><br>    </tr><br>    <tr class="red"><br>        <td>git commit -m ‘xxx’</td><br>        <td>将git暂存区提交到history,然后才能从history push到线上</td><br>    </tr><br>    <tr class="red"><br>        <td>git commit -am ‘xxx’</td><br>        <td>等于git add . + git commit -m ‘xx’</td><br>    </tr><br>    <tr class="red"><br>        <td>git revert HEAD</td><br>        <td>放弃当前commit所有修改，撤销到前一次 commit内容 到 git暂存区(撤销也会作为一次提交进行保存。)</td><br>    </tr><br>    <tr><br>        <td>git revert HEAD～1</td><br>        <td>撤销前前一次 commit</td><br>    </tr><br>    <tr><br>        <td>git revert commit_id</td><br>        <td>比如：（git revert fa042ce57ebbe5bb9c8db709f719cec2c58ee7ff）撤销指定的版本，</td><br>    </tr><br>    <tr><br>        <td>git rm file</td><br>        <td>从版本库中删除文件</td><br>    </tr><br><br></table><br>### 查看文件diff<br><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr class="red"><br>        <td>git diff <file></file></td><br>        <td>比较当前文件和暂存区文件差异 git diff</td><br>    </tr><br>    <tr class="red"><br>        <td>git diff commit_id</td><br>        <td>显示某次提交的的diff</td><br>    </tr><br>    <tr><br>        <td>git diff branch1..branch2</td><br>        <td>在两个分支之间比较</td><br>    </tr><br>    <tr><br>        <td>git diff –stat</td><br>        <td>仅仅比较统计信息</td><br>    </tr><br></table><br>### 查看提交记录<br><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git log file</td><br>        <td>查看该文件每次提交记录</td><br>    </tr><br>    <tr><br>        <td>git log -p <file></file></td><br>        <td>查看每次详细修改内容的diff</td><br>    </tr><br>    <tr class="red"><br>        <td>git log -p -2</td><br>        <td>查看最近两次详细修改内容的diff</td><br>    </tr><br>    <tr><br>        <td>git log –stat</td><br>        <td>查看提交统计信息</td><br>    </tr><br></table><br>### Git本地分支管理<br>##### 查看、切换、创建和删除分支<br><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git branch -r <file></file></td><br>        <td>查看远程分支 /a 全部分支</td><br>    </tr><br>    <tr><br>        <td>git branch -v</td><br>        <td>查看各个分支最后提交信息</td><br>    </tr><br><br>    <tr><br>        <td>git checkout -b xx_branch</td><br>        <td>创建新的分支，并且切换过去</td><br>    </tr><br>    <tr><br>        <td>git branch new_branch</td><br>        <td>创建新的分支</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout xx_branch</td><br>        <td>切换到某个分支,没有该分支则以本分支创建一个(本地修改也会一起切换到对应分支)</td><br>    </tr><br>    <tr><br>        <td>git checkout -b new_branch branch</td><br>        <td>基于branch创建新的new_branch</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout $id</td><br>        <td>把某次历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删(主要还是用来查看旧版本信息为主)</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout $id -b new_branch</td><br>        <td>把某次历史提交记录checkout出来，创建成一个分支</td><br>    </tr><br>    <tr><br>        <td>git branch -d xx_branch</td><br>        <td>删除某个分支</td><br>    </tr><br>    <tr><br>        <td>git branch -D <branch></branch></td><br>        <td>强制删除某个分支 (未被合并的分支被删除的时候需要强制)</td><br>    </tr><br>    <tr><br>        <td>git push origin :remote_branch</td><br>        <td>删除远程分支</td><br>    </tr><br></table><br>##### 分支合并和rebase<br><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr class="red"><br>        <td>git merge xxx_branch<file></file></td><br>        <td>将xxx_branch分支合并到当前分支</td><br>    </tr><br>    <tr><br>        <td>git merge origin/master –no-ff</td><br>        <td>不要Fast-Foward合并，这样可以生成merge提交</td><br>    </tr><br>    <tr class="red"><br>        <td>git cherry-pick commitid</td><br>        <td> 把指定commitid的变动合并到当前分支</td><br>    </tr><br></table>
+
+<h3 id="Git暂存管理"><a href="#Git暂存管理" class="headerlink" title="Git暂存管理"></a>Git暂存管理</h3><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr class="red"><br>        <td>git stash(git stash create ‘名字’)</td><br>        <td>本地暂存区暂存,当一个分支未开发完成又不想commit的时候，是不能切换到其他分支的，除非把改动的文件进行暂存，切换回来的时候再恢复就行了</td><br>    </tr><br>    <tr><br>        <td>git stash list</td><br>        <td>列所有stash本地暂存区</td><br>    </tr><br>    <tr class="red"><br>        <td>git stash apply</td><br>        <td>恢复本地暂存区的内容(恢复到工作副本)</td><br>    </tr><br>    <tr><br>        <td>git stash drop</td><br>        <td>删除本地暂存区</td><br>    </tr><br></table><br>### Git远程分支管理<br><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git pull</td><br>        <td>抓取远程仓库所有分支更新并合并到本地</td><br>    </tr><br>    <tr><br>        <td>git pull –no-ff</td><br>        <td>不要快进合并（Create a merge commit）</td><br>    </tr><br>    <tr class="red"><br>        <td>git merge origin/master</td><br>        <td>将远程主分支合并到本地当前分支</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout –track origin/master</td><br>        <td>检出远程分支到本地</td><br>    </tr><br>    <tr class="red"><br>        <td>git checkout -b local_branch origin/remote_branch</td><br>        <td>基于远程分支创建本地分支,并切换到新建分支</td><br>    </tr><br>    <tr><br>        <td>git push</td><br>        <td>push所有分支</td><br>    </tr><br>    <tr><br>        <td>git push origin master</td><br>        <td>将本地主分支推到(已跟踪的)远程主分支</td><br>    </tr><br>    <tr class="red"><br>        <td>git push origin HEAD:master</td><br>        <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td><br>    </tr><br>    <tr class="red">/<br>        <td>git push origin local_branch</td><br>        <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td><br>    </tr><br></table><br>### Git远程仓库管理<br><table class="reference"><br>    <tr><br>        <th>命令</th><br>        <th>释义</th><br>    </tr><br>    <tr><br>        <td>git remote -v</td><br>        <td>查看远程服务器地址和仓库名称</td><br>    </tr><br>    <tr><br>        <td>git remote show origin</td><br>        <td>查看远程服务器仓库状态</td><br>    </tr><br>    <tr class="red"><br>        <td>git remote add origin git@github:robbin/robbin_site.git</td><br>        <td>添加远程仓库地址</td><br>    </tr><br>    <tr class="red"><br>        <td>git remote set-url origin git@github.com:robbin/robbin_site.git</td><br>        <td>设置远程仓库地址(用于修改远程仓库地址)</td><br>    </tr><br>    <tr><br>        <td>git remote rm <repository></repository></td><br>        <td>删除远程仓库</td><br>    </tr><br>    <tr class="red"><br>        <td>git push -u origin master</td><br>        <td>首次将本地分支提交到远程master分支，”-u”是首次提交需要增加追踪(track)，-u后以后提交到该分支的远程只需要git push,否则需要git push origin xxx</td><br>    </tr><br>    <tr><br>        <td>git remote set-head origin master</td><br>        <td>设置远程仓库的HEAD指向master分支(可以用checkout直接切换)</td><br>    </tr><br></table>
+
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/02/24/git常用命令/" class="archive-article-date">
+  	<time datetime="2018-02-24T07:27:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-字符串加密" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/05/字符串加密/">字符串加密</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="字符串加密"><a href="#字符串加密" class="headerlink" title="字符串加密"></a>字符串加密</h2><blockquote>
+<p>加密操作时常也是会用到，比如用在自动登录的情况下，将账号密码进行加密后保存，打开网页自动执行登录操作的过程</p>
+</blockquote>
+<p><strong>那么问题来了，如果对账号密码进行保存而保持一定的安全性呢，这时候就需要对字符串进行加密操作了，当然如何解密也只有自己知道</strong></p>
+<h2 id="首先来看四个函数"><a href="#首先来看四个函数" class="headerlink" title="首先来看四个函数"></a>首先来看四个函数</h2><h5 id="1-创建和存储-cookie"><a href="#1-创建和存储-cookie" class="headerlink" title="1.创建和存储 cookie"></a>1.创建和存储 cookie</h5><pre><code>function setCookie(c_name,value,expiredays){
+  var exdate=new Date()
+  exdate.setDate(exdate.getDate()+expiredays)
+  document.cookie=c_name+ &quot;=&quot; +escape(value)+((expiredays==null) ? &quot;&quot; : &quot;;expires=&quot;+exdate.toGMTString())
+}
+
+function getCookie(c_name){
+  if (document.cookie.length&gt;0){
+    c_start=document.cookie.indexOf(c_name + &quot;=&quot;)
+    if (c_start!=-1){ 
+      c_start=c_start + c_name.length+1 
+      c_end=document.cookie.indexOf(&quot;;&quot;,c_start)
+      if (c_end==-1) c_end=document.cookie.length
+        return unescape(document.cookie.substring(c_start,c_end))
+      } 
+    }
+  return &quot;&quot;
+}
+</code></pre><h5 id="2-js对字符串进行加密和解密"><a href="#2-js对字符串进行加密和解密" class="headerlink" title="2.js对字符串进行加密和解密"></a>2.js对字符串进行加密和解密</h5><pre><code>function compileStr(code){ //对字符串进行加密
+  code = String(code)       
+  var c=&apos;&apos;; 
+  for(var i=0;i&lt;code.length;i++){        
+    c+=String.fromCharCode(code.charCodeAt(i)+998); //+998 对数字编码加密,当然可以是任意自己下想要的数字
+  }     
+ return escape(c);   
+}  
+
+//字符串进行解密   
+function uncompileStr(code){        
+ code=unescape(code);       
+ var c=&apos;&apos;;        
+ for(var i=0;i&lt;code.length;i++){        
+  c+=String.fromCharCode(code.charCodeAt(i)-998);        
+ }        
+ return c;   
+}  
+</code></pre><p><strong>经过上面的加密操作后就可以正常存入cookie或者localStroage了，解密后请直接使用</strong><br>​    </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/02/05/字符串加密/" class="archive-article-date">
+  	<time datetime="2018-02-05T02:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/String/">String</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-翻页列表+记住当前位置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1100,335 +1352,6 @@ JSON.parse(&apos;123.45&apos;); // 123.45
 
 
   
-    <article id="post-JS运算符和进制转换" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/11/JS运算符和进制转换/">JS运算符和进制转换</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="gt-gt-表示是带符号的右移"><a href="#gt-gt-表示是带符号的右移" class="headerlink" title="&gt;&gt;表示是带符号的右移"></a>&gt;&gt;表示是带符号的右移</h2><blockquote>
-<p>按照二进制把数字右移指定数位，高位如符号位为正补零，符号位负补一，低位直接移除</p>
-</blockquote>
-<pre><code>8&gt;&gt;1  // 4
--8&gt;&gt;1 // -4
-</code></pre><h2 id="gt-gt-gt-表示无符号的右移"><a href="#gt-gt-gt-表示无符号的右移" class="headerlink" title="&gt;&gt;&gt;表示无符号的右移"></a>&gt;&gt;&gt;表示无符号的右移</h2><blockquote>
-<p>按照二进制把数字右移指定数位，高位直接补零，低位移除！</p>
-</blockquote>
-<pre><code>8&gt;&gt;&gt;1 // 4
--8&gt;&gt;&gt;1 // 2147483644
-</code></pre><h4 id="应用示例"><a href="#应用示例" class="headerlink" title="应用示例"></a>应用示例</h4><pre><code>取中间数(自动减去小数位)
-4&gt;&gt;1  //2
-5&gt;&gt;1  //2
-</code></pre><h2 id="符号"><a href="#符号" class="headerlink" title="~符号"></a>~符号</h2><blockquote>
-<p>按位非运算符，简单的理解就是<code>改变运算数的符号</code>并<code>减去1</code>(<code>舍去小数</code>)，当然，这是只是简单的理解能转换成number类型的数据.<code>总结：方向取反，奇偶取反，数值向0靠近1个count</code></p>
-</blockquote>
-<p><code>typeof var(数据类型) !== ”number”</code>的类型来说，进行运算时，会尝试转化成32位整形数据，如果无法转换成整形数据，就转换为NaN；继而转为<code>-1</code>；<br>​    </p>
-<p>​    </p>
-<pre><code>~3.7 == -4    // -3.7 - 1 = -4.7  --&gt; -4 
-~-2.9 == 1    // 2.9 -1 = 1.9 --&gt;1
-~-1 == 0 
-~~2.9 == 2
-~~ -2.9 == -2
-----------------------------------------------------
-以下不能转为Number类型全为 -1
-~{} == -1
-~[] == -1
-~NaN ==-1
-~function(){} == -1
-</code></pre><h4 id="应用示例-1"><a href="#应用示例-1" class="headerlink" title="应用示例"></a>应用示例</h4><pre><code>var str = &apos;abc&apos;
-
-before:
-
-alert(str.indexOf(&apos;d&apos;) != -1 ? &apos;有字母d&apos; : &apos;没有字母d&apos;)
-----------------------------------------------------
-after:
-
-alert(~str.indexOf(&apos;d&apos;) ? &apos;有字母d&apos; : &apos;没有字母d&apos;)
-</code></pre><h2 id="amp-运算符"><a href="#amp-运算符" class="headerlink" title="&amp;运算符"></a>&amp;运算符</h2><pre><code>二进制安位与：
-4 &amp; 2           3 &amp; 2
-0100            0011
-0010            0010
-----            ----
-0000  -&gt;0       0010  -&gt;2
-</code></pre><h4 id="应用示例-2"><a href="#应用示例-2" class="headerlink" title="应用示例"></a>应用示例</h4><pre><code>JS中的主要用来判断奇偶:
-3 &amp; 1 -&gt; 1
-4 &amp; 1 -&gt; 0    
-</code></pre><h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><pre><code>&lt;其他进制 转为 十进制&gt;
-parseInt(&quot;11&quot;, 2); // 3    2进制转10进制 
-parseInt(&quot;77&quot;, 8); // 63   8进制转10进制
-parseInt(&quot;af&quot;, 16); //175  16进制转10进制
-
-&lt;十进制 转为 其他进制&gt;
-(152).toString(2) // &quot;10011000&quot;; 先用括号将152转换“包”成一个对象.
-或者如下写法:
-152..toString(2) // 这里第一个点将152转换成float类型的小数，第二个点是引出对象方法;
-152..toString(16) // &quot;98&quot; : 十进制转16进制
-</code></pre><p>​        </p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/11/JS运算符和进制转换/" class="archive-article-date">
-  	<time datetime="2017-09-11T13:07:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运算符/">运算符</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-箭头函数" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/02/箭头函数/">箭头函数</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>箭头函数要实现类似纯函数的效果，必须剔除外部状态。所以当你定义一个箭头函数，在普通函数里常见的 <code>this</code> 、 <code>arguments</code> 、 <code>caller</code> 是统统没有的。</p>
-</blockquote>
-<h3 id="箭头函数没有-this"><a href="#箭头函数没有-this" class="headerlink" title="箭头函数没有 this"></a>箭头函数没有 this</h3><p>箭头函数没有 this ，那下面的代码明显可以取到 this 啊：</p>
-<pre><code>function foo() {
-  let a = 1
-  let b = () =&gt; console.log(this.a)
-
-  b()
-}
-foo()  // 1
-</code></pre><p>以上箭头函数中的 this 其实是父级作用域中的 this ，即函数 foo 的 this 。箭头函数引用了父级的变量，构成了一个闭包。以上代码等价于：</p>
-<pre><code>function foo() {
-  let a = 1
-  let self = this
-  let b = () =&gt; console.log(self.a)
-  b()
-}
-foo()  // 1
-</code></pre><p>一个经常犯的错误是使用箭头函数定义对象的方法，如：</p>
-<pre><code>let a = {
-  foo: 1,
-  bar: () =&gt; console.log(this.foo)
-}
-a.bar()  //undefined
-</code></pre><p>以上代码中，箭头函数中的 this 并不是指向 a 这个对象。对象 a 并不能构成一个作用域，所以再往上到达全局作用域， this 就指向全局作用域。</p>
-<hr>
-<p>另一个错误是在原型上使用箭头函数，如：</p>
-<pre><code>function A() {
-  this.foo = 1
-}
-A.prototype.bar = () =&gt; console.log(this.foo)
-let a = new A()
-a.bar()  //undefined
-</code></pre><p>同样，箭头函数中的 this 不是指向 A ，而是根据变量查找规则回溯到了全局作用域。同样，<code>使用普通函数就不存在问题</code>。</p>
-<h3 id="箭头函数没有arguments"><a href="#箭头函数没有arguments" class="headerlink" title="箭头函数没有arguments"></a>箭头函数没有arguments</h3><pre><code>function foo() {
-  return () =&gt; console.log(arguments[0])
-}
-foo(1, 2)(3, 4)  // 1
-</code></pre><p>上例中如果箭头函数有 arguments ，就应该输出的是3而不是1。</p>
-<p><strong>通过以上说明，我们可以看出，箭头函数除了传入的参数之外，真的是什么都没有！如果你在箭头函数引用了 this 、 arguments 或者参数之外的变量，那它们一定不是箭头函数本身包含的，而是从父级作用域继承的。</strong></p>
-<h3 id="那么问题来了，什么情况下该使用箭头函数"><a href="#那么问题来了，什么情况下该使用箭头函数" class="headerlink" title="那么问题来了，什么情况下该使用箭头函数"></a>那么问题来了，什么情况下该使用箭头函数</h3><ul>
-<li>箭头函数适合于无复杂逻辑或者无副作用的纯函数场景下，例如用在 map 、 reduce 、 filter 的回调函数定义中；</li>
-<li>不要在最外层定义箭头函数，因为在函数内部操作 this 会很容易污染全局作用域。最起码在箭头函数外部包一层普通函数，将 this 控制在可见的范围内；</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/02/箭头函数/" class="archive-article-date">
-  	<time datetime="2017-09-02T06:37:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-generator" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/22/generator/">generator</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>generator（生成器）是ES6标准引入的新的数据类型。一个generator看上去像一个函数，但可以返回多次。 </p>
-</blockquote>
-<h3 id="generator跟函数很像，定义如下："><a href="#generator跟函数很像，定义如下：" class="headerlink" title="generator跟函数很像，定义如下："></a>generator跟函数很像，定义如下：</h3><pre><code>function* foo(x) {
-    yield x + 1;
-    yield x + 2;
-    yield x + 3;
-}
-</code></pre><p>除了return语句，还可以用yield返回多次。yield返回{value:xx,done:false},每次的结果存在value中。</p>
-<h3 id="直接调用试试："><a href="#直接调用试试：" class="headerlink" title="直接调用试试："></a>直接调用试试：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foo(5); // fib &#123;[[GeneratorStatus]]: &quot;suspended&quot;, [[GeneratorReceiver]]: Window&#125;</div></pre></td></tr></table></figure>
-<p>直接调用一个generator和调用函数不一样，fib(5)仅仅是创建了一个generator对象，还没有去执行它。</p>
-<h3 id="generator方法调用"><a href="#generator方法调用" class="headerlink" title="generator方法调用"></a>generator方法调用</h3><h5 id="不断地调用generator对象的next-方法："><a href="#不断地调用generator对象的next-方法：" class="headerlink" title="不断地调用generator对象的next()方法："></a>不断地调用generator对象的next()方法：</h5><pre><code>var f = foo(1)
-f.next()
-Object {value: 2, done: false}
-f.next()
-Object {value: 3, done: false}
-f.next()
-Object {value: 4, done: true} //已经返回true，不用再返回了
-f.next()
-Object {value: undefined, done: true}
-</code></pre><p>next()方法会执行generator的代码，然后，每次遇到yield x;就返回一个对象{value: x, done: true/false}，然后“暂停”。</p>
-<h5 id="直接用for-…-of循环迭代generator对象，这种方式不需要我们自己判断done："><a href="#直接用for-…-of循环迭代generator对象，这种方式不需要我们自己判断done：" class="headerlink" title="直接用for … of循环迭代generator对象，这种方式不需要我们自己判断done："></a>直接用for … of循环迭代generator对象，这种方式不需要我们自己判断done：</h5><pre><code>for (var x of foo(1)) {
-    console.log(x); // 依次输出2,3,4
-}
-直接将对象中的value依次返回出来
-</code></pre><h3 id="来封装一个持久输出1-100的函数"><a href="#来封装一个持久输出1-100的函数" class="headerlink" title="来封装一个持久输出1~100的函数"></a>来封装一个持久输出1~100的函数</h3><pre><code>function* increase(){
-    for(var i=1;i&lt;101;i++){
-        yield i
-    }
-}
-
-var f = increase()
-for(var i = 1;i&lt;101;i++){
-    console.log( i == f.next().value ) //100个true
-}
-</code></pre><h3 id="yield"><a href="#yield" class="headerlink" title="yield*"></a>yield*</h3><p>在一个generator中调用其他的Generator方法，需用用</p>
-<pre><code>function* foo() {
-    yield 0;
-    yield 1;
-}
-function* bar() {
-    yield &apos;x&apos;;
-    yield* foo();
-    yield &apos;y&apos;;
-}
-for (let v of bar()){
-    console.log(v);
-};
-//依次输出 x,0,1,y
-</code></pre><h3 id="next-方法的参数"><a href="#next-方法的参数" class="headerlink" title="next()方法的参数"></a>next()方法的参数</h3><p>如果给next方法传参数， 那么这个参数将会作为上一次yield语句的返回值,因为在执行异步代码以后， 有时候需要上一个异步的结果，作为下次异步的参数，如此循环：<br>​    </p>
-<pre><code>function* foo(x) {
-    var y = 2 * (yield (x + 1));
-    var z = yield (y / 3);
-    return (x + y + z); //或者 yield (x + y + z)
-}
-var a = foo(5);
-a.next() // Object{value:6, done:false}
-a.next() // Object{value:NaN, done:false}
-a.next() // Object{value:NaN, done:true}
-var b = foo(5);
-b.next() // { value:6, done:false }
-b.next(12) // { value:8, done:false }
-b.next(13) // { value:42, done:true }
-</code></pre><h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><ul>
-<li>申明方式 function * A(){}</li>
-<li>直接调用generate函数只是创建一个generate对象，而没有执行内部代码</li>
-<li>调动f.next()，只是循环在generate对象中执行操作，遇到yield则返回，下次调用next()紧接着执行，直到遇到下一个yield或者return 返回</li>
-<li>如果给next方法传参数， 那么这个参数将会作为上一次yield语句的返回值</li>
-<li>如果执行return()方法， 那么这个迭代器的返回会被强制设置为迭代完毕， 返回{value:xx,done:true}</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/08/22/generator/" class="archive-article-date">
-  	<time datetime="2017-08-22T06:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/异步函数/">异步函数</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1492,7 +1415,7 @@ b.next(13) // { value:42, done:true }
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

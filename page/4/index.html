@@ -236,6 +236,330 @@
       <div class="body-wrap">
         
   
+    <article id="post-redux入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/redux入门/">redux入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>个人只是把redux和vuex当做进行统一状态管理的工具，那个和上一篇vuex一样，这里还是举个相同的加减栗子来对redux做个入门介绍</p>
+</blockquote>
+<h1 id="Redux-基础概念"><a href="#Redux-基础概念" class="headerlink" title="Redux 基础概念"></a>Redux 基础概念</h1><h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><pre><code>State 描述一个应用程序的全部状态,所有需要控制的状态都应设计到 state 对象中
+</code></pre><h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><pre><code>Action 用来描述一个行为，并负载相应的信息。
+</code></pre><h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><pre><code>Reducer 接收两个参数，第一个参数是当前状态，而第二参数是 action, 返回更新后的状态。
+用来执行store触发的Action对应的方法
+</code></pre><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><pre><code>Store 是管理应用程序 state 的容器
+
+store = {
+    getState,
+    dispatch,
+    subscribe,
+    replaceReducer
+}
+</code></pre><h4 id="如上，store共有4个API"><a href="#如上，store共有4个API" class="headerlink" title="如上，store共有4个API,"></a>如上，store共有4个API,</h4><pre><code>getState: (数据接口)
+使用方式: store.getState()
+功能点: redux对外导出数据的接口(getter)
+
+subscribe: (订阅接口)
+使用方式: store.subscribe(回调函数)
+功能点: 在每次执行dispatch的时候，用于执行自定义的回调函数操作
+
+dispatch: (执行接口)
+使用方式: store.dispatch(action)
+功能点: 在执行redux的state更新的同时，执行所有subscribe过的回调函数
+
+replaceReducer: (重置store接口)
+使用方式: store.replaceReducer(nextReducer)
+功能点: 重置redux的reducer，重新启动store流程
+</code></pre><h3 id="流程图如下"><a href="#流程图如下" class="headerlink" title="流程图如下"></a>流程图如下</h3><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fchwn37a5fj20jf0d5mx6.jpg" alt=""></p>
+<h2 id="项目实战："><a href="#项目实战：" class="headerlink" title="项目实战："></a>项目实战：</h2><p><strong>首先安装redux到项目中</strong></p>
+<pre><code>npm install --save redux
+</code></pre><p><strong>代码编写</strong></p>
+<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><pre><code>&lt;p&gt;
+    Clicked: &lt;span id=&quot;value&quot;&gt;0&lt;/span&gt;
+    &lt;button id=&quot;increment&quot;&gt;+&lt;/button&gt;
+    &lt;button id=&quot;decrement&quot;&gt;-&lt;/button&gt;
+&lt;/p&gt;
+</code></pre><h4 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h4><pre><code>//导入createStroe
+import { createStore } from &apos;redux&apos;
+
+//初始化状态
+let initState = {
+      count: 0,
+      score: 0,
+      description:&apos;描述&apos;
+}
+
+//创建一个Reducer
+function counter(state = initState, action) {
+    switch (action.type) {
+        case &apos;INCREMENT&apos;:
+              return{
+                  count:state.count + 1,
+                score:state.score + 2,
+                description:action.data
+              } 
+        case &apos;DECREMENT&apos;:
+              return{
+                  count:state.count - 1,
+                score:state.score - 2,
+                description:action.data
+              } 
+        default:
+              return state;
+          }
+    }
+
+//将创建好的Reducer传入创建Store
+let store = Redux.createStore(counter);
+
+//获取元素节点，并绑定点击事件，点击后store将触发相应的动作Action
+let valueEl = document.getElementById(&apos;value&apos;);
+document.getElementById(&apos;increment&apos;).addEventListener(&apos;click&apos;, function() {
+    store.dispatch({
+          type: &apos;INCREMENT&apos;,
+          data:&apos;增加的&apos;
+    })
+})
+document.getElementById(&apos;decrement&apos;).addEventListener(&apos;click&apos;, function() {
+    store.dispatch({
+          type: &apos;DECREMENT&apos;,
+          data:&apos;减少的&apos;,
+    })
+})
+
+//写一个render方法，在这里动态改变元素的内容
+function render() {
+    valueEl.innerHTML = &apos;点击&apos;+store.getState().count.toString()+&apos;次-得        分&apos;+store.getState().score.toString()+store.getState().description;
+}
+
+//执行render方法
+render();
+
+//绑定subscribe回调
+store.subscribe(render);
+</code></pre><h5 id="上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render"><a href="#上述JS文件，当按钮点击的时候-redux的状态管理者store调用dispatch-API触发相应type的Action-然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl-innerHTML的值并没有改变，此时需要调用store-subscribe-render-函数执行回调函数render" class="headerlink" title="上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()"></a>上述JS文件，当按钮点击的时候 redux的状态管理者store调用dispatch API触发相应type的Action,然后Reducer就会通过对应的Acton执行对应的方法，改变Redux的状态，此时虽然状态改变了，但是valueEl.innerHTML的值并没有改变，此时需要调用store.subscribe(render)函数执行回调函数render()</h5><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/21/redux入门/" class="archive-article-date">
+  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-fetch_faild_in_reactnative" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/14/fetch_faild_in_reactnative/">fetch faild in reactnative</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>fetch在ReactNative中可能会报错如下：Possible unhandled promise rejection (id:0: Network request failed</p>
+</blockquote>
+<h3 id="According-to-this-post-you-should-enable-it-in-XCode"><a href="#According-to-this-post-you-should-enable-it-in-XCode" class="headerlink" title="According to this post, you should enable it in XCode."></a>According to this post, you should enable it in XCode.</h3><ol>
+<li>Click on your project in the Project Navigator</li>
+<li>Open the Info tab</li>
+<li>Click on the down arrow left to the “App Transport Security Settings”</li>
+<li>Right click on “App Transport Security Settings” and select Add Row</li>
+<li>For created row set the key “Allow Arbitrary Loads“, type to boolean and value to YES.</li>
+</ol>
+<p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fd057agsrdj20hk07yjuv.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/14/fetch_faild_in_reactnative/" class="archive-article-date">
+  	<time datetime="2017-02-14T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactNative/">ReactNative</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-vuex" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/24/vuex/">vuex</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>关于vuex到底是什么，看到眼热就去查了下资料，然后扯出来一堆flux、redux、state、state之类的概念，以及大型工程必要性之类的，我只想说，整这么复杂干什么？走远了..</p>
+</blockquote>
+<h1 id="什么是vuex-作用又是什么？"><a href="#什么是vuex-作用又是什么？" class="headerlink" title="什么是vuex,作用又是什么？"></a>什么是vuex,作用又是什么？</h1><blockquote>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态 。这里的关键在于 集中式存储管理 。这意味着本来需要共享状态的更新是需要组件之间通讯的，而现在有了vuex，就组件就都和store通讯了</p>
+<h3 id="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"><a href="#简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件" class="headerlink" title="简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件"></a>简言之就是，当我们的应用遇到多个组件共享状态时解决这一问题的一个状态管理中间件</h3><p><code>应用场景：</code><br></p>
+<ul>
+<li>多个组件依赖于同一状态。传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。</li>
+<li>来自不同组件的行为需要变更同一状态。我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。<h1 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h1><strong>当我们需要制作一个加一，减一操作按钮的时候，用下面两个demo做一个演示</strong><h3 id="未使用vuex"><a href="#未使用vuex" class="headerlink" title="未使用vuex"></a>未使用vuex</h3></li>
+<li>单纯依赖于vue.js</li>
+</ul>
+</blockquote>
+<p>   <script src="https://unpkg.com/vue/dist/vue.js"></script><br>       <div id="app"><br>             <p><br>                   <button @click="inc">+</button><br>                   <button @click="dec">-</button><br>             </p><br>         </div><br>         <script><br>         new Vue({<br>           el:’#app’,<br>           data () {<br>             return {<br>               count: 0<br>             }<br>           },<br>           methods: {<br>             inc () {<br>               this.count++<br>             },<br>             dec () {<br>               this.count–<br>             }<br>           }<br>         })<br>         </script><br>   整个代码结构非常清晰，代码是代码，数据是数据，代码就是放在methods数组内的两个函数inc、dec，被指令@click关联到button上。而data内返回一个属性count，此属性通过绑定到标签p内。从而可以动态的改为count的值。</p>
+<h2 id="使用vuex"><a href="#使用vuex" class="headerlink" title="使用vuex"></a>使用vuex</h2><ul>
+<li><p>依赖vue.js，也使用了vuex技术</p>
+<p> <script src="https://unpkg.com/vue/dist/vue.js"></script></p>
+<pre><code>&lt;script src=&quot;https://unpkg.com/vuex@next&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;{{count}}
+        &lt;button @click=&quot;inc&quot;&gt;+&lt;/button&gt;
+        &lt;button @click=&quot;dec&quot;&gt;-&lt;/button&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const store = new Vuex.Store({
+        state: {
+          count: 0
+        },
+        mutations: {
+            inc: state =&gt; state.count++,
+          dec: state =&gt; state.count--
+        }
+    })
+      const app = new Vue({
+        el: &apos;#app&apos;,
+        computed: {
+          count () {
+             return store.state.count
+          }
+        },
+        methods: {
+          inc () {
+                store.commit(&apos;inc&apos;) //执行store.inc放大
+          },
+          dec () {
+              store.commit(&apos;dec&apos;)
+          }
+        }
+    })
+&lt;/script&gt;
+</code></pre><h4 id="我们先看到有哪些重要的变化："><a href="#我们先看到有哪些重要的变化：" class="headerlink" title="我们先看到有哪些重要的变化："></a>我们先看到有哪些重要的变化：</h4></li>
+</ul>
+<ol>
+<li>新的代码添加了对vuex@next脚本的依赖。这是当然的，因为你需要使用vuex的技术，当然需要引用它</li>
+<li>methods数组还是这两个方法，这和demo1是一样的；但是方法内的计算逻辑，不再是在函数内进行，而是提交给store对象！这是一个新的对象！</li>
+<li>count数据也不再是一个data函数返回的对象的属性；而是通过计算字段来返回，并且在计算字段内的代码也不是自己算的，而是转发给store对象</li>
+<li>store对象是Vuex.Store的实例。在store内有分为state对象和mutations对象，其中的state放置 状态 ,mutations则是一个会引发状态改变的所有方法。正如我们看到的，目前的state对象，其中的状态就只有一个count。而mutations有两个成员，它们参数为state，在函数体内对state内的count成员做加1和减1的操作。</li>
+</ol>
+<p><strong>总结：</strong>就是说，之前在vue实例内做的操作和数据的计算现在都不再自己做了，而是交由对象store来做了。</p>
+<h4 id="用了vuex感觉更复杂了？"><a href="#用了vuex感觉更复杂了？" class="headerlink" title="用了vuex感觉更复杂了？"></a>用了<code>vuex</code>感觉更复杂了？</h4><p>你的感觉没错，这就是为什么官网再次会提到Vuex构建大型应用的价值。 如果您不打算开发大型单页应用，使用 Vuex 可能是繁琐冗余的。确实是如此——如果您的应用够简单，您最好不要使用 Vuex 。</p>
+<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/24/vuex/" class="archive-article-date">
+  	<time datetime="2017-01-24T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-扒一扒jquery的几个技巧" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1647,498 +1971,6 @@ oBtn.onclick = function(){
 
 
   
-    <article id="post-文件拖拽" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/21/文件拖拽/">文件拖拽</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。Internet Explorer 9、Firefox、Opera 12、Chrome 以及 Safari 5 支持拖放。<code>注意</code>即使元素可以拖拽，在拖拽的过程中（ondragover）默认情况下是无法将数据、元素放到其他元素中的，如果需要允许，就要阻止默认处理；</p>
-</blockquote>
-<h2 id="拖拽API"><a href="#拖拽API" class="headerlink" title="拖拽API"></a>拖拽API</h2><pre><code>draggable ：
-–    设置为true，元素就可以拖拽了
-
-拖拽元素事件 :  事件对象为被拖拽元素
-–    dragstart ,  拖拽前触发 
-–    drag ,拖拽前、拖拽结束之间，连续触发
-–    dragend  , 拖拽结束触发
-
-目标元素事件 :  事件对象为目标元素
-–    dragenter ,  进入目标元素触发，相当于mouseover
-–    dragover  ,进入目标、离开目标之间，连续触发
-–    dragleave ,  离开目标元素触发，相当于mouseout
-–    drop  ,  在目标元素上释放鼠标触发
-</code></pre><h2 id="Demo1-拖拽删除"><a href="#Demo1-拖拽删除" class="headerlink" title="Demo1-拖拽删除"></a>Demo1-拖拽删除</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag1.html" target="_blank" rel="external"><code>效果示例</code></a></p>
-<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Untitled Document&lt;/title&gt;
-    &lt;style&gt;
-        li{ list-style:none; width:100px; height:30px; background:yellow; margin:10px;}
-        #div1{ width:100px; height:100px; background:red; margin:200px;}
-    &lt;/style&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-    &lt;ul&gt;
-        &lt;li draggable=&quot;true&quot;&gt;a&lt;/li&gt;
-        &lt;li draggable=&quot;true&quot;&gt;b&lt;/li&gt;
-        &lt;li draggable=&quot;true&quot;&gt;c&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
-    &lt;script&gt;
-    window.onload = function(){
-        var aLi = document.getElementsByTagName(&apos;li&apos;);
-        var oUl=document.getElementsByTagName(&apos;ul&apos;)[0];
-        var oDiv = document.getElementById(&apos;div1&apos;);
-        var oImg = document.getElementById(&apos;img1&apos;);
-
-        for(var i=0;i&lt;aLi.length;i++){
-            aLi[i].index = i;
-            aLi[i].ondragstart = function(ev){
-                ev.dataTransfer.setData(&apos;name&apos;,this.index);
-                this.style.background = &apos;green&apos;;
-                //ev.dataTransfer.setDragImage(this,0,0); //设置拖动时显示的对象和坐标
-            };
-
-            aLi[i].ondrag = function(){  //开始与结束连续触发
-                document.title = i++;
-            };
-
-            aLi[i].ondragend = function(){
-                this.style.background = &apos;yellow&apos;;
-            };
-        }
-
-        oDiv.ondragenter = function(){
-            this.style.background = &apos;blue&apos;;
-        };
-
-        oDiv.ondragover = function(ev){
-            //enter和leave之间连续触发
-            document.title = i++;
-            //要想触发drop事件，就必须在dragover当中阻止默认事件
-            ev.preventDefault();
-        };
-
-        oDiv.ondragleave = function(){
-            this.style.background = &apos;red&apos;;
-        };
-
-        oDiv.ondrop = function(ev){
-            ev.preventDefault();   //阻止默认事件，不然是外部图片就直接打开了
-            var n=ev.dataTransfer.getData(&apos;name&apos;);
-            // ev.dataTransfer.clearData(&quot;name&quot;);
-            oUl.removeChild( aLi[n]); //删除以后要从新算index
-            for(var i=0;i&lt;aLi.length;i++){
-                aLi[i].index = i;
-            }
-            this.style.background = &apos;red&apos;;    
-        };    
-    };
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h2 id="Demo2-外部文件拖入显示"><a href="#Demo2-外部文件拖入显示" class="headerlink" title="Demo2-外部文件拖入显示"></a>Demo2-外部文件拖入显示</h2><p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/drag2.html" target="_blank" rel="external"><code>效果示例</code></a></p>
-<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code>&lt;!doctype html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Untitled Document&lt;/title&gt;
-    &lt;style&gt;
-    ul,li{ margin:0;padding:0;list-style:none;}
-    div{
-        width:200px; height:200px; background:red; text-align:center;
-    }
-    ul{
-        width:600px; background-color:#000; 
-    }
-    li {
-        margin:10px 20px;
-    }
-    ul:after {
-        content:&apos;&apos;;
-        display:block;
-        clear:both;
-    }
-    &lt;/style&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-    &lt;div&gt;把图片拖到这里&lt;/div&gt;
-    &lt;ul&gt;&lt;/ul&gt;
-
-    &lt;script&gt;
-    window.onload=function(){
-        var oDiv = document.querySelector(&apos;div&apos;);
-        var oUl = document.querySelector(&apos;ul&apos;);
-        oDiv.ondragenter=function(){
-            this.innerHTML=&apos;可以松开了哦&apos;;
-        }
-        oDiv.ondragover=function(ev){
-            var ev=ev||event;
-            ev.preventDefault(); 
-        }
-        oDiv.ondragleave=function(){
-            this.innerHTML=&apos;把图片拖到这里&apos;;
-        }
-        oDiv.ondrop=function(ev){
-            var ev=ev||event;
-            ev.preventDefault(); //阻止默认事件，不然是外部图片就直接打开了
-            this.innerHTML=&apos;把图片拖到这里&apos;;
-
-            var fs=ev.dataTransfer.files; //拖拽的文件集合
-            for(var i=0; i&lt;fs.length; i++){
-                if(fs[i].type.indexOf(&apos;image&apos;)!=-1){ //判断拖拽内容的类型是image
-                    var fd=new FileReader();  //创建可以读文件的对象
-                    fd.readAsDataURL(fs[i]);  //读
-                    fd.onload=function(){  //读取成功直接执行onload
-                        var oLi    =document.createElement(&apos;li&apos;);
-                        oLi.style.float=&apos;left&apos;;
-                        var oImg= document.createElement(&apos;img&apos;);
-                        oImg.style.height=&apos;200px&apos;;
-                        oImg.src = this.result;  //地址就是获取到的url信息
-                        oLi.appendChild(oImg);
-                        oUl.appendChild(oLi);
-                    }
-                }else{
-                    alert(&apos;非法图片&apos;);
-                }
-            }
-        }
-    }
-
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/21/文件拖拽/" class="archive-article-date">
-  	<time datetime="2016-12-21T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-图片预览上传" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/图片预览上传/">图片预览上传</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>上传图片之前应该让用户可以预览一下刚才选中的图片，这对于优化用户体验非常重要，本文主要介绍一下简单的图片预览的效果及ajax的formData上传和php接收添加数据库的基本操作</p>
-</blockquote>
-<p><code>直接上代码</code></p>
-<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><pre><code>&lt;style&gt;
-  button{
-    margin-top: 50px;
-  }
-&lt;/style&gt;
-&lt;body&gt; 
-    &lt;label for=&quot;username&quot;&gt;用户名：&lt;/label&gt;
-    &lt;input type=&quot;text&quot; placeholder=&quot;请输入用户名&quot; id=&quot;username&quot;&gt;
-    &lt;!--这里限制了可以上传的文件只能是图片，且可以一次上传多张图片--&gt;
-      &lt;input type=&quot;file&quot; id=&quot;file&quot; accept=&quot;image/gif,image/jpeg,image/jpg,image/png&quot; multiple&gt;&lt;br/&gt;
-      &lt;button&gt;上传&lt;/button&gt;
-      &lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt; 
-&lt;/body&gt;
-</code></pre><h2 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h2><pre><code>$(function(){
-    //图片预览
-    var FileReader = window.FileReader;   //创建文件读取对象
-    $(&quot;#file&quot;).change(function() {  
-        if (FileReader) {                 //chrome浏览器处理  
-            var file = this.files;        //获取一次上传的全部文件
-            var length = file.length; 
-            for(var i=0; i&lt;length;i++){
-                upload(this,i)            //逐个上传
-            } 
-        }  
-        else {//其他浏览器处理
-           var path = $(this).val();  
-            if (/&quot;\w\W&quot;/.test(path)) {  
-                path = path.slice(1,-1);  
-            }  
-            $(&quot;#image&quot;).attr(&quot;src&quot;,path);
-        }  
-    });  
-
-    function upload(obj,i){
-        var reader = new FileReader();
-        var file = obj.files;
-        reader.readAsDataURL(file[i]);   //读取文件路径
-        reader.onload = function(e) {  
-            var Img = new Image()
-            Img.src=e.target.result;     //将读取到的文件给到新创建的image
-            Img.width=100;
-            Img.height=100;
-            document.body.appendChild(Img);//这里是把图片转成64位数据存入&lt;img&gt;中的src里
-        };  
-    }  
-
-    //图片上传
-    $(&apos;button&apos;).click(function(){
-        var username =$(&apos;#username&apos;).val();
-        var form = new FormData();
-        var file = $(&apos;#file&apos;)[0][&apos;files&apos;][0]; //点击提交的时候获取图片地址    
-        form.append(&apos;username&apos;,username);
-        form.append(&apos;file&apos;,file);     
-        $.ajax({
-            type:&apos;post&apos;,
-            url:&apos;../php/add.php&apos;,
-            data:form,
-            processData:false,   //ajax 提交的时候不会序列化data，而是直接使用data
-            contentType:false,   //发送信息至服务器时内容编码类型设置为不需要编码
-            success:function(data){
-                alert(data)
-            }
-        })
-
-    })
-})
-</code></pre><h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><pre><code>if(!empty($_POST[&apos;username&apos;])){
-    $username = $_POST[&apos;username&apos;];
-}    
-//处理文件
-if(!file_exists(&apos;../uploads&apos;)){
-    mkdir(&apos;../uploads&apos;);  //创建文件夹接收图片
-}
-$file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
-$newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
-$res = move_uploaded_file($file,&quot;../uploads/{$newName}&quot;); //原名上传到指定文件夹
-if($res){
-    $url=&quot;../uploads/{$newName}&quot;;
-}
-
-$sql =&quot;INSERT INTO addmore (username,url) VALUES(&apos;$username&apos;,&apos;$url&apos;)&quot;;
-$res =add($sql);
-
-//增加数据
-function add($sql){
-    $mysqli = new mysqli(&apos;localhost&apos;,&apos;root&apos;,&apos;&apos;,&apos;mybook&apos;);
-    //设置编码
-    $mysqli-&gt;query(&apos;set names utf8&apos;);
-    $res = $mysqli-&gt;query($sql);
-    if($res){
-        echo &apos;添加成功&apos;;
-    }else{
-        echo &apos;添加失败&apos;;
-    }
-}
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/19/图片预览上传/" class="archive-article-date">
-  	<time datetime="2016-12-19T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/upload/">upload</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ReactNative启动白屏解决" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/10/ReactNative启动白屏解决/">ReactNative启动白屏解决</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本文主要设置andriod的启动屏，ios的感觉不需要这个插件"><a href="#本文主要设置andriod的启动屏，ios的感觉不需要这个插件" class="headerlink" title="本文主要设置andriod的启动屏，ios的感觉不需要这个插件.."></a>本文主要设置andriod的启动屏，ios的感觉不需要这个插件..</h1><h2 id="下载依赖插件"><a href="#下载依赖插件" class="headerlink" title="下载依赖插件"></a>下载依赖插件</h2><p><code>在项目根目录打开终端运行</code></p>
-<pre><code>npm react-native-splash-screen --save 
-</code></pre><h2 id="安装-自动安装或手动安装"><a href="#安装-自动安装或手动安装" class="headerlink" title="安装(自动安装或手动安装)"></a>安装(自动安装或手动安装)</h2><p><code>自动安装终端运行：（推荐）</code></p>
-<pre><code>react-native link react-native-splash-screen  
-或
-rnpm link react-native-splash-screen  
-</code></pre><p><code>手动安装</code></p>
-<pre><code>1.在你的android/settings.gradle 文件中添加下列代码:
-include &apos;:react-native-splash-screen&apos;     
-project(&apos;:react-native-splash-screen&apos;).projectDir = new File(rootProject.projectDir, &apos;../node_modules/react-native-splash-screen/android&apos;)  
-
-2.在你的android/app/build.gradle 文件中添加 :react-native-splash-screen：
-...  
-dependencies {  
-        ...  
-    compile project(&apos;:react-native-splash-screen&apos;)  
-}
-
-3.更新你的MainApplication.Java文件，如下:
-public class MainApplication extends Application implements     ReactApplication {  
-
-private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {  
-    @Override  
-    protected boolean getUseDeveloperSupport() {  
-        return BuildConfig.DEBUG;  
-    }  
-
-    @Override  
-    protected List&lt;ReactPackage&gt; getPackages() {  
-        return Arrays.&lt;ReactPackage&gt;asList(  
-                new MainReactPackage(),  
-        new SplashScreenReactPackage()  //添加这一句  
-        );  
-    }  
-};  
-
-@Override  
-public ReactNativeHost getReactNativeHost() {  
-    return mReactNativeHost;  
-}  
-}
-</code></pre><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><code>1.更新你的MainActivity.java 文件如下：</code></p>
-<pre><code>import android.os.Bundle; //需要新添加的？
-import com.facebook.react.ReactActivity; //原来有的
-import com.cboy.rn.splashscreen.SplashScreen; //需要新添加的？
-
-public class MainActivity extends ReactActivity {  
-    //原来有的
-    @Override
-    protected String getMainComponentName() {
-        return &quot;examples&quot;;
-    }
-    //下面是新添加的
-       @Override  
-        protected void onCreate(Bundle savedInstanceState) {  
-               SplashScreen.show(this);    
-            super.onCreate(savedInstanceState);  
-        }  
-    }
-}
-</code></pre><p><code>2.创建一个名为launch_screen.xml 的布局文件来自定义你的启动屏幕</code></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
-    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;  
-    android:layout_height=&quot;match_parent&quot;  
-    android:background=&quot;@drawable/launch_screen&quot;&gt;  
-&lt;/LinearLayout&gt;  
-</code></pre><p>创建的文件夹和文件路径如下：<br>splash.png就是你想要设置的启动图图片，<br><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fakekfg8w3j208q0d6t9k.jpg" alt=""><br>​<br><code>3.在.js文件中使用</code></p>
-<pre><code>import SplashScreen from &apos;react-native-splash-screen&apos;  
-
-//然后在componentDidMount中调用Splash.hide().
-export default class WelcomePage extends Component {
-    componentDidMount() {
-        SplashScreen.hide();
-    }
-}
-</code></pre><p>参考网址：<a href="https://github.com/crazycodeboy/react-native-splash-screen" target="_blank" rel="external">https://github.com/crazycodeboy/react-native-splash-screen</a></p>
-<h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/10/ReactNative启动白屏解决/" class="archive-article-date">
-  	<time datetime="2016-12-10T03:23:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactNative/">ReactNative</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -2202,7 +2034,7 @@ export default class WelcomePage extends Component {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
