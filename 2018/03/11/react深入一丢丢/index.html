@@ -9,16 +9,16 @@
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>React深入一丢丢 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="React深入一丢丢1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(">
+  <meta name="description" content="1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React深入一丢丢">
 <meta property="og:url" content="http://Jasonellen.github.io/2018/03/11/react深入一丢丢/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="React深入一丢丢1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(">
-<meta property="og:updated_time" content="2018-03-16T10:53:27.000Z">
+<meta property="og:description" content="1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous s">
+<meta property="og:updated_time" content="2018-03-16T11:52:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React深入一丢丢">
-<meta name="twitter:description" content="React深入一丢丢1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(">
+<meta name="twitter:description" content="1.给setState传入回调函数setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous s">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -256,13 +256,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="React深入一丢丢"><a href="#React深入一丢丢" class="headerlink" title="React深入一丢丢"></a>React深入一丢丢</h2><h3 id="1-给setState传入回调函数"><a href="#1-给setState传入回调函数" class="headerlink" title="1.给setState传入回调函数"></a>1.给setState传入回调函数</h3><p>setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous state)作为需要传入函数的参数,将一个函数作为参数传递给setState. 这样做能保证你传入的函数需要取到的state一定会是被传入的setState执行之后的state.<hr><br><strong>举个例子就是：</strong><br>​<br>    // 不使用callback<br>    state={a:0}<br>    this.setState({a:1})<br>    this.setState({a:2})<br>    console.log(this.state.a) //0</p>
-<pre><code>// 使用callback
+        <h3 id="1-给setState传入回调函数"><a href="#1-给setState传入回调函数" class="headerlink" title="1.给setState传入回调函数"></a>1.给setState传入回调函数</h3><p>setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous state)作为需要传入函数的参数,将一个函数作为参数传递给setState. 这样做能保证你传入的函数需要取到的state一定会是被传入的setState执行之后的state.</p>
+<h3 id="举个例子就是："><a href="#举个例子就是：" class="headerlink" title="举个例子就是："></a>举个例子就是：</h3><pre><code>// 不使用callback
+state={a:0}
+this.setState({a:1})
+this.setState({a:2})
+console.log(this.state.a) //0
+// 使用callback
 state={a:0}
 this.setState({a:1},()=&gt;console.log(this.state.a)) //1
 this.setState({a:2})
 console.log(this.state.a) //0
-
 // 传入函数
 state={a:0}
 this.setState({a:1})
@@ -287,14 +291,30 @@ console.log(this.state.a) //0
       }
     }
 }        
-</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起<br>    //bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key<br>    {todos.map((todo, index) =&gt;<br>        <todo {...todo}="" key="{index}"><br>    )}</todo></p>
-<pre><code>//good -&gt; 保持了对数据的索引
-{todos.map((todo) =&gt;
-    &lt;Todo {...todo}
-    key={todo.id} /&gt;
-)}
-</code></pre><h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.<br>     shouldComponentUpdate(nextProps, nextState) {<br>        if (nextProps.a !== this.props.a) {<br>              return true;<br>        }<br>        return false;<br>     }</p>
-<h3 id="6-使用PureComponent"><a href="#6-使用PureComponent" class="headerlink" title="6.使用PureComponent"></a>6.使用PureComponent</h3><p>Pure Component默认会在<code>shouldComponentUpdate</code>方法中做<code>浅比较</code>. 只有<code>PureComponent检测到state或者props发生变化时，PureComponent才会调用render方法</code>，这种实现可以避免发生在state或者props没有真正改变的重新渲染.<br>Recompose提供了一个叫pure的高阶组件来实现这个功能, React在v15.3.0中正式加入了React.PureComponent.<br>​<br>    浅比较只会”浅”检查组件的props和state，这就意味着嵌套对象 和 数组 是不会被比较的。<br>    handleClick() {<br>        let {items} = this.state<br>        items.push(‘new-item’)<br>        this.setState({ items })<br>    }<br>    render() {<br>        return (<br>            <div><br>                  <button onclick="{this.handleClick}"><br>                  <itemlist items="{this.state.items}"><br>            </itemlist></button></div><br>        )<br>    }<br> <strong>如果ItemList是纯组件(PureComponent)，那么这时它是不会被重新渲染的，因为尽管this.state.items的值发生了改变，但是它仍然指向同一个对象的引用<code>(浅比较)</code></strong></p>
+</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起<br>    //bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key<br>    {todos.map((todo, index) =&gt;<br>        <todo {...todo}="" key="{index}"><br>    )}<br>    //good -&gt; 保持了对数据的索引<br>    {todos.map((todo) =&gt;<br>        <todo {...todo}="" key="{todo.id}"><br>    )}</todo></todo></p>
+<h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.</p>
+<pre><code>shouldComponentUpdate(nextProps, nextState) {
+   if (nextProps.a !== this.props.a) {
+         return true;
+   }
+   return false;
+}
+</code></pre><h3 id="6-使用PureComponent"><a href="#6-使用PureComponent" class="headerlink" title="6.使用PureComponent"></a>6.使用PureComponent</h3><p>Pure Component默认会在<code>shouldComponentUpdate</code>方法中做<code>浅比较</code>. 只有<code>PureComponent检测到state或者props发生变化时，PureComponent才会调用render方法</code>，这种实现可以避免发生在state或者props没有真正改变的重新渲染.<br>Recompose提供了一个叫pure的高阶组件来实现这个功能, React在v15.3.0中正式加入了React.PureComponent.</p>
+<pre><code>浅比较只会&quot;浅&quot;检查组件的props和state，这就意味着嵌套对象 和 数组 是不会被比较的。
+handleClick() {
+    let {items} = this.state
+    items.push(&apos;new-item&apos;)
+    this.setState({ items })
+}
+render() {
+    return (
+        &lt;div&gt;
+              &lt;button onClick={this.handleClick} /&gt;
+              &lt;ItemList items={this.state.items} /&gt;
+        &lt;/div&gt;
+    )
+}        
+</code></pre><p> <strong>如果ItemList是纯组件(PureComponent)，那么这时它是不会被重新渲染的，因为尽管this.state.items的值发生了改变，但是它仍然指向同一个对象的引用<code>(浅比较)</code></strong></p>
 
       
     </div>

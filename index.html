@@ -254,13 +254,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="React深入一丢丢"><a href="#React深入一丢丢" class="headerlink" title="React深入一丢丢"></a>React深入一丢丢</h2><h3 id="1-给setState传入回调函数"><a href="#1-给setState传入回调函数" class="headerlink" title="1.给setState传入回调函数"></a>1.给setState传入回调函数</h3><p>setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous state)作为需要传入函数的参数,将一个函数作为参数传递给setState. 这样做能保证你传入的函数需要取到的state一定会是被传入的setState执行之后的state.<hr><br><strong>举个例子就是：</strong><br>​<br>    // 不使用callback<br>    state={a:0}<br>    this.setState({a:1})<br>    this.setState({a:2})<br>    console.log(this.state.a) //0</p>
-<pre><code>// 使用callback
+        <h3 id="1-给setState传入回调函数"><a href="#1-给setState传入回调函数" class="headerlink" title="1.给setState传入回调函数"></a>1.给setState传入回调函数</h3><p>setState其实是异步的. 因为出于性能优化考虑, React会将多次setState做一次批处理. 于是setState并不会在被调用之后立即改变我们的state. 这就意味着你并不能依赖于在调用setState方法之后立即使用state, 因为此时你并不能确认该state更新与否. 当然针对这个问题我们也有解决办法–用前一个state(previous state)作为需要传入函数的参数,将一个函数作为参数传递给setState. 这样做能保证你传入的函数需要取到的state一定会是被传入的setState执行之后的state.</p>
+<h3 id="举个例子就是："><a href="#举个例子就是：" class="headerlink" title="举个例子就是："></a>举个例子就是：</h3><pre><code>// 不使用callback
+state={a:0}
+this.setState({a:1})
+this.setState({a:2})
+console.log(this.state.a) //0
+// 使用callback
 state={a:0}
 this.setState({a:1},()=&gt;console.log(this.state.a)) //1
 this.setState({a:2})
 console.log(this.state.a) //0
-
 // 传入函数
 state={a:0}
 this.setState({a:1})
@@ -285,14 +289,30 @@ console.log(this.state.a) //0
       }
     }
 }        
-</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起<br>    //bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key<br>    {todos.map((todo, index) =&gt;<br>        <todo {...todo}="" key="{index}"><br>    )}</todo></p>
-<pre><code>//good -&gt; 保持了对数据的索引
-{todos.map((todo) =&gt;
-    &lt;Todo {...todo}
-    key={todo.id} /&gt;
-)}
-</code></pre><h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.<br>     shouldComponentUpdate(nextProps, nextState) {<br>        if (nextProps.a !== this.props.a) {<br>              return true;<br>        }<br>        return false;<br>     }</p>
-<h3 id="6-使用PureComponent"><a href="#6-使用PureComponent" class="headerlink" title="6.使用PureComponent"></a>6.使用PureComponent</h3><p>Pure Component默认会在<code>shouldComponentUpdate</code>方法中做<code>浅比较</code>. 只有<code>PureComponent检测到state或者props发生变化时，PureComponent才会调用render方法</code>，这种实现可以避免发生在state或者props没有真正改变的重新渲染.<br>Recompose提供了一个叫pure的高阶组件来实现这个功能, React在v15.3.0中正式加入了React.PureComponent.<br>​<br>    浅比较只会”浅”检查组件的props和state，这就意味着嵌套对象 和 数组 是不会被比较的。<br>    handleClick() {<br>        let {items} = this.state<br>        items.push(‘new-item’)<br>        this.setState({ items })<br>    }<br>    render() {<br>        return (<br>            <div><br>                  <button onclick="{this.handleClick}"><br>                  <itemlist items="{this.state.items}"><br>            </itemlist></button></div><br>        )<br>    }<br> <strong>如果ItemList是纯组件(PureComponent)，那么这时它是不会被重新渲染的，因为尽管this.state.items的值发生了改变，但是它仍然指向同一个对象的引用<code>(浅比较)</code></strong></p>
+</code></pre><h3 id="4-使用简单索引作为key"><a href="#4-使用简单索引作为key" class="headerlink" title="4.使用简单索引作为key"></a>4.使用简单索引作为key</h3><p>通常循环列表的时候都会用数组顺序作为索引的key值，而更好的性能优化是把key和我们想要表达的数据紧紧关联在一起<br>    //bad-&gt;会阻碍React对于我们组件的优化,可能传了一个假key<br>    {todos.map((todo, index) =&gt;<br>        <todo {...todo}="" key="{index}"><br>    )}<br>    //good -&gt; 保持了对数据的索引<br>    {todos.map((todo) =&gt;<br>        <todo {...todo}="" key="{todo.id}"><br>    )}</todo></todo></p>
+<h3 id="5-shouldComponentUpdate检查"><a href="#5-shouldComponentUpdate检查" class="headerlink" title="5.shouldComponentUpdate检查"></a>5.shouldComponentUpdate检查</h3><p>合理的实现shouldComponentUpdate能够避免不必要的重新渲染.<br>当React想要重新渲染组件时, React会检查shouldComponentUpdate这个函数是返回true还是false(这将决定组件是否更新.)React默认这个函数是返回true的,意味着无论state还是props发生变化, 组件都将被更新). 所以对于那些不需要变化的组件, 我们可以直接返回false来阻止组件更新,以此提升性能. 但更多的时候, 我们需要在这个函数内写自己的逻辑来判断组件是否需要更新.</p>
+<pre><code>shouldComponentUpdate(nextProps, nextState) {
+   if (nextProps.a !== this.props.a) {
+         return true;
+   }
+   return false;
+}
+</code></pre><h3 id="6-使用PureComponent"><a href="#6-使用PureComponent" class="headerlink" title="6.使用PureComponent"></a>6.使用PureComponent</h3><p>Pure Component默认会在<code>shouldComponentUpdate</code>方法中做<code>浅比较</code>. 只有<code>PureComponent检测到state或者props发生变化时，PureComponent才会调用render方法</code>，这种实现可以避免发生在state或者props没有真正改变的重新渲染.<br>Recompose提供了一个叫pure的高阶组件来实现这个功能, React在v15.3.0中正式加入了React.PureComponent.</p>
+<pre><code>浅比较只会&quot;浅&quot;检查组件的props和state，这就意味着嵌套对象 和 数组 是不会被比较的。
+handleClick() {
+    let {items} = this.state
+    items.push(&apos;new-item&apos;)
+    this.setState({ items })
+}
+render() {
+    return (
+        &lt;div&gt;
+              &lt;button onClick={this.handleClick} /&gt;
+              &lt;ItemList items={this.state.items} /&gt;
+        &lt;/div&gt;
+    )
+}        
+</code></pre><p> <strong>如果ItemList是纯组件(PureComponent)，那么这时它是不会被重新渲染的，因为尽管this.state.items的值发生了改变，但是它仍然指向同一个对象的引用<code>(浅比较)</code></strong></p>
 
       
     </div>
@@ -368,6 +388,8 @@ console.log(this.state.a) //0
 
 
 
+
+
 <h3 id="Git本地分支管理"><a href="#Git本地分支管理" class="headerlink" title="Git本地分支管理"></a>Git本地分支管理</h3><h5 id="查看、切换、创建和删除分支"><a href="#查看、切换、创建和删除分支" class="headerlink" title="查看、切换、创建和删除分支"></a>查看、切换、创建和删除分支</h5><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git branch -r<file></file></td>    <td>查看远程分支 /a 全部分支</td>        </tr><tr>    <td>git branch -v</td>    <td>查看各个分支最后提交信息</td></tr><tr>    <td>git checkout -b xx_branch</td>    <td>创建新的分支，并且切换过去</td>        </tr>    <tr>    <td>git branch new_branch</td>    <td>创建新的分支</td>        </tr><tr class="red">    <td>git checkout xx_branch</td>    <td>切换到某个分支,没有该分支则以本分支创建一个(本地修改也会一起切换到对应分支)</td></tr><tr>    <td>git checkout -b new_branch branch</td>    <td>基于branch创建新的new_branch</td></tr><tr class="red">    <td>git checkout $id</td>    <td>把某次历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删(主要还是用来查看旧版本信息为主)</td></tr><tr class="red">    <td>git checkout $id -b new_branch</td>    <td>把某次历史提交记录checkout出来，创建成一个分支</td></tr>    <tr>    <td>git branch -d xx_branch</td>    <td>删除某个分支</td>    </tr>    <tr>    <td>git branch -D<branch></branch></td>    <td>强制删除某个分支 (未被合并的分支被删除的时候需要强制)</td></tr>    <tr>    <td>git push origin :remote_branch</td>    <td>删除远程分支</td></tr>    </table>
 
 
@@ -376,11 +398,15 @@ console.log(this.state.a) //0
 
 
 
+
+
 <h3 id="Git暂存管理"><a href="#Git暂存管理" class="headerlink" title="Git暂存管理"></a>Git暂存管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr class="red">    <td>git stash(git stash create ‘名字’)</td>    <td>本地暂存区暂存,当一个分支未开发完成又不想commit的时候，是不能切换到其他分支的，除非把改动的文件进行暂存，切换回来的时候再恢复就行了</td>        </tr><tr>    <td>git stash list</td>    <td>列所有stash本地暂存区</td></tr><tr class="red">    <td>git stash apply</td>    <td>恢复本地暂存区的内容(恢复到工作副本)</td></tr><tr>    <td>git stash drop</td>    <td>删除本地暂存区</td></tr>    </table>
 
 
 
-<h3 id="Git远程分支管理"><a href="#Git远程分支管理" class="headerlink" title="Git远程分支管理"></a>Git远程分支管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git pull</td>    <td>抓取远程仓库所有分支更新并合并到本地</td></tr><tr>    <td>git pull –no-ff</td>    <td>不要快进合并（Create a merge commit）</td></tr><tr class="red">    <td>git merge origin/master</td>    <td>将远程主分支合并到本地当前分支</td></tr><tr class="red">    <td>git checkout –track origin/master</td>    <td>检出远程分支到本地</td></tr><tr class="red">    <td>git checkout -b local_branch origin/remote_branch</td>    <td>基于远程分支创建本地分支,并切换到新建分支</td></tr><tr>    <td>git push</td>    <td>push所有分支</td></tr><tr>    <td>git push origin master</td>    <td>将本地主分支推到(已跟踪的)远程主分支</td></tr><tr class="red">    <td>git push origin HEAD:master</td>    <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td></tr><tr class="red">/    <td>git push origin local_branch</td>    <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td></tr>    </table>
+
+
+<h3 id="Git远程分支管理"><a href="#Git远程分支管理" class="headerlink" title="Git远程分支管理"></a>Git远程分支管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git pull</td>    <td>抓取远程仓库所有分支更新并合并到本地</td></tr><tr>    <td>git pull –no-ff</td>    <td>不要快进合并（Create a merge commit）</td></tr><tr class="red">    <td>git merge origin/master</td>    <td>将远程主分支合并到本地当前分支</td></tr><tr class="red">    <td>git checkout –track origin/master</td>    <td>检出远程分支到本地</td></tr><tr class="red">    <td>git checkout -b local_branch origin/remote_branch</td>    <td>基于远程分支创建本地分支,并切换到新建分支</td></tr><tr>    <td>git push</td>    <td>push所有分支</td></tr><tr>    <td>git push origin master</td>    <td>将本地主分支推到(已跟踪的)远程主分支</td></tr><tr class="red">    <td>git push origin HEAD:master</td>    <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td></tr><tr class="red"><td>git push origin local_branch</td>    <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td></tr>    </table>
 
 
 

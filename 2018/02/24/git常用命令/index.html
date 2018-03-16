@@ -19,7 +19,7 @@ table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bott
 <meta property="og:description" content="git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
 
 table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bottom: 4px;margin-top: 4px;}table.reference tr:nth-">
-<meta property="og:updated_time" content="2018-03-16T11:46:46.000Z">
+<meta property="og:updated_time" content="2018-03-16T11:50:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git常用命令">
 <meta name="twitter:description" content="git操作首先推荐使用sourcetree一款很好的可视化工具，但是某些时候还是需要自己操作命令的，毕竟没有工具的是也是需要熟练操作的😁
@@ -285,6 +285,8 @@ table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bott
 
 
 
+
+
 <h3 id="Git本地分支管理"><a href="#Git本地分支管理" class="headerlink" title="Git本地分支管理"></a>Git本地分支管理</h3><h5 id="查看、切换、创建和删除分支"><a href="#查看、切换、创建和删除分支" class="headerlink" title="查看、切换、创建和删除分支"></a>查看、切换、创建和删除分支</h5><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git branch -r<file></file></td>    <td>查看远程分支 /a 全部分支</td>        </tr><tr>    <td>git branch -v</td>    <td>查看各个分支最后提交信息</td></tr><tr>    <td>git checkout -b xx_branch</td>    <td>创建新的分支，并且切换过去</td>        </tr>    <tr>    <td>git branch new_branch</td>    <td>创建新的分支</td>        </tr><tr class="red">    <td>git checkout xx_branch</td>    <td>切换到某个分支,没有该分支则以本分支创建一个(本地修改也会一起切换到对应分支)</td></tr><tr>    <td>git checkout -b new_branch branch</td>    <td>基于branch创建新的new_branch</td></tr><tr class="red">    <td>git checkout $id</td>    <td>把某次历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删(主要还是用来查看旧版本信息为主)</td></tr><tr class="red">    <td>git checkout $id -b new_branch</td>    <td>把某次历史提交记录checkout出来，创建成一个分支</td></tr>    <tr>    <td>git branch -d xx_branch</td>    <td>删除某个分支</td>    </tr>    <tr>    <td>git branch -D<branch></branch></td>    <td>强制删除某个分支 (未被合并的分支被删除的时候需要强制)</td></tr>    <tr>    <td>git push origin :remote_branch</td>    <td>删除远程分支</td></tr>    </table>
 
 
@@ -293,11 +295,15 @@ table.reference, table.tecspec{border-collapse: collapse;width: 100%;margin-bott
 
 
 
+
+
 <h3 id="Git暂存管理"><a href="#Git暂存管理" class="headerlink" title="Git暂存管理"></a>Git暂存管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr class="red">    <td>git stash(git stash create ‘名字’)</td>    <td>本地暂存区暂存,当一个分支未开发完成又不想commit的时候，是不能切换到其他分支的，除非把改动的文件进行暂存，切换回来的时候再恢复就行了</td>        </tr><tr>    <td>git stash list</td>    <td>列所有stash本地暂存区</td></tr><tr class="red">    <td>git stash apply</td>    <td>恢复本地暂存区的内容(恢复到工作副本)</td></tr><tr>    <td>git stash drop</td>    <td>删除本地暂存区</td></tr>    </table>
 
 
 
-<h3 id="Git远程分支管理"><a href="#Git远程分支管理" class="headerlink" title="Git远程分支管理"></a>Git远程分支管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git pull</td>    <td>抓取远程仓库所有分支更新并合并到本地</td></tr><tr>    <td>git pull –no-ff</td>    <td>不要快进合并（Create a merge commit）</td></tr><tr class="red">    <td>git merge origin/master</td>    <td>将远程主分支合并到本地当前分支</td></tr><tr class="red">    <td>git checkout –track origin/master</td>    <td>检出远程分支到本地</td></tr><tr class="red">    <td>git checkout -b local_branch origin/remote_branch</td>    <td>基于远程分支创建本地分支,并切换到新建分支</td></tr><tr>    <td>git push</td>    <td>push所有分支</td></tr><tr>    <td>git push origin master</td>    <td>将本地主分支推到(已跟踪的)远程主分支</td></tr><tr class="red">    <td>git push origin HEAD:master</td>    <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td></tr><tr class="red">/    <td>git push origin local_branch</td>    <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td></tr>    </table>
+
+
+<h3 id="Git远程分支管理"><a href="#Git远程分支管理" class="headerlink" title="Git远程分支管理"></a>Git远程分支管理</h3><table class="reference"><tr>    <th>命令</th>    <th>释义</th></tr><tr>    <td>git pull</td>    <td>抓取远程仓库所有分支更新并合并到本地</td></tr><tr>    <td>git pull –no-ff</td>    <td>不要快进合并（Create a merge commit）</td></tr><tr class="red">    <td>git merge origin/master</td>    <td>将远程主分支合并到本地当前分支</td></tr><tr class="red">    <td>git checkout –track origin/master</td>    <td>检出远程分支到本地</td></tr><tr class="red">    <td>git checkout -b local_branch origin/remote_branch</td>    <td>基于远程分支创建本地分支,并切换到新建分支</td></tr><tr>    <td>git push</td>    <td>push所有分支</td></tr><tr>    <td>git push origin master</td>    <td>将本地主分支推到(已跟踪的)远程主分支</td></tr><tr class="red">    <td>git push origin HEAD:master</td>    <td>不同分支之间提交(未跟踪)比如 test-&gt;develop</td></tr><tr class="red"><td>git push origin local_branch</td>    <td>创建远程分支并推送到该分支， local_branch是远程仓库名</td></tr>    </table>
 
 
 
