@@ -236,6 +236,483 @@
       <div class="body-wrap">
         
   
+    <article id="post-移动端布局-事件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/06/移动端布局-事件/">移动端布局+事件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="针对移动端做点自我总结…"><a href="#针对移动端做点自我总结…" class="headerlink" title="针对移动端做点自我总结…"></a>针对移动端做点自我总结…</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><p><code>文本超过一行用…代替</code></p>
+<pre><code>white-space: nowrap;
+text-overflow: ellipsis;
+overflow: hidden;
+</code></pre><p><code>文本超过2行用…代替</code></p>
+<pre><code>width:200px;
+word-break:break-all;
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+overflow:hidden;
+background-color: burlywood;
+</code></pre><p><code>animate.css动画库使用</code></p>
+<pre><code>animated 动画库使用方法在对应标签上加上对应类名就好了 
+如：class=“animated  flash” 闪烁
+默认执行一次，如果需要修改就修改css
+ animation-duration: 3000ms;
+ animation-direction: alternate;
+ animation-iteration-count: infinite;
+</code></pre><h2 id="进入正题"><a href="#进入正题" class="headerlink" title="进入正题"></a>进入正题</h2><h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><pre><code>1，html和body必须同时设置宽高100%，下面的div的高才会有100%的高度
+2，最外层标签元素也要设置100%宽高，不然直接给内部设置100%,页面会高出一截，导致会有上下晃动
+3，来一波meta标签
+    &lt;!-- 显示苹果工具栏和菜单栏(默认)，改为no不显示 --&gt;
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-mobile-web-app-capable&quot;&gt;  
+    &lt;!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览； --&gt;  
+    &lt;meta content=&quot;yes&quot; name=&quot;apple-touch-fullscreen&quot;&gt;
+
+    &lt;!-- iphone的私有标签，它指定的iphone中safari顶端的状态条的样式；默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明） 
+    注意：若值为“black-translucent”将会占据页面px位置，浮在页面上方
+    （会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）。
+    --&gt;
+    &lt;meta content=&quot;black&quot; name=&quot;apple-mobile-web-app-status-bar-style&quot;&gt;   
+    &lt;!-- 告诉设备忽略将页面中的数字识别为电话号码。 --&gt;
+    &lt;meta content=&quot;telephone=no&quot; name=&quot;format-detection&quot;&gt;
+
+
+    &lt;!-- 苹果手机safari浏览器上可以使用添加到主屏按钮将网站添加到主屏幕上显示的图标 --&gt;
+    &lt;link rel=&quot;apple-touch-icon&quot; href=&quot;favicon.png&quot;&gt;
+
+    &lt;!-- 浏览器网址左侧的图标 --&gt;
+    &lt;link rel=&quot;Shortcut Icon&quot; href=&quot;favicon.png&quot; type=&quot;image/x-icon&quot;&gt;
+</code></pre><h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><pre><code>在事件出发前记得组件默认拖拽事件
+$(&apos;body&apos;).on(&apos;touchmove&apos;, function (event) {
+    event.preventDefault();
+});
+</code></pre><h4 id="JS原生事件"><a href="#JS原生事件" class="headerlink" title="JS原生事件"></a>JS原生事件</h4><pre><code>touchstart --- onmousedown
+touchmove --- onmousemove
+touchend --- onmouseup
+需要用事件绑定的第二种形式触发
+
+//如下是获取坐标点以便完成拖拽
+$(&apos;.drag&apos;).on(&apos;touchstart&apos;,function(e){
+    console.log(e.originalEvent.touches[0])
+})
+
+var div = document.querySelector(&apos;.drag&apos;);
+div.addEventListener(&quot;touchstart&quot;, function(e) {
+      console.log(e.touches[0]); //方式一
+       console.log(e.targetTouches[0]);//方式二
+ },false)
+</code></pre><h4 id="touch-js插件"><a href="#touch-js插件" class="headerlink" title="touch.js插件"></a>touch.js插件</h4><blockquote>
+<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="external">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="external">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="external">touch3.js</a></p>
+</blockquote>
+<p><code>touch1.js</code><br>​<br>    依赖文件：不依赖任何文件<br>    完成功能：上下左右滑动和点击<br>    使用：document.querySelector(‘div’).touch({<br>            tap:function(ev){<br>                //var e = ev || window.event; 不需要了<br>                console.log(‘哎呀，被点击了’,e)<br>            },<br>            swipeUp:function(ev){<br>                console.log(‘哎呀，执行了上滑’,e)<br>            },<br>            swipeDown:function(){<br>                console.log(‘哎呀，执行了下滑’)<br>            },<br>            swipeLeft:function(){<br>                console.log(‘哎呀，执行了左滑’)<br>            },<br>            swipeRight:function(){<br>                console.log(‘哎呀，执行了右滑’)<br>            },<br>        })<br>    JQ使用：如果是用jq就—get()是获取DOM元素，eq()是获取jq对象<br>    $(‘div’).get(0).touch({<br>        tap:function(){<br>            console.log(‘哎呀，被点击了’,e)<br>        },<br>        …<br>    })</p>
+<p><code>touch2.js</code><br>​<br>    依赖文件：依赖jquery，必须在jq之后引入<br>    完成功能：上下左右滑动，单击，双击(doubleTap)，长按(longTap)<br>    使用：<br>        <script src="js/jquery.min.js"></script><br>        <script src="js/touch2.js"></script><br>                //必须用驼峰标示<br>        $(‘.begin’).doubleTap(function(){<br>            alert(123)<br>           })</p>
+<p><code>touch3.js</code><br>​<br>    依赖文件：不依赖任何文件            //必须全部小写<br>    完成功能：滑动，上下左右滑动，单击，双击(doubletap)，长按(hold)，旋转，缩放<br>    使用：<br>        1，对手势事件库进行全局配置。<br>        touch.config({   //可以不配置，就用默认的就好<br>            tap: true,                  //tap类事件开关, 默认为true<br>            doubleTap: true,            //doubleTap事件开关， 默认为true<br>            hold: true,                //hold事件开关, 默认为true<br>            holdTime: 650,               //hold时间长度<br>            swipe: true,               //swipe事件开关<br>            swipeTime: 300,            //触发swipe事件的最大时长<br>            swipeMinDistance: 18,       //swipe移动最小距离<br>            swipeFactor: 5,            //加速因子, 值越大变化速率越快<br>            drag: true,                //drag事件开关<br>            pinch: true,               //pinch类事件开关<br>        }) </p>
+<pre><code>2，事件绑定
+touch.on( element, types, callback );
+//多个手势同个效果，用空格隔开即可
+touch.on(&apos;#target&apos;, &apos;hold tap doubletap&apos;, function(ev){  } 
+
+旋转：
+var div1 = document.querySelector(&apos;.d&apos;);
+var angel = 0;//初始角度
+touch.on(&quot;.d&quot;,&quot;touchstart&quot;,function(e){
+    e.startRotate();//开启旋转
+    e.preventDefault();//阻止默认事件
+})
+
+touch.on(&quot;.d&quot;,&quot;rotate&quot;,function(e){
+    console.log(e)
+    var deg = angel + e.rotation;//计算当前旋转角度
+    div1.innerHTML = deg;
+    if(e.fingerStatus == &quot;end&quot;){//判断手指的状态，如果手势已停止
+        angel = deg;
+    }
+    div1.style.transform = &quot;rotate(&quot;+deg+&quot;deg)&quot;;
+})
+
+缩放：
+touch.on(&quot;.d&quot;,&apos;pinch&apos;,function(e){
+    alert(e.scale)  //这是缩放倍数
+})    
+
+3，解除某元素上的事件绑定
+touch.off( element, types, callback )    
+
+4，触发事件
+touch.trigger(element, type);
+</code></pre><blockquote>
+<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="external">touch3.js</a></p>
+</blockquote>
+<p>​        </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/06/移动端布局-事件/" class="archive-article-date">
+  	<time datetime="2016-12-06T08:16:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-面向对象编程（一）：封装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/02/面向对象编程（一）：封装/">面向对象编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。"><a href="#Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。" class="headerlink" title="Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。"></a>Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有<code>class</code>（类）。</h4><h4 id="那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？"><a href="#那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？" class="headerlink" title="那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？"></a>那么，如果我们要把”属性”（property）和”方法”（method），封装成一个对象，甚至要从原型对象生成一个实例对象，我们应该怎么做呢？</h4><h1 id="一、-生成实例对象的原始模式"><a href="#一、-生成实例对象的原始模式" class="headerlink" title="一、 生成实例对象的原始模式"></a>一、 生成实例对象的原始模式</h1><h4 id="一、-生成实例对象的原始模式-1"><a href="#一、-生成实例对象的原始模式-1" class="headerlink" title="一、 生成实例对象的原始模式"></a>一、 生成实例对象的原始模式</h4><pre><code>var Cat = {
+    name : &apos;&apos;,
+    color : &apos;&apos;
+}
+</code></pre><h4 id="现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。"><a href="#现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。" class="headerlink" title="现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。"></a>现在，我们需要根据这个原型对象的规格（schema），生成两个实例对象。</h4><pre><code>var cat1 = {}; // 创建一个空对象
+    cat1.name = &quot;大毛&quot;; // 按照原型对象的属性赋值
+    cat1.color = &quot;黄色&quot;;
+var cat2 = {};
+    cat2.name = &quot;二毛&quot;;
+    cat2.color = &quot;黑色&quot;;
+</code></pre><h4 id="好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。"><a href="#好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。" class="headerlink" title="好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。"></a>好了，这就是最简单的封装了，把两个属性封装在一个对象里面。但是，这样的写法有两个缺点，一是如果多生成几个实例，写起来就非常麻烦；二是实例与原型之间，没有任何办法，可以看出有什么联系。</h4><h1 id="二、-原始模式的改进"><a href="#二、-原始模式的改进" class="headerlink" title="二、 原始模式的改进"></a>二、 原始模式的改进</h1><h4 id="我们可以写一个函数，解决代码重复的问题。"><a href="#我们可以写一个函数，解决代码重复的问题。" class="headerlink" title="我们可以写一个函数，解决代码重复的问题。"></a>我们可以写一个函数，解决代码重复的问题。</h4><pre><code>function Cat(name,color) {
+    return {
+        name:name,
+        color:color
+    }
+}
+</code></pre><h4 id="然后生成实例对象，就等于是在调用函数："><a href="#然后生成实例对象，就等于是在调用函数：" class="headerlink" title="然后生成实例对象，就等于是在调用函数："></a>然后生成实例对象，就等于是在调用函数：</h4><pre><code>var cat1 = Cat(&quot;大毛&quot;,&quot;黄色&quot;);
+var cat2 = Cat(&quot;二毛&quot;,&quot;黑色&quot;);
+</code></pre><h4 id="这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。"><a href="#这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。" class="headerlink" title="这种方法的问题依然是，cat1和cat2之间没有内在的联系，不能反映出它们是同一个原型对象的实例。"></a>这种方法的问题依然是，<code>cat1</code>和<code>cat2</code>之间没有内在的联系，不能反映出它们是同一个原型对象的实例。</h4><h1 id="三、-构造函数模式"><a href="#三、-构造函数模式" class="headerlink" title="三、 构造函数模式"></a>三、 构造函数模式</h1><h4 id="为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。"><a href="#为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。" class="headerlink" title="为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。"></a>为了解决从原型对象生成实例的问题，Javascript提供了一个构造函数（Constructor）模式。</h4><h4 id="所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。"><a href="#所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。" class="headerlink" title="所谓”构造函数”，其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。"></a>所谓”构造函数”，其实就是一个普通函数，但是内部使用了<code>this</code>变量。对构造函数使用<code>new</code>运算符，就能生成实例，并且<code>this</code>变量会绑定在实例对象上。</h4><h4 id="比如，猫的原型对象现在可以这样写，"><a href="#比如，猫的原型对象现在可以这样写，" class="headerlink" title="比如，猫的原型对象现在可以这样写，"></a>比如，猫的原型对象现在可以这样写，</h4><pre><code>function Cat(name,color){
+    this.name=name;
+    this.color=color;
+}
+</code></pre><h4 id="我们现在就可以生成实例对象了。"><a href="#我们现在就可以生成实例对象了。" class="headerlink" title="我们现在就可以生成实例对象了。"></a>我们现在就可以生成实例对象了。</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
+var cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);
+alert(cat1.name); // 大毛
+alert(cat1.color); // 黄色
+</code></pre><h4 id="这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。"><a href="#这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。" class="headerlink" title="这时cat1和cat2会自动含有一个constructor属性，指向它们的构造函数。"></a>这时<code>cat1</code>和<code>cat2</code>会自动含有一个<code>constructor</code>属性，指向它们的构造函数。</h4><pre><code>alert(cat1.constructor == Cat); //true
+alert(cat2.constructor == Cat); //true
+</code></pre><h4 id="Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。"><a href="#Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。" class="headerlink" title="Javascript还提供了一个instanceof运算符，验证原型对象与实例对象之间的关系。"></a>Javascript还提供了一个<code>instanceof</code>运算符，验证原型对象与实例对象之间的关系。</h4><h1 id="四、构造函数模式的问题"><a href="#四、构造函数模式的问题" class="headerlink" title="四、构造函数模式的问题"></a>四、构造函数模式的问题</h1><h4 id="构造函数方法很好用，但是存在一个浪费内存的问题。"><a href="#构造函数方法很好用，但是存在一个浪费内存的问题。" class="headerlink" title="构造函数方法很好用，但是存在一个浪费内存的问题。"></a>构造函数方法很好用，但是存在一个浪费内存的问题。</h4><h4 id="请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样："><a href="#请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样：" class="headerlink" title="请看，我们现在为Cat对象添加一个不变的属性type（种类），再添加一个方法eat（吃）。那么，原型对象Cat就变成了下面这样："></a>请看，我们现在为<code>Cat</code>对象添加一个不变的属性<code>type</code>（种类），再添加一个方法<code>eat</code>（吃）。那么，原型对象Cat就变成了下面这样：</h4><pre><code>function Cat(name,color){
+    this.name = name;
+    this.color = color;
+    this.type = &quot;猫科动物&quot;;
+    this.eat = function(){alert(&quot;吃老鼠&quot;);};
+}
+</code></pre><h4 id="还是采用同样的方法，生成实例："><a href="#还是采用同样的方法，生成实例：" class="headerlink" title="还是采用同样的方法，生成实例："></a>还是采用同样的方法，生成实例：</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
+var cat2 = new Cat (&quot;二毛&quot;,&quot;黑色&quot;);
+alert(cat1.type); // 猫科动物
+cat1.eat(); // 吃老鼠
+</code></pre><h4 id="表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat-方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。"><a href="#表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat-方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。" class="headerlink" title="表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat()方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。"></a>表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，<code>type</code>属性和<code>eat()</code>方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。</h4><pre><code>alert(cat1.eat == cat2.eat); //false
+</code></pre><h4 id="能不能让type属性和eat-方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。"><a href="#能不能让type属性和eat-方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。" class="headerlink" title="能不能让type属性和eat()方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。"></a>能不能让<code>type</code>属性和<code>eat()</code>方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。</h4><h1 id="五、-Prototype模式"><a href="#五、-Prototype模式" class="headerlink" title="五、 Prototype模式"></a>五、 Prototype模式</h1><h4 id="Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。"><a href="#Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。" class="headerlink" title="Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。"></a>Javascript规定，每一个构造函数都有一个<code>prototype</code>属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。</h4><h4 id="这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。"><a href="#这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。" class="headerlink" title="这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。"></a>这意味着，我们可以把那些不变的属性和方法，直接定义在<code>prototype</code>对象上。</h4><pre><code>function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+Cat.prototype.type = &quot;猫科动物&quot;;
+Cat.prototype.eat = function(){alert(&quot;吃老鼠&quot;)};
+</code></pre><h4 id="然后，生成实例"><a href="#然后，生成实例" class="headerlink" title="然后，生成实例"></a>然后，生成实例</h4><pre><code>var cat1 = new Cat(&quot;大毛&quot;,&quot;黄色&quot;);
+var cat2 = new Cat(&quot;二毛&quot;,&quot;黑色&quot;);
+alert(cat1.type); // 猫科动物
+cat1.eat(); // 吃老鼠
+</code></pre><h4 id="这时所有实例的type属性和eat-方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率"><a href="#这时所有实例的type属性和eat-方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率" class="headerlink" title="这时所有实例的type属性和eat()方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率"></a>这时所有实例的<code>type</code>属性和<code>eat()</code>方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率</h4><pre><code>　　alert(cat1.eat == cat2.eat); //true
+</code></pre><h1 id="六、-Prototype模式的验证方法"><a href="#六、-Prototype模式的验证方法" class="headerlink" title="六、 Prototype模式的验证方法"></a>六、 Prototype模式的验证方法</h1><h4 id="为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。"><a href="#为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。" class="headerlink" title="为了配合prototype属性，Javascript定义了一些辅助方法，帮助我们使用它。"></a>为了配合<code>prototype</code>属性，Javascript定义了一些辅助方法，帮助我们使用它。</h4><h2 id="6-1-isPrototypeOf"><a href="#6-1-isPrototypeOf" class="headerlink" title="6.1 isPrototypeOf()"></a>6.1 isPrototypeOf()</h2><h4 id="这个方法用来判断，某个proptotype对象和某个实例之间的关系。"><a href="#这个方法用来判断，某个proptotype对象和某个实例之间的关系。" class="headerlink" title="这个方法用来判断，某个proptotype对象和某个实例之间的关系。"></a>这个方法用来判断，某个<code>proptotype</code>对象和某个实例之间的关系。</h4><pre><code>alert(Cat.prototype.isPrototypeOf(cat1)); //true
+alert(Cat.prototype.isPrototypeOf(cat2)); //true
+</code></pre><h2 id="6-2-hasOwnProperty"><a href="#6-2-hasOwnProperty" class="headerlink" title="6.2 hasOwnProperty()"></a>6.2 hasOwnProperty()</h2><h4 id="每个实例对象都有一个hasOwnProperty-方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。"><a href="#每个实例对象都有一个hasOwnProperty-方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。" class="headerlink" title="每个实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。"></a>每个实例对象都有一个<code>hasOwnProperty()</code>方法，用来判断某一个属性到底是本地属性，还是继承自<code>prototype</code>对象的属性。</h4><pre><code>alert(cat1.hasOwnProperty(&quot;name&quot;)); // true
+alert(cat1.hasOwnProperty(&quot;type&quot;)); // false
+</code></pre><h2 id="6-3-in运算符"><a href="#6-3-in运算符" class="headerlink" title="6.3 in运算符"></a>6.3 in运算符</h2><h4 id="in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。"><a href="#in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。" class="headerlink" title="in运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。"></a><code>in</code>运算符可以用来判断，某个实例是否含有某个属性，不管是不是本地属性。</h4><pre><code>alert(&quot;name&quot; in cat1); // true
+alert(&quot;type&quot; in cat1); // true
+</code></pre><h4 id="in运算符还可以用来遍历某个对象的所有属性。"><a href="#in运算符还可以用来遍历某个对象的所有属性。" class="headerlink" title="in运算符还可以用来遍历某个对象的所有属性。"></a><code>in</code>运算符还可以用来遍历某个对象的所有属性。</h4><pre><code>for(var prop in cat1) { alert(&quot;cat1[&quot;+prop+&quot;]=&quot;+cat1[prop]); }
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/02/面向对象编程（一）：封装/" class="archive-article-date">
+  	<time datetime="2016-12-02T13:38:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-学习Javascript闭包" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/30/学习Javascript闭包/">学习Javascript闭包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。"><a href="#闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。" class="headerlink" title="闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。"></a>闭包（closure）是Javascript语言的一个难点，也是它的特色，很多高级应用都要依靠闭包实现。</h2><h2 id="下面就是我的学习笔记，对于Javascript初学者应该是很有用的。"><a href="#下面就是我的学习笔记，对于Javascript初学者应该是很有用的。" class="headerlink" title="下面就是我的学习笔记，对于Javascript初学者应该是很有用的。"></a>下面就是我的学习笔记，对于Javascript初学者应该是很有用的。</h2><p><code>1. 变量的作用域</code></p>
+<h4 id="要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。"><a href="#要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。" class="headerlink" title="要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。"></a>要理解闭包，首先必须理解Javascript特殊的变量作用域。变量的作用域无非就是两种：全局变量和局部变量。Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。</h4><pre><code>var n=999;
+function fn(){
+alert(n)
+}
+fn()
+</code></pre><h4 id="另一方面，在函数外部自然无法读取函数内的局部变量。"><a href="#另一方面，在函数外部自然无法读取函数内的局部变量。" class="headerlink" title="另一方面，在函数外部自然无法读取函数内的局部变量。"></a>另一方面，在函数外部自然无法读取函数内的局部变量。</h4><pre><code>function f1(){
+var n=999;
+}
+alert(n); // error
+</code></pre><h4 id="这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！"><a href="#这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！" class="headerlink" title="这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！"></a>这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！</h4><pre><code>function f1(){
+n=999;
+}
+f1();    
+alert(n); // 999
+</code></pre><p><code>2. 如何从外部读取局部变量？</code></p>
+<pre><code>function f1(){
+
+    var n=999;
+
+    function f2(){
+        alert(n);//999
+    }
+
+}
+</code></pre><h4 id="在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain-scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。"><a href="#在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain-scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。" class="headerlink" title="在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。"></a>在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。</h4><h4 id="既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！"><a href="#既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！" class="headerlink" title="既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！"></a>既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗！</h4><pre><code>function f1(){
+
+    var n=999;
+
+    function f2(){
+        alert(n); 
+    }
+
+    return f2;
+
+}
+
+var result=f1();
+
+result(); // 999
+</code></pre><p><code>3. 闭包的概念</code></p>
+<h4 id="各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。"><a href="#各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。" class="headerlink" title="各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。"></a>各种专业文献上的”闭包”（closure）定义非常抽象，很难看懂。我的理解是，闭包就是能够读取其他函数内部变量的函数。</h4><h4 id="由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。"><a href="#由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。" class="headerlink" title="由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。"></a>由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。</h4><h4 id="所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。"><a href="#所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。" class="headerlink" title="所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。"></a>所以，在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。</h4><p><code>4. 闭包的用途</code></p>
+<h4 id="闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。"><a href="#闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。" class="headerlink" title="闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。"></a>闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。</h4><pre><code>function f1(){
+
+var n=999;
+
+nAdd=function(){n+=1}
+
+function f2(){
+    alert(n);
+}
+
+return f2;
+
+}
+
+var result=f1();
+
+result(); // 999
+
+nAdd();
+
+result(); // 1000
+</code></pre><h4 id="在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。"><a href="#在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。" class="headerlink" title="在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。"></a>在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。</h4><h4 id="为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage-collection）回收。"><a href="#为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage-collection）回收。" class="headerlink" title="为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。"></a>为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。</h4><h4 id="这段代码中另一个值得注意的地方，就是”nAdd-function-n-1-”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous-function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。"><a href="#这段代码中另一个值得注意的地方，就是”nAdd-function-n-1-”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous-function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。" class="headerlink" title="这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。"></a>这段代码中另一个值得注意的地方，就是”nAdd=function(){n+=1}”这一行，首先在nAdd前面没有使用var关键字，因此nAdd是一个全局变量，而不是局部变量。其次，nAdd的值是一个匿名函数（anonymous function），而这个匿名函数本身也是一个闭包，所以nAdd相当于是一个setter，可以在函数外部对函数内部的局部变量进行操作。</h4>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/30/学习Javascript闭包/" class="archive-article-date">
+  	<time datetime="2016-11-30T06:37:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Javascript的this用法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/28/Javascript的this用法/">Javascript的this用法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="this是Javascript语言的一个关键字。"><a href="#this是Javascript语言的一个关键字。" class="headerlink" title="this是Javascript语言的一个关键字。"></a>this是Javascript语言的一个关键字。</h3><h3 id="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"><a href="#它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，" class="headerlink" title="它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，"></a>它代表函数运行时，自动生成的一个内部对象，只能在函数内部使用。比如，</h3><pre><code>function test(){
+    this.x = 1;
+}
+</code></pre><h3 id="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"><a href="#随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。" class="headerlink" title="随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。"></a>随着函数使用场合的不同，this的值会发生变化。但是有一个总的原则，那就是this指的是，调用函数的那个对象。</h3><h3 id="下面分四种情况，详细讨论this的用法。"><a href="#下面分四种情况，详细讨论this的用法。" class="headerlink" title="下面分四种情况，详细讨论this的用法。"></a>下面分四种情况，详细讨论this的用法。</h3><h1 id="情况一：纯粹的函数调用"><a href="#情况一：纯粹的函数调用" class="headerlink" title="情况一：纯粹的函数调用"></a>情况一：纯粹的函数调用</h1><h3 id="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"><a href="#这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。" class="headerlink" title="这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。"></a>这是函数的最通常用法，属于全局性调用，因此this就代表全局对象Global。</h3><h3 id="请看下面这段代码，它的运行结果是1。"><a href="#请看下面这段代码，它的运行结果是1。" class="headerlink" title="请看下面这段代码，它的运行结果是1。"></a>请看下面这段代码，它的运行结果是1。</h3><pre><code>　function test(){
+    this.x = 1;
+    alert(this.x);
+}
+test(); // 1
+</code></pre><h3 id="为了证明this就是全局对象，我对代码做一些改变："><a href="#为了证明this就是全局对象，我对代码做一些改变：" class="headerlink" title="为了证明this就是全局对象，我对代码做一些改变："></a>为了证明this就是全局对象，我对代码做一些改变：</h3><pre><code>var x = 1;
+function test(){
+    alert(this.x);
+}
+test(); // 1
+</code></pre><h3 id="运行结果还是1。再变一下"><a href="#运行结果还是1。再变一下" class="headerlink" title="运行结果还是1。再变一下"></a>运行结果还是1。再变一下</h3><pre><code>var x = 1;
+function test(){
+    this.x = 0;
+}
+test();
+alert(x); //0
+</code></pre><h1 id="情况二：作为对象方法的调用"><a href="#情况二：作为对象方法的调用" class="headerlink" title="情况二：作为对象方法的调用"></a>情况二：作为对象方法的调用</h1><h3 id="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"><a href="#函数还可以作为某个对象的方法调用，这时this就指这个上级对象。" class="headerlink" title="函数还可以作为某个对象的方法调用，这时this就指这个上级对象。"></a>函数还可以作为某个对象的方法调用，这时this就指这个上级对象。</h3><pre><code>function test(){
+    alert(this.x);
+}
+var o = {};
+o.x = 1;
+o.m = test;
+o.m(); // 1
+</code></pre><h1 id="情况三-作为构造函数调用"><a href="#情况三-作为构造函数调用" class="headerlink" title="情况三 作为构造函数调用"></a>情况三 作为构造函数调用</h1><h3 id="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"><a href="#所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。" class="headerlink" title="所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。"></a>所谓构造函数，就是通过这个函数生成一个新对象（object）。这时，this就指这个新对象。</h3><pre><code>function test(){
+    this.x = 1;
+}
+var o = new test();
+alert(o.x); // 1
+</code></pre><h3 id="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："><a href="#运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：" class="headerlink" title="运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变："></a>运行结果为1。为了表明这时this不是全局对象，我对代码做一些改变：</h3><pre><code>var x = 2;
+function test(){
+    this.x = 1;
+}
+var o = new test();
+alert(x); //2
+</code></pre><h3 id="运行结果为2，表明全局变量x的值根本没变"><a href="#运行结果为2，表明全局变量x的值根本没变" class="headerlink" title="运行结果为2，表明全局变量x的值根本没变"></a>运行结果为2，表明全局变量x的值根本没变</h3><h1 id="情况四-apply调用"><a href="#情况四-apply调用" class="headerlink" title="情况四 apply调用"></a>情况四 apply调用</h1><h3 id="apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"><a href="#apply-是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。" class="headerlink" title="apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。"></a>apply()是函数对象的一个方法，它的作用是改变函数的调用对象，它的第一个参数就表示改变后的调用这个函数的对象。因此，this指的就是这第一个参数。</h3><pre><code>var x = 0;
+function test(){
+    alert(this.x);
+}
+var o={};
+o.x = 1;
+o.m = test;
+o.m.apply(); //0
+</code></pre><h3 id="apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"><a href="#apply-的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。" class="headerlink" title="apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。"></a>apply()的参数为空时，默认调用全局对象。因此，这时的运行结果为0，证明this指的是全局对象。</h3><h3 id="如果把最后一行代码修改为"><a href="#如果把最后一行代码修改为" class="headerlink" title="如果把最后一行代码修改为"></a>如果把最后一行代码修改为</h3><pre><code>o.m.apply(o); //1
+</code></pre><h3 id="运行结果就变成了1，证明了这时this代表的是对象o。"><a href="#运行结果就变成了1，证明了这时this代表的是对象o。" class="headerlink" title="运行结果就变成了1，证明了这时this代表的是对象o。"></a>运行结果就变成了1，证明了这时this代表的是对象o。</h3>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/28/Javascript的this用法/" class="archive-article-date">
+  	<time datetime="2016-11-28T13:25:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/this/">this</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-php缓存文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1218,802 +1695,6 @@ function setDate(){
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/简版日历/">简版日历</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-filter滤镜" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/25/filter滤镜/">filter滤镜</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="今天分享一个滤镜小插件"><a href="#今天分享一个滤镜小插件" class="headerlink" title="今天分享一个滤镜小插件"></a>今天分享一个滤镜小插件</h2><p><code>使用方式非常简单,如下：</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;  
-&lt;html&gt;  
-&lt;head&gt;  
-    &lt;title&gt;Filter Demo&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;filter.css&quot;&gt;
-&lt;/head&gt;  
-&lt;body&gt;
-    &lt;div class=&quot;kelvin&quot;&gt;
-          &lt;img src=&quot;http://una.im/CSSgram/img/lakegeneva.jpg&quot;&gt;
-    &lt;/div&gt;
-&lt;/body&gt;  
-&lt;/html&gt; 
-</code></pre><p><code>头部引入插件，对应图片加上类名，所有类名已写在图片左下角，点击预览查看</code></p>
-<p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.html" target="_blank" rel="external">效果预览</a><br>文件在我的github：<a href="https://github.com/Jasonellen/jasonProject.github.io/tree/master/filter" target="_blank" rel="external">Jasonellen</a><br>或者直接点击下载：<a href="https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.css" download="" target="_blank" rel="external">文件下载</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/25/filter滤镜/" class="archive-article-date">
-  	<time datetime="2016-10-25T13:44:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/filter/">filter</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vue之路由和请求" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/18/Vue之路由和请求/">Vue之路由和请求</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-router.js" target="_blank" rel="external">vue-router.js</a>，<br>Vue的http请求就是相当于ajax,依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-resource.js" target="_blank" rel="external">vue-resource.js</a></p>
-</blockquote>
-<p><code>直接贴完成页面</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;script src=&quot;vue.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;vue-router.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;vue-resource.js&quot;&gt;&lt;/script&gt;
-    &lt;style&gt;
-        a{   
-            text-decoration: none;  //因为router-link编译后就是a
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-
-    &lt;div id=&quot;app&quot;&gt;
-          &lt;h1&gt;Hello App!&lt;/h1&gt;
-          &lt;p&gt;
-            &lt;!-- 使用 router-link 组件来导航. --&gt;
-            &lt;!-- 通过传入 `to` 属性指定链接. --&gt;
-            &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;
-            &lt;router-link to=&quot;/foo&quot;&gt;Go to Foo&lt;/router-link&gt;
-            &lt;router-link to=&quot;/bar&quot;&gt;Go to Bar&lt;/router-link&gt;
-            &lt;!-- 自定义的组件模板 --&gt;
-            &lt;self-component&gt;&lt;/self-component&gt;
-          &lt;/p&gt;
-
-          &lt;!-- 路由出口 --&gt;
-          &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
-        &lt;router-view&gt;&lt;/router-view&gt;
-    &lt;/div&gt;
-
-    &lt;div id=&quot;div&quot;&gt;&lt;/div&gt;
-    &lt;script&gt;
-
-    // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 vue.use(vuerouter)
-
-    // 1. 定义（路由）组件。
-    // 也可以从其他文件 import 进来
-    const Foo = { template: &apos;&lt;div&gt;foo&lt;/div&gt;&apos; }
-    const Bar = Vue.component(&apos;self-component&apos;, { template: &apos;&lt;div&gt;bar&lt;/div&gt;&apos; })
-
-    // 2. 定义路由
-    // 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是
-    const routes = [
-      { path: &apos;/foo&apos;, component: Foo },
-      { path: &apos;/bar&apos;, component: Bar }
-    ]
-
-    // 3. 创建 router 实例，然后传 `routes` 配置
-    // 你还可以传别的配置参数, 不过先这么简单着吧。
-    const route1 = new VueRouter({
-      routes, // （缩写）相当于 routes: routes
-    })
-
-    // 4. 创建和挂载根实例。
-    // 记得要通过 router 配置参数注入路由，
-    const app = new Vue({
-        //el:&apos;#app&apos;,  和下面的$mount一样的效果
-      router:route1,
-      mounted:function(){
-          //当然也可以是get
-        this.$http.jsonp(&apos;http://rap.taobao.org/mockjsdata/8591/api&apos;,{
-                params: { productCourseId: 234,productId:456} //参数列表
-            })
-            .then(function(response){
-                return response.json();  //这里 == response.body
-            })
-            .then(function(response){
-                console.log(response.data)
-            })
-      }
-    }).$mount(&apos;#app&apos;)
-
-    //post方式 不需要params，但是需要加一个参数对象emulateJSON:true
-    this.$http.jsonp(&apos;http://rap.taobao.org/mockjsdata/8591/api&apos;,{
-                productCourseId: 234,productId:456 //参数列表
-            },{
-                emulateJSON:true
-            })
-            .then(function(response){
-                return response.json();  //这里 == response.body
-            })
-            .then(function(response){
-                console.log(response.data)
-            })
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/18/Vue之路由和请求/" class="archive-article-date">
-  	<time datetime="2016-10-18T06:17:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vue表单与组件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/14/Vue表单与组件/">Vue表单与组件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="表单的数据绑定"><a href="#表单的数据绑定" class="headerlink" title="表单的数据绑定"></a>表单的数据绑定</h1><p><code>文本：</code></p>
-<pre><code>&lt;input v-model=&quot;message&quot; placeholder=&quot;edit me&quot;&gt;
-&lt;p&gt;Message is: {{ message }}&lt;/p&gt;
-</code></pre><p><code>多行文本：</code>  </p>
-<pre><code>&lt;!--white-space:pre 使得空格不会被解析--&gt;
-&lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
-&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
-</code></pre><p><code>复选框：</code></p>
-<pre><code>&lt;!--如果就一个复选框--&gt;
-&lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot; v-model=&quot;checked&quot;&gt;
-&lt;label for=&quot;checkbox&quot;&gt;{{ checked }}&lt;/label&gt;
-
-&lt;!--如果有多个复选框，应该绑定到同一个数组--&gt;
-&lt;input type=&quot;checkbox&quot; id=&quot;jack&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
-&lt;label for=&quot;jack&quot;&gt;Jack&lt;/label&gt;
-&lt;input type=&quot;checkbox&quot; id=&quot;john&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
-&lt;label for=&quot;john&quot;&gt;John&lt;/label&gt;
-&lt;span&gt;Checked names: {{ checkedNames }}&lt;/span&gt;
-new Vue({
-      el: &apos;...&apos;,
-      data: {
-        checkedNames: []
-      }
-})
-</code></pre><p><code>单选框：</code></p>
-<pre><code>&lt;!--不需要数组，邦定到同一个data变量上即可--&gt;
-&lt;input type=&quot;radio&quot; id=&quot;one&quot; value=&quot;One&quot; v-model=&quot;picked&quot;&gt;
-&lt;label for=&quot;one&quot;&gt;One&lt;/label&gt;
-&lt;br&gt;
-&lt;input type=&quot;radio&quot; id=&quot;two&quot; value=&quot;Two&quot; v-model=&quot;picked&quot;&gt;
-&lt;label for=&quot;two&quot;&gt;Two&lt;/label&gt;
-&lt;br&gt;
-&lt;span&gt;Picked: {{ picked }}&lt;/span&gt;
-</code></pre><p><code>表单传值===选中后绑定的data变量的值</code></p>
-<pre><code>&lt;!-- 当选中时，`picked` 为字符串 &quot;a&quot; --&gt;
-&lt;input type=&quot;radio&quot; v-model=&quot;picked&quot; value=&quot;a&quot;&gt;
-&lt;!-- `toggle` 为 true 或 false --&gt;
-&lt;input type=&quot;checkbox&quot; v-model=&quot;toggle&quot;&gt;
-&lt;!-- 当选中时，`selected` 为字符串 &quot;abc&quot; --&gt;
-&lt;select v-model=&quot;selected&quot;&gt;
-      &lt;option value=&quot;abc&quot;&gt;ABC&lt;/option&gt;
-&lt;/select&gt;
-
-&lt;!--当然可以用v-bind:value 使得value也是动态的值--&gt;
-单选：
-&lt;input type=&quot;radio&quot; v-model=&quot;pick&quot; v-bind:value=&quot;a&quot;&gt;
-// 当选中时
-vm.pick === vm.a
-
-复选：
-&lt;input
-  type=&quot;checkbox&quot;
-  v-model=&quot;toggle&quot;
-  v-bind:true-value=&quot;a&quot;
-  v-bind:false-value=&quot;b&quot;&gt;
-
-  // 当选中时
-vm.toggle === vm.a
-// 当没有选中时
-vm.toggle === vm.b
-
-列表：
-&lt;select v-model=&quot;selected&quot;&gt;
-    &lt;!-- 内联对象字面量 --&gt;
-      &lt;option v-bind:value=&quot;{ number: 123 }&quot;&gt;123&lt;/option&gt;
-&lt;/select&gt;
-// 当选中时
-typeof vm.selected // -&gt; &apos;object&apos;
-vm.selected.number // -&gt; 123
-</code></pre><h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><pre><code>&lt;!-- 在 &quot;change&quot; 而不是 &quot;input&quot; 事件中更新 --&gt;
-&lt;input v-model.lazy=&quot;msg&quot; &gt;
-
-&lt;!--自动将用户的输入值转为 Number 类型（如果原值的转换结果为 NaN 则返回原值）--&gt;
-&lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
-
-&lt;!--自动过滤用户输入的首尾空格--&gt;
-&lt;input v-model.trim=&quot;msg&quot;&gt;
-</code></pre><h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><blockquote>
-<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。</p>
-</blockquote>
-<p><code>全局组件：</code></p>
-<pre><code>&lt;div id=&quot;example&quot;&gt;
-      &lt;my-component&gt;&lt;/my-component&gt;
-&lt;/div&gt;
-// 注册
-Vue.component(&apos;my-component&apos;, {
-      template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;
-})
-// 创建根实例
-new Vue({
-      el: &apos;#example&apos;
-})
-</code></pre><p><code>局部组件：仅实例/组件的作用域中可用：</code><br>​<br>    var Child = {<br>          template: ‘<div>A custom component!</div>‘<br>    }<br>    new Vue({<br>          components: {<br>            // <my-component> 将只在父模板可用<br>            ‘my-component’: Child,<br>            App, // App组件 == ‘App’:App,<br>          }<br>    })<br><code>组件限制--is</code></my-component></p>
-<pre><code>源于&lt;ul&gt; ， &lt;ol&gt;， &lt;table&gt; ， &lt;select&gt; 限制其内部的元素
-无效：
-&lt;table&gt;
-      &lt;my-row&gt;...&lt;/my-row&gt;
-&lt;/table&gt;
-有效：
-&lt;table&gt;
-      &lt;tr is=&quot;my-row&quot;&gt;&lt;/tr&gt;
-&lt;/table&gt;
-</code></pre><h4 id="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："><a href="#应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：" class="headerlink" title="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："></a>应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：</h4><pre><code>&lt;script type=&quot;text/x-template&quot;&gt;
-JavaScript内联模版字符串
-.vue 组件
-</code></pre><h4 id="组件的使用。要确保在初始化根实例-之前-注册了组件"><a href="#组件的使用。要确保在初始化根实例-之前-注册了组件" class="headerlink" title="组件的使用。要确保在初始化根实例 之前 注册了组件"></a>组件的使用。要确保在初始化根实例 之前 注册了组件</h4><h4 id="data-必须是函数"><a href="#data-必须是函数" class="headerlink" title="data 必须是函数"></a>data 必须是函数</h4><pre><code>Vue.component(&apos;simple-counter&apos;, {
-      data: function () {
-        return {}
-      }
-})
-</code></pre><h4 id="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"><a href="#每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量" class="headerlink" title="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"></a>每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量</h4><pre><code>&lt;div id=&quot;example-2&quot;&gt;
-      &lt;simple-counter&gt;&lt;/simple-counter&gt;
-      &lt;simple-counter&gt;&lt;/simple-counter&gt;
-&lt;/div&gt;
-var data = { counter: 0 }
-Vue.component(&apos;simple-counter&apos;, {
-      template: &apos;&lt;button v-on:click=&quot;counter += 1&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
-      // 但是我们为每一个组件返回了同一个对象引用
-      data: function () {
-        //return data   //两个组件的值一起变
-        return {counter:0} //互不干扰
-      }
-})
-</code></pre><h2 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h2><p><code>父组件通过 props 向下传递数据给子组件，子组件通过 emit 给父组件发送消息。</code><br><img src="https://vuefe.cn/images/props-events.png" alt=""></p>
-<h4 id="props"><a href="#props" class="headerlink" title="props"></a>props</h4><p><code>常规使用</code></p>
-<pre><code>&lt;!--注意属性值用‘-’   这里是静态的hello--&gt;
-&lt;child my-message=&quot;hello!&quot;&gt;&lt;/child&gt;
-Vue.component(&apos;child&apos;, {
-      // 声明 props
-      props: [&apos;myMessage&apos;],
-      // 就像 data 一样，prop 可以用在模板内
-      // 同样也可以在 vm 实例中像 “this.message” 这样使用
-      template: &apos;&lt;span&gt;{{ myMessage }}&lt;/span&gt;&apos;
-})
-
-&lt;!--属性props动态值传递需要 v-bind --&gt;
-&lt;!-- 传递实际的数字1，也可以是变量(例如data里的变量) --&gt;
-&lt;comp v-bind:some-prop=&quot;1&quot;&gt;&lt;/comp&gt;
-</code></pre><p><code>props需要默认值或验证</code><br>    验证不通过也会正常显示，只是在后台报错，主要是给其他使用组件的朋友看的</p>
-<pre><code>Vue.component(&apos;example&apos;, {
-      props: {
-        // 基础类型检测 （`null` 意思是任何类型都可以）
-        propA: Number,
-        // 多种类型
-        propB: [String, Number],
-        // 必传且是字符串
-        propC: {
-              type: String,
-              required: true
-        },
-        // 数字，有默认值
-        propD: {
-              type: Number,
-              default: 100
-        },
-        // 数组／对象的默认值应当由一个工厂函数返回 *******必须是函数*****
-        propE: {
-              type: Object,
-              default: function () {
-                return { message: &apos;hello&apos; }
-              }
-        },
-        // 自定义验证函数
-        propF: {
-              validator: function (value) {
-                return value &gt; 10
-              }
-        }
-      }
-})
-</code></pre><p><code>emit向父组件传递数据</code></p>
-<pre><code>&lt;div id=&quot;counter-event-example&quot;&gt;
-      &lt;p&gt;{{ total }}&lt;/p&gt;
-              &lt;!--组件的increment事件出发后执行实例的incrementTotal方法--&gt;
-      &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;
-
-      &lt;!--组件使用.native说明使用的是原生click事件不是绑定的事件--&gt;
-      &lt;!--&lt;my-component v-on:click.native=&quot;doTheThing&quot;&gt;&lt;/my-component&gt;--&gt;
-
-&lt;/div&gt;
-Vue.component(&apos;button-counter&apos;, {
-                //1,组件内btn点击触发函数increment
-      template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
-      data: function () {
-        return {
-              counter: 0
-        }
-      },
-      methods: {
-        increment: function () {
-              this.counter += 1
-              // 2,函数执行后触发组件的increment事件 //带了数据出去
-              this.$emit(&apos;increment&apos;,&apos;传递的数据&apos;)
-        }
-      },
-})
-new Vue({
-      el: &apos;#counter-event-example&apos;,
-      data: {
-        total: 0,
-        str=&apos;&apos;,
-      },
-      methods: {
-          //实例方法执行，成功获取到组件内部传递的数据  //注意有参
-        incrementTotal: function (a) {
-              this.total += 1
-              this.str = a  //this.str = &apos;传递的数据&apos;
-        }
-      }
-})
-</code></pre><h2 id="插槽Slots–分发内容"><a href="#插槽Slots–分发内容" class="headerlink" title="插槽Slots–分发内容"></a>插槽Slots–分发内容</h2><blockquote>
-<p>slot标签中的任何内容都被视为备用内容。备用内容在子组件的作用域内编译，并且只有在宿主元素为空，且没有要插入的内容时才显示备用内容。</p>
-</blockquote>
-<p><code>单个插槽：</code></p>
-<pre><code>//component组件
-&lt;div&gt;
-      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
-      &lt;slot&gt;如果没有分发内容则显示我。&lt;/slot&gt;
-&lt;/div&gt;
-
-//html
-&lt;div&gt;
-      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
-      &lt;my-component&gt;
-        &lt;p&gt;插入的内容&lt;/p&gt;
-      &lt;/my-component&gt;
-&lt;/div&gt;
-
-//渲染结果：
-&lt;div&gt;
-      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
-
-      &lt;div&gt;
-          &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
-          &lt;p&gt;插入的内容&lt;/p&gt;
-    &lt;/div&gt;
-      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
-&lt;/div&gt;
-</code></pre><p><code>多个slot:用name分配：</code></p>
-<pre><code>//组件
-&lt;div class=&quot;container&quot;&gt;
-      &lt;header&gt;
-            &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;
-      &lt;/header&gt;
-     &lt;main&gt;
-        &lt;slot&gt;&lt;/slot&gt;
-      &lt;/main&gt;
-      &lt;footer&gt;
-        &lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;
-      &lt;/footer&gt;
-&lt;/div&gt;
-
-//html
-&lt;app-layout&gt;
-      &lt;h1 slot=&quot;header&quot;&gt;header&lt;/h1&gt;
-      &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
-      &lt;p slot=&quot;footer&quot;&gt;footer&lt;/p&gt;
-&lt;/app-layout&gt;
-
-//渲染结果
-&lt;div class=&quot;container&quot;&gt;
-      &lt;header&gt;
-        &lt;h1&gt;header&lt;/h1&gt;
-      &lt;/header&gt;
-
-      &lt;main&gt;
-        &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
-      &lt;/main&gt;
-
-      &lt;footer&gt;
-        &lt;p&gt;footer&lt;/p&gt;
-      &lt;/footer&gt;
-&lt;/div&gt;
-</code></pre><h2 id="切换组件显示"><a href="#切换组件显示" class="headerlink" title="切换组件显示"></a>切换组件显示</h2><pre><code>var vm = new Vue({
-      el: &apos;#example&apos;,
-      data: {
-        currentView: &apos;home&apos;
-      },
-      components: {
-            home: { /* ... */ },
-        posts: { /* ... */ },
-        archive: { /* ... */ }
-      }
-})
-//keep-alive切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。
-&lt;keep-alive&gt;
-    &lt;component v-bind:is=&quot;currentView&quot;&gt;
-      &lt;!-- 组件在 vm.currentview 变化时改变！ --&gt;
-    &lt;/component&gt;
-&lt;/keep-alive&gt;
-</code></pre><h3 id="子组件索引"><a href="#子组件索引" class="headerlink" title="子组件索引"></a>子组件索引</h3><h5 id="—获取其他不相关的组件并加以控制器内部实现"><a href="#—获取其他不相关的组件并加以控制器内部实现" class="headerlink" title="—获取其他不相关的组件并加以控制器内部实现"></a>—获取其他不相关的组件并加以控制器内部实现</h5><pre><code>&lt;div id=&quot;parent&quot;&gt;
-      &lt;user-profile ref=&quot;profile&quot;&gt;&lt;/user-profile&gt;
-&lt;/div&gt;
-
-var parent = new Vue({ el: &apos;#parent&apos; })
-// 访问子组件
-var child = parent.$refs.profile;
-
-//然后就可以控制child的内部实现--
-    如child.a=..
-    child.fn();
-</code></pre><p><em>尽管在 Vue 中渲染 HTML 很快，不过当组件中包含大量静态内容时，可以考虑使用 v-once 将渲染结果缓存起来 <div v-once=""></div>–注意使用v-once后内部值或者变量都只会执行一次，后续不会再变动，包括子节点</em></p>
-<h1 id="先到这里OVER"><a href="#先到这里OVER" class="headerlink" title="先到这里OVER"></a>先到这里OVER</h1><p>​    </p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/14/Vue表单与组件/" class="archive-article-date">
-  	<time datetime="2016-10-14T12:03:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/12/Vue之数据绑定/">Vue数据绑定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
-<p><strong> $ npm install vue </strong></p>
-<h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
-<pre><code>var app = new Vue({
-      el: &apos;#app&apos;,
-      //实例代理属性data
-      data: {
-        message: &apos;Hello Vue!&apos;,
-        seen: true,
-        todos: [
-              { text: &apos;Learn JavaScript&apos; },
-              { text: &apos;Learn Vue&apos; },
-              { text: &apos;Build something awesome&apos; }
-        ],
-        html:&apos;&lt;p&gt;这是插入的p标签&lt;/p&gt;&apos;,
-        ...
-        filters: {
-            capitalize: function (value) {
-              if (!value) return &apos;&apos;
-              value = value.toString()
-              return value.charAt(0).toUpperCase() + value.slice(1)
-           }
-      },
-      //计算属性
-      computed:{
-          reverseMessage:function(){...},
-          //绑定fullName，没有参数默认执行getter，有参数默认执行setter
-          fullName: {
-            // getter
-            get: function () {
-                  return this.firstName + &apos; &apos; + this.lastName
-            },
-            // setter
-            set: function (newValue) {
-                  var names = newValue.split(&apos; &apos;)
-                  this.firstName = names[0]
-                  this.lastName = names[names.length - 1]
-            }
-          }
-      },
-      //方法
-      methods:{
-          myclick:function(){...}
-      },
-      watch:{
-          seen:function(){...}
-      },
-      //钩子函数 
-      //mounted当组件被挂载并解析完成后执行
-      mounted:function(){
-          ...
-      },
-      ...
-
-})
-</code></pre><p><code>内容绑定</code></p>
-<pre><code>//内容绑定
-&lt;div id=&quot;app&quot;&gt;{{ message }}&lt;/div&gt;
-</code></pre><p><code>属性绑定</code></p>
-<pre><code>//绑定title属性到message上
-&lt;span v-bind:title=&quot;message&quot;&gt;&lt;/span&gt;
-</code></pre><p><code>v-if</code><br>​<br>    //执行的是append和remove  和show有本质的区别<br>    //如果seen为true则now you see 显示，否则no see显示<br>    </p><p v-if="seen">Now you see me</p><br>    <p v-else="">no see</p><p></p>
-<p><code>v-show</code><br>​<br>    //执行的是 diplay:none 与 display：block<br>    //不支持给组件设置 如<template v-show="seen"><br>    <h1 v-show="seen">Hello!</h1></template></p>
-<p><code>v-for循环</code></p>
-<pre><code>&lt;ol&gt;
-    //建议提供key,以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
-    &lt;li v-for=&quot;(todo,index) in todos&quot; :key=&quot;item.id&gt;               {{ todo.text }}
-       &lt;/li&gt;
-&lt;/ol&gt;
-
-//遍历对象不用一一对应，一参 键值，二参键名(可选)，三参索引(可选)
-&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
-      {{ index }}. {{ key }} : {{ value }}
-&lt;/div&gt;
-
-//取整数
-&lt;span v-for=&quot;n in 10&quot;&gt;{{ n }}&lt;/span&gt;
-&lt;li v-for=&quot;n in evenNumbers&quot;&gt;{{ n }}&lt;/li&gt; //计算属性
-&lt;li v-for=&quot;n in even(10)&quot;&gt;{{ n }}&lt;/li&gt;
-
-//v-for 支持 &lt;template&gt; 循环渲染很多模板--数据需要绑定，不能自动传进组件里
-&lt;my-component
-      v-for=&quot;(item, index) in items&quot;
-      v-bind:item=&quot;item&quot;
-     v-bind:index=&quot;index&quot;&gt;
-&lt;/my-component&gt;
-</code></pre><p><code>事件绑定</code></p>
-<pre><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;
-//缩写
-v-bind:href=&quot;url&quot;  ==  :href=&quot;url&quot;
-v-on:click=&quot;reverseMessage&quot;  ==  @click=&quot;reverseMessage&quot;
-</code></pre><p><code>表单双向绑定</code></p>
-<pre><code>  &lt;input v-model=&quot;message&quot;&gt;
-  &lt;p&gt;{{ message }}&lt;/p&gt;
-
-  //需要换行？    white-space: pre直接空格/换行
-  &lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
-&lt;br&gt;
-&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
-</code></pre><p><code>标签插值</code></p>
-<pre><code>//span将被忽略
-&lt;div v-html=&apos;html&apos;&gt;{{html}}&lt;span&gt;11111&lt;/span&gt;&lt;/div&gt;
-</code></pre><p><code>模板表达式</code></p>
-<pre><code>//模板表达式中还可以使用 Math 和 Date不能访问用户定义的全局变量
-{{ number + 1 }}
-{{ ok ? 'YES' : 'NO' }}
-{{ message.split('').reverse().join('') }}
-//list- 是字符串 id是绑定的变量
-&lt;div v-bind:id=&quot;&apos;list-&apos; + id&quot;&gt;&lt;/div&gt;
-</code></pre><p><code>过滤</code></p>
-<pre><code>//默认参数是message或message表达式的返回值
-&lt;div&gt;{{ message | filterA | filterB }}&lt;/div&gt;
-//传入的参数表示过滤函数的第二参和第三参
-{{ message | filterA('arg1', arg2) }}
-</code></pre><p><code>事件修饰符</code><br>​<br>    <!-- 阻止单击事件冒泡 --><br>    <a v-on:click.stop="doThis"></a></p>
-<pre><code>&lt;!-- 提交事件不再重载页面 --&gt;
-&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
-
-&lt;!-- 修饰符可以串联  --&gt;
-&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
-
-&lt;!-- 只有修饰符 --&gt;
-&lt;form v-on:submit.prevent&gt;&lt;/form&gt;
-
-&lt;!-- 添加事件侦听器时使用事件捕获模式 --&gt;
-&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
-
-&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;
-&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
-</code></pre><p><code>按键修饰符</code></p>
-<pre><code>&lt;!-- 只有在 keyCode 是 13 时调用 vm.submit() --&gt;
-&lt;input v-on:keyup.13=&quot;submit&quot;&gt;
-
-//记不住所有的code？用名字呗
-&lt;!-- 同上 --&gt;
-&lt;input v-on:keyup.enter=&quot;submit&quot;&gt;
-//enter，tab，delete，esc，space，up，down，left，right
-
-&lt;!-- 没有想用的？自定义喽 --&gt;
-// 可以使用 v-on:keyup.f1
-Vue.config.keyCodes.A = 112
-</code></pre><p><code>对象/数组语法</code></p>
-<pre><code>//当对象的值isActive为真时 class将会有类名 对象的键  一直都有div的类名
-v-bind:class=&quot;{ active: isActive, &apos;text-danger&apos;: hasError }&quot; class=‘div’&gt;
-
-//activeClass和errorClass为真时才会被赋值给class
-&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
-
-//样式绑定     --前缀vue会自动添加
-&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &apos;px&apos; }&quot;&gt;&lt;/div&gt;
-...清晰的写法...
-&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;    
-data: {
-      styleObject: {
-        color: &apos;red&apos;,
-        fontSize: &apos;13px&apos;
-      }
-}
-</code></pre><p><code>数组方法</code></p>
-<pre><code>如下两项改变data不会重新渲染页面
-1，vm.items[indexOfItem] = newValue
-    改为：Vue.set(example1.items, indexOfItem, newValue)
-    或：example1.items.splice(indexOfItem, 1, newValue)
-
-2，vm.items.length = newLength
-    改为：example1.items.splice(newLength)
-</code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
-<li>只有当data属性里的值改变才会重新渲染view视图</li>
-<li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速<ul>
-<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
-</ul>
-</li>
-<li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
-</ul>
-<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
-  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
 	</div>
 
       

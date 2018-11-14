@@ -7,14 +7,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="baidu-site-verification" content="ggTdcuuNh2" />
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>Tag: React | 奋斗蚁🐜</title>
+  <title>奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="123title: node抓取百度头像date: 2018-7-19 20:07:48tags: node
+
+没有头像当然首先想到的是百度咯，如何批量抓取呢，那么这里用node来做一个栗子
+
+首先安装依赖文件&amp;quot;dependencies&amp;quot;: {
+    &amp;quot;colors&amp;quot;: &amp;quot;^1.1.2&amp;quot;,
+    &amp;quot;node-fetch&amp;qu">
+<meta property="og:type" content="article">
 <meta property="og:title" content="奋斗蚁🐜">
-<meta property="og:url" content="http://Jasonellen.github.io/tags/React/index.html">
+<meta property="og:url" content="http://Jasonellen.github.io/2018/03/16/node抓取百度头像/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="123title: node抓取百度头像date: 2018-7-19 20:07:48tags: node
+
+没有头像当然首先想到的是百度咯，如何批量抓取呢，那么这里用node来做一个栗子
+
+首先安装依赖文件&amp;quot;dependencies&amp;quot;: {
+    &amp;quot;colors&amp;quot;: &amp;quot;^1.1.2&amp;quot;,
+    &amp;quot;node-fetch&amp;qu">
+<meta property="og:updated_time" content="2018-11-14T06:13:48.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="奋斗蚁🐜">
+<meta name="twitter:description" content="123title: node抓取百度头像date: 2018-7-19 20:07:48tags: node
+
+没有头像当然首先想到的是百度咯，如何批量抓取呢，那么这里用node来做一个栗子
+
+首先安装依赖文件&amp;quot;dependencies&amp;quot;: {
+    &amp;quot;colors&amp;quot;: &amp;quot;^1.1.2&amp;quot;,
+    &amp;quot;node-fetch&amp;qu">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -234,54 +256,138 @@
 </nav>
 
       <div class="body-wrap">
-        
-  
-  
+        <article id="post-node抓取百度头像" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+    <div class="article-entry" itemprop="articleBody">
       
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">title: node抓取百度头像</div><div class="line">date: 2018-7-19 20:07:48</div><div class="line">tags: node</div></pre></td></tr></table></figure>
+<blockquote>
+<p>没有头像当然首先想到的是百度咯，如何批量抓取呢，那么这里用node来做一个栗子</p>
+</blockquote>
+<h3 id="首先安装依赖文件"><a href="#首先安装依赖文件" class="headerlink" title="首先安装依赖文件"></a>首先安装依赖文件</h3><pre><code>&quot;dependencies&quot;: {
+    &quot;colors&quot;: &quot;^1.1.2&quot;,
+    &quot;node-fetch&quot;: &quot;^1.7.3&quot;
+}
+</code></pre><h3 id="分析百度头像接口，大概酱紫"><a href="#分析百度头像接口，大概酱紫" class="headerlink" title="分析百度头像接口，大概酱紫"></a>分析百度头像接口，大概酱紫</h3><pre><code>https://image.baidu.com/search/acjson?tn=resultjson_com&amp;ipn=rj&amp;ct=201326592&amp;fp=result&amp;queryWord=${encodeURIComponent(&apos;网络头像&apos;)}&amp;cl=2&amp;lm=-1&amp;ie=utf-8&amp;oe=utf-8&amp;word=${encodeURIComponent(&apos;非主流&apos;)}&amp;pn=${pn.page}&amp;width=180&amp;height=180`
+</code></pre><h3 id="代码撸起"><a href="#代码撸起" class="headerlink" title="代码撸起"></a>代码撸起</h3><pre><code>var https = require(&quot;https&quot;);
+var fs = require(&quot;fs&quot;);
+var fetch = require(&apos;node-fetch&apos;);
+var colors = require(&apos;colors&apos;); 
+var pn={page:1,count:1,max:900} //控制分页+显示名称+长度
+</code></pre><h3 id="将文件地址写入到-txt"><a href="#将文件地址写入到-txt" class="headerlink" title="将文件地址写入到.txt"></a>将文件地址写入到.txt</h3><pre><code>function asyncAppendFile(url){
+    return new Promise(function (resolve, reject){
+        fs.appendFile(&apos;./img.txt&apos;, url+&apos;\r\n&apos;,function(err){
+              if(err){
+                  console.log(err)
+                  reject(err);
+              }
+                  resolve()
+            });
+    });
+}
+</code></pre><h3 id="将图片获取并保存到文件夹"><a href="#将图片获取并保存到文件夹" class="headerlink" title="将图片获取并保存到文件夹"></a>将图片获取并保存到文件夹</h3><pre><code>function asyncWriteFile(imgUrl){
+    return new Promise(function (resolve, reject){
+        fs.writeFile(`./downImg/head${pn.count}.jpg`, imgUrl, &quot;binary&quot;,                 function(err){
+                if(err){
+                    console.log(&quot;down fail&quot;);
+                    reject(err);
+                  }else{
+                      console.log(`文件：head${pn.count}.jpg 下载成功！`.green)
+                    resolve()
+                  }
+            });
+        });
+}
+</code></pre><h3 id="循环图片数组并执行存储操作"><a href="#循环图片数组并执行存储操作" class="headerlink" title="循环图片数组并执行存储操作"></a>循环图片数组并执行存储操作</h3><pre><code>function syncArrMap(imgArr, selfObj){
+    if(imgArr[selfObj.now].thumbURL){
+        https.get(imgArr[selfObj.now].thumbURL, function(res){
+            var imgUrl = &quot;&quot;;
+            res.setEncoding(&quot;binary&quot;);
+            res.on(&quot;data&quot;, function(url){
+                imgUrl += url;
+            });
+            res.on(&quot;end&quot;, function(){
+                if(pn.count&gt;pn.max) return;
+                asyncAppendFile(imgArr[selfObj.now].thumbURL)
+                    .then((data) =&gt; asyncWriteFile(imgUrl))
+                    .then((data) =&gt; {
+                        pn.count ++
+                        selfObj.now += 1
+                        if(selfObj.now&gt;=selfObj.length-1){
+                            pn.page++
+                            getImageData()
+                        }else{
+                            syncArrMap(imgArr, selfObj)
+                        }
+                })
+
+            });
+        });
+    }else{
+        selfObj.length -= 1
+    }
+}
+</code></pre><h3 id="最后获取图片"><a href="#最后获取图片" class="headerlink" title="最后获取图片"></a>最后获取图片</h3><pre><code>getImageData()
+function getImageData(){
+    fetch(`https://image.baidu.com/search/acjson?tn=resultjson_com&amp;ipn=rj&amp;ct=201326592&amp;fp=result&amp;queryWord=${encodeURIComponent(&apos;网络头像&apos;)}&amp;cl=2&amp;lm=-1&amp;ie=utf-8&amp;oe=utf-8&amp;word=${encodeURIComponent(&apos;非主流&apos;)}&amp;pn=${pn.page}&amp;width=180&amp;height=180`)
+        .then(res=&gt;res.json())
+        .then(data=&gt;{
+            var imgArr = data.data
+            var selfObj = {length:imgArr.length,now:0}
+              syncArrMap(imgArr,selfObj)
+        })
+}
+</code></pre>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/11/react深入一丢丢/" class="archive-article-date">
-  	<time datetime="2018-03-11T09:17:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-11</time>
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/16/node抓取百度头像/" class="archive-article-date">
+  	<time datetime="2018-03-16T10:35:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/11/react深入一丢丢/">React深入一丢丢</a>
-    </h1>
-  
+      
+      
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2018/09/04/判断客户端是PC还是手机/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/11/react深入一丢丢/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React深入一丢丢</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       </div>
@@ -301,9 +407,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
@@ -396,57 +502,6 @@
             <div class="pswp__item"></div>
             <div class="pswp__item"></div>
             <div class="pswp__item"></div>
-        </div>
-
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-  </div>
-</body>
-</html>__item"></div>
         </div>
 
         <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->

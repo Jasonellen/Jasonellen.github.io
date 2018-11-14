@@ -236,6 +236,568 @@
       <div class="body-wrap">
         
   
+    <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/25/Vue全家桶/">你需知道的Vue全家桶</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="external">Vuex官网</a></p>
+<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  localComputed () &#123; /* ... */ &#125;,</div><div class="line">  // 使用对象展开运算符将此对象混入到外部对象中</div><div class="line">  ...mapState(&#123;</div><div class="line">  	// 映射 this.count 为 store.state.count</div><div class="line">    count: state =&gt; state.count,  ① == ②</div><div class="line">    //计算属性的名称与 state 的子节点名称相同时</div><div class="line">  	&apos;count&apos; ② == ①</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getters= &#123;</div><div class="line">  // ...</div><div class="line">  doneTodosCount: (state, getters) =&gt; &#123;</div><div class="line">    return getters.doneTodos.length</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">mutations= &#123;</div><div class="line">  increment (state, payload) &#123;</div><div class="line">    state.count += payload.amount</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">store.commit(&apos;increment&apos;, &#123;</div><div class="line">  amount: 10</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</div><div class="line">actions= &#123;</div><div class="line">  async actionA (&#123; commit &#125;) &#123;</div><div class="line">  	//触发mutation</div><div class="line">    commit(&apos;gotData&apos;, await getData())</div><div class="line">  &#125;,</div><div class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</div><div class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</div><div class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default new Vuex.Store(&#123;</div><div class="line">  actions,  //公用的actions</div><div class="line">  getters,	//公用的getters</div><div class="line">  modules: &#123;</div><div class="line">    cart,  //拥有自己的 state、mutation、action、getter</div><div class="line">    products //拥有自己的 state、mutation、action、getter</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 mutation 和 getter，接收的第一个参数是模块的局部状态对象。</li>
+<li>对于模块内部的 action，局部状态通过 context.state 暴露出来， 根节点状态则为 context.rootState</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  actions: &#123;</div><div class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</div><div class="line">     //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>对于模块内部的 getter，根节点状态会作为第三个参数暴露出来</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  getters: &#123;</div><div class="line">    sumWithRootCount (state, getters, rootState) &#123;</div><div class="line">      return state.count + rootState.count</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">export default function createWebSocketPlugin (socket) &#123;</div><div class="line">  return store =&gt; &#123;</div><div class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</div><div class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</div><div class="line">      store.commit(&apos;receiveData&apos;, data)</div><div class="line">    &#125;)</div><div class="line">    //store监听到mutation触发后发送socket到后台 ②</div><div class="line">    store.subscribe(mutation =&gt; &#123;</div><div class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</div><div class="line">        socket.emit(&apos;update&apos;, mutation.payload)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const plugin = createWebSocketPlugin(socket)</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  state,</div><div class="line">  mutations,</div><div class="line">  plugins: [plugin]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="内置-Logger-插件"><a href="#内置-Logger-插件" class="headerlink" title="内置 Logger 插件"></a>内置 Logger 插件</h5><blockquote>
+<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">vue-devtools</a>，你可能不需要此插件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import createLogger from &apos;vuex/dist/logger&apos;</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  plugins: [createLogger()]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<h2 id="二、项目实战"><a href="#二、项目实战" class="headerlink" title="二、项目实战"></a>二、项目实战</h2><blockquote>
+<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="external">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/25/Vue全家桶/" class="archive-article-date">
+  	<time datetime="2017-06-24T17:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-4个必须知道的数组方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/22/4个必须知道的数组方法/">4个必须知道的数组方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-过滤器filter"><a href="#1-过滤器filter" class="headerlink" title="1.过滤器filter"></a>1.过滤器filter</h3><blockquote>
+<p>filter()方法创建一个新数组，返回所有通过所提供函数实现的测试的元素集合。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var arr = [</div><div class="line">    &#123;&quot;name&quot;:&quot;apple&quot;, &quot;count&quot;: 2&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;pear&quot;, &quot;count&quot;: 3&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;,</div><div class="line">]; </div><div class="line">var newArr = arr.filter(function(item)&#123;</div><div class="line">    return item.name === &quot;orange&quot;;</div><div class="line">&#125;);</div><div class="line">console.log(newArr)//[&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;]</div></pre></td></tr></table></figure>
+<h3 id="2-forEach-map"><a href="#2-forEach-map" class="headerlink" title="2.forEach / map"></a>2.forEach / map</h3><blockquote>
+<p>相同点：都是遍历数组对数组的每一项进行操作，不改变原数组</p>
+<p>不同点：forEach无返回值，map返回值是一个数组，数组的每一项是遍历时函数的返回值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var arr = [1,2,3,4,5,6,7,8];</div><div class="line">//******forEach</div><div class="line">var B = arr.forEach(function(item,index)&#123;</div><div class="line">	item+=1</div><div class="line">	return item</div><div class="line">&#125;);</div><div class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</div><div class="line">console.log(B)   //undefined</div><div class="line">//******Map</div><div class="line">var B = arr.forEach(function(item,index)&#123;</div><div class="line">	item+=1</div><div class="line">	return item</div><div class="line">&#125;);</div><div class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</div><div class="line">console.log(B)   //[2,3,4,5,6,7,8,9]</div></pre></td></tr></table></figure>
+<h3 id="3-reduce"><a href="#3-reduce" class="headerlink" title="3.reduce"></a>3.reduce</h3><blockquote>
+<p><code>reduce(callback,initialValue)</code>拥有两个参数，<em>回调函数</em>和<em>initialValue</em>。回调函数本身共有4个参数，<em>prev</em>和<em>next</em>，<em>index</em>和<em>array</em>。基本上常用的就是pre和next。</p>
+</blockquote>
+<ul>
+<li>prev:如果没有传初始值，prev的初始值是数组的第一项,next的初始值是数组的第二项，如果传了初始值initialValue，那么prev的初始值就是initialValue，next的初始值是数组的第一项</li>
+<li>每次迭代都应该返回一个值，作为下次迭代的prev,next则顺延到数组的下一个</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var arr = [&quot;apple&quot;,&quot;orange&quot;,&quot;apple&quot;,&quot;orange&quot;,&quot;pear&quot;,&quot;orange&quot;];</div><div class="line"></div><div class="line">function getCount()&#123;</div><div class="line">    return arr.reduce(function(prev,next)&#123;</div><div class="line">        prev[next] = (prev[next] + 1) || 1;</div><div class="line">        return prev;</div><div class="line">    &#125;,&#123;&#125;);</div><div class="line">&#125;</div><div class="line">console.log(getCount()); // &#123;apple: 2, orange: 3, pear: 1&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-find"><a href="#4-find" class="headerlink" title="4.find"></a>4.find</h3><blockquote>
+<p><code>find</code>方法的<code>callback</code>为数组的每个索引执行一次功能，直到找到一个<code>callback</code>返回真值的值。如果找到这样的元素，<code>find</code>立即返回该元素的值。否则<code>find</code>返回<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="external"><code>undefined</code></a>。通常我们只会用到callback的2个参数，（item,index）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var inventory = [</div><div class="line">    &#123;name: &apos;cherries&apos;, quantity: 2&#125;,</div><div class="line">    &#123;name: &apos;bananas&apos;, quantity: 0&#125;,</div><div class="line">    &#123;name: &apos;cherries&apos;, quantity: 5&#125;,</div><div class="line">];</div><div class="line">var res = inventory.find(function(item,index)&#123;</div><div class="line">   return item.name === &apos;cherries&apos;;</div><div class="line">&#125;)</div><div class="line">console.log(res) //&#123;name: &quot;cherries&quot;, quantity: 2&#125; 和filter类似，但是只找到符合条件的第一个</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/22/4个必须知道的数组方法/" class="archive-article-date">
+  	<time datetime="2017-06-22T12:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Array/">Array</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-说走就走的正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/21/说走就走的正则表达式/">说走就走的正则表达式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>正则表达式是用于匹配字符串中字符组合的模式。在 JavaScript中，正则表达式也是对象。这些模式被用于 RegExp 的 exec 和 test 方法, 以及 String 的 match、replace、search 和 split 方法。</p>
+</blockquote>
+<h3 id="正则表达式中的特殊字符"><a href="#正则表达式中的特殊字符" class="headerlink" title="正则表达式中的特殊字符"></a>正则表达式中的特殊字符</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">元字符</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:left">将下一个字符标记符、或一个向后引用、或一个八进制转义符。即相当于多种编程语言中都有的“转义字符”的概念。</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:left">匹配输入字符串的开始位置。如果设置了RegExp对象的Multiline属性，^也匹配“\n”或“\r”之后的位置。</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:left">匹配前面的子表达式任意次。例如，zo<em>能匹配“z”，也能匹配“zo”以及“zoo”。</em>等价于o{0,}</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:left">匹配前面的子表达式一次或多次(大于等于1次）。例如，“zo+”能匹配“zo”以及“zoo”，但不能匹配“z”。+等价于{1,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:left">匹配前面的子表达式零次或一次。例如，“do(es)?”可以匹配“do”或“does”<code>中的“do”</code>。?等价于{0,1}。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:left">n是一个非负整数。匹配确定的n次。例如，“o{2}”不能匹配“Bob”中的“o”，但是能匹配“food”中的两个o。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td style="text-align:left">n是一个非负整数。至少匹配n次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td style="text-align:left">m和n均为非负整数，其中n&lt;=m。最少匹配n次且最多匹配m次。例如，“o{1,3}”将匹配“fooooood”中的前三个o为一组，后三个o为一组。“o{0,1}”等价于“o?”。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>?</code></td>
+<td style="text-align:left"><code>当该字符紧跟在任何一个其他限制符（*,+,?，{n}，{n,}，{n,m}）后面时，匹配模式是非贪婪的</code>。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串“oooo”，“o+”将尽可能多的匹配“o”，得到结果[“oooo”]，而<code>“o+?”将尽可能少的匹配“o”，得到结果 [&#39;o&#39;, &#39;o&#39;, &#39;o&#39;, &#39;o&#39;]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">.点</td>
+<td style="text-align:left">匹配除“\r\n”之外的任何单个字符。<code>要匹配包括“\r\n”在内的任何字符，请使用像“[\s\S]”的模式</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(pattern)</code></td>
+<td style="text-align:left">匹配pattern并获取这一匹配。所<code>获取的匹配可以从产生的Matches集合得到</code>，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“(”或“)”。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(?:pattern)</code></td>
+<td style="text-align:left">非获取匹配，匹配<code>pattern但不获取匹配结果，不进行存储供以后使用</code>。这在使用或字符“(</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(?=pattern)</code></td>
+<td style="text-align:left">非获取匹配，正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如，“Windows(?=95</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(?!pattern)</code></td>
+<td style="text-align:left">非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(?&lt;=pattern)</code></td>
+<td style="text-align:left">非获取匹配，<code>反向肯定预查</code>，与正向肯定预查类似，只是方向相反。例如，“(?&lt;=95</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(?&lt;!pattern)</code></td>
+<td style="text-align:left">非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:left">y</td>
+</tr>
+<tr>
+<td style="text-align:center">[xyz]</td>
+<td style="text-align:left">字符集合。匹配所包含的任意一个字符。例如，“[abc]”可以匹配“plain”中的“a”。</td>
+</tr>
+<tr>
+<td style="text-align:center">[^xyz]</td>
+<td style="text-align:left">负值字符集合。匹配未包含的任意字符。例如，“[^abc]”可以匹配“plain”中的“plin”。</td>
+</tr>
+<tr>
+<td style="text-align:center">[a-z]</td>
+<td style="text-align:left">字符范围。匹配指定范围内的任意字符。例如，“[a-z]”可以匹配“a”到“z”范围内的任意小写字母字符。注意:只有连字符在字符组内部时,并且出现在两个字符之间时,才能表示字符的范围; 如果出字符组的开头,则只能表示连字符本身.</td>
+</tr>
+<tr>
+<td style="text-align:center">[^a-z]</td>
+<td style="text-align:left">负值字符范围。匹配任何不在指定范围内的任意字符。例如，“[^a-z]”可以匹配任何不在“a”到“z”范围内的任意字符。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\b</code></td>
+<td style="text-align:left">匹配一个单词边界，也就是指单词和空格间的位置（即正则表达式的“匹配”有两种概念，一种是匹配字符，一种是匹配位置，这里的<code>\b就是匹配位置的</code>）。例如，<code>“er\b”可以匹配“never”中的“er”，但不能匹配“verb”中的“er”</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">\B</td>
+<td style="text-align:left">匹配非单词边界。“er\B”能匹配“verb”中的“er”，但不能匹配“never”中的“er”。</td>
+</tr>
+<tr>
+<td style="text-align:center">\cx</td>
+<td style="text-align:left">匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“c”字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td style="text-align:left">匹配一个数字字符。等价于[0-9]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\D</td>
+<td style="text-align:left">匹配一个非数字字符。等价于[^0-9]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td style="text-align:left">匹配一个换行符。等价于\x0a和\cJ。</td>
+</tr>
+<tr>
+<td style="text-align:center">\r</td>
+<td style="text-align:left">匹配一个回车符。等价于\x0d和\cM。</td>
+</tr>
+<tr>
+<td style="text-align:center">\s</td>
+<td style="text-align:left">匹配任何不可见字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\S</td>
+<td style="text-align:left">匹配任何可见字符。等价于[^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td style="text-align:center">\w</td>
+<td style="text-align:left">匹配包括下划线的任何单词字符。类似但不等价于“[A-Za-z0-9_]”，这里的”单词”字符使用Unicode字符集。</td>
+</tr>
+<tr>
+<td style="text-align:center">\W</td>
+<td style="text-align:left">匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\num</code></td>
+<td style="text-align:left">匹配num，其中num是一个正整数。对所获取的匹配的引用。例如，<code>“(.)\1”匹配两个连续的相同字符</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>( )</code></td>
+<td style="text-align:left">将( 和 ) 之间的表达式定义为“组”（group），并且将匹配这个表达式的字符保存到一个临时区域（一个正则表达式中最多可以保存9个），它们可以用 \1 到\9 的符号来引用。注意 \1、\2、\n 是用在正则表达式的匹配环节。在正则表达式的替换环节，则要使用像 $1、$2、$n 这样的语法，例如，’bar foo’.replace( /(…) (…)/, ‘$2 $1’ )。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用正则表达式的方法"><a href="#使用正则表达式的方法" class="headerlink" title="使用正则表达式的方法"></a>使用正则表达式的方法</h3><p><strong>正则表达式可以被用于<code>RegExp</code>的exec和test方法以及 <code>String</code>的match、replace、search和split方法。这些方法在JavaScript 手册中有详细的解释。</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">exec</td>
+<td>一个在字符串中执行查找匹配的RegExp方法，它返回一个数组（未匹配到则返回null）。</td>
+</tr>
+<tr>
+<td style="text-align:center">test</td>
+<td>一个在字符串中测试是否匹配的RegExp方法，它返回true或false。</td>
+</tr>
+<tr>
+<td style="text-align:center">match</td>
+<td>一个在字符串中执行查找匹配的String方法，它返回一个数组或者在未匹配到时返回null。</td>
+</tr>
+<tr>
+<td style="text-align:center">search</td>
+<td>一个在字符串中测试匹配的String方法，它返回匹配到的位置索引，或者在失败时返回-1。</td>
+</tr>
+<tr>
+<td style="text-align:center">replace</td>
+<td>一个在字符串中执行查找匹配的String方法，并且使用替换字符串替换掉匹配到的子字符串。</td>
+</tr>
+<tr>
+<td style="text-align:center">split</td>
+<td>一个使用正则表达式或者一个固定字符串分隔一个字符串，并将分隔后的子字符串存储到数组中的String方法。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="正则表达式标志"><a href="#正则表达式标志" class="headerlink" title="正则表达式标志"></a>正则表达式标志</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">标志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">g</td>
+<td>全局搜索。</td>
+</tr>
+<tr>
+<td style="text-align:center">i</td>
+<td>不区分大小写搜索。</td>
+</tr>
+<tr>
+<td style="text-align:center">m</td>
+<td>多行搜索。</td>
+</tr>
+<tr>
+<td style="text-align:center">y</td>
+<td>执行“粘性”搜索,匹配从目标字符串的当前位置开始，可以使用y标志。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exec和match异同点："><a href="#exec和match异同点：" class="headerlink" title="exec和match异同点："></a>exec和match异同点：</h3><ul>
+<li>相同点<ul>
+<li>两个方法都是查找符合条件的匹配项，并以数组形式返回。<br><em>当没有找到匹配项时，都返回null。
+</em>当正则表达式<code>不包含子表达式且不包含全局标志g时</code>，二者返回相同的数组。</li>
+</ul>
+</li>
+<li>不同点<ul>
+<li>exec会匹配子表达式<code>/d(b+)d/中（b+）的结果作为数组的第二项的值</code></li>
+<li>match会返回所有符合条件的匹配项，并以数组形式返回。数组第一项存放第一个匹配项，数组第二项存放第二个匹配项…依次类推。</li>
+<li>exec则永远返回第一个匹配项。<code>但是当连续调用exec时，则每次的返回值都是下一个匹配项</code>。</li>
+</ul>
+</li>
+</ul>
+<p>  ​</p>
+<h3 id="将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现："><a href="#将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现：" class="headerlink" title="将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现："></a>将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function escapeRegExp(string)&#123;</div><div class="line">  return string.replace(/([.*+?^=!:$&#123;&#125;()|[\]\/\\])/g, &quot;\\$&amp;&quot;); </div><div class="line">  //$&amp;表示整个被匹配的字符串</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/21/说走就走的正则表达式/" class="archive-article-date">
+  	<time datetime="2017-06-21T13:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regexp/">regexp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-原生JS封装自己的Picker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/15/原生JS封装自己的Picker/">原生JS封装自己的Picker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用</p>
+</blockquote>
+<h3 id="效果预览：轻戳"><a href="#效果预览：轻戳" class="headerlink" title="效果预览：轻戳"></a>效果预览：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/ZnPicker/blob/master/index.html" target="_blank" rel="external">轻戳</a></h3><h4 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h4><pre><code>&lt;body&gt;
+  &lt;div id=&quot;ZnPicker&quot;&gt;&lt;/div&gt;
+  &lt;script src=&apos;ZnPicker.js&apos;&gt;&lt;/script&gt;
+  &lt;script&gt;
+    var picker=new ZnPicker({
+      dataArea:{min:1,max:199,unit:&apos;岁&apos;},
+      // dataSource:[{name:&apos;张三&apos;,id:1},{name:&apos;李四&apos;,id:2},{name:&apos;王五&apos;,id:3}],
+      title:&apos;请选择年龄&apos;,
+      defaultSite: 122,
+      lineHeight:36
+    })
+    picker.show()
+    picker.onChange=function(data){
+      alert(data)
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+</code></pre><h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">Options/callBack</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">title</td>
+<td style="text-align:center">Picker标题</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">defaultSite</td>
+<td style="text-align:center">默认起始位置</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">lineHeight</td>
+<td style="text-align:center">单个行高</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">dataArea</td>
+<td style="text-align:center">区间数据源，和dataSource有且只有一个/callback返回区间数</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">dataSource</td>
+<td style="text-align:center">列表数据源，和dataArea有且只有一个/callback返回数据id</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">show</td>
+<td style="text-align:center">Picker显示</td>
+<td style="text-align:center">/</td>
+</tr>
+<tr>
+<td style="text-align:center">onChange</td>
+<td style="text-align:center">选中后的回调函数</td>
+<td style="text-align:center">/</td>
+</tr>
+</tbody>
+</table>
+<h4 id="请允许我记录一点小东西"><a href="#请允许我记录一点小东西" class="headerlink" title="请允许我记录一点小东西"></a>请允许我记录一点小东西</h4><ul>
+<li><p>onmouseenter 与onmouseover的区别是 onmouseenter不支持冒泡事件</p>
+</li>
+<li><p>Chrome模拟器不支持 on事件如ontouchstart 需要用addEventListener 添加</p>
+</li>
+<li><p>css3 transition对应有一个js结束事件 transitionend，只支持addEventListener 添加</p>
+<ul>
+<li><p>// Safari 3.1 到 6.0 代码</p>
+<p>document.getElementById(“myDIV”).addEventListener(“webkitTransitionEnd”, myFunction);</p>
+</li>
+<li><p>// 标准语法</p>
+<p>document.getElementById(“myDIV”).addEventListener(“transitionend”, myFunction);</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>移动端页面event.preventDefault()需要加一个判断，开始向下move 和 底部向上滑动则阻止默认行为，否则页面不能滚动</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/15/原生JS封装自己的Picker/" class="archive-article-date">
+  	<time datetime="2017-06-15T12:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZnPicker/">ZnPicker</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-聊天室" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1525,704 +2087,6 @@ export function * counterMinus1 (action) {
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-package" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/11/package/">配置相关—package.json</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
-<p>name是这个东西的名字。注意：</p>
-<ul>
-<li>不要把node或者js放在名字中。因为你写了package.json它就被假定成为了js，不过你可以用”engine”字段指定一个引擎（见后文）。</li>
-<li>这个名字会作为在URL的一部分、命令行的参数或者文件夹的名字。任何non-url-safe的字符都是不能用的。</li>
-<li>这个名字可能会作为参数被传入require()，所以它应该比较短，但也要意义清晰。</li>
-<li>在你爱上你的名字之前，你可能要去npm registry查看一下这个名字是否已经被使用了。 <a href="http://registry.npmjs.org/" target="_blank" rel="external">http://registry.npmjs.org/</a></li>
-</ul>
-<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>在package.json中<em>最</em>重要的就是name和version字段。他们都是必须的，如果没有就无法install。name和version一起组成的标识在假设中是唯一的。改变包应该同时改变version。</p>
-<p>version必须能被 <a href="https://github.com/isaacs/node-semver" target="_blank" rel="external">node-semver</a>解析，它被包在npm的依赖中。（要自己用可以执行<code>npm install semver</code>）</p>
-<p>更多可用的“数字”或者“范围”见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
-<h2 id="description"><a href="#description" class="headerlink" title="description"></a>description</h2><p>Put a description in it. It’s a string. This helps people discover your package, as it’s listed in <code>npm search</code>.</p>
-<h2 id="keywords"><a href="#keywords" class="headerlink" title="keywords"></a>keywords</h2><p>放简介，字符串。方便屌丝们在 <code>npm search</code>中搜索。</p>
-<h2 id="homepage"><a href="#homepage" class="headerlink" title="homepage"></a>homepage</h2><p>项目官网的url。</p>
-<h2 id="bugs"><a href="#bugs" class="headerlink" title="bugs"></a>bugs</h2><p>你项目的提交问题的url和（或）邮件地址。这对遇到问题的屌丝很有帮助。</p>
-<p>差不多长这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;url&quot; : &quot;http://github.com/owner/project/issues&quot;</div><div class="line">, &quot;email&quot; : &quot;project@hostname.com&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>你可以指定一个或者指定两个。如果你只想提供一个url，那就不用对象了，字符串就行。</p>
-<p>如果提供了url，它会被<code>npm bugs</code>命令使用。</p>
-<h2 id="license"><a href="#license" class="headerlink" title="license"></a>license</h2><p>你应该要指定一个许可证，让人知道使用的权利和限制的。</p>
-<p>最简单的方法是，假如你用一个像BSD或者MIT这样通用的许可证，就只需要指定一个许可证的名字，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;license&quot; : &quot;BSD&quot; &#125;</div></pre></td></tr></table></figure>
-<h2 id="people-fields-author-contributors"><a href="#people-fields-author-contributors" class="headerlink" title="people fields: author, contributors"></a>people fields: author, contributors</h2><p>author是一个人。contributors是一堆人的数组。person是一个有name字段，可选的有url、email字段的对象，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;Barney Rubble&quot;</div><div class="line">, &quot;email&quot; : &quot;b@rubble.com&quot;</div><div class="line">, &quot;url&quot; : &quot;http://barnyrubble.tumblr.com/&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="files"><a href="#files" class="headerlink" title="files"></a>files</h2><p>files是一个包含项目中的文件的数组。如果命名了一个文件夹，那也会包含文件夹中的文件。（除非被其他条件忽略了）</p>
-<p>你也可以提供一个.npmignore文件，即,使被包含在files字段中得文件被留下。其实就像.gitignore一样。</p>
-<h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>main字段配置一个文件名指向模块的入口程序。如果你包的名字叫foo，然后用户require(“foo”)，main配置的模块的exports对象会被返回。</p>
-<p>这应该是一个相对于根目录的文件路径。</p>
-<p>对于大多数模块，它是非常有意义的，其他的都没啥。</p>
-<h2 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h2><p>很多包都有一个或多个可执行的文件希望被放到PATH中。npm让妈妈再也不用担心了（实际上，就是这个功能让npm可执行的）。</p>
-<p>要用这个功能，给package.json中的<code>bin</code>字段一个命令名到文件位置的map。初始化的时候npm会将他链接到<code>prefix/bin</code>（全局初始化）或者<code>./node_modules/.bin/</code>（本地初始化）。</p>
-<p>比如，npm有：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;bin&quot; : &#123; &quot;npm&quot; : &quot;./cli.js&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>所以，当你初始化npm，它会创建一个符号链接到<code>cli.js</code>脚本到<code>/usr/local/bin/npm</code>。</p>
-<p>如果你只有一个可执行文件，并且名字和包名一样。那么你可以只用一个字符串，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot;: &quot;./path/to/program&quot; &#125;</div></pre></td></tr></table></figure>
-<p>结果和这个一样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot;: &quot;my-program&quot;</div><div class="line">, &quot;version&quot;: &quot;1.2.5&quot;</div><div class="line">, &quot;bin&quot; : &#123; &quot;my-program&quot; : &quot;./path/to/program&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<h2 id="repository"><a href="#repository" class="headerlink" title="repository"></a>repository</h2><p>指定你的代码存放的地方。这个对希望贡献的人有帮助。如果git仓库在github上，那么<code>npm docs</code>命令能找到你。</p>
-<p>这样做：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;git&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://github.com/isaacs/npm.git&quot;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&quot;repository&quot; :</div><div class="line">  &#123; &quot;type&quot; : &quot;svn&quot;</div><div class="line">  , &quot;url&quot; : &quot;http://v8.googlecode.com/svn/trunk/&quot;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>URL应该是公开的（即便是只读的）能直接被未经过修改的版本控制程序处理的url。不应该是一个html的项目页面。因为它是给计算机看的。</p>
-<h2 id="scripts"><a href="#scripts" class="headerlink" title="scripts"></a>scripts</h2><p>“scripts”是一个由脚本命令组成的hash对象，他们在包不同的生命周期中被执行。key是生命周期事件，value是要运行的命令。其中<code>start</code>和<code>test</code>可以简写像这样<code>npn start</code> 而不用<code>npm run start</code></p>
-<p>参见 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a></p>
-<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>“config” hash可以用来配置用于包脚本中的跨版本参数。在实例中，如果一个包有下面的配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;name&quot; : &quot;foo&quot;</div><div class="line">, &quot;config&quot; : &#123; &quot;port&quot; : &quot;8080&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>然后有一个“start”命令引用了<code>npm_package_config_port</code>环境变量，用户可以通过<code>npm config set foo:port 8001</code>来重写他。</p>
-<p>参见 <a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a> 和 <a href="https://npmjs.org/doc/misc/npm-scripts.html" target="_blank" rel="external">npm-scripts(7)</a>。</p>
-<h2 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h2><p>项目运行需要依赖的插件</p>
-<p><strong>请不要将测试或过渡性的依赖放在<code>dependencies</code>中。</strong>见下文的<code>devDependencies</code>。</p>
-<p>详见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a>.</p>
-<ul>
-<li><code>version</code> 必须完全和<code>version</code>一致</li>
-<li><code>&gt;version</code> 必须比<code>version</code>大</li>
-<li><code>&gt;=version</code> 同上</li>
-<li><code>&lt;version</code> 同上</li>
-<li><code>&lt;=version</code> 同上</li>
-<li><code>~version</code> 约等于，见<a href="https://npmjs.org/doc/misc/semver.html" target="_blank" rel="external">semver(7)</a></li>
-<li><code>^version</code> 相同大版本的最新版本</li>
-<li><code>1.2.x</code> 1.2.0, 1.2.1, 等，但不包括1.3.0</li>
-<li><code>http://...</code> 见下文’依赖URL’</li>
-<li><code>*</code> 所有</li>
-<li><code>&quot;&quot;</code> 空，同<code>*</code></li>
-<li><code>version1 - version2</code> 同 <code>&gt;=version1 &lt;=version2</code>.</li>
-<li><code>range1 || range2</code> 二选一。</li>
-<li><code>git...</code> 见下文’依赖Git URL’</li>
-<li><code>user/repo</code> 见下文’GitHub URLs’</li>
-</ul>
-<p>比如下面都是合法的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;dependencies&quot; :</div><div class="line">  &#123; &quot;foo&quot; : &quot;1.0.0 - 2.9999.9999&quot;</div><div class="line">  , &quot;bar&quot; : &quot;&gt;=1.0.2 &lt;2.1.2&quot;</div><div class="line">  , &quot;baz&quot; : &quot;&gt;1.0.2 &lt;=2.3.4&quot;</div><div class="line">  , &quot;boo&quot; : &quot;2.0.1&quot;</div><div class="line">  , &quot;boo&quot; : &quot;^2.0.1&quot;</div><div class="line">  , &quot;qux&quot; : &quot;&lt;1.0.0 || &gt;=2.3.1 &lt;2.4.5 || &gt;=2.5.2 &lt;3.0.0&quot;</div><div class="line">  , &quot;asd&quot; : &quot;http://asdf.com/asdf.tar.gz&quot;</div><div class="line">  , &quot;til&quot; : &quot;~1.2&quot;</div><div class="line">  , &quot;elf&quot; : &quot;~1.2.3&quot;</div><div class="line">  , &quot;two&quot; : &quot;2.x&quot;</div><div class="line">  , &quot;thr&quot; : &quot;3.3.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="依赖URL"><a href="#依赖URL" class="headerlink" title="依赖URL"></a>依赖URL</h3><p>可以指定一个tarball URL，这个tarball将在包被初始化的时候下载并初始化。</p>
-<h3 id="依赖Git-URL"><a href="#依赖Git-URL" class="headerlink" title="依赖Git URL"></a>依赖Git URL</h3><p>Git urls 可以是下面几种形式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git://github.com/user/project.git#commit-ish</div><div class="line">git+ssh://user@hostname:project.git#commit-ish</div><div class="line">git+ssh://user@hostname/project.git#commit-ish</div><div class="line">git+http://user@hostname/project/blah.git#commit-ish</div><div class="line">git+https://user@hostname/project/blah.git#commit-ish</div></pre></td></tr></table></figure>
-<p><code>commit-ish</code>是可以被<code>git checkout</code>的任何tag、sha或者branch。默认为<code>master</code>。</p>
-<h2 id="GitHub-URLs"><a href="#GitHub-URLs" class="headerlink" title="GitHub URLs"></a>GitHub URLs</h2><p>1.1.65版后，你可以仅仅用“user/foo-project”引用GitHub urls，比如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"foo"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.0"</span>,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"express"</span>: <span class="string">"visionmedia/express"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="devDependencies"><a href="#devDependencies" class="headerlink" title="devDependencies"></a>devDependencies</h2><p>如果有人要用你的模块，但他们可能不需要你开发所使用的外部测试或者文档框架。</p>
-<p>在这种情况下，最好将这些附属的项目列在<code>devDependencies</code>中。</p>
-<p>这些东西会在根目录执行<code>npm link</code>或者<code>npm install</code>的时候初始化，并可以像其他npm配置参数一样管理</p>
-<p>对于非特定平台的构建步骤，比如需要编译CoffeeScript，可以用<code>prepublish</code>脚本去实现，并把它依赖的包放在devDependency中。（译者注：<code>prepublish</code>定义了在执行<code>npm publish</code>的时候先行执行的脚本。详见<code>scripts</code>）</p>
-<p>比如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="attr">"name"</span>: <span class="string">"ethopia-waza"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"a delightfully fruity coffee varietal"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"1.2.3"</span>,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"coffee-script"</span>: <span class="string">"~1.6.3"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"prepublish"</span>: <span class="string">"coffee -o lib/ -c src/waza.coffee"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"main"</span>: <span class="string">"lib/waza.js"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>prepublish</code>脚本会在publishing前运行，这样用户就不用自己去require来编译就能使用。并且在开发模式中（比如本地运行<code>npm install</code>）会运行这个脚本以便更好地测试。</p>
-<h2 id="peerDependencies"><a href="#peerDependencies" class="headerlink" title="peerDependencies"></a>peerDependencies</h2><p>在一些场景中，如在一个host中不必须进行<code>require</code>时候，你想表现你的package与一个host工具或者库的兼容关键。这一般用来引用<em>插件</em>。尤其是你的模块可能要暴露一个特定的接口，并由host文档来预期和指定。</p>
-<p>比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;tea-latte&quot;,</div><div class="line">  &quot;version&quot;: &quot;1.3.5&quot;</div><div class="line">  &quot;peerDependencies&quot;: &#123;</div><div class="line">    &quot;tea&quot;: &quot;2.x&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这能保证你的package可以只和tea的2.x版本一起初始化。<code>npm install tea-latte</code>可能会产生下面的依赖关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">â”œâ”€â”€ tea-latte@1.3.5</div><div class="line">â””â”€â”€ tea@2.2.0</div></pre></td></tr></table></figure>
-<p>试图初始化另一个有会冲突的依赖的插件将导致一个错误。因此，确保你的插件的需求约束越弱越好，而不要去把它锁定到一个特定的版本。</p>
-<p>假设这个host遵守semver规范，只改变这个package的主版本会打破你的插件。因此，如果你在package中用过每个1.x版本，就用”^1.0”或者”1.x”来表示。如果你依赖于功能介绍1.5.2，用”&gt;= 1.5.2 &lt; 2”。</p>
-<h2 id="bundledDependencies"><a href="#bundledDependencies" class="headerlink" title="bundledDependencies"></a>bundledDependencies</h2><p>一组包名，他们会在发布的时候被打包进去。</p>
-<p>拼成<code>&quot;bundleDependencies&quot;</code>（缺d）也可以。</p>
-<h2 id="optionalDependencies"><a href="#optionalDependencies" class="headerlink" title="optionalDependencies"></a>optionalDependencies</h2><p>如果一个依赖可用，但你希望在它安装错误的时候npm也能继续初始化，那么你可以把它放在<code>optionalDependencies</code> hash中。这是一个包名到版本或者url的map，就像<code>dependencies</code> hash一样。只是它运行错误。</p>
-<p>处理缺乏依赖也是你的程序的责任。比如像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">  var foo = require(&apos;foo&apos;)</div><div class="line">  var fooVersion = require(&apos;foo/package.json&apos;).version</div><div class="line">&#125; catch (er) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line">if ( notGoodFooVersion(fooVersion) ) &#123;</div><div class="line">  foo = null</div><div class="line">&#125;</div><div class="line"></div><div class="line">// .. then later in your program ..</div><div class="line"></div><div class="line">if (foo) &#123;</div><div class="line">  foo.doFooThings()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>optionalDependencies</code>会覆盖<code>dependencies</code>中同名的项，所以通常比只放在一个地方好。</p>
-<h2 id="engines"><a href="#engines" class="headerlink" title="engines"></a>engines</h2><p>你可以指定工作的node的版本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;node&quot; : &quot;&gt;=0.10.3 &lt;0.12&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>并且，像dependensies一样，如果你不指定版本或者指定“*”作为版本，那么所有版本的node都可以。</p>
-<p>如果指定一个“engines”字段，那么npm会需要node在里面，如果“engines”被省略，npm会假定它在node上工作。</p>
-<p>你也可以用“engines”字段来指定哪一个npm版本能更好地初始化你的程序，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;engines&quot; : &#123; &quot;npm&quot; : &quot;~1.0.20&quot; &#125; &#125;</div></pre></td></tr></table></figure>
-<p>记住，除非用户设置<code>engine-strict</code>标记，这个字段只是建议值。</p>
-<h2 id="engineStrict"><a href="#engineStrict" class="headerlink" title="engineStrict"></a>engineStrict</h2><p>如果你确定你的模块<em>一定不</em>会运行在你指定版本之外的node或者npm上，你可以在package.json文件中设置<code>&quot;engineStrict&quot;:true</code>。它会重写用户的<code>engine-strict</code>设置。</p>
-<p>除非你非常非常确定，否则不要这样做。如果你的engines hash过度地限制，很可能轻易让自己陷入窘境。慎重地考虑这个选择。如果大家滥用它，它会再以后的npm版本中被删除。</p>
-<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>你可以指定你的模块要运行在哪些操作系统中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;darwin&quot;, &quot;linux&quot; ]</div></pre></td></tr></table></figure>
-<p>你也可以用黑名单代替白名单，在名字前面加上“!”就可以了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;os&quot; : [ &quot;!win32&quot; ]</div></pre></td></tr></table></figure>
-<p>操作系统用<code>process.platform</code>来探测。</p>
-<p>虽然没有很好地理由，但它是同时支持黑名单和白名单的。</p>
-<h2 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h2><p>如果你的代码只能运行在特定的cpu架构下，你可以指定一个：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;x64&quot;, &quot;ia32&quot; ]</div></pre></td></tr></table></figure>
-<p>就像<code>os</code>选项，你也可以黑一个架构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;cpu&quot; : [ &quot;!arm&quot;, &quot;!mips&quot; ]</div></pre></td></tr></table></figure>
-<p>cpu架构用<code>process.arch</code>探测。</p>
-<h2 id="preferGlobal"><a href="#preferGlobal" class="headerlink" title="preferGlobal"></a>preferGlobal</h2><p>如果包主要是需要全局安装的命令行程序，就设置它为<code>true</code>来提供一个warning给只在局部安装的人。</p>
-<p>它不会真正的防止用户在局部安装，但如果它没有按预期工作它会帮助防止产生误会。</p>
-<h2 id="private"><a href="#private" class="headerlink" title="private"></a>private</h2><p>如果你设置<code>&quot;private&quot;: true</code>，npm就不会发布它。</p>
-<p>这是一个防止意外发布私有库的方式。如果你要确定给定的包是只发布在特定registry（如内部registry）的，用<code>publishConfig</code>hash的描述来重写<code>registry</code>的publish-time配置参数。</p>
-<h2 id="publishConfig"><a href="#publishConfig" class="headerlink" title="publishConfig"></a>publishConfig</h2><p>这是一个在publish-time使用的配置集合。当你想设置tag或者registry的时候它非常有用，所以你可以确定一个给定的包没有打上“lastest”的tag或者被默认发布到全局的公开registry。</p>
-<p>任何配置都可以被重写，但当然可能只有“tag”和“registry”与发布的意图有关。</p>
-<p>参见<a href="https://npmjs.org/doc/misc/npm-config.html" target="_blank" rel="external">npm-config(7)</a>有可以被重写的列表。</p>
-<h2 id="DEFAULT-VALUES"><a href="#DEFAULT-VALUES" class="headerlink" title="DEFAULT VALUES"></a>DEFAULT VALUES</h2><p>npm会根据包的内容设置一些默认值。</p>
-<ul>
-<li><p><code>&quot;scripts&quot;: {&quot;start&quot;: &quot;node server.js&quot;}</code></p>
-<p>如果包的根目录有<code>server.js</code>文件，npm会默认将<code>start</code>命令设置为<code>node server.js</code>。</p>
-</li>
-<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-waf clean || true; node-waf configure build&quot;}</code></p>
-<p>  如果包的根目录有<code>wscript</code>文件，npm会默认将<code>preinstall</code>命令用node-waf进行编译。</p>
-</li>
-<li><p><code>&quot;scripts&quot;:{&quot;preinstall&quot;: &quot;node-gyp rebuild&quot;}</code></p>
-<p>  如果包的根目录有<code>binding.gyp</code>文件，npm会默认将<code>preinstall</code>命令用node-gyp进行编译。</p>
-</li>
-<li><p><code>&quot;contributors&quot;: [...]</code></p>
-<p>  如果有<code>AUTHORS</code>文件，npm会默认逐行按<code>Name &lt;email&gt; (url)</code>格式处理，邮箱和url是可选的。<code>#</code>号和空格开头的行会被忽略。</p>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/11/package/" class="archive-article-date">
-  	<time datetime="2017-03-11T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/package/">package</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-配置相关—npm" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/09/配置相关—npm/">配置相关—npm</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>npm</code>有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为<a href="http://npmjs.org" target="_blank" rel="external">npmjs.org</a>。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。</p>
-<p><code>npm</code>不需要单独安装。在安装Node的时候，会连带一起安装<code>npm</code>。但是，Node附带的<code>npm</code>可能不是最新版本，最好用下面的命令，更新到最新版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install npm@latest -g</div></pre></td></tr></table></figure>
-<p>上面的命令中，<code>@latest</code>表示最新版本，<code>-g</code>表示全局安装。所以，命令的主干是<code>npm install npm</code>，也就是使用<code>npm</code>安装自己。之所以可以这样，是因为<code>npm</code>本身与Node的其他模块没有区别。</p>
-<p>然后，运行下面的命令，查看各种信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 查看 npm 命令列表</div><div class="line">$ npm help</div><div class="line"></div><div class="line"># 查看各个命令的简单用法</div><div class="line">$ npm -l</div><div class="line"></div><div class="line"># 查看 npm 的版本</div><div class="line">$ npm -v</div><div class="line"></div><div class="line"># 查看 npm 的配置</div><div class="line">$ npm config list -l</div></pre></td></tr></table></figure>
-<h2 id="npm-init"><a href="#npm-init" class="headerlink" title="npm init"></a>npm init</h2><p><code>npm init</code>用来初始化生成一个新的<code>package.json</code>文件。它会向用户提问一系列问题，如果你觉得不用修改默认配置，一路回车就可以了。</p>
-<p>如果使用了<code>-f</code>（代表force）、<code>-y</code>（代表yes），则跳过提问阶段，直接生成一个新的<code>package.json</code>文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init -y</div></pre></td></tr></table></figure>
-<h2 id="npm-set"><a href="#npm-set" class="headerlink" title="npm set"></a>npm set</h2><p><code>npm set</code>用来设置环境变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm set init-author-name &apos;Your name&apos;</div><div class="line">$ npm set init-author-email &apos;Your email&apos;</div><div class="line">$ npm set init-author-url &apos;http://yourdomain.com&apos;</div><div class="line">$ npm set init-license &apos;MIT&apos;</div></pre></td></tr></table></figure>
-<p>上面命令等于为<code>npm init</code>设置了默认值，以后执行<code>npm init</code>的时候，<code>package.json</code>的作者姓名、邮件、主页、许可证字段就会自动写入预设的值。这些信息会存放在用户主目录的 <code>~/.npmrc</code>文件，使得用户不用每个项目都输入。如果某个项目有不同的设置，可以针对该项目运行<code>npm config</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm set save-exact true</div></pre></td></tr></table></figure>
-<p>上面命令设置加入模块时，<code>package.json</code>将记录模块的确切版本，而不是一个可选的版本范围。</p>
-<h2 id="npm-config"><a href="#npm-config" class="headerlink" title="npm config"></a>npm config</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm config set prefix $dir</div></pre></td></tr></table></figure>
-<p>上面的命令将指定的<code>$dir</code>目录，设为模块的全局安装目录。如果当前有这个目录的写权限，那么运行<code>npm install</code>的时候，就不再需要<code>sudo</code>命令授权了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm config set save-prefix ~</div></pre></td></tr></table></figure>
-<p>上面的命令使得<code>npm install --save</code>和<code>npm install --save-dev</code>安装新模块时，允许的版本范围从克拉符号（<code>^</code>）改成波浪号（<code>~</code>），即从允许小版本升级，变成只允许补丁包的升级。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm config set init.author.name $name</div><div class="line">$ npm config set init.author.email $email</div></pre></td></tr></table></figure>
-<p>上面命令指定使用<code>npm init</code>时，生成的<code>package.json</code>文件的字段默认值。</p>
-<h2 id="npm-info"><a href="#npm-info" class="headerlink" title="npm info"></a>npm info</h2><p><code>npm info</code>命令可以查看每个模块的具体信息。比如，查看underscore模块的信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">$ npm info underscore</div><div class="line">&#123; name: &apos;underscore&apos;,</div><div class="line">  description: &apos;JavaScript\&apos;s functional programming helper library.&apos;,</div><div class="line">  &apos;dist-tags&apos;: &#123; latest: &apos;1.5.2&apos;, stable: &apos;1.5.2&apos; &#125;,</div><div class="line">  repository:</div><div class="line">   &#123; type: &apos;git&apos;,</div><div class="line">     url: &apos;git://github.com/jashkenas/underscore.git&apos; &#125;,</div><div class="line">  homepage: &apos;http://underscorejs.org&apos;,</div><div class="line">  main: &apos;underscore.js&apos;,</div><div class="line">  version: &apos;1.5.2&apos;,</div><div class="line">  devDependencies: &#123; phantomjs: &apos;1.9.0-1&apos; &#125;,</div><div class="line">  licenses:</div><div class="line">   &#123; type: &apos;MIT&apos;,</div><div class="line">     url: &apos;https://raw.github.com/jashkenas/underscore/master/LICENSE&apos; &#125;,</div><div class="line">  files:</div><div class="line">   [ &apos;underscore.js&apos;,</div><div class="line">     &apos;underscore-min.js&apos;,</div><div class="line">     &apos;LICENSE&apos; ],</div><div class="line">  readmeFilename: &apos;README.md&apos;&#125;</div></pre></td></tr></table></figure>
-<p>上面命令返回一个JavaScript对象，包含了underscore模块的详细信息。这个对象的每个成员，都可以直接从info命令查询。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ npm info underscore description</div><div class="line">JavaScript&apos;s functional programming helper library.</div><div class="line"></div><div class="line">$ npm info underscore homepage</div><div class="line">http://underscorejs.org</div><div class="line"></div><div class="line">$ npm info underscore version</div><div class="line">1.5.2</div></pre></td></tr></table></figure>
-<h2 id="npm-search"><a href="#npm-search" class="headerlink" title="npm search"></a>npm search</h2><p><code>npm search</code>命令用于搜索npm仓库，它后面可以跟字符串，也可以跟正则表达式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm search &lt;搜索词&gt;</div></pre></td></tr></table></figure>
-<p>下面是一个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ npm search node-gyp</div><div class="line">// NAME                  DESCRIPTION</div><div class="line">// autogypi              Autogypi handles dependencies for node-gyp projects.</div><div class="line">// grunt-node-gyp        Run node-gyp commands from Grunt.</div><div class="line">// gyp-io                Temporary solution to let node-gyp run `rebuild` under…</div><div class="line">// ...</div></pre></td></tr></table></figure>
-<h2 id="npm-list"><a href="#npm-list" class="headerlink" title="npm list"></a>npm list</h2><p><code>npm list</code>命令以树型结构列出当前项目安装的所有模块，以及它们依赖的模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm list</div></pre></td></tr></table></figure>
-<p>加上global参数，会列出全局安装的模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm list -global</div></pre></td></tr></table></figure>
-<p><code>npm list</code>命令也可以列出单个模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm list underscore</div></pre></td></tr></table></figure>
-<h2 id="npm-install"><a href="#npm-install" class="headerlink" title="npm install"></a>npm install</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>Node模块采用<code>npm install</code>命令安装。</p>
-<p>每个模块可以“全局安装”，也可以“本地安装”。“全局安装”指的是将一个模块安装到系统目录中，各个项目都可以调用。一般来说，全局安装只适用于工具模块，比如<code>eslint</code>和<code>gulp</code>。“本地安装”指的是将一个模块下载到当前项目的<code>node_modules</code>子目录，然后只有在项目目录之中，才能调用这个模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 本地安装</div><div class="line">$ npm install &lt;package name&gt;</div><div class="line"></div><div class="line"># 全局安装</div><div class="line">$ sudo npm install -global &lt;package name&gt;</div><div class="line">$ sudo npm install -g &lt;package name&gt;</div></pre></td></tr></table></figure>
-<p><code>npm install</code>也支持直接输入Github代码库地址。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm install git://github.com/package/path.git</div><div class="line">$ npm install git://github.com/package/path.git#0.1.0</div></pre></td></tr></table></figure>
-<p>安装之前，<code>npm install</code>会先检查，<code>node_modules</code>目录之中是否已经存在指定模块。如果存在，就不再重新安装了，即使远程仓库已经有了一个新版本，也是如此。</p>
-<p>如果你希望，一个模块不管是否安装过，npm 都要强制重新安装，可以使用<code>-f</code>或<code>--force</code>参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install &lt;packageName&gt; --force</div></pre></td></tr></table></figure>
-<p>如果你希望，所有模块都要强制重新安装，那就删除<code>node_modules</code>目录，重新执行<code>npm install</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ rm -rf node_modules</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<h3 id="安装不同版本"><a href="#安装不同版本" class="headerlink" title="安装不同版本"></a>安装不同版本</h3><p>install命令总是安装模块的最新版本，如果要安装模块的特定版本，可以在模块名后面加上@和版本号。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install sax@latest</div><div class="line">$ npm install sax@0.1.1</div><div class="line">$ npm install sax@&quot;&gt;=0.1.0 &lt;0.2.0&quot;</div></pre></td></tr></table></figure>
-<p>如果使用<code>--save-exact</code>参数，会在package.json文件指定安装模块的确切版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install readable-stream --save --save-exact</div></pre></td></tr></table></figure>
-<p>install命令可以使用不同参数，指定所安装的模块属于哪一种性质的依赖关系，即出现在packages.json文件的哪一项中。</p>
-<ul>
-<li>–save：模块名将被添加到dependencies，可以简化为参数<code>-S</code>。</li>
-<li>–save-dev: 模块名将被添加到devDependencies，可以简化为参数<code>-D</code>。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ npm install sax --save</div><div class="line">$ npm install node-tap --save-dev</div><div class="line"># 或者</div><div class="line">$ npm install sax -S</div><div class="line">$ npm install node-tap -D</div></pre></td></tr></table></figure>
-<p>如果要安装beta版本的模块，需要使用下面的命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 安装最新的beta版</div><div class="line">$ npm install &lt;module-name&gt;@beta (latest beta)</div><div class="line"></div><div class="line"># 安装指定的beta版</div><div class="line">$ npm install &lt;module-name&gt;@1.3.1-beta.3</div></pre></td></tr></table></figure>
-<p><code>npm install</code>默认会安装<code>dependencies</code>字段和<code>devDependencies</code>字段中的所有模块，如果使用<code>--production</code>参数，可以只安装<code>dependencies</code>字段的模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install --production</div><div class="line"># 或者</div><div class="line">$ NODE_ENV=production npm install</div></pre></td></tr></table></figure>
-<p>一旦安装了某个模块，就可以在代码中用<code>require</code>命令加载这个模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var backbone = require(&apos;backbone&apos;)</div><div class="line">console.log(backbone.VERSION)</div></pre></td></tr></table></figure>
-<h2 id="避免系统权限"><a href="#避免系统权限" class="headerlink" title="避免系统权限"></a>避免系统权限</h2><p>默认情况下，Npm全局模块都安装在系统目录（比如<code>/usr/local/lib/</code>），普通用户没有写入权限，需要用到<code>sudo</code>命令。这不是很方便，我们可以在没有root权限的情况下，安装全局模块。</p>
-<p>首先，在主目录下新建配置文件<code>.npmrc</code>，然后在该文件中将<code>prefix</code>变量定义到主目录下面。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">prefix = /home/yourUsername/npm</div></pre></td></tr></table></figure>
-<p>然后在主目录下新建<code>npm</code>子目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mkdir ~/npm</div></pre></td></tr></table></figure>
-<p>此后，全局安装的模块都会安装在这个子目录中，npm也会到<code>~/npm/bin</code>目录去寻找命令。</p>
-<p>最后，将这个路径在<code>.bash_profile</code>文件（或<code>.bashrc</code>文件）中加入PATH变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PATH=~/npm/bin:$PATH</div></pre></td></tr></table></figure>
-<h2 id="npm-update，npm-uninstall"><a href="#npm-update，npm-uninstall" class="headerlink" title="npm update，npm uninstall"></a>npm update，npm uninstall</h2><p><code>npm update</code>命令可以更新本地安装的模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 升级当前项目的指定模块</div><div class="line">$ npm update [package name]</div><div class="line"></div><div class="line"># 升级全局安装的模块</div><div class="line">$ npm update -global [package name]</div></pre></td></tr></table></figure>
-<p>它会先到远程仓库查询最新版本，然后查询本地版本。如果本地版本不存在，或者远程版本较新，就会安装。</p>
-<p>使用<code>-S</code>或<code>--save</code>参数，可以在安装的时候更新<code>package.json</code>里面模块的版本号。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 更新之前的package.json</div><div class="line">dependencies: &#123;</div><div class="line">  dep1: &quot;^1.1.1&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 更新之后的package.json</div><div class="line">dependencies: &#123;</div><div class="line">  dep1: &quot;^1.2.2&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意，从npm v2.6.1 开始，<code>npm update</code>只更新顶层模块，而不更新依赖的依赖，以前版本是递归更新的。如果想取到老版本的效果，要使用下面的命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm --depth 9999 update</div></pre></td></tr></table></figure>
-<p><code>npm uninstall</code>命令，卸载已安装的模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm uninstall [package name]</div><div class="line"></div><div class="line"># 卸载全局模块</div><div class="line">$ npm uninstall [package name] -global</div></pre></td></tr></table></figure>
-<h2 id="npm-run"><a href="#npm-run" class="headerlink" title="npm run"></a>npm run</h2><p><code>npm</code>不仅可以用于模块管理，还可以用于执行脚本。<code>package.json</code>文件有一个<code>scripts</code>字段，可以用于指定脚本命令，供<code>npm</code>直接调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;myproject&quot;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;jshint&quot;: &quot;latest&quot;,</div><div class="line">    &quot;browserify&quot;: &quot;latest&quot;,</div><div class="line">    &quot;mocha&quot;: &quot;latest&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;lint&quot;: &quot;jshint **.js&quot;,</div><div class="line">    &quot;test&quot;: &quot;mocha test/&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，<code>scripts</code>字段指定了两项命令<code>lint</code>和<code>test</code>。命令行输入<code>npm run-script lint</code>或者<code>npm run lint</code>，就会执行<code>jshint **.js</code>，输入<code>npm run-script test</code>或者<code>npm run test</code>，就会执行<code>mocha test/</code>。<code>npm run</code>是<code>npm run-script</code>的缩写，一般都使用前者，但是后者可以更好地反应这个命令的本质。</p>
-<p><code>npm run</code>命令会自动在环境变量<code>$PATH</code>添加<code>node_modules/.bin</code>目录，所以<code>scripts</code>字段里面调用命令时不用加上路径，这就避免了全局安装NPM模块。</p>
-<p><code>npm run</code>如果不加任何参数，直接运行，会列出<code>package.json</code>里面所有可以执行的脚本命令。</p>
-<p>npm内置了两个命令简写，<code>npm test</code>等同于执行<code>npm run test</code>，<code>npm start</code>等同于执行<code>npm run start</code>。</p>
-<p><code>npm run</code>会创建一个Shell，执行指定的命令，并临时将<code>node_modules/.bin</code>加入PATH变量，这意味着本地模块可以直接运行。</p>
-<p>举例来说，你执行ESLint的安装命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm i eslint --save-dev</div></pre></td></tr></table></figure>
-<p>运行上面的命令以后，会产生两个结果。首先，ESLint被安装到当前目录的<code>node_modules</code>子目录；其次，<code>node_modules/.bin</code>目录会生成一个符号链接<code>node_modules/.bin/eslint</code>，指向ESLint模块的可执行脚本。</p>
-<p>然后，你就可以在<code>package.json</code>的<code>script</code>属性里面，不带路径的引用<code>eslint</code>这个脚本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;Test Project&quot;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;eslint&quot;: &quot;^1.10.3&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;lint&quot;: &quot;eslint .&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>等到运行<code>npm run lint</code>的时候，它会自动执行<code>./node_modules/.bin/eslint .</code>。</p>
-<p>如果直接运行<code>npm run</code>不给出任何参数，就会列出<code>scripts</code>属性下所有命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ npm run</div><div class="line">Available scripts in the user-service package:</div><div class="line">  lint</div><div class="line">     jshint **.js</div><div class="line">  test</div><div class="line">    mocha test/</div></pre></td></tr></table></figure>
-<p>下面是另一个<code>package.json</code>文件的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;watch&quot;: &quot;watchify client/main.js -o public/app.js -v&quot;,</div><div class="line">  &quot;build&quot;: &quot;browserify client/main.js -o public/app.js&quot;,</div><div class="line">  &quot;start&quot;: &quot;npm run watch &amp; nodemon server.js&quot;,</div><div class="line">  &quot;test&quot;: &quot;node test/all.js&quot;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<p>上面代码在<code>scripts</code>项，定义了四个别名，每个别名都有对应的脚本命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm run watch</div><div class="line">$ npm run build</div><div class="line">$ npm run start</div><div class="line">$ npm run test</div></pre></td></tr></table></figure>
-<p>其中，<code>start</code>和<code>test</code>属于特殊命令，可以省略<code>run</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm start</div><div class="line">$ npm test</div></pre></td></tr></table></figure>
-<p>如果希望一个操作的输出，是另一个操作的输入，可以借用Linux系统的管道命令，将两个操作连在一起。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;build-js&quot;: &quot;browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js&quot;</div></pre></td></tr></table></figure>
-<p>但是，更方便的写法是引用其他<code>npm run</code>命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;build&quot;: &quot;npm run build-js &amp;&amp; npm run build-css&quot;</div></pre></td></tr></table></figure>
-<p>上面的写法是先运行<code>npm run build-js</code>，然后再运行<code>npm run build-css</code>，两个命令中间用<code>&amp;&amp;</code>连接。如果希望两个命令同时平行执行，它们中间可以用<code>&amp;</code>连接。</p>
-<p>下面是一个流操作的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&quot;devDependencies&quot;: &#123;</div><div class="line">  &quot;autoprefixer&quot;: &quot;latest&quot;,</div><div class="line">  &quot;cssmin&quot;: &quot;latest&quot;</div><div class="line">&#125;,</div><div class="line"></div><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;build:css&quot;: &quot;autoprefixer -b &apos;last 2 versions&apos; &lt; assets/styles/main.css | cssmin &gt; dist/main.css&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>写在<code>scripts</code>属性中的命令，也可以在<code>node_modules/.bin</code>目录中直接写成bash脚本。下面是一个bash脚本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">cd site/main</div><div class="line">browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js</div></pre></td></tr></table></figure>
-<p>假定上面的脚本文件名为build.sh，并且权限为可执行，就可以在scripts属性中引用该文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;build-js&quot;: &quot;bin/build.sh&quot;</div></pre></td></tr></table></figure>
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p><code>npm run</code>命令还可以添加参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;test&quot;: &quot;mocha test/&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码指定<code>npm test</code>，实际运行<code>mocha test/</code>。如果要通过<code>npm test</code>命令，将参数传到mocha，则参数之前要加上两个连词线。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm run test -- anothertest.js</div><div class="line"># 等同于</div><div class="line">$ mocha test/ anothertest.js</div></pre></td></tr></table></figure>
-<p>上面命令表示，mocha要运行所有<code>test</code>子目录的测试脚本，以及另外一个测试脚本<code>anothertest.js</code>。</p>
-<p><code>npm run</code>本身有一个参数<code>-s</code>，表示关闭npm本身的输出，只输出脚本产生的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 输出npm命令头</div><div class="line">$ npm run test</div><div class="line"></div><div class="line">// 不输出npm命令头</div><div class="line">$ npm run -s test</div></pre></td></tr></table></figure>
-<h3 id="scripts脚本命令最佳实践"><a href="#scripts脚本命令最佳实践" class="headerlink" title="scripts脚本命令最佳实践"></a>scripts脚本命令最佳实践</h3><p><code>scripts</code>字段的脚本命令，有一些最佳实践，可以方便开发。首先，安装<code>npm-run-all</code>模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install npm-run-all --save-dev</div></pre></td></tr></table></figure>
-<p>这个模块用于运行多个<code>scripts</code>脚本命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># 继发执行</div><div class="line">$ npm-run-all build:html build:js</div><div class="line"># 等同于</div><div class="line">$ npm run build:html &amp;&amp; npm run build:js</div><div class="line"></div><div class="line"># 并行执行</div><div class="line">$ npm-run-all --parallel watch:html watch:js</div><div class="line"># 等同于</div><div class="line">$ npm run watch:html &amp; npm run watch:js</div><div class="line"></div><div class="line"># 混合执行</div><div class="line">$ npm-run-all clean lint --parallel watch:html watch:js</div><div class="line"># 等同于</div><div class="line">$ npm-run-all clean lint</div><div class="line">$ npm-run-all --parallel watch:html watch:js</div><div class="line"></div><div class="line"># 通配符</div><div class="line">$ npm-run-all --parallel watch:*</div></pre></td></tr></table></figure>
-<p>（1）start脚本命令</p>
-<p><code>start</code>脚本命令，用于启动应用程序。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;start&quot;: &quot;npm-run-all --parallel dev serve&quot;</div></pre></td></tr></table></figure>
-<p>上面命令并行执行<code>dev</code>脚本命令和<code>serve</code>脚本命令，等同于下面的形式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run dev &amp; npm run serve</div></pre></td></tr></table></figure>
-<p>如果start脚本没有配置，<code>npm start</code>命令默认执行下面的脚本，前提是模块的根目录存在一个server.js文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ node server.js</div></pre></td></tr></table></figure>
-<p>（2）dev脚本命令</p>
-<p><code>dev</code>脚本命令，规定开发阶段所要做的处理，比如构建网页资源。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;dev&quot;: &quot;npm-run-all dev:*&quot;</div></pre></td></tr></table></figure>
-<p>上面命令用于继发执行所有<code>dev</code>的子命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;predev:sass&quot;: &quot;node-sass --source-map src/css/hoodie.css.map --output-style nested src/sass/base.scss src/css/hoodie.css&quot;</div></pre></td></tr></table></figure>
-<p>上面命令将sass文件编译为css文件，并生成source map文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;dev:sass&quot;: &quot;node-sass --source-map src/css/hoodie.css.map --watch --output-style nested src/sass/base.scss src/css/hoodie.css&quot;</div></pre></td></tr></table></figure>
-<p>上面命令会监视sass文件的变动，只要有变动，就自动将其编译为css文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;dev:autoprefix&quot;: &quot;postcss --use autoprefixer --autoprefixer.browsers \&quot;&gt; 5%\&quot; --output src/css/hoodie.css src/css/hoodie.css&quot;</div></pre></td></tr></table></figure>
-<p>上面命令为css文件加上浏览器前缀，限制条件是只考虑市场份额大于5%的浏览器。</p>
-<p>（3）serve脚本命令</p>
-<p><code>serve</code>脚本命令用于启动服务。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;serve&quot;: &quot;live-server dist/ --port=9090&quot;</div></pre></td></tr></table></figure>
-<p>上面命令启动服务，用的是<a href="http://npmjs.com/package/live-server" target="_blank" rel="external">live-server</a>模块，将服务启动在9090端口，展示<code>dist</code>子目录。</p>
-<p><code>live-server</code>模块有三个功能。</p>
-<ul>
-<li>启动一个HTTP服务器，展示指定目录的<code>index.html</code>文件，通过该文件加载各种网络资源，这是<code>file://</code>协议做不到的。</li>
-<li>添加自动刷新功能。只要指定目录之中，文件有任何变化，它就会刷新页面。</li>
-<li><code>npm run serve</code>命令执行以后，自动打开浏览器。、</li>
-</ul>
-<p>以前，上面三个功能需要三个模块来完成：<code>http-server</code>、<code>live-reload</code>和<code>opener</code>，现在只要<code>live-server</code>一个模块就够了。</p>
-<p>（4）test脚本命令</p>
-<p><code>test</code>脚本命令用于执行测试。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&quot;test&quot;: &quot;npm-run-all test:*&quot;,</div><div class="line">&quot;test:lint&quot;: &quot;sass-lint --verbose --config .sass-lint.yml src/sass/*&quot;</div></pre></td></tr></table></figure>
-<p>上面命令规定，执行测试时，运行<code>lint</code>脚本，检查脚本之中的语法错误。</p>
-<p>（5）prod脚本命令</p>
-<p><code>prod</code>脚本命令，规定进入生产环境时需要做的处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;prod&quot;: &quot;npm-run-all prod:*&quot;,</div><div class="line">&quot;prod:sass&quot;: &quot;node-sass --output-style compressed src/sass/base.scss src/css/prod/hoodie.min.css&quot;,</div><div class="line">&quot;prod:autoprefix&quot;: &quot;postcss --use autoprefixer --autoprefixer.browsers &quot;&gt; 5%&quot; --output src/css/prod/hoodie.min.css src/css/prod/hoodie.min.css&quot;</div></pre></td></tr></table></figure>
-<p>上面命令将sass文件转为css文件，并加上浏览器前缀。</p>
-<p>（6）help脚本命令</p>
-<p><code>help</code>脚本命令用于展示帮助信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;help&quot;: &quot;markdown-chalk --input DEVELOPMENT.md&quot;</div></pre></td></tr></table></figure>
-<p>上面命令之中，<code>markdown-chalk</code>模块用于将指定的markdown文件，转为彩色文本显示在终端之中。</p>
-<p>（7）docs脚本命令</p>
-<p><code>docs</code>脚本命令用于生成文档。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;docs&quot;: &quot;kss-node --source src/sass --homepage ../../styleguide.md&quot;</div></pre></td></tr></table></figure>
-<p>上面命令使用<code>kss-node</code>模块，提供源码的注释生成markdown格式的文档。</p>
-<h3 id="pre-和-post-脚本"><a href="#pre-和-post-脚本" class="headerlink" title="pre- 和 post- 脚本"></a>pre- 和 post- 脚本</h3><p><code>npm run</code>为每条命令提供了<code>pre-</code>和<code>post-</code>两个钩子（hook）。以<code>npm run lint</code>为例，执行这条命令之前，npm会先查看有没有定义prelint和postlint两个钩子，如果有的话，就会先执行<code>npm run prelint</code>，然后执行<code>npm run lint</code>，最后执行<code>npm run postlint</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;myproject&quot;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;eslint&quot;: &quot;latest&quot;</div><div class="line">    &quot;karma&quot;: &quot;latest&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;lint&quot;: &quot;eslint --cache --ext .js --ext .jsx src&quot;,</div><div class="line">    &quot;test&quot;: &quot;karma start --log-leve=error karma.config.js --single-run=true&quot;,</div><div class="line">    &quot;pretest&quot;: &quot;npm run lint&quot;,</div><div class="line">    &quot;posttest&quot;: &quot;echo &apos;Finished running tests&apos;&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码是一个<code>package.json</code>文件的例子。如果执行<code>npm test</code>，会按下面的顺序执行相应的命令。</p>
-<ol>
-<li><code>pretest</code></li>
-<li><code>test</code></li>
-<li><code>posttest</code></li>
-</ol>
-<p>如果执行过程出错，就不会执行排在后面的脚本，即如果prelint脚本执行出错，就不会接着执行lint和postlint脚本。</p>
-<p>下面是一个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;test&quot;: &quot;karma start&quot;,</div><div class="line">  &quot;test:lint&quot;: &quot;eslint . --ext .js --ext .jsx&quot;,</div><div class="line">  &quot;pretest&quot;: &quot;npm run test:lint&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，在运行<code>npm run test</code>之前，会自动检查代码，即运行<code>npm run test:lint</code>命令。</p>
-<p>下面是一些常见的<code>pre-</code>和<code>post-</code>脚本。</p>
-<ul>
-<li><code>prepublish</code>：发布一个模块前执行。</li>
-<li><code>postpublish</code>：发布一个模块后执行。</li>
-<li><code>preinstall</code>：用户执行<code>npm install</code>命令时，先执行该脚本。</li>
-<li><code>postinstall</code>：用户执行<code>npm install</code>命令时，安装结束后执行该脚本，通常用于将下载的源码编译成用户需要的格式，比如有些模块需要在用户机器上跟本地的C++模块一起编译。</li>
-<li><code>preuninstall</code>：卸载一个模块前执行。</li>
-<li><code>postuninstall</code>：卸载一个模块后执行。</li>
-<li><code>preversion</code>：更改模块版本前执行。</li>
-<li><code>postversion</code>：更改模块版本后执行。</li>
-<li><code>pretest</code>：运行<code>npm test</code>命令前执行。</li>
-<li><code>posttest</code>：运行<code>npm test</code>命令后执行。</li>
-<li><code>prestop</code>：运行<code>npm stop</code>命令前执行。</li>
-<li><code>poststop</code>：运行<code>npm stop</code>命令后执行。</li>
-<li><code>prestart</code>：运行<code>npm start</code>命令前执行。</li>
-<li><code>poststart</code>：运行<code>npm start</code>命令后执行。</li>
-<li><code>prerestart</code>：运行<code>npm restart</code>命令前执行。</li>
-<li><code>postrestart</code>：运行<code>npm restart</code>命令后执行。</li>
-</ul>
-<p>对于最后一个<code>npm restart</code>命令，如果没有设置<code>restart</code>脚本，<code>prerestart</code>和<code>postrestart</code>会依次执行stop和start脚本。</p>
-<p>另外，不能在<code>pre</code>脚本之前再加<code>pre</code>，即<code>prepretest</code>脚本不起作用。</p>
-<p>注意，即使Npm可以自动运行<code>pre</code>和<code>post</code>脚本，也可以手动执行它们。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run prepublish</div></pre></td></tr></table></figure>
-<p>下面是<code>post install</code>的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;postinstall&quot;: &quot;node lib/post_install.js&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面的这个命令，主要用于处理从Git仓库拉下来的源码。比如，有些源码是用TypeScript写的，可能需要转换一下。</p>
-<p>下面是<code>publish</code>钩子的一个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;dist:modules&quot;: &quot;babel ./src --out-dir ./dist-modules&quot;,</div><div class="line">  &quot;gh-pages&quot;: &quot;webpack&quot;,</div><div class="line">  &quot;gh-pages:deploy&quot;: &quot;gh-pages -d gh-pages&quot;,</div><div class="line">  &quot;prepublish&quot;: &quot;npm run dist:modules&quot;,</div><div class="line">  &quot;postpublish&quot;: &quot;npm run gh-pages &amp;&amp; npm run gh-pages:deploy&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面命令在运行<code>npm run publish</code>时，会先执行Babel编译，然后调用Webpack构建，最后发到Github Pages上面。</p>
-<p>以上都是npm相关操作的钩子，如果安装某些模块，还能支持Git相关的钩子。下面以<a href="https://github.com/typicode/husky" target="_blank" rel="external">husky</a>模块为例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install husky --save-dev</div></pre></td></tr></table></figure>
-<p>安装以后，就能在<code>package.json</code>添加<code>precommit</code>、<code>prepush</code>等钩子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;scripts&quot;: &#123;</div><div class="line">        &quot;lint&quot;: &quot;eslint yourJsFiles.js&quot;,</div><div class="line">        &quot;precommit&quot;: &quot;npm run test &amp;&amp; npm run lint&quot;,</div><div class="line">        &quot;prepush&quot;: &quot;npm run test &amp;&amp; npm run lint&quot;,</div><div class="line">        &quot;...&quot;: &quot;...&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>类似作用的模块还有<code>pre-commit</code>、<code>precommit-hook</code>等。</p>
-<h3 id="内部变量-script字段和config字段"><a href="#内部变量-script字段和config字段" class="headerlink" title="内部变量(script字段和config字段)"></a>内部变量(script字段和config字段)</h3><p>scripts字段可以使用一些内部变量，主要是package.json的各种字段。</p>
-<p>比如，package.json的内容是<code>{&quot;name&quot;:&quot;foo&quot;, &quot;version&quot;:&quot;1.2.5&quot;}</code>，那么变量<code>npm_package_name</code>的值是<code>foo</code>，变量<code>npm_package_version</code>的值是1.2.5。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;scripts&quot;:&#123;</div><div class="line">    &quot;bundle&quot;: &quot;mkdir -p build/$npm_package_version/&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>运行<code>npm run bundle</code>以后，将会生成<code>build/1.2.5/</code>子目录。</p>
-<p><code>config</code>字段也可以用于设置内部字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&quot;name&quot;: &quot;fooproject&quot;,</div><div class="line">&quot;config&quot;: &#123;</div><div class="line">  &quot;reporter&quot;: &quot;xunit&quot;</div><div class="line">&#125;,</div><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;test&quot;: &quot;mocha test/ --reporter $npm_package_config_reporter&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，变量<code>npm_package_config_reporter</code>对应的就是reporter。</p>
-<h3 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h3><p>npm的通配符的规则如下。</p>
-<ul>
-<li><code>*</code> 匹配0个或多个字符</li>
-<li><code>?</code> 匹配1个字符</li>
-<li><code>[...]</code> 匹配某个范围的字符。如果该范围的第一个字符是<code>!</code>或<code>^</code>，则匹配不在该范围的字符。</li>
-<li><code>!(pattern|pattern|pattern)</code> 匹配任何不符合给定的模式</li>
-<li><code>?(pattern|pattern|pattern)</code> 匹配0个或1个给定的模式</li>
-<li><code>+(pattern|pattern|pattern)</code> 匹配1个或多个给定的模式</li>
-<li><code>*(a|b|c)</code> 匹配0个或多个给定的模式</li>
-<li><code>@(pattern|pat*|pat?erN)</code> 只匹配给定模式之一</li>
-<li><code>**</code> 如果出现在路径部分，表示0个或多个子目录。</li>
-</ul>
-<h2 id="npm-link"><a href="#npm-link" class="headerlink" title="npm link"></a>npm link</h2><p>开发NPM模块的时候，有时我们会希望，边开发边试用，比如本地调试的时候，<code>require(&#39;myModule&#39;)</code>会自动加载本机开发中的模块。Node规定，使用一个模块时，需要将其安装到全局的或项目的<code>node_modules</code>目录之中。对于开发中的模块，解决方法就是在全局的<code>node_modules</code>目录之中，生成一个符号链接，指向模块的本地目录。</p>
-<p><code>npm link</code>就能起到这个作用，会自动建立这个符号链接。</p>
-<p>请设想这样一个场景，你开发了一个模块<code>myModule</code>，目录为<code>src/myModule</code>，你自己的项目<code>myProject</code>要用到这个模块，项目目录为<code>src/myProject</code>。首先，在模块目录（<code>src/myModule</code>）下运行<code>npm link</code>命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myModule$ npm link</div></pre></td></tr></table></figure>
-<p>上面的命令会在NPM的全局模块目录内，生成一个符号链接文件，该文件的名字就是<code>package.json</code>文件中指定的模块名。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/path/to/global/node_modules/myModule -&gt; src/myModule</div></pre></td></tr></table></figure>
-<p>这个时候，已经可以全局调用<code>myModule</code>模块了。但是，如果我们要让这个模块安装在项目内，还要进行下面的步骤。</p>
-<p>切换到项目目录，再次运行<code>npm link</code>命令，并指定模块名。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myProject$ npm link myModule</div></pre></td></tr></table></figure>
-<p>上面命令等同于生成了本地模块的符号链接。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myProject/node_modules/myModule -&gt; /path/to/global/node_modules/myModule</div></pre></td></tr></table></figure>
-<p>然后，就可以在你的项目中，加载该模块了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var myModule = require(&apos;myModule&apos;);</div></pre></td></tr></table></figure>
-<p>这样一来，<code>myModule</code>的任何变化，都可以直接反映在<code>myProject</code>项目之中。但是，这样也出现了风险，任何在<code>myProject</code>目录中对<code>myModule</code>的修改，都会反映到模块的源码中。</p>
-<p>如果你的项目不再需要该模块，可以在项目目录内使用<code>npm unlink</code>命令，删除符号链接。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src/myProject$ npm unlink myModule</div></pre></td></tr></table></figure>
-<h2 id="npm-bin"><a href="#npm-bin" class="headerlink" title="npm bin"></a>npm bin</h2><p><code>npm bin</code>命令显示相对于当前目录的Node模块的可执行脚本所在的目录（即<code>.bin</code>目录）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 项目根目录下执行</div><div class="line">$ npm bin</div><div class="line">./node_modules/.bin</div></pre></td></tr></table></figure>
-<h2 id="npm-adduser"><a href="#npm-adduser" class="headerlink" title="npm adduser"></a>npm adduser</h2><p><code>npm adduser</code>用于在npmjs.com注册一个用户。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ npm adduser</div><div class="line">Username: YOUR_USER_NAME</div><div class="line">Password: YOUR_PASSWORD</div><div class="line">Email: YOUR_EMAIL@domain.com</div></pre></td></tr></table></figure>
-<h2 id="npm-publish"><a href="#npm-publish" class="headerlink" title="npm publish"></a>npm publish</h2><p><code>npm publish</code>用于将当前模块发布到<code>npmjs.com</code>。执行之前，需要向<code>npmjs.com</code>申请用户名。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm adduser</div></pre></td></tr></table></figure>
-<p>如果已经注册过，就使用下面的命令登录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm login</div></pre></td></tr></table></figure>
-<p>登录以后，就可以使用<code>npm publish</code>命令发布。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm publish</div></pre></td></tr></table></figure>
-<p>如果当前模块是一个beta版，比如<code>1.3.1-beta.3</code>，那么发布的时候需要使用<code>tag</code>参数，将其发布到指定标签，默认的发布标签是<code>latest</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm publish --tag beta</div></pre></td></tr></table></figure>
-<p>如果发布私有模块，模块初始化的时候，需要加上<code>scope</code>参数。只有npm的付费用户才能发布私有模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init --scope=&lt;yourscope&gt;</div></pre></td></tr></table></figure>
-<p>如果你的模块是用ES6写的，那么发布的时候，最好转成ES5。首先，需要安装Babel。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install --save-dev babel-cli@6 babel-preset-es2015@6</div></pre></td></tr></table></figure>
-<p>然后，在<code>package.json</code>里面写入<code>build</code>脚本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&quot;scripts&quot;: &#123;</div><div class="line">  &quot;build&quot;: &quot;babel source --presets babel-preset-es2015 --out-dir distribution&quot;,</div><div class="line">  &quot;prepublish&quot;: &quot;npm run build&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>运行上面的脚本，会将<code>source</code>目录里面的ES6源码文件，转为<code>distribution</code>目录里面的ES5源码文件。然后，在项目根目录下面创建两个文件<code>.npmignore</code>和<code>.gitignore</code>，分别写入以下内容。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// .npmignore</div><div class="line">source</div><div class="line"></div><div class="line">// .gitignore</div><div class="line">node_modules</div><div class="line">distribution</div></pre></td></tr></table></figure>
-<h2 id="npm-deprecate"><a href="#npm-deprecate" class="headerlink" title="npm deprecate"></a>npm deprecate</h2><p>如果想废弃某个版本的模块，可以使用<code>npm deprecate</code>命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm deprecate my-thing@&quot;&lt; 0.2.3&quot; &quot;critical bug fixed in v0.2.3&quot;</div></pre></td></tr></table></figure>
-<p>运行上面的命令以后，小于<code>0.2.3</code>版本的模块的<code>package.json</code>都会写入一行警告，用户安装这些版本时，这行警告就会在命令行显示。</p>
-<h2 id="npm-owner"><a href="#npm-owner" class="headerlink" title="npm owner"></a>npm owner</h2><p>模块的维护者可以发布新版本。<code>npm owner</code>命令用于管理模块的维护者。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 列出指定模块的维护者</div><div class="line">$ npm owner ls &lt;package name&gt;</div><div class="line"></div><div class="line"># 新增维护者</div><div class="line">$ npm owner add &lt;user&gt; &lt;package name&gt;</div><div class="line"></div><div class="line"># 删除维护者</div><div class="line">$ npm owner rm &lt;user&gt; &lt;package name&gt;</div></pre></td></tr></table></figure>
-<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><h3 id="npm-home，npm-repo"><a href="#npm-home，npm-repo" class="headerlink" title="npm home，npm repo"></a>npm home，npm repo</h3><p><code>npm home</code>命令可以打开一个模块的主页，<code>npm repo</code>命令则是打开一个模块的代码仓库。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm home $package</div><div class="line">$ npm repo $package</div></pre></td></tr></table></figure>
-<p>这两个命令不需要模块先安装。</p>
-<h3 id="npm-outdated"><a href="#npm-outdated" class="headerlink" title="npm outdated"></a>npm outdated</h3><p><code>npm outdated</code>命令检查当前项目所依赖的模块，是否已经有新版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm outdated</div></pre></td></tr></table></figure>
-<p>它会输出当前版本（current version）、应当安装的版本（wanted version）和最新发布的版本（latest version）。</p>
-<h3 id="npm-prune"><a href="#npm-prune" class="headerlink" title="npm prune"></a>npm prune</h3><p><code>npm prune</code>检查当前项目的<code>node_modules</code>目录中，是否有<code>package.json</code>里面没有提到的模块，然后将所有这些模块输出在命令行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm prune</div></pre></td></tr></table></figure>
-<h3 id="npm-shrinkwrap"><a href="#npm-shrinkwrap" class="headerlink" title="npm shrinkwrap"></a>npm shrinkwrap</h3><p><code>npm shrinkwrap</code>的作用是锁定当前项目的以来模块的版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm shrinkwrap</div></pre></td></tr></table></figure>
-<p>运行该命令后，会在当前项目的根目录下生成一个<code>npm-shrinkwrap.json</code>文件，内容是<code>node_modules</code>目录下所有已经安装模块的版本。</p>
-<p>下次运行<code>npm install</code>命令时，<code>npm</code>发现当前目录下有<code>npm-shrinkwrap.json</code>文件，就会只安装里面提到的模块，且版本也会保持一致。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/09/配置相关—npm/" class="archive-article-date">
-  	<time datetime="2017-03-09T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-09</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/配置文件/">配置文件</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-react-redux,applyMiddleware" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/27/react-redux,applyMiddleware/">react-redux,applyMiddleware</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>react-redux详细教程请参考阮一峰的文章:<a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html" target="_blank" rel="external">react-redux</a>,这里只是介绍一些基本用法，及自己遇到的一点痛点，<code>applyMiddleware</code>先介绍 两个常用的<code>redux-thunk</code>和<code>redux-logger</code></p>
-</blockquote>
-<h2 id="统一整理-想到哪写到哪…"><a href="#统一整理-想到哪写到哪…" class="headerlink" title="统一整理(想到哪写到哪…)"></a>统一整理(想到哪写到哪…)</h2><p>项目源码在github上戳<a href="https://github.com/Jasonellen/react-plus" target="_blank" rel="external">react-plus</a></p>
-<h3 id="一，react-redux有什么用？"><a href="#一，react-redux有什么用？" class="headerlink" title="一，react-redux有什么用？"></a>一，<code>react-redux</code>有什么用？</h3><p>​    React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component)。</p>
-<ul>
-<li><p>UI组件只负责 UI 的呈现，不带有任何业务逻辑</p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">    /**</div><div class="line">     *state,add,del是哪里的？就是函数mapStateToProps和mapDispatchToProps返回的</div><div class="line">     **/</div><div class="line">    const &#123;state,add,del&#125;=this.props;</div><div class="line">    return (</div><div class="line">        &lt;View style=&#123;styles.container&#125;&gt;</div><div class="line">            &lt;View style=&#123;styles.item&#125;&gt;</div><div class="line">                &lt;Text style=&#123;&#123;color: &apos;red&apos;&#125;&#125;&gt;&#123;state.sum&#125;&lt;/Text&gt;</div><div class="line">            &lt;/View&gt;</div><div class="line">            &lt;View style=&#123;[styles.item, &#123;top: 10&#125;]&#125;&gt;</div><div class="line">                &lt;TouchableWithoutFeedback onPress=&#123;add&#125; &gt;</div><div class="line">                    &lt;View style=&#123;styles.touch&#125;&gt;</div><div class="line">                        &lt;Text style=&#123;styles.but&#125;&gt;+&lt;/Text&gt;</div><div class="line">                    &lt;/View&gt;</div><div class="line">                &lt;/TouchableWithoutFeedback&gt;</div><div class="line">            &lt;View&gt;</div><div class="line">        &lt;View&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>所有数据都由参数（<code>this.props</code>）提供</p>
-<ul>
-<li><p>React-Redux 提供<code>Provider</code>组件，可以让容器组件拿到<code>state</code>。</p>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">render(</div><div class="line">  &lt;Provider store=&#123;store&#125;&gt; </div><div class="line">    &lt;App /&gt;</div><div class="line">    //然后App组件就可以通过this.props获取`每个组件JS文件内部定义的mapStateToProps中返回的state和mapDispatchToProps中返回的回调方法</div><div class="line">  &lt;/Provider&gt;,</div><div class="line">  document.getElementById(&apos;root&apos;)</div><div class="line">)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>React-Redux 提供<code>connect</code>方法，用于从 UI 组件生成容器组件</p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function mapStateToProps(state)&#123;</div><div class="line">  return &#123;</div><div class="line">    state: state.Index1 </div><div class="line">    //state是全局的state,Index1是Index1(reducer)返回的state,因为state内部包含所有reducer返回的state,所以这里需要用.语法确定需要传递那个reducer返回的状态给UI组件使用</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function mapDispatchToProps(dispatch) &#123;</div><div class="line">  return&#123;</div><div class="line">	add: () =&gt;   dispatch(IndexAction.add())①</div><div class="line">	//IndexAction.add()执行Action中的一个函数，返回一个action对象</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/*action add()函数下面这样</div><div class="line">  export function add() &#123;</div><div class="line">      return &#123;</div><div class="line">          type: &apos;INDEX_ADD&apos;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export default connect(  mapStateToProps,  mapDispatchToProps)(UIComponent)</div><div class="line">//导出容器组件</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>容器组件负责管理数据和业务逻辑</p>
-</li>
-<li><p>Reducer触发了mapDispatchToProps中的方法后自动执行</p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">import * as types from &apos;../constant/ActionTypes&apos;;</div><div class="line"></div><div class="line">const initialState = &#123;</div><div class="line">    sum:0</div><div class="line">&#125;;</div><div class="line">export default function IndexReducer(state = initialState, action = &#123;&#125;) &#123;</div><div class="line">    switch (action.type)&#123; </div><div class="line">        case types.INDEX_ADD: ②</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum+1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_DEL:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum-1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            return state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>//执行了上面①出的dispatch方法后②出的reducer就会执行并返回最新的状态，那么问题来了,如果我想再来一个➕1的UI，怎么实现呢？直接增加一个UI容器组件，然后加一个reducer像下面这样？</p>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import * as types from &apos;../constant/ActionTypes&apos;;</div><div class="line">const initialState = &#123;</div><div class="line">    sum:0</div><div class="line">&#125;;</div><div class="line">export default function IndexReducer2(state = initialState, action = &#123;&#125;) &#123;</div><div class="line">    switch (action.type)&#123;</div><div class="line">        case types.INDEX_ADD:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum+1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_DEL:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:state.sum-1</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        case types.INDEX_INIT:</div><div class="line">            return &#123;</div><div class="line">                ...state,</div><div class="line">                sum:action.param!=undefined</div><div class="line">            &#125;;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            return state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>结果就是两个加操作会一起执行，点击第一个加按钮，第二个一起增加，原因是因为点击第一个加按钮和点击第二个加按钮执行的<code>mapDispatchToProps</code>方法都是触发相同的<code>action:{ type: &#39;INDEX_ADD&#39;}</code>所以会触发所有监听此<code>action</code>的所有的reducer,解决的办法就是每个<code>reducer</code>监听自己的<code>action</code>,只要在action增加一个function add2(){ return {  type: types.INDEX2_ADD} },然后设置IndexReducer2，</p>
-<p> case types.INDEX2_ADD:<br>​            return {<br>​                …state,<br>​                sum:state.sum+1<br>​            };<br>​            break;</p>
-<p>即可完各自reducer监听各自的action执行并返回各自的state</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="二，redux-logger有什么用？"><a href="#二，redux-logger有什么用？" class="headerlink" title="二，redux-logger有什么用？"></a>二，<code>redux-logger</code>有什么用？</h3><p>就是说为了方便调试，<code>redux-logger</code>中间键会加入到<code>store</code>中后会<code>自动监听</code>状态更新，并在控制台打印出向相关信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">action @ 00:29:13.950 INDEX_ADD</div><div class="line"> prev state  Object</div><div class="line"> 			 IndexReduer:Object</div><div class="line"> 			 	sum:0</div><div class="line"> action Object</div><div class="line"> 		type:&apos;INDEX_ADD&apos;</div><div class="line"> next state  Object</div><div class="line"> 			 IndexReduer:Object</div><div class="line"> 			 	sum:1</div><div class="line">这样的相关信息...</div></pre></td></tr></table></figure>
-<h3 id="三，加入中间键后store的创建方式"><a href="#三，加入中间键后store的创建方式" class="headerlink" title="三，加入中间键后store的创建方式"></a>三，加入中间键后store的创建方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">// rootReducer.js</div><div class="line">import &#123; combineReducers &#125; from &apos;redux&apos;;</div><div class="line">import IndexReducer from &apos;./IndexReducer&apos;;</div><div class="line">import IndexReducer2 from &apos;./indexReducer2&apos;;</div><div class="line">const RootReducer = combineReducers(&#123;</div><div class="line">    IndexReducer,IndexReducer2  //通过combineReducers合成一个总rootReducer</div><div class="line">&#125;);</div><div class="line">export default RootReducer;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">// configure-store.js  //用于生成store</div><div class="line">import &#123;createStore, applyMiddleware&#125; from &apos;redux&apos;;</div><div class="line">import  rootReducer from &apos;../reducer/RootReducer&apos;;</div><div class="line">import thunk from &apos;redux-thunk&apos;;</div><div class="line">const middlewares = [thunk];</div><div class="line"></div><div class="line">const createLogger = require(&apos;redux-logger&apos;);</div><div class="line">if (process.env.NODE_ENV === &apos;development&apos;) &#123;</div><div class="line">    const logger = createLogger();</div><div class="line">    //redux 日志打印</div><div class="line">    middlewares.push(logger);</div><div class="line">&#125;</div><div class="line">// store生成方式一，网上好像这样方式还比较多</div><div class="line">const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);</div><div class="line">export default function configureStore(initialState) &#123;</div><div class="line">    const store = createStoreWithMiddleware(rootReducer, initialState);</div><div class="line">    return store;</div><div class="line">&#125;</div><div class="line">// store生成方式二，还是感觉这种比较简单(可以直接在主界面使用)</div><div class="line">export default function configureStore(initialState) &#123;</div><div class="line">   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));</div><div class="line">    return store;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="三，redux-thunk有什么用？"><a href="#三，redux-thunk有什么用？" class="headerlink" title="三，redux-thunk有什么用？"></a>三，<code>redux-thunk</code>有什么用？</h3><p>redux-thunk,是为了异步使用dispatch方法而使用的，和<code>redux-logger</code>一样，由store加入后自动生效，使用场景？我来小举一例：</p>
-<p>例如上面的点击加一操作是这样的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1，  const &#123;state,add,del&#125;=this.props;</div><div class="line">2， &lt;Text style=&#123;styles.but&#125; onPress=&#123;add&#125;&gt;+&lt;/Text&gt;</div><div class="line">3， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt;   dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>那么我现在我需要实现点击第一个加一按钮3秒才执行加一，</p>
-<p>不用<code>redux-thunk</code>我们可以这样做：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">1， const &#123;state,add,del&#125;=this.props;</div><div class="line">2， startAdd()&#123;</div><div class="line">		setTimeout(function()&#123;</div><div class="line">          add();</div><div class="line">		&#125;,3000)</div><div class="line">	&#125;</div><div class="line">3， &lt;Text style=&#123;styles.but&#125; onPress=&#123;this.startAdd&#125;&gt;+&lt;/Text&gt;</div><div class="line">4， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt;   dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>使用了<code>redux-thunk</code>后可以这样做：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">1， const &#123;state,add,del&#125;=this.props;</div><div class="line">2， &lt;Text style=&#123;styles.but&#125; onPress=&#123;add&#125;&gt;+&lt;/Text&gt;</div><div class="line">3， function mapDispatchToProps(dispatch) &#123;</div><div class="line">  		return&#123;</div><div class="line">			add: () =&gt; dispatch(function(dispatch,getState)&#123;</div><div class="line">			  console.log(getState())</div><div class="line">              setTimeout(function()&#123;</div><div class="line">                dispatch(&#123;type:&apos;INDEX_ADD&apos;&#125;)</div><div class="line">              &#125;,3000)</div><div class="line">			&#125;)</div><div class="line">  		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>也就是说本来只能传入<code>{}</code>作为参数的dispatch用了<code>redux-thunk</code>后可以传一个函数作为参数，然后再这个函数内部执行dispatch就可以了，所有可以在函数内部执行setTimeout和fetch等方法了，实现异步的redux操作，同时thunk还支持第二个参数，用来获取全局state!</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/27/react-redux,applyMiddleware/" class="archive-article-date">
-  	<time datetime="2017-02-26T17:09:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-import" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/21/import/">import</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>作为一个初学者，在如何导入/导出自己写的组件时，有时也是摸不着头脑，想我当年一样喽☺</p>
-</blockquote>
-<h1 id="下面列举几个常见的栗子🌰"><a href="#下面列举几个常见的栗子🌰" class="headerlink" title="下面列举几个常见的栗子🌰"></a>下面列举几个常见的栗子🌰</h1><h3 id="1-import-React-Component-from-‘react’"><a href="#1-import-React-Component-from-‘react’" class="headerlink" title="1. import React ,{ Component } from ‘react’;"></a>1. import React ,{ Component } from ‘react’;</h3><pre><code>这是RN 0.26后导入React的方式，这意思是，导入‘react’文件里export的一个默认的组件，将其命名为React以及Component这个非默认组件
-</code></pre><p>​    </p>
-<h3 id="2-import-Home-from-‘-Home’"><a href="#2-import-Home-from-‘-Home’" class="headerlink" title="2.import Home from ‘./Home’;"></a>2.import Home from ‘./Home’;</h3><pre><code>这是导入‘Home’文件里export的带default关键字的组件，即默认组件,将其命名为Home(可以自定义命名)
-</code></pre><p><img src="http://wx4.sinaimg.cn/mw690/908edb0egy1fckd559kn5j20ea0b43z3.jpg" alt=""></p>
-<h3 id="3-import-Home-from-‘-Home’"><a href="#3-import-Home-from-‘-Home’" class="headerlink" title="3.import { Home } from ‘./Home’;"></a>3.import { Home } from ‘./Home’;</h3><pre><code>导入‘Home’文件里export的叫Home的 非默认组件，注意，非默认，非默认，非默认，以及命名Home,命名Home,命名Home
-</code></pre><p>​    </p>
-<h3 id="4-import-Home-Discover-from-‘-Home’"><a href="#4-import-Home-Discover-from-‘-Home’" class="headerlink" title="4.import { Home , Discover } from ‘/Home’;"></a>4.import { Home , Discover } from ‘/Home’;</h3><pre><code>跟3的差不多，不过是{  },可以导入多个组件，用，隔开就可以
-</code></pre><p>​    </p>
-<h3 id="5-import-as-Home-from’-compoments-Home’"><a href="#5-import-as-Home-from’-compoments-Home’" class="headerlink" title="5.import * as Home from’./compoments/Home’;"></a>5.import * as Home from’./compoments/Home’;</h3><pre><code>意思是将./compoments/Home&apos;文件里的所有非默认组件，全部集结成一个Home模型组件，命名可以自定义，然后可以通过点语法，来使用组件里面的所有export的组件，例如：
-</code></pre><p><img src="http://wx1.sinaimg.cn/mw690/908edb0egy1fckda4pc8gj20hx0bgmy0.jpg" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/21/import/" class="archive-article-date">
-  	<time datetime="2017-02-21T08:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/import/">import</a></li></ul>
 	</div>
 
       

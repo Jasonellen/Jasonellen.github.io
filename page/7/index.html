@@ -236,6 +236,802 @@
       <div class="body-wrap">
         
   
+    <article id="post-filter滤镜" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/25/filter滤镜/">filter滤镜</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="今天分享一个滤镜小插件"><a href="#今天分享一个滤镜小插件" class="headerlink" title="今天分享一个滤镜小插件"></a>今天分享一个滤镜小插件</h2><p><code>使用方式非常简单,如下：</code></p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;title&gt;Filter Demo&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;filter.css&quot;&gt;
+&lt;/head&gt;  
+&lt;body&gt;
+    &lt;div class=&quot;kelvin&quot;&gt;
+          &lt;img src=&quot;http://una.im/CSSgram/img/lakegeneva.jpg&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;  
+&lt;/html&gt; 
+</code></pre><p><code>头部引入插件，对应图片加上类名，所有类名已写在图片左下角，点击预览查看</code></p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.html" target="_blank" rel="external">效果预览</a><br>文件在我的github：<a href="https://github.com/Jasonellen/jasonProject.github.io/tree/master/filter" target="_blank" rel="external">Jasonellen</a><br>或者直接点击下载：<a href="https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.css" download="" target="_blank" rel="external">文件下载</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/25/filter滤镜/" class="archive-article-date">
+  	<time datetime="2016-10-25T13:44:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/filter/">filter</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vue之路由和请求" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/18/Vue之路由和请求/">Vue之路由和请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-router.js" target="_blank" rel="external">vue-router.js</a>，<br>Vue的http请求就是相当于ajax,依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-resource.js" target="_blank" rel="external">vue-resource.js</a></p>
+</blockquote>
+<p><code>直接贴完成页面</code></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;script src=&quot;vue.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;vue-router.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;vue-resource.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        a{   
+            text-decoration: none;  //因为router-link编译后就是a
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;div id=&quot;app&quot;&gt;
+          &lt;h1&gt;Hello App!&lt;/h1&gt;
+          &lt;p&gt;
+            &lt;!-- 使用 router-link 组件来导航. --&gt;
+            &lt;!-- 通过传入 `to` 属性指定链接. --&gt;
+            &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;
+            &lt;router-link to=&quot;/foo&quot;&gt;Go to Foo&lt;/router-link&gt;
+            &lt;router-link to=&quot;/bar&quot;&gt;Go to Bar&lt;/router-link&gt;
+            &lt;!-- 自定义的组件模板 --&gt;
+            &lt;self-component&gt;&lt;/self-component&gt;
+          &lt;/p&gt;
+
+          &lt;!-- 路由出口 --&gt;
+          &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+        &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;div&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+
+    // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 vue.use(vuerouter)
+
+    // 1. 定义（路由）组件。
+    // 也可以从其他文件 import 进来
+    const Foo = { template: &apos;&lt;div&gt;foo&lt;/div&gt;&apos; }
+    const Bar = Vue.component(&apos;self-component&apos;, { template: &apos;&lt;div&gt;bar&lt;/div&gt;&apos; })
+
+    // 2. 定义路由
+    // 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是
+    const routes = [
+      { path: &apos;/foo&apos;, component: Foo },
+      { path: &apos;/bar&apos;, component: Bar }
+    ]
+
+    // 3. 创建 router 实例，然后传 `routes` 配置
+    // 你还可以传别的配置参数, 不过先这么简单着吧。
+    const route1 = new VueRouter({
+      routes, // （缩写）相当于 routes: routes
+    })
+
+    // 4. 创建和挂载根实例。
+    // 记得要通过 router 配置参数注入路由，
+    const app = new Vue({
+        //el:&apos;#app&apos;,  和下面的$mount一样的效果
+      router:route1,
+      mounted:function(){
+          //当然也可以是get
+        this.$http.jsonp(&apos;http://rap.taobao.org/mockjsdata/8591/api&apos;,{
+                params: { productCourseId: 234,productId:456} //参数列表
+            })
+            .then(function(response){
+                return response.json();  //这里 == response.body
+            })
+            .then(function(response){
+                console.log(response.data)
+            })
+      }
+    }).$mount(&apos;#app&apos;)
+
+    //post方式 不需要params，但是需要加一个参数对象emulateJSON:true
+    this.$http.jsonp(&apos;http://rap.taobao.org/mockjsdata/8591/api&apos;,{
+                productCourseId: 234,productId:456 //参数列表
+            },{
+                emulateJSON:true
+            })
+            .then(function(response){
+                return response.json();  //这里 == response.body
+            })
+            .then(function(response){
+                console.log(response.data)
+            })
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/18/Vue之路由和请求/" class="archive-article-date">
+  	<time datetime="2016-10-18T06:17:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vue表单与组件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/14/Vue表单与组件/">Vue表单与组件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="表单的数据绑定"><a href="#表单的数据绑定" class="headerlink" title="表单的数据绑定"></a>表单的数据绑定</h1><p><code>文本：</code></p>
+<pre><code>&lt;input v-model=&quot;message&quot; placeholder=&quot;edit me&quot;&gt;
+&lt;p&gt;Message is: {{ message }}&lt;/p&gt;
+</code></pre><p><code>多行文本：</code>  </p>
+<pre><code>&lt;!--white-space:pre 使得空格不会被解析--&gt;
+&lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
+&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
+</code></pre><p><code>复选框：</code></p>
+<pre><code>&lt;!--如果就一个复选框--&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot; v-model=&quot;checked&quot;&gt;
+&lt;label for=&quot;checkbox&quot;&gt;{{ checked }}&lt;/label&gt;
+
+&lt;!--如果有多个复选框，应该绑定到同一个数组--&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;jack&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;label for=&quot;jack&quot;&gt;Jack&lt;/label&gt;
+&lt;input type=&quot;checkbox&quot; id=&quot;john&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;label for=&quot;john&quot;&gt;John&lt;/label&gt;
+&lt;span&gt;Checked names: {{ checkedNames }}&lt;/span&gt;
+new Vue({
+      el: &apos;...&apos;,
+      data: {
+        checkedNames: []
+      }
+})
+</code></pre><p><code>单选框：</code></p>
+<pre><code>&lt;!--不需要数组，邦定到同一个data变量上即可--&gt;
+&lt;input type=&quot;radio&quot; id=&quot;one&quot; value=&quot;One&quot; v-model=&quot;picked&quot;&gt;
+&lt;label for=&quot;one&quot;&gt;One&lt;/label&gt;
+&lt;br&gt;
+&lt;input type=&quot;radio&quot; id=&quot;two&quot; value=&quot;Two&quot; v-model=&quot;picked&quot;&gt;
+&lt;label for=&quot;two&quot;&gt;Two&lt;/label&gt;
+&lt;br&gt;
+&lt;span&gt;Picked: {{ picked }}&lt;/span&gt;
+</code></pre><p><code>表单传值===选中后绑定的data变量的值</code></p>
+<pre><code>&lt;!-- 当选中时，`picked` 为字符串 &quot;a&quot; --&gt;
+&lt;input type=&quot;radio&quot; v-model=&quot;picked&quot; value=&quot;a&quot;&gt;
+&lt;!-- `toggle` 为 true 或 false --&gt;
+&lt;input type=&quot;checkbox&quot; v-model=&quot;toggle&quot;&gt;
+&lt;!-- 当选中时，`selected` 为字符串 &quot;abc&quot; --&gt;
+&lt;select v-model=&quot;selected&quot;&gt;
+      &lt;option value=&quot;abc&quot;&gt;ABC&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!--当然可以用v-bind:value 使得value也是动态的值--&gt;
+单选：
+&lt;input type=&quot;radio&quot; v-model=&quot;pick&quot; v-bind:value=&quot;a&quot;&gt;
+// 当选中时
+vm.pick === vm.a
+
+复选：
+&lt;input
+  type=&quot;checkbox&quot;
+  v-model=&quot;toggle&quot;
+  v-bind:true-value=&quot;a&quot;
+  v-bind:false-value=&quot;b&quot;&gt;
+
+  // 当选中时
+vm.toggle === vm.a
+// 当没有选中时
+vm.toggle === vm.b
+
+列表：
+&lt;select v-model=&quot;selected&quot;&gt;
+    &lt;!-- 内联对象字面量 --&gt;
+      &lt;option v-bind:value=&quot;{ number: 123 }&quot;&gt;123&lt;/option&gt;
+&lt;/select&gt;
+// 当选中时
+typeof vm.selected // -&gt; &apos;object&apos;
+vm.selected.number // -&gt; 123
+</code></pre><h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><pre><code>&lt;!-- 在 &quot;change&quot; 而不是 &quot;input&quot; 事件中更新 --&gt;
+&lt;input v-model.lazy=&quot;msg&quot; &gt;
+
+&lt;!--自动将用户的输入值转为 Number 类型（如果原值的转换结果为 NaN 则返回原值）--&gt;
+&lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
+
+&lt;!--自动过滤用户输入的首尾空格--&gt;
+&lt;input v-model.trim=&quot;msg&quot;&gt;
+</code></pre><h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><blockquote>
+<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。</p>
+</blockquote>
+<p><code>全局组件：</code></p>
+<pre><code>&lt;div id=&quot;example&quot;&gt;
+      &lt;my-component&gt;&lt;/my-component&gt;
+&lt;/div&gt;
+// 注册
+Vue.component(&apos;my-component&apos;, {
+      template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;
+})
+// 创建根实例
+new Vue({
+      el: &apos;#example&apos;
+})
+</code></pre><p><code>局部组件：仅实例/组件的作用域中可用：</code><br>​<br>    var Child = {<br>          template: ‘<div>A custom component!</div>‘<br>    }<br>    new Vue({<br>          components: {<br>            // <my-component> 将只在父模板可用<br>            ‘my-component’: Child,<br>            App, // App组件 == ‘App’:App,<br>          }<br>    })<br><code>组件限制--is</code></my-component></p>
+<pre><code>源于&lt;ul&gt; ， &lt;ol&gt;， &lt;table&gt; ， &lt;select&gt; 限制其内部的元素
+无效：
+&lt;table&gt;
+      &lt;my-row&gt;...&lt;/my-row&gt;
+&lt;/table&gt;
+有效：
+&lt;table&gt;
+      &lt;tr is=&quot;my-row&quot;&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre><h4 id="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："><a href="#应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：" class="headerlink" title="应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用："></a>应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：</h4><pre><code>&lt;script type=&quot;text/x-template&quot;&gt;
+JavaScript内联模版字符串
+.vue 组件
+</code></pre><h4 id="组件的使用。要确保在初始化根实例-之前-注册了组件"><a href="#组件的使用。要确保在初始化根实例-之前-注册了组件" class="headerlink" title="组件的使用。要确保在初始化根实例 之前 注册了组件"></a>组件的使用。要确保在初始化根实例 之前 注册了组件</h4><h4 id="data-必须是函数"><a href="#data-必须是函数" class="headerlink" title="data 必须是函数"></a>data 必须是函数</h4><pre><code>Vue.component(&apos;simple-counter&apos;, {
+      data: function () {
+        return {}
+      }
+})
+</code></pre><h4 id="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"><a href="#每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量" class="headerlink" title="每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量"></a>每个组件都用它自己的data属性，互不干扰，除非组件共用外部的变量</h4><pre><code>&lt;div id=&quot;example-2&quot;&gt;
+      &lt;simple-counter&gt;&lt;/simple-counter&gt;
+      &lt;simple-counter&gt;&lt;/simple-counter&gt;
+&lt;/div&gt;
+var data = { counter: 0 }
+Vue.component(&apos;simple-counter&apos;, {
+      template: &apos;&lt;button v-on:click=&quot;counter += 1&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
+      // 但是我们为每一个组件返回了同一个对象引用
+      data: function () {
+        //return data   //两个组件的值一起变
+        return {counter:0} //互不干扰
+      }
+})
+</code></pre><h2 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h2><p><code>父组件通过 props 向下传递数据给子组件，子组件通过 emit 给父组件发送消息。</code><br><img src="https://vuefe.cn/images/props-events.png" alt=""></p>
+<h4 id="props"><a href="#props" class="headerlink" title="props"></a>props</h4><p><code>常规使用</code></p>
+<pre><code>&lt;!--注意属性值用‘-’   这里是静态的hello--&gt;
+&lt;child my-message=&quot;hello!&quot;&gt;&lt;/child&gt;
+Vue.component(&apos;child&apos;, {
+      // 声明 props
+      props: [&apos;myMessage&apos;],
+      // 就像 data 一样，prop 可以用在模板内
+      // 同样也可以在 vm 实例中像 “this.message” 这样使用
+      template: &apos;&lt;span&gt;{{ myMessage }}&lt;/span&gt;&apos;
+})
+
+&lt;!--属性props动态值传递需要 v-bind --&gt;
+&lt;!-- 传递实际的数字1，也可以是变量(例如data里的变量) --&gt;
+&lt;comp v-bind:some-prop=&quot;1&quot;&gt;&lt;/comp&gt;
+</code></pre><p><code>props需要默认值或验证</code><br>    验证不通过也会正常显示，只是在后台报错，主要是给其他使用组件的朋友看的</p>
+<pre><code>Vue.component(&apos;example&apos;, {
+      props: {
+        // 基础类型检测 （`null` 意思是任何类型都可以）
+        propA: Number,
+        // 多种类型
+        propB: [String, Number],
+        // 必传且是字符串
+        propC: {
+              type: String,
+              required: true
+        },
+        // 数字，有默认值
+        propD: {
+              type: Number,
+              default: 100
+        },
+        // 数组／对象的默认值应当由一个工厂函数返回 *******必须是函数*****
+        propE: {
+              type: Object,
+              default: function () {
+                return { message: &apos;hello&apos; }
+              }
+        },
+        // 自定义验证函数
+        propF: {
+              validator: function (value) {
+                return value &gt; 10
+              }
+        }
+      }
+})
+</code></pre><p><code>emit向父组件传递数据</code></p>
+<pre><code>&lt;div id=&quot;counter-event-example&quot;&gt;
+      &lt;p&gt;{{ total }}&lt;/p&gt;
+              &lt;!--组件的increment事件出发后执行实例的incrementTotal方法--&gt;
+      &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;
+
+      &lt;!--组件使用.native说明使用的是原生click事件不是绑定的事件--&gt;
+      &lt;!--&lt;my-component v-on:click.native=&quot;doTheThing&quot;&gt;&lt;/my-component&gt;--&gt;
+
+&lt;/div&gt;
+Vue.component(&apos;button-counter&apos;, {
+                //1,组件内btn点击触发函数increment
+      template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;{{ counter }}&lt;/button&gt;&apos;,
+      data: function () {
+        return {
+              counter: 0
+        }
+      },
+      methods: {
+        increment: function () {
+              this.counter += 1
+              // 2,函数执行后触发组件的increment事件 //带了数据出去
+              this.$emit(&apos;increment&apos;,&apos;传递的数据&apos;)
+        }
+      },
+})
+new Vue({
+      el: &apos;#counter-event-example&apos;,
+      data: {
+        total: 0,
+        str=&apos;&apos;,
+      },
+      methods: {
+          //实例方法执行，成功获取到组件内部传递的数据  //注意有参
+        incrementTotal: function (a) {
+              this.total += 1
+              this.str = a  //this.str = &apos;传递的数据&apos;
+        }
+      }
+})
+</code></pre><h2 id="插槽Slots–分发内容"><a href="#插槽Slots–分发内容" class="headerlink" title="插槽Slots–分发内容"></a>插槽Slots–分发内容</h2><blockquote>
+<p>slot标签中的任何内容都被视为备用内容。备用内容在子组件的作用域内编译，并且只有在宿主元素为空，且没有要插入的内容时才显示备用内容。</p>
+</blockquote>
+<p><code>单个插槽：</code></p>
+<pre><code>//component组件
+&lt;div&gt;
+      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+      &lt;slot&gt;如果没有分发内容则显示我。&lt;/slot&gt;
+&lt;/div&gt;
+
+//html
+&lt;div&gt;
+      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
+      &lt;my-component&gt;
+        &lt;p&gt;插入的内容&lt;/p&gt;
+      &lt;/my-component&gt;
+&lt;/div&gt;
+
+//渲染结果：
+&lt;div&gt;
+      &lt;h1&gt;I&apos;m the parent title&lt;/h1&gt;
+
+      &lt;div&gt;
+          &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+          &lt;p&gt;插入的内容&lt;/p&gt;
+    &lt;/div&gt;
+      &lt;h2&gt;I&apos;m the child title&lt;/h2&gt;
+&lt;/div&gt;
+</code></pre><p><code>多个slot:用name分配：</code></p>
+<pre><code>//组件
+&lt;div class=&quot;container&quot;&gt;
+      &lt;header&gt;
+            &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;
+      &lt;/header&gt;
+     &lt;main&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/main&gt;
+      &lt;footer&gt;
+        &lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;
+      &lt;/footer&gt;
+&lt;/div&gt;
+
+//html
+&lt;app-layout&gt;
+      &lt;h1 slot=&quot;header&quot;&gt;header&lt;/h1&gt;
+      &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+      &lt;p slot=&quot;footer&quot;&gt;footer&lt;/p&gt;
+&lt;/app-layout&gt;
+
+//渲染结果
+&lt;div class=&quot;container&quot;&gt;
+      &lt;header&gt;
+        &lt;h1&gt;header&lt;/h1&gt;
+      &lt;/header&gt;
+
+      &lt;main&gt;
+        &lt;p&gt;A paragraph for the main content.&lt;/p&gt;
+      &lt;/main&gt;
+
+      &lt;footer&gt;
+        &lt;p&gt;footer&lt;/p&gt;
+      &lt;/footer&gt;
+&lt;/div&gt;
+</code></pre><h2 id="切换组件显示"><a href="#切换组件显示" class="headerlink" title="切换组件显示"></a>切换组件显示</h2><pre><code>var vm = new Vue({
+      el: &apos;#example&apos;,
+      data: {
+        currentView: &apos;home&apos;
+      },
+      components: {
+            home: { /* ... */ },
+        posts: { /* ... */ },
+        archive: { /* ... */ }
+      }
+})
+//keep-alive切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。
+&lt;keep-alive&gt;
+    &lt;component v-bind:is=&quot;currentView&quot;&gt;
+      &lt;!-- 组件在 vm.currentview 变化时改变！ --&gt;
+    &lt;/component&gt;
+&lt;/keep-alive&gt;
+</code></pre><h3 id="子组件索引"><a href="#子组件索引" class="headerlink" title="子组件索引"></a>子组件索引</h3><h5 id="—获取其他不相关的组件并加以控制器内部实现"><a href="#—获取其他不相关的组件并加以控制器内部实现" class="headerlink" title="—获取其他不相关的组件并加以控制器内部实现"></a>—获取其他不相关的组件并加以控制器内部实现</h5><pre><code>&lt;div id=&quot;parent&quot;&gt;
+      &lt;user-profile ref=&quot;profile&quot;&gt;&lt;/user-profile&gt;
+&lt;/div&gt;
+
+var parent = new Vue({ el: &apos;#parent&apos; })
+// 访问子组件
+var child = parent.$refs.profile;
+
+//然后就可以控制child的内部实现--
+    如child.a=..
+    child.fn();
+</code></pre><p><em>尽管在 Vue 中渲染 HTML 很快，不过当组件中包含大量静态内容时，可以考虑使用 v-once 将渲染结果缓存起来 <div v-once=""></div>–注意使用v-once后内部值或者变量都只会执行一次，后续不会再变动，包括子节点</em></p>
+<h1 id="先到这里OVER"><a href="#先到这里OVER" class="headerlink" title="先到这里OVER"></a>先到这里OVER</h1><p>​    </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/14/Vue表单与组件/" class="archive-article-date">
+  	<time datetime="2016-10-14T12:03:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/12/Vue之数据绑定/">Vue数据绑定</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
+<p><strong> $ npm install vue </strong></p>
+<h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
+<pre><code>var app = new Vue({
+      el: &apos;#app&apos;,
+      //实例代理属性data
+      data: {
+        message: &apos;Hello Vue!&apos;,
+        seen: true,
+        todos: [
+              { text: &apos;Learn JavaScript&apos; },
+              { text: &apos;Learn Vue&apos; },
+              { text: &apos;Build something awesome&apos; }
+        ],
+        html:&apos;&lt;p&gt;这是插入的p标签&lt;/p&gt;&apos;,
+        ...
+        filters: {
+            capitalize: function (value) {
+              if (!value) return &apos;&apos;
+              value = value.toString()
+              return value.charAt(0).toUpperCase() + value.slice(1)
+           }
+      },
+      //计算属性
+      computed:{
+          reverseMessage:function(){...},
+          //绑定fullName，没有参数默认执行getter，有参数默认执行setter
+          fullName: {
+            // getter
+            get: function () {
+                  return this.firstName + &apos; &apos; + this.lastName
+            },
+            // setter
+            set: function (newValue) {
+                  var names = newValue.split(&apos; &apos;)
+                  this.firstName = names[0]
+                  this.lastName = names[names.length - 1]
+            }
+          }
+      },
+      //方法
+      methods:{
+          myclick:function(){...}
+      },
+      watch:{
+          seen:function(){...}
+      },
+      //钩子函数 
+      //mounted当组件被挂载并解析完成后执行
+      mounted:function(){
+          ...
+      },
+      ...
+
+})
+</code></pre><p><code>内容绑定</code></p>
+<pre><code>//内容绑定
+&lt;div id=&quot;app&quot;&gt;{{ message }}&lt;/div&gt;
+</code></pre><p><code>属性绑定</code></p>
+<pre><code>//绑定title属性到message上
+&lt;span v-bind:title=&quot;message&quot;&gt;&lt;/span&gt;
+</code></pre><p><code>v-if</code><br>​<br>    //执行的是append和remove  和show有本质的区别<br>    //如果seen为true则now you see 显示，否则no see显示<br>    </p><p v-if="seen">Now you see me</p><br>    <p v-else="">no see</p><p></p>
+<p><code>v-show</code><br>​<br>    //执行的是 diplay:none 与 display：block<br>    //不支持给组件设置 如<template v-show="seen"><br>    <h1 v-show="seen">Hello!</h1></template></p>
+<p><code>v-for循环</code></p>
+<pre><code>&lt;ol&gt;
+    //建议提供key,以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
+    &lt;li v-for=&quot;(todo,index) in todos&quot; :key=&quot;item.id&gt;               {{ todo.text }}
+       &lt;/li&gt;
+&lt;/ol&gt;
+
+//遍历对象不用一一对应，一参 键值，二参键名(可选)，三参索引(可选)
+&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
+      {{ index }}. {{ key }} : {{ value }}
+&lt;/div&gt;
+
+//取整数
+&lt;span v-for=&quot;n in 10&quot;&gt;{{ n }}&lt;/span&gt;
+&lt;li v-for=&quot;n in evenNumbers&quot;&gt;{{ n }}&lt;/li&gt; //计算属性
+&lt;li v-for=&quot;n in even(10)&quot;&gt;{{ n }}&lt;/li&gt;
+
+//v-for 支持 &lt;template&gt; 循环渲染很多模板--数据需要绑定，不能自动传进组件里
+&lt;my-component
+      v-for=&quot;(item, index) in items&quot;
+      v-bind:item=&quot;item&quot;
+     v-bind:index=&quot;index&quot;&gt;
+&lt;/my-component&gt;
+</code></pre><p><code>事件绑定</code></p>
+<pre><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;
+//缩写
+v-bind:href=&quot;url&quot;  ==  :href=&quot;url&quot;
+v-on:click=&quot;reverseMessage&quot;  ==  @click=&quot;reverseMessage&quot;
+</code></pre><p><code>表单双向绑定</code></p>
+<pre><code>  &lt;input v-model=&quot;message&quot;&gt;
+  &lt;p&gt;{{ message }}&lt;/p&gt;
+
+  //需要换行？    white-space: pre直接空格/换行
+  &lt;p style=&quot;white-space: pre&quot;&gt;{{ message }}&lt;/p&gt;
+&lt;br&gt;
+&lt;textarea v-model=&quot;message&quot; placeholder=&quot;add multiple lines&quot;&gt;&lt;/textarea&gt;
+</code></pre><p><code>标签插值</code></p>
+<pre><code>//span将被忽略
+&lt;div v-html=&apos;html&apos;&gt;{{html}}&lt;span&gt;11111&lt;/span&gt;&lt;/div&gt;
+</code></pre><p><code>模板表达式</code></p>
+<pre><code>//模板表达式中还可以使用 Math 和 Date不能访问用户定义的全局变量
+{{ number + 1 }}
+{{ ok ? 'YES' : 'NO' }}
+{{ message.split('').reverse().join('') }}
+//list- 是字符串 id是绑定的变量
+&lt;div v-bind:id=&quot;&apos;list-&apos; + id&quot;&gt;&lt;/div&gt;
+</code></pre><p><code>过滤</code></p>
+<pre><code>//默认参数是message或message表达式的返回值
+&lt;div&gt;{{ message | filterA | filterB }}&lt;/div&gt;
+//传入的参数表示过滤函数的第二参和第三参
+{{ message | filterA('arg1', arg2) }}
+</code></pre><p><code>事件修饰符</code><br>​<br>    <!-- 阻止单击事件冒泡 --><br>    <a v-on:click.stop="doThis"></a></p>
+<pre><code>&lt;!-- 提交事件不再重载页面 --&gt;
+&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
+
+&lt;!-- 修饰符可以串联  --&gt;
+&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
+
+&lt;!-- 只有修饰符 --&gt;
+&lt;form v-on:submit.prevent&gt;&lt;/form&gt;
+
+&lt;!-- 添加事件侦听器时使用事件捕获模式 --&gt;
+&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
+
+&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;
+&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
+</code></pre><p><code>按键修饰符</code></p>
+<pre><code>&lt;!-- 只有在 keyCode 是 13 时调用 vm.submit() --&gt;
+&lt;input v-on:keyup.13=&quot;submit&quot;&gt;
+
+//记不住所有的code？用名字呗
+&lt;!-- 同上 --&gt;
+&lt;input v-on:keyup.enter=&quot;submit&quot;&gt;
+//enter，tab，delete，esc，space，up，down，left，right
+
+&lt;!-- 没有想用的？自定义喽 --&gt;
+// 可以使用 v-on:keyup.f1
+Vue.config.keyCodes.A = 112
+</code></pre><p><code>对象/数组语法</code></p>
+<pre><code>//当对象的值isActive为真时 class将会有类名 对象的键  一直都有div的类名
+v-bind:class=&quot;{ active: isActive, &apos;text-danger&apos;: hasError }&quot; class=‘div’&gt;
+
+//activeClass和errorClass为真时才会被赋值给class
+&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
+
+//样式绑定     --前缀vue会自动添加
+&lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &apos;px&apos; }&quot;&gt;&lt;/div&gt;
+...清晰的写法...
+&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;    
+data: {
+      styleObject: {
+        color: &apos;red&apos;,
+        fontSize: &apos;13px&apos;
+      }
+}
+</code></pre><p><code>数组方法</code></p>
+<pre><code>如下两项改变data不会重新渲染页面
+1，vm.items[indexOfItem] = newValue
+    改为：Vue.set(example1.items, indexOfItem, newValue)
+    或：example1.items.splice(indexOfItem, 1, newValue)
+
+2，vm.items.length = newLength
+    改为：example1.items.splice(newLength)
+</code></pre><h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ul>
+<li>只有当data属性里的值改变才会重新渲染view视图</li>
+<li>v-once:执行一次性地插值，当数据改变时，插值处的内容不会再更新，静态的使用快速<ul>
+<li>计算属性是基于它的依赖缓存。计算属性只有在它的相关依赖(data)发生改变时才会重新取值。data不变多次访问计算属性会立即返回之前的计算结果，而不必再次执行函数！但是重新渲染的时候，method 调用总    会执行函数</li>
+</ul>
+</li>
+<li>组件内部访问实例属性记得$emit..以便与代理的data属性区分</li>
+</ul>
+<h2 id="声明周期示意图"><a href="#声明周期示意图" class="headerlink" title="声明周期示意图"></a>声明周期示意图</h2><p><img src="http://cn.vuejs.org/images/lifecycle.png" alt=""><br><img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/12/Vue之数据绑定/" class="archive-article-date">
+  	<time datetime="2016-10-12T06:39:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-JS经典题解析" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     

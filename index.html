@@ -236,6 +236,252 @@
       <div class="body-wrap">
         
   
+    <article id="post-相关问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">title: 相关问题</div><div class="line">date: 2018-4-22 20:07:48</div><div class="line">tags: tips</div></pre></td></tr></table></figure>
+<p>更新IScroll不能滚动的问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onRefresh=&#123;()=&gt;this.state.n&lt;5 ? this.setState(&#123;n:this.state.n+1&#125;) : false&#125;</div></pre></td></tr></table></figure>
+<p>初始化仓库失败，因新仓库有文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git pull –rebase origin master</div><div class="line">git push -u  origin master</div></pre></td></tr></table></figure>
+<p>微信分享失败</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">需要再componentDidMounted中才会生效</div><div class="line">或者分享失败时做刷新操作</div></pre></td></tr></table></figure>
+<p>后端做限制不能访问资源还是 http/https访问问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;referrer&quot; content=&quot;never&quot;&gt;</div></pre></td></tr></table></figure>
+<p>mac显示影藏文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">defaults write com.apple.finder AppleShowAllFiles Yes &amp;&amp; killall Finder //显示隐藏文件</div><div class="line">defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder //不显示隐藏文件</div></pre></td></tr></table></figure>
+<p>css超出…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//超出省略号</div><div class="line">overflow:hidden;</div><div class="line">text-overflow:ellipsis;</div><div class="line">white-space:nowrap;</div><div class="line"></div><div class="line">display:-webkit-box;</div><div class="line">-webkit-box-orient:vertical;</div><div class="line">-webkit-line-clamp:3;</div><div class="line">overflow:hidden;</div></pre></td></tr></table></figure>
+<p>向网页中动态插入可执行js脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var head = document.getElementsByTagName(&apos;head&apos;)[0];</div><div class="line">var script = document.createElement(&apos;script&apos;);</div><div class="line">script.type = &apos;text/javascript&apos;;</div><div class="line">script.src = &apos;https://unpkg.com/axios/dist/axios.min.js&apos;;</div><div class="line">head.appendChild(script);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/06/相关问题/" class="archive-article-date">
+  	<time datetime="2018-09-06T00:56:59.184Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-06</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-键盘弹不出" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">title: Iscroll使用导致键盘不弹出</div><div class="line">date: 2018-5-17 20:07:48</div><div class="line">tags: Iscroll</div></pre></td></tr></table></figure>
+<p>Iscroll使用禁用了浏览器默认事件，导致键盘不弹出也不能手动上划出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">this.timerId = null;</div><div class="line">let cnt = 0;</div><div class="line">setInterval( () =&gt; &#123;</div><div class="line">	if (cnt &lt; 4) &#123;</div><div class="line">		cnt++;</div><div class="line">	&#125; else &#123;</div><div class="line">		clearInterval(this.timerId);</div><div class="line">		this.timerId = null;</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	if(this.state.OS &lt; 11)&#123;</div><div class="line">		this.refs.ipt.scrollIntoView(true)</div><div class="line">		this.refs.ipt.scrollIntoViewIfNeeded();</div><div class="line">		document.body.scrollTop=document.body.scrollHeight;</div><div class="line">	&#125;</div><div class="line">&#125;, 300);</div></pre></td></tr></table></figure>
+<p>​        </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/06/键盘弹不出/" class="archive-article-date">
+  	<time datetime="2018-09-06T00:52:35.059Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-06</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-判断客户端是PC还是手机" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">title: 客户端系统判断</div><div class="line">date: 2018-6-11 20:07:48</div><div class="line">tags: userAgent</div></pre></td></tr></table></figure>
+<h1 id="判断客户端是PC还是手机"><a href="#判断客户端是PC还是手机" class="headerlink" title="判断客户端是PC还是手机"></a>判断客户端是PC还是手机</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function IsPC() &#123;</div><div class="line">    var userAgentInfo = navigator.userAgent;</div><div class="line">    var Agents = [&quot;Android&quot;, &quot;iPhone&quot;,</div><div class="line">                &quot;SymbianOS&quot;, &quot;Windows Phone&quot;,</div><div class="line">                &quot;iPad&quot;, &quot;iPod&quot;];</div><div class="line">    var flag = true;</div><div class="line">    for (var v = 0; v &lt; Agents.length; v++) &#123;</div><div class="line">        if (userAgentInfo.indexOf(Agents[v]) &gt; 0) &#123;</div><div class="line">            flag = false;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return flag;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">var flag = IsPC(); </div><div class="line">console.log(flag)//true为PC端，false为手机端和ipad</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/04/判断客户端是PC还是手机/" class="archive-article-date">
+  	<time datetime="2018-09-04T01:54:22.303Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-04</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-node抓取百度头像" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">title: node抓取百度头像</div><div class="line">date: 2018-7-19 20:07:48</div><div class="line">tags: node</div></pre></td></tr></table></figure>
+<blockquote>
+<p>没有头像当然首先想到的是百度咯，如何批量抓取呢，那么这里用node来做一个栗子</p>
+</blockquote>
+<h3 id="首先安装依赖文件"><a href="#首先安装依赖文件" class="headerlink" title="首先安装依赖文件"></a>首先安装依赖文件</h3><pre><code>&quot;dependencies&quot;: {
+    &quot;colors&quot;: &quot;^1.1.2&quot;,
+    &quot;node-fetch&quot;: &quot;^1.7.3&quot;
+}
+</code></pre><h3 id="分析百度头像接口，大概酱紫"><a href="#分析百度头像接口，大概酱紫" class="headerlink" title="分析百度头像接口，大概酱紫"></a>分析百度头像接口，大概酱紫</h3><pre><code>https://image.baidu.com/search/acjson?tn=resultjson_com&amp;ipn=rj&amp;ct=201326592&amp;fp=result&amp;queryWord=${encodeURIComponent(&apos;网络头像&apos;)}&amp;cl=2&amp;lm=-1&amp;ie=utf-8&amp;oe=utf-8&amp;word=${encodeURIComponent(&apos;非主流&apos;)}&amp;pn=${pn.page}&amp;width=180&amp;height=180`
+</code></pre><h3 id="代码撸起"><a href="#代码撸起" class="headerlink" title="代码撸起"></a>代码撸起</h3><pre><code>var https = require(&quot;https&quot;);
+var fs = require(&quot;fs&quot;);
+var fetch = require(&apos;node-fetch&apos;);
+var colors = require(&apos;colors&apos;); 
+var pn={page:1,count:1,max:900} //控制分页+显示名称+长度
+</code></pre><h3 id="将文件地址写入到-txt"><a href="#将文件地址写入到-txt" class="headerlink" title="将文件地址写入到.txt"></a>将文件地址写入到.txt</h3><pre><code>function asyncAppendFile(url){
+    return new Promise(function (resolve, reject){
+        fs.appendFile(&apos;./img.txt&apos;, url+&apos;\r\n&apos;,function(err){
+              if(err){
+                  console.log(err)
+                  reject(err);
+              }
+                  resolve()
+            });
+    });
+}
+</code></pre><h3 id="将图片获取并保存到文件夹"><a href="#将图片获取并保存到文件夹" class="headerlink" title="将图片获取并保存到文件夹"></a>将图片获取并保存到文件夹</h3><pre><code>function asyncWriteFile(imgUrl){
+    return new Promise(function (resolve, reject){
+        fs.writeFile(`./downImg/head${pn.count}.jpg`, imgUrl, &quot;binary&quot;,                 function(err){
+                if(err){
+                    console.log(&quot;down fail&quot;);
+                    reject(err);
+                  }else{
+                      console.log(`文件：head${pn.count}.jpg 下载成功！`.green)
+                    resolve()
+                  }
+            });
+        });
+}
+</code></pre><h3 id="循环图片数组并执行存储操作"><a href="#循环图片数组并执行存储操作" class="headerlink" title="循环图片数组并执行存储操作"></a>循环图片数组并执行存储操作</h3><pre><code>function syncArrMap(imgArr, selfObj){
+    if(imgArr[selfObj.now].thumbURL){
+        https.get(imgArr[selfObj.now].thumbURL, function(res){
+            var imgUrl = &quot;&quot;;
+            res.setEncoding(&quot;binary&quot;);
+            res.on(&quot;data&quot;, function(url){
+                imgUrl += url;
+            });
+            res.on(&quot;end&quot;, function(){
+                if(pn.count&gt;pn.max) return;
+                asyncAppendFile(imgArr[selfObj.now].thumbURL)
+                    .then((data) =&gt; asyncWriteFile(imgUrl))
+                    .then((data) =&gt; {
+                        pn.count ++
+                        selfObj.now += 1
+                        if(selfObj.now&gt;=selfObj.length-1){
+                            pn.page++
+                            getImageData()
+                        }else{
+                            syncArrMap(imgArr, selfObj)
+                        }
+                })
+
+            });
+        });
+    }else{
+        selfObj.length -= 1
+    }
+}
+</code></pre><h3 id="最后获取图片"><a href="#最后获取图片" class="headerlink" title="最后获取图片"></a>最后获取图片</h3><pre><code>getImageData()
+function getImageData(){
+    fetch(`https://image.baidu.com/search/acjson?tn=resultjson_com&amp;ipn=rj&amp;ct=201326592&amp;fp=result&amp;queryWord=${encodeURIComponent(&apos;网络头像&apos;)}&amp;cl=2&amp;lm=-1&amp;ie=utf-8&amp;oe=utf-8&amp;word=${encodeURIComponent(&apos;非主流&apos;)}&amp;pn=${pn.page}&amp;width=180&amp;height=180`)
+        .then(res=&gt;res.json())
+        .then(data=&gt;{
+            var imgArr = data.data
+            var selfObj = {length:imgArr.length,now:0}
+              syncArrMap(imgArr,selfObj)
+        })
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/16/node抓取百度头像/" class="archive-article-date">
+  	<time datetime="2018-03-16T10:35:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-16</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-react深入一丢丢" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -910,489 +1156,6 @@ milliseconds    ms
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rem适配/">Rem适配</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-input[type=file]图片上传" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/09/input[type=file]图片上传/">input[type=file]图片上传</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>图片上传到处都能遇到，如何子定义一个截图上传的组件?那就需要了解下面几点基础知识啦~</p>
-</blockquote>
-<h4 id="开发一个本地上传图片控件，需要支持三种上传方式："><a href="#开发一个本地上传图片控件，需要支持三种上传方式：" class="headerlink" title="开发一个本地上传图片控件，需要支持三种上传方式："></a>开发一个本地上传图片控件，需要支持三种上传方式：</h4><ol>
-<li>选择本地图片上传</li>
-<li>拖曳图片上传</li>
-<li>截图上传</li>
-</ol>
-<h3 id="Action1-选择本地图片上传"><a href="#Action1-选择本地图片上传" class="headerlink" title="Action1.选择本地图片上传"></a>Action1.选择本地图片上传</h3><pre><code>&lt;input id=&apos;img-input&apos; type=&apos;file&apos; accept=&apos;image/*.jpg&apos;/&gt;&lt;br/&gt;
-&lt;img src=&quot;&quot; alt=&quot;&quot; width=&apos;200&apos; id=&apos;img1&apos;&gt;
-var ipt = document.getElementById(&apos;img-input&apos;)
-// 置空input value
-function clearImgInputValue () {
-  ipt.value = &apos;&apos;
-}
-ipt.onchange = function(e){
-  console.log(&apos;choose a image&apos;)
-  // 获取File对象
-  const file = e.target.files[0]
-  let size = file.size
-  // if (!file.type.match(&apos;image.*&apos;)) {
-  //   this.clearImgInputValue()
-  //   return;
-  // }
-  // if (size &gt; 5000) {
-  //   this.clearImgInputValue()
-  //   return;
-  // }
-  const reader = new FileReader()  // FileReader
-  // 将图片转换为base64
-  reader.readAsDataURL(file)
-  reader.onload = (arg) =&gt; {
-    // 获取到base64图片内容
-    document.querySelector(&apos;#img1&apos;).src = arg.target.result
-    clearImgInputValue()
-  }
-}
-</code></pre><h3 id="Action2-拖曳图片上传"><a href="#Action2-拖曳图片上传" class="headerlink" title="Action2.拖曳图片上传"></a>Action2.拖曳图片上传</h3><pre><code>&lt;div id=&apos;drop-zone&apos; style=&quot;width:100px;height:100px&quot;&gt;拖拽到这里放手~&lt;/div&gt;
-&lt;img src=&quot;&quot; alt=&quot;&quot; width=&apos;200&apos; id=&apos;img2&apos;&gt;
-function handleDragOver(event){
-  event.stopPropagation()
-  event.preventDefault()
-  event.dataTransfer.dropEffect = &apos;copy&apos;
-}
-
-// 必须阻止dragenter和dragover事件的默认行为，这样才能触发 drop 事件
-function handleFileSelect(event){
-  event.stopPropagation()
-  event.preventDefault()
-
-  const files = event.dataTransfer.files // 文件对象
-  const file = files[0]
-  const size = file.size
-  const type = file.type
-
-  // if (!type.match(&apos;image.*&apos;)) {
-  //   return;
-  // }
-  // if (size &gt; 5000) {
-  //   return;
-  // }
-  const reader = new FileReader()
-  // 将图片转换为base64
-  reader.readAsDataURL(file)
-  reader.onload = (arg) =&gt; {
-    // 获取到base64图片内容
-    document.querySelector(&apos;#img2&apos;).src = arg.target.result
-  }
-}
-
-const dropZone = document.getElementById(&apos;drop-zone&apos;);
-dropZone.addEventListener(&apos;dragover&apos;, handleDragOver, false);
-dropZone.addEventListener(&apos;drop&apos;, handleFileSelect, false);
-</code></pre><h3 id="Action3-截图上传"><a href="#Action3-截图上传" class="headerlink" title="Action3.截图上传"></a>Action3.截图上传</h3><pre><code>document.addEventListener(&apos;paste&apos;, function(e){
-  console.log(&apos;paste a image&apos;)
-  const clipboard = e.clipboardData
-  // 有无内容
-  if (!clipboard.items || !clipboard.items.length) {
-    return;
-  }
-  let item = clipboard.items[0]
-  if (item.kind === &apos;file&apos; &amp;&amp; item.type.match(&apos;image.*&apos;)) {
-      // 获取图片文件
-      let imgFile = item.getAsFile()
-      // if (imgFile.size &gt; maxSize) {
-      //   return;
-      // }
-      const reader = new FileReader()
-      // 将图片转换为base64
-      reader.readAsDataURL(imgFile)
-      reader.onload = (arg) =&gt; {
-        // 获取到base64图片内容
-        const fileStream = arg.target.result
-      }
-  } else {
-    console.log(&apos;...&apos;)
-  }
-}, false)
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/11/09/input[type=file]图片上传/" class="archive-article-date">
-  	<time datetime="2017-11-09T14:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-09</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UpLoad/">UpLoad</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-css3高级动画" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/15/css3高级动画/">CSS路径运动与裁剪</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-&lt;/head&gt;
-&lt;style&gt;
-    .run { 
-        width:50px;
-        height: 50px;
-        background: green;
-        display: inline-block; /* 块级元素才可以*/
-        animation: move 3s linear infinite;
-      offset-path: path(&quot;M10,80 q100,120 120,20 q140,-50 160,0&quot;);
-      offset-rotation:auto -30deg;  /*默认是auto  可以组合属性*/
-      transform-origin:top right;
-      /*clip-path: inset(0px 0px 0px 0px);*/   /* 裁剪1-1  */
-
-      /*clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /*按路径裁剪  完整的闭合区间*/  /* 裁剪2-1  */
-
-      /* SVG的路径 */
-      clip-path: url(#c1);  /* 裁剪3-1  */
-    }
-    @keyframes move {
-      100% { 
-          offset-distance: 100%;   /* 运动的距离 从path 0 ~ 100% */
-
-          /*clip-path: inset(10px 10px 20px 30px);*/  /* 裁剪1-2  */
-          /*用外向内裁剪 上右下左各裁剪 10px 10px 20px 30px的宽度*/
-
-          /*clip-path: polygon(0 100%, 50% 0, 100% 100%, 0 0);  诡异的蝴蝶图形 */   
-          /*clip-path: polygon(0 0, 100% 50%, 100% 50%, 0 100%);  /* 三角形闭合区间 */  /* 裁剪2-2  */
-
-      }
-    }
-    svg{
-        position: absolute;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-
-        &lt;svg width=&quot;280&quot; height=&quot;150&quot; viewBox=&quot;0 0 280 150&quot;&gt;
-            &lt;!-- 画一条可以看见的路径 --&gt;
-        &lt;path d=&quot;M10,80 q100,120 120,20 q140,-50 160,0&quot; stroke=&quot;#cd0000&quot; stroke-width=&quot;2&quot; fill=&quot;none&quot; /&gt;
-
-        &lt;!-- 定义一个clippath --&gt;
-        &lt;defs&gt;
-            &lt;clipPath id=&quot;c1&quot;&gt;
-                &lt;path d=&quot;M43.4,50h-7.7c-2.5,0-4.7-2-4.9-4.5l0,0l0-8.1c0,0,0,0,0-0.1s0,0,0-0.1l0,0c0-1.2-1-2.1-2.1-2.2h-7.3
-                              c-1.2,0.1-2.1,1.1-2.1,2.2l0,0c0,0,0,0,0,0.1s0,0,0,0.1l0,0.1v8.1l0,0C19,48,16.9,50,14.3,50H6.6c-2.3,0-4.1-1.8-4.1-4.1V27.6
-                              c-0.2-0.2-0.3-0.4-0.5-0.6c0-0.1-0.1-0.2-0.2-0.2l0,0c-0.6-1-0.9-1.9-0.9-2.9c0-1.4,0.6-2.7,1.7-3.7l0.3-0.3L21,1.7
-                              c1-1,2.4-1.6,3.9-1.7l0,0l0,0c1.5,0,2.9,0.6,3.9,1.7l18.1,18.1l0.3,0.3c1.1,0.9,1.7,2.3,1.7,3.7c0,1-0.3,1.9-0.9,2.9l0,0
-                              c-0.1,0.1-0.1,0.2-0.2,0.2c-0.2,0.2-0.3,0.4-0.4,0.6v18.3C47.5,48.1,45.6,50,43.4,50L43.4,50z M33.3,45.3c0.1,1.2,1.1,2.1,2.3&quot;/&gt;
-            &lt;/clipPath&gt;
-            &lt;/defs&gt;
-    &lt;/svg&gt;
-
-    &lt;div class=&apos;run&apos;&gt;&lt;/div&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/10/15/css3高级动画/" class="archive-article-date">
-  	<time datetime="2017-10-15T13:41:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-原型链的创建与继承" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/08/原型链的创建与继承/">原型链的创建与继承</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>JavaScript的原型链和Java的Class区别就在，它没有“Class”的概念，所有对象都是实例，所谓继承关系不过是把一个对象的原型指向另一个对象而已。</p>
-</blockquote>
-<p><img src="http://wx1.sinaimg.cn/mw690/908edb0ely1fk0fktrr0jj20eg0gajuf.jpg" alt=""></p>
-<h4 id="万物皆对象"><a href="#万物皆对象" class="headerlink" title="万物皆对象"></a>万物皆对象</h4><h6 id="对象都具有属性-proto"><a href="#对象都具有属性-proto" class="headerlink" title="对象都具有属性__proto__"></a>对象都具有属性<code>__proto__</code></h6><p>在JS里，万物皆对象。方法（Function）是对象，方法的原型(Function.prototype)是对象。因此，它们都会具有对象共有的特点。即：对象具有属性<code>__proto__</code>，可称为隐式原型，<code>一个对象的隐式原型指向构造该对象的构造函数的原型</code>，这也保证了<code>实例能够访问在构造函数原型中定义的属性和方法</code>。<br>​<br>        一切对象都可看作是用构造函数生成,<br>        如果一个对象没有构造函数，那么他的构造函数就是:<br>        Function Object(){}</p>
-<h4 id="Function对象"><a href="#Function对象" class="headerlink" title="Function对象"></a>Function对象</h4><h6 id="方法对象同时具有-proto-和-prototype"><a href="#方法对象同时具有-proto-和-prototype" class="headerlink" title="方法对象同时具有(_proto_ 和 prototype)"></a>方法对象同时具有(<code>_proto_</code> 和 prototype)</h6><p>方法这个特殊的对象，除了和其他对象一样有上述<code>_proto_</code>属性之外，还有自己特有的属性——原型属性（prototype），这个属性是一个指针，指向一个对象，这个对象的用途就是包含所有实例共享的属性和方法（我们把这个对象叫做原型对象）。原型对象也有一个属性，叫做<code>constructor</code>，这个属性包含了一个指针，指回原构造函数。</p>
-<h4 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h4><p>instanceof 操作符的内部实现机制和隐式原型、显式原型有直接的关系。instanceof的左值一般是一个对象，右值一般是一个构造函数，用来判断左值是否是右值的实例</p>
-<h4 id="对象值访问"><a href="#对象值访问" class="headerlink" title="对象值访问"></a>对象值访问</h4><p>JavaScript对每个创建的对象都会设置一个原型(<code>_proto_</code>)，指向它的原型对象<code>_proto_</code> = {}。<br>当我们用<code>obj.xxx</code>访问一个对象的属性时，JavaScript引擎先在当前对象上查找该属性，如果没有找到，就到其原型对象上找，如果还没有找到，就一直上溯到Object.prototype对象，最后，如果还没有找到，就只能返回undefined。</p>
-<h4 id="创建原型继承"><a href="#创建原型继承" class="headerlink" title="创建原型继承"></a>创建原型继承</h4><ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">1.改变_proto_指向</div><div class="line">var Student = &#123;</div><div class="line">    name: &apos;Robot&apos;,</div><div class="line">    height: 1.2,</div><div class="line">    run: function () &#123;</div><div class="line">        console.log(this.name + &apos; is running...&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">var xiaoming = &#123;</div><div class="line">    name: &apos;小明&apos;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">xiaoming.__proto__ = Student;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xiaoming.name; // &apos;小明&apos;</div><div class="line">xiaoming.run(); // 小明 is running...</div></pre></td></tr></table></figure>
-<p><em>请注意</em>，上述代码仅用于演示目的。在编写JavaScript代码时，不要直接用<code>obj.__proto__</code>去改变一个对象的原型，并且，低版本的IE也无法使用<code>__proto__</code>。<code>Object.create()</code>方法可以传入一个原型对象，并创建一个基于该原型的新对象(原对象属性不会继承)</p>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">// 原型对象:</div><div class="line">var Student = &#123;</div><div class="line">    name: &apos;Robot&apos;,</div><div class="line">    height: 1.2,</div><div class="line">    run: function () &#123;</div><div class="line">        console.log(this.name + &apos; is running...&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function createStudent(name) &#123;</div><div class="line">    // 基于Student原型创建一个新对象:</div><div class="line">    var s = Object.create(Student);</div><div class="line">    // 初始化新对象:</div><div class="line">    s.name = name;</div><div class="line">    return s;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var xiaoming = createStudent(&apos;小明&apos;);</div><div class="line">xiaoming.run(); // 小明 is running...</div><div class="line">xiaoming.__proto__ === Student; // true  *******  *******</div></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/10/08/原型链的创建与继承/" class="archive-article-date">
-  	<time datetime="2017-10-08T02:42:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原型链/">原型链</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-json" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/21/json/">JSON</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>几乎所有编程语言都有解析JSON的库，而在JavaScript中，我们可以直接使用JSON，因为JavaScript内置了JSON的解析。为了统一解析，JSON的字符串规定必须用双引号””，Object的键也必须用双引号””。</p>
-</blockquote>
-<h3 id="JSON常用的无非就2个方法："><a href="#JSON常用的无非就2个方法：" class="headerlink" title="JSON常用的无非就2个方法："></a>JSON常用的无非就2个方法：</h3><h4 id="序列化-stringify"><a href="#序列化-stringify" class="headerlink" title="序列化(stringify)"></a>序列化(stringify)</h4><p>让我们先把小明这个对象序列化成JSON格式的字符串：</p>
-<pre><code>var xiaoming = {
-      name: &apos;小明&apos;,
-      age: 14,
-      gender: true,
-      height: 1.65,
-      grade: null,
-      &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
-      skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;]
-  };
-  JSON.stringify(xiaoming); 
-//&apos;{
-      &quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14,&quot;gender&quot;:true,
-      &quot;height&quot;:1.65,&quot;grade&quot;:null,
-      &quot;middle-school&quot;:&quot;\&quot;W3C\&quot; Middle School&quot;,
-      &quot;skills&quot;:[&quot;JavaScript&quot;,&quot;Java&quot;,&quot;Python&quot;,&quot;Lisp&quot;]
-      }&apos;
-</code></pre><p>要输出得好看一些，可以加上参数，按缩进输出：</p>
-<pre><code>JSON.stringify(xiaoming, null, &apos;  &apos;);
-</code></pre><p>结果：</p>
-<pre><code>{
-  &quot;name&quot;: &quot;小明&quot;,
-  &quot;age&quot;: 14,
-  &quot;gender&quot;: true,
-  &quot;height&quot;: 1.65,
-  &quot;grade&quot;: null,
-  &quot;middle-school&quot;: &quot;\&quot;W3C\&quot; Middle School&quot;,
-  &quot;skills&quot;: [
-    &quot;JavaScript&quot;,
-    &quot;Java&quot;,
-    &quot;Python&quot;,
-    &quot;Lisp&quot;
-  ]
-}
-</code></pre><p>第二个参数用于控制如何筛选对象的键值，如果我们只想输出指定的属性，可以传入Array：</p>
-<pre><code>JSON.stringify(xiaoming, [&apos;name&apos;, &apos;skills&apos;], &apos;  &apos;);
-</code></pre><p>结果：</p>
-<pre><code>{
-  &quot;name&quot;: &quot;小明&quot;,
-  &quot;skills&quot;: [
-    &quot;JavaScript&quot;,
-    &quot;Java&quot;,
-    &quot;Python&quot;,
-    &quot;Lisp&quot;
-  ]
-}
-</code></pre><p>还可以传入一个函数，这样对象的每个键值对都会被函数先处理：</p>
-<pre><code>function convert(key, value) {
-    if (typeof value === &apos;string&apos;) {
-        return value.toUpperCase();
-    }
-    return value;
-}
-</code></pre><p>JSON.stringify(xiaoming, convert, ‘  ‘);<br>上面的代码把所有属性值都变成大写：</p>
-<pre><code>{
-  &quot;name&quot;: &quot;小明&quot;,
-  &quot;age&quot;: 14,
-  &quot;gender&quot;: true,
-  &quot;height&quot;: 1.65,
-  &quot;grade&quot;: null,
-  &quot;middle-school&quot;: &quot;\&quot;W3C\&quot; MIDDLE SCHOOL&quot;,
-  &quot;skills&quot;: [
-    &quot;JAVASCRIPT&quot;,
-    &quot;JAVA&quot;,
-    &quot;PYTHON&quot;,
-    &quot;LISP&quot;
-  ]
-}
-</code></pre><p>如果我们还想要精确控制如何序列化小明，可以给xiaoming定义一个<code>toJSON()</code>的方法，直接返回JSON应该序列化的数据：</p>
-<pre><code>var xiaoming = {
-    name: &apos;小明&apos;,
-    age: 14,
-    gender: true,
-    height: 1.65,
-    grade: null,
-    &apos;middle-school&apos;: &apos;\&quot;W3C\&quot; Middle School&apos;,
-    skills: [&apos;JavaScript&apos;, &apos;Java&apos;, &apos;Python&apos;, &apos;Lisp&apos;],
-    toJSON: function () {
-        return { // 只输出name和age，并且改变了key：
-            &apos;Name&apos;: this.name,
-            &apos;Age&apos;: this.age
-        };
-    }
-};
-JSON.stringify(xiaoming); // &apos;{&quot;Name&quot;:&quot;小明&quot;,&quot;Age&quot;:14}&apos;
-</code></pre><h4 id="反序列化-parse"><a href="#反序列化-parse" class="headerlink" title="反序列化(parse)"></a>反序列化(parse)</h4><p>拿到一个JSON格式的字符串，我们直接用<code>JSON.parse()</code>把它变成一个JavaScript对象：</p>
-<pre><code>JSON.parse(&apos;[1,2,3,true]&apos;); // [1, 2, 3, true]
-JSON.parse(&apos;{&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14}&apos;); // Object {name: &apos;小明&apos;, age: 14}
-JSON.parse(&apos;true&apos;); // true
-JSON.parse(&apos;123.45&apos;); // 123.45
-</code></pre><p><code>JSON.parse()</code>还可以接收一个函数，用来转换解析出的属性：</p>
-<pre><code>JSON.parse(&apos;{&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14}&apos;, function (key, value) {
-    // 把number * 2:
-    if (key === &apos;name&apos;) {
-        return value + &apos;同学&apos;;
-    }
-    return value;
-}); // Object {name: &apos;小明同学&apos;, age: 14}
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/21/json/" class="archive-article-date">
-  	<time datetime="2017-09-21T15:19:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSON/">JSON</a></li></ul>
 	</div>
 
       
