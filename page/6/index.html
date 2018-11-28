@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,6 +13,7 @@
 <meta property="og:title" content="奋斗蚁🐜">
 <meta property="og:url" content="http://Jasonellen.github.io/page/6/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="奋斗蚁🐜">
   
@@ -25,7 +26,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -236,10 +237,94 @@
       <div class="body-wrap">
         
   
-    <article id="post-移动端布局-事件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-手机端自适应单位换算" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/07/手机端自适应单位换算/">手机端自适应单位换算</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="移动端自适应布局之单位换算"><a href="#移动端自适应布局之单位换算" class="headerlink" title="移动端自适应布局之单位换算"></a>移动端自适应布局之单位换算</h1><h2 id="首先头部全部需要引入如下文件"><a href="#首先头部全部需要引入如下文件" class="headerlink" title="首先头部全部需要引入如下文件"></a>首先头部全部需要引入如下文件</h2><p><a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/flexible.debug.js" target="_blank" rel="noopener">flexible.debug.js</a> + <a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/flexible_css.debug.js" target="_blank" rel="noopener">flexible_css.debug.js</a>+<a href="https://github.com/Jasonellen/relyOn/blob/master/手机端头部文件/update.js" target="_blank" rel="noopener">update.js</a></p>
+<h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><pre><code>使用cssrem+sublime,布局开始时，设置配置文件（例如：视觉稿640*1136）就设置为64
+width:100p + tab 自动生成rem单位
+</code></pre><h2 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h2><p><code>使用这个源文件还是px，容易修改，上面的源文件都改为rem了</code><br>    使用gulp转换<br>    npm install gulp-postcss</p>
+<pre><code>var gulp = require(&apos;gulp&apos;);
+var postcss = require(&apos;gulp-postcss&apos;);
+var px2rem = require(&apos;postcss-px2rem&apos;);
+
+             //这里的75和cssrem一样根据视觉稿更改
+gulp.task(&apos;default&apos;, function() {
+      var processors = [px2rem({remUnit: 75})];
+       return gulp.src(&apos;./src/*.css&apos;)
+        .pipe(postcss(processors))
+        .pipe(gulp.dest(&apos;./dest&apos;));
+    });
+</code></pre><h2 id="vue文件"><a href="#vue文件" class="headerlink" title=".vue文件"></a>.vue文件</h2><pre><code>这个和方式一相同，可以直接在sublime中使用
+</code></pre><p>​<br>​    </p>
+<h2 id="react-native"><a href="#react-native" class="headerlink" title="react native"></a>react native</h2><pre><code>import {Dimensions} from &apos;react-native&apos;;
+//app 只有竖屏模式，所以可以只获取一次 width
+const deviceWidthDp = Dimensions.get(&apos;window&apos;).width;
+// UI 默认给图是 640
+const uiWidthPx = 640;
+
+function pxToDp(uiElementPx) {
+    return uiElementPx *  deviceWidthDp / uiWidthPx;
+}
+export default pxToDp;
+
+
+调用方法
+import pxToDp from &apos;./pxToDp&apos;;
+&lt;View style={{width:pxToDp(100),height:pxToDp(100)}}&gt;&lt;/View&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/07/手机端自适应单位换算/" class="archive-article-date">
+  	<time datetime="2016-12-07T14:13:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-移动端布局-事件" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -315,7 +400,7 @@ div.addEventListener(&quot;touchstart&quot;, function(e) {
        console.log(e.targetTouches[0]);//方式二
  },false)
 </code></pre><h4 id="touch-js插件"><a href="#touch-js插件" class="headerlink" title="touch.js插件"></a>touch.js插件</h4><blockquote>
-<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="external">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="external">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="external">touch3.js</a></p>
+<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="noopener">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="noopener">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="noopener">touch3.js</a></p>
 </blockquote>
 <p><code>touch1.js</code><br>​<br>    依赖文件：不依赖任何文件<br>    完成功能：上下左右滑动和点击<br>    使用：document.querySelector(‘div’).touch({<br>            tap:function(ev){<br>                //var e = ev || window.event; 不需要了<br>                console.log(‘哎呀，被点击了’,e)<br>            },<br>            swipeUp:function(ev){<br>                console.log(‘哎呀，执行了上滑’,e)<br>            },<br>            swipeDown:function(){<br>                console.log(‘哎呀，执行了下滑’)<br>            },<br>            swipeLeft:function(){<br>                console.log(‘哎呀，执行了左滑’)<br>            },<br>            swipeRight:function(){<br>                console.log(‘哎呀，执行了右滑’)<br>            },<br>        })<br>    JQ使用：如果是用jq就—get()是获取DOM元素，eq()是获取jq对象<br>    $(‘div’).get(0).touch({<br>        tap:function(){<br>            console.log(‘哎呀，被点击了’,e)<br>        },<br>        …<br>    })</p>
 <p><code>touch2.js</code><br>​<br>    依赖文件：依赖jquery，必须在jq之后引入<br>    完成功能：上下左右滑动，单击，双击(doubleTap)，长按(longTap)<br>    使用：<br>        <script src="js/jquery.min.js"></script><br>        <script src="js/touch2.js"></script><br>                //必须用驼峰标示<br>        $(‘.begin’).doubleTap(function(){<br>            alert(123)<br>           })</p>
@@ -354,7 +439,7 @@ touch.off( element, types, callback )
 4，触发事件
 touch.trigger(element, type);
 </code></pre><blockquote>
-<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="external">touch3.js</a></p>
+<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="noopener">touch3.js</a></p>
 </blockquote>
 <p>​        </p>
 
@@ -391,10 +476,10 @@ touch.trigger(element, type);
 
 
   
-    <article id="post-面向对象编程（一）：封装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-面向对象编程（一）：封装" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -500,10 +585,10 @@ alert(&quot;type&quot; in cat1); // true
 
 
   
-    <article id="post-学习Javascript闭包" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-学习Javascript闭包" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -615,10 +700,10 @@ result(); // 1000
 
 
   
-    <article id="post-Javascript的this用法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Javascript的this用法" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -713,10 +798,10 @@ o.m.apply(); //0
 
 
   
-    <article id="post-php缓存文件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php缓存文件" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -826,10 +911,10 @@ if($reslut){
 
 
   
-    <article id="post-数据库基本操作二" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-数据库基本操作二" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1021,10 +1106,10 @@ function remove($sql){
 
 
   
-    <article id="post-php文件操作" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php文件操作" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1161,10 +1246,10 @@ is_writable(filename);
 
 
   
-    <article id="post-php入门" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php入门" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1393,10 +1478,10 @@ echo htmlspecialchars($a);  //将以字符串的方式返还成实体
 
 
   
-    <article id="post-数据库基本操作一" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-数据库基本操作一" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1494,232 +1579,9 @@ DELETE  FROM `users` WHERE id IN(5,6)
 
 
   
-    <article id="post-日历" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/13/日历/">日历</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原生JS打造简版日历"><a href="#原生JS打造简版日历" class="headerlink" title="原生JS打造简版日历"></a>原生JS打造简版日历</h2><p><code>先来个预览：</code><a href="http://htmlpreview.github.io?https://github.com/Jasonellen/jasonProject.github.io/blob/master/calendar.html" target="_blank" rel="external">简版日历📅</a></p>
-<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p><code>HTML:</code></p>
-<pre><code>&lt;div class=&quot;container&quot;&gt;
-    &lt;ul class=&quot;week&quot;&gt;
-        &lt;li&gt;星期日&lt;/li&gt;
-        &lt;li&gt;星期一&lt;/li&gt;
-        &lt;li&gt;星期二&lt;/li&gt;
-        &lt;li&gt;星期三&lt;/li&gt;
-        &lt;li&gt;星期四&lt;/li&gt;
-        &lt;li&gt;星期五&lt;/li&gt;
-        &lt;li&gt;星期六&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;ul class=&quot;wrap&quot;&gt;
-        &lt;li&gt;12&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;box&quot;&gt;
-    &lt;button class=&quot;preY&quot;&gt;上一年&lt;/button&gt;
-    &lt;button class=&quot;nextY&quot;&gt;下一年&lt;/button&gt;
-    &lt;button class=&quot;preM&quot;&gt;上个月&lt;/button&gt;
-    &lt;button class=&quot;nextM&quot;&gt;下个月&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;show&quot;&gt;12&lt;/div&gt;
-</code></pre><p><code>CSS:</code></p>
-<pre><code>&lt;style&gt;
-    ul,ol,li{
-        margin:0;
-        padding: 0;
-        list-style: none;
-    }
-    body{
-        background: #000;
-    }
-    .container{
-        width: 420px;
-        color: olive;
-    }
-    .container li{
-        width: 48px;
-        float: left;
-        border:1px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-    }
-    .week li{
-        text-align: center;
-        height: 25px;
-        line-height: 25px;
-        padding: 2px;
-        background: green;
-        color: white;
-    }
-    .wrap li{
-        width:48px;
-        float: left;
-        height:48px;
-        text-align: center;
-        line-height: 48px;
-        margin:2px;
-        cursor: pointer;
-    }
-
-    .box{
-        position: absolute;
-        top: 360px;
-    }
-    button{
-        padding: 10px;
-        font-size:20px;
-        color: olive;
-    }
-    .show{
-        position: absolute;
-        left: 500px;
-        top: 100px;
-        color: gold;
-        font-size: 80px;
-    }
-&lt;/style&gt;
-</code></pre><h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><pre><code>var wrap =document.querySelector(&apos;.wrap&apos;);
-var preM =document.querySelector(&apos;.preM&apos;);
-var preY =document.querySelector(&apos;.preY&apos;);
-var nextM =document.querySelector(&apos;.nextM&apos;);
-var nextY =document.querySelector(&apos;.nextY&apos;);
-var show =document.querySelector(&apos;.show&apos;);
-
-var _Date = new Date();
-//显示的年月
-var show_year = _Date.getFullYear();
-var show_month = _Date.getMonth();
-
-//当前的年月日
-var now_year = _Date.getFullYear();
-var now_month = _Date.getMonth();
-var date = _Date.getDate();
-var inner =date; //初始化显示的日期
-
-setDate();
-preY.onclick=function(){
-    show_year--;
-    setDate();
-}
-nextY.onclick=function(){
-    show_year++;
-    setDate();
-}
-preM.onclick=function(){
-    show_month--;
-    if (show_month&lt;0) {
-        show_month=11;
-        show_year--;
-    }
-    setDate();
-}
-nextM.onclick=function(){
-    show_month++;
-    if (show_month&gt;0) {
-        show_month=0;
-        show_year++;
-    }
-    setDate();
-}
-
-function setDate(){
-    wrap.innerHTML=&apos;&apos;;  //清空列表
-
-    var today = new Date(show_year,show_month,1); //获取本年本月第一天
-    var num = today.getDay(); //获取本月第一天是周几
-    for(var i=0; i&lt;num ; i++){
-        wrap.appendChild(document.createElement(&apos;li&apos;)) //本月第一天之前添加空白标签
-    }
-
-    //本月最后一天通过下个月第0天可以获取到
-    var last_date = new Date(show_year,show_month+1,0).getDate();
-
-    //循环添加本月的日期列表，并将现在的当天设置背景颜色
-    for(var i=0; i&lt;last_date; i++){
-        var li = document.createElement(&apos;li&apos;);
-        li.innerHTML = i+1;
-
-        //如果显示的年月等于当前的年月，且当前日期等于循环的添加的li,改为选中状态
-        if( date == i+1 &amp;&amp; show_year ==now_year &amp;&amp; show_month == now_month){
-            li.style.background=&apos;red&apos;;
-            li.style.color=&apos;white&apos;;
-        }
-        wrap.appendChild(li);    
-    }
-
-    //设置每个li可以点击
-    var li = wrap.getElementsByTagName(&apos;li&apos;);
-    var length =li.length;
-    for(var i=0; i&lt;length; i++){
-        li.index =i;
-        li[i].onclick=function(){
-            if(this.innerHTML){
-                for(var j=0; j&lt;length; j++){
-                    li[j].style.background=&apos;&apos;;
-                    li[j].style.color=&apos;&apos;;
-                }
-                this.style.background=&apos;red&apos;;
-                this.style.color=&apos;white&apos;;
-                inner=this.innerHTML;
-                show.innerHTML=`${show_year}年${show_month}月${inner}日`;
-            }
-        }
-    }
-    //设置显示时间
-    show.innerHTML=`${show_year}年${show_month}月${inner}日`;
-}
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/13/日历/" class="archive-article-date">
-  	<time datetime="2016-11-13T13:20:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/简版日历/">简版日历</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
     </nav>
   
 
@@ -1780,7 +1642,7 @@ function setDate(){
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

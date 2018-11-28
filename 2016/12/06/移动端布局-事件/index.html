@@ -1,51 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>移动端布局+事件 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="针对移动端做点自我总结…杂谈文本超过一行用…代替
-white-space: nowrap;
-text-overflow: ellipsis;
-overflow: hidden;
-文本超过2行用…代替
-width:200px;
-word-break:break-all;
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:ver">
+  <meta name="description" content="针对移动端做点自我总结…杂谈文本超过一行用…代替 white-space: nowrap; text-overflow: ellipsis; overflow: hidden; 文本超过2行用…代替 width:200px; word-break:break-all; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:ver">
+<meta name="keywords" content="移动端">
 <meta property="og:type" content="article">
 <meta property="og:title" content="移动端布局+事件">
 <meta property="og:url" content="http://Jasonellen.github.io/2016/12/06/移动端布局-事件/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="针对移动端做点自我总结…杂谈文本超过一行用…代替
-white-space: nowrap;
-text-overflow: ellipsis;
-overflow: hidden;
-文本超过2行用…代替
-width:200px;
-word-break:break-all;
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:ver">
+<meta property="og:description" content="针对移动端做点自我总结…杂谈文本超过一行用…代替 white-space: nowrap; text-overflow: ellipsis; overflow: hidden; 文本超过2行用…代替 width:200px; word-break:break-all; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:ver">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-07-06T15:53:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="移动端布局+事件">
-<meta name="twitter:description" content="针对移动端做点自我总结…杂谈文本超过一行用…代替
-white-space: nowrap;
-text-overflow: ellipsis;
-overflow: hidden;
-文本超过2行用…代替
-width:200px;
-word-break:break-all;
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:ver">
+<meta name="twitter:description" content="针对移动端做点自我总结…杂谈文本超过一行用…代替 white-space: nowrap; text-overflow: ellipsis; overflow: hidden; 文本超过2行用…代替 width:200px; word-break:break-all; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:ver">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -56,7 +31,7 @@ display:-webkit-box;
   
 
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -265,10 +240,10 @@ display:-webkit-box;
 </nav>
 
       <div class="body-wrap">
-        <article id="post-移动端布局-事件" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-移动端布局-事件" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -344,7 +319,7 @@ div.addEventListener(&quot;touchstart&quot;, function(e) {
        console.log(e.targetTouches[0]);//方式二
  },false)
 </code></pre><h4 id="touch-js插件"><a href="#touch-js插件" class="headerlink" title="touch.js插件"></a>touch.js插件</h4><blockquote>
-<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="external">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="external">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="external">touch3.js</a></p>
+<p>touch我这里有三个版本，有轻到重，功能由简单到复杂<br><a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch.js" target="_blank" rel="noopener">touch1.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch2.js" target="_blank" rel="noopener">touch2.js</a>, <a href="https://github.com/Jasonellen/relyOn/blob/master/touch/touch3.js" target="_blank" rel="noopener">touch3.js</a></p>
 </blockquote>
 <p><code>touch1.js</code><br>​<br>    依赖文件：不依赖任何文件<br>    完成功能：上下左右滑动和点击<br>    使用：document.querySelector(‘div’).touch({<br>            tap:function(ev){<br>                //var e = ev || window.event; 不需要了<br>                console.log(‘哎呀，被点击了’,e)<br>            },<br>            swipeUp:function(ev){<br>                console.log(‘哎呀，执行了上滑’,e)<br>            },<br>            swipeDown:function(){<br>                console.log(‘哎呀，执行了下滑’)<br>            },<br>            swipeLeft:function(){<br>                console.log(‘哎呀，执行了左滑’)<br>            },<br>            swipeRight:function(){<br>                console.log(‘哎呀，执行了右滑’)<br>            },<br>        })<br>    JQ使用：如果是用jq就—get()是获取DOM元素，eq()是获取jq对象<br>    $(‘div’).get(0).touch({<br>        tap:function(){<br>            console.log(‘哎呀，被点击了’,e)<br>        },<br>        …<br>    })</p>
 <p><code>touch2.js</code><br>​<br>    依赖文件：依赖jquery，必须在jq之后引入<br>    完成功能：上下左右滑动，单击，双击(doubleTap)，长按(longTap)<br>    使用：<br>        <script src="js/jquery.min.js"></script><br>        <script src="js/touch2.js"></script><br>                //必须用驼峰标示<br>        $(‘.begin’).doubleTap(function(){<br>            alert(123)<br>           })</p>
@@ -383,7 +358,7 @@ touch.off( element, types, callback )
 4，触发事件
 touch.trigger(element, type);
 </code></pre><blockquote>
-<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="external">touch3.js</a></p>
+<p>关于touch3.js，更多详情请参考这位的文章：<a href="http://blog.csdn.net/wangjiaohome/article/details/49364177" target="_blank" rel="noopener">touch3.js</a></p>
 </blockquote>
 <p>​        </p>
 
@@ -496,7 +471,7 @@ touch.trigger(element, type);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

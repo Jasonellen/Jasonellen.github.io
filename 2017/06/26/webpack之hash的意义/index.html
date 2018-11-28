@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>webpack之hash、chunkhash和contenthash | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="​    文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。
-​    如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。
-1.hash与chunkhash首先我们先看一下官方文档对于两者的定义：
-
-[hash]">
+  <meta name="description" content="​    文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。 ​    如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。 1.hash与chunkhash首先我们先看一下官方文档对于两者的定义：  [hash]">
+<meta name="keywords" content="webpack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="webpack之hash、chunkhash和contenthash">
 <meta property="og:url" content="http://Jasonellen.github.io/2017/06/26/webpack之hash的意义/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="​    文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。
-​    如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。
-1.hash与chunkhash首先我们先看一下官方文档对于两者的定义：
-
-[hash]">
+<meta property="og:description" content="​    文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。 ​    如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。 1.hash与chunkhash首先我们先看一下官方文档对于两者的定义：  [hash]">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-07-06T15:48:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack之hash、chunkhash和contenthash">
-<meta name="twitter:description" content="​    文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。
-​    如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。
-1.hash与chunkhash首先我们先看一下官方文档对于两者的定义：
-
-[hash]">
+<meta name="twitter:description" content="​    文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。 ​    如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。 1.hash与chunkhash首先我们先看一下官方文档对于两者的定义：  [hash]">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -41,7 +31,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -250,10 +240,10 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-webpack之hash的意义" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-webpack之hash的意义" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -280,18 +270,18 @@
 <p>①compiler对象代表的是配置完备的Webpack环境。 compiler对象只在Webpack启动时构建一次，由Webpack组合所有的配置项构建生成。</p>
 </blockquote>
 <p>例如使用hash配置产生了2个相同hash文件名的js文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[hash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdef.js</div><div class="line">//b.778asdef.js</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: &apos;[name].[hash:8].js&apos;,</span><br><span class="line">    path: __dirname + &apos;/built&apos;</span><br><span class="line">&#125;</span><br><span class="line">//a.778asdef.js</span><br><span class="line">//b.778asdef.js</span><br></pre></td></tr></table></figure>
 <p>这样带来的问题是，这2个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
 <p><strong>这时候就用到了<code>chunkhash</code>,<code>chunkhash</code>是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。配置webpack的output如下：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    filename: &apos;[name].[chunkhash:8].js&apos;,</div><div class="line">    path: __dirname + &apos;/built&apos;</div><div class="line">&#125;</div><div class="line">//a.778asdfg.js</div><div class="line">//b.778afrds.js</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: &apos;[name].[chunkhash:8].js&apos;,</span><br><span class="line">    path: __dirname + &apos;/built&apos;</span><br><span class="line">&#125;</span><br><span class="line">//a.778asdfg.js</span><br><span class="line">//b.778afrds.js</span><br></pre></td></tr></table></figure>
 <p>这样每个文件的hash都不相同，上线后无改动的文件不会失去缓存。</p>
 <h3 id="2-js与css共用相同chunkhash的解决方案"><a href="#2-js与css共用相同chunkhash的解决方案" class="headerlink" title="2. js与css共用相同chunkhash的解决方案"></a>2. js与css共用相同chunkhash的解决方案</h3><p>webpack的理念是把所有类型的文件都以js为汇聚点，不支持js文件以外的文件为编译入口。所以如果我们要编译style文件，唯一的办法是在js文件中引入style文件。如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import &apos;style/style.scss&apos;;</div></pre></td></tr></table></figure>
-<p>webpack默认将js/style文件统统编译到一个js文件中，可以借助<a href="https://github.com/webpack/extract-text-webpack-plugin" target="_blank" rel="external">extract-text-webpack-plugin</a>将style文件单独编译输出。但是在计算<code>chunkhash</code>时，会把所有的js代码和style代码混合在一起计算。比如<code>main.js</code>引用了<code>main.scss</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;style/style.scss&apos;;</span><br></pre></td></tr></table></figure>
+<p>webpack默认将js/style文件统统编译到一个js文件中，可以借助<a href="https://github.com/webpack/extract-text-webpack-plugin" target="_blank" rel="noopener">extract-text-webpack-plugin</a>将style文件单独编译输出。但是在计算<code>chunkhash</code>时，会把所有的js代码和style代码混合在一起计算。比如<code>main.js</code>引用了<code>main.scss</code>:</p>
 <p>这时候，如果我们只是修改了css,那么不但单独编译出来的css文件hash值有改变，对应的JS文件hash也会改变。</p>
 <p>这时候就用到了<code>contenthash</code></p>
 <p><strong>extract-text-webpack-plugin提供了另外一种hash值：<code>contenthash</code>。顾名思义，<code>contenthash</code>代表的是文本文件内容的hash值，也就是只有style文件的hash值。这个hash值就是解决上述问题的银弹。修改配置如下：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new ExtractTextPlugin(&apos;[name].[contenthash].css&apos;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new ExtractTextPlugin(&apos;[name].[contenthash].css&apos;);</span><br></pre></td></tr></table></figure>
 <p>这样编译输出的js和css文件将会有其独立的hash值。</p>
 
       
@@ -403,7 +393,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

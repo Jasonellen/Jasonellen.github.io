@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,6 +13,7 @@
 <meta property="og:title" content="奋斗蚁🐜">
 <meta property="og:url" content="http://Jasonellen.github.io/page/3/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="奋斗蚁🐜">
   
@@ -25,7 +26,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -236,10 +237,87 @@
       <div class="body-wrap">
         
   
-    <article id="post-Vue全家桶" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-webpack之hash的意义" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/26/webpack之hash的意义/">webpack之hash、chunkhash和contenthash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​    <strong>文件的hash值通常作为前端静态资源实现增量更新的方案之一，因为通过网络获取资源可能会很慢。 这也就是为什么浏览器需要缓存资源的原因。</strong></p>
+<p>​    <strong>如果我们在部署新版本时不更改资源的文件名，浏览器可能会认为它没有被更新，就会使用它的缓存版本。告诉浏览器下载较新版本的一种简单方法就是更改资源的文件名。</strong></p>
+<h3 id="1-hash与chunkhash"><a href="#1-hash与chunkhash" class="headerlink" title="1.hash与chunkhash"></a>1.hash与chunkhash</h3><p>首先我们先看一下官方文档对于两者的定义：</p>
+<blockquote>
+<p>[hash] is replaced by the hash of the compilation.(<code>hash</code>代表的是<em>compilation</em>的hash值。)</p>
+<p>[chunkhash] is replaced by the hash of the chunk.(<code>chunkhash</code>代表的是<em>chunk</em>(模块)的hash值。)</p>
+</blockquote>
+<p>什么是 compilation？compilation对象代表某个版本的资源对应的编译进程。compilation在项目中任何一个文件改动后就会被重新创建，然后webpack计算新的compilation的hash值，这个hash值便是<code>hash</code>。<code>hash</code>是compilation<code>对象compiler①</code>计算所得，而不是具体的项目文件计算所得。所以所有的文件名都会使用相同的hash指纹。</p>
+<blockquote>
+<p>①compiler对象代表的是配置完备的Webpack环境。 compiler对象只在Webpack启动时构建一次，由Webpack组合所有的配置项构建生成。</p>
+</blockquote>
+<p>例如使用hash配置产生了2个相同hash文件名的js文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: &apos;[name].[hash:8].js&apos;,</span><br><span class="line">    path: __dirname + &apos;/built&apos;</span><br><span class="line">&#125;</span><br><span class="line">//a.778asdef.js</span><br><span class="line">//b.778asdef.js</span><br></pre></td></tr></table></figure>
+<p>这样带来的问题是，这2个js文件任何一个改动都会影响另外两个文件的最终文件名。上线后，另外两个文件的浏览器缓存也全部失效。这肯定不是我们想要的结果。</p>
+<p><strong>这时候就用到了<code>chunkhash</code>,<code>chunkhash</code>是根据具体模块文件的内容计算所得的hash值，所以某个文件的改动只会影响它本身的hash指纹，不会影响其他文件。配置webpack的output如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: &apos;[name].[chunkhash:8].js&apos;,</span><br><span class="line">    path: __dirname + &apos;/built&apos;</span><br><span class="line">&#125;</span><br><span class="line">//a.778asdfg.js</span><br><span class="line">//b.778afrds.js</span><br></pre></td></tr></table></figure>
+<p>这样每个文件的hash都不相同，上线后无改动的文件不会失去缓存。</p>
+<h3 id="2-js与css共用相同chunkhash的解决方案"><a href="#2-js与css共用相同chunkhash的解决方案" class="headerlink" title="2. js与css共用相同chunkhash的解决方案"></a>2. js与css共用相同chunkhash的解决方案</h3><p>webpack的理念是把所有类型的文件都以js为汇聚点，不支持js文件以外的文件为编译入口。所以如果我们要编译style文件，唯一的办法是在js文件中引入style文件。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;style/style.scss&apos;;</span><br></pre></td></tr></table></figure>
+<p>webpack默认将js/style文件统统编译到一个js文件中，可以借助<a href="https://github.com/webpack/extract-text-webpack-plugin" target="_blank" rel="noopener">extract-text-webpack-plugin</a>将style文件单独编译输出。但是在计算<code>chunkhash</code>时，会把所有的js代码和style代码混合在一起计算。比如<code>main.js</code>引用了<code>main.scss</code>:</p>
+<p>这时候，如果我们只是修改了css,那么不但单独编译出来的css文件hash值有改变，对应的JS文件hash也会改变。</p>
+<p>这时候就用到了<code>contenthash</code></p>
+<p><strong>extract-text-webpack-plugin提供了另外一种hash值：<code>contenthash</code>。顾名思义，<code>contenthash</code>代表的是文本文件内容的hash值，也就是只有style文件的hash值。这个hash值就是解决上述问题的银弹。修改配置如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new ExtractTextPlugin(&apos;[name].[contenthash].css&apos;);</span><br></pre></td></tr></table></figure>
+<p>这样编译输出的js和css文件将会有其独立的hash值。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/26/webpack之hash的意义/" class="archive-article-date">
+  	<time datetime="2017-06-26T12:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Vue全家桶" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -254,29 +332,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="external">Vuex官网</a></p>
-<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">computed: &#123;</div><div class="line">  localComputed () &#123; /* ... */ &#125;,</div><div class="line">  // 使用对象展开运算符将此对象混入到外部对象中</div><div class="line">  ...mapState(&#123;</div><div class="line">  	// 映射 this.count 为 store.state.count</div><div class="line">    count: state =&gt; state.count,  ① == ②</div><div class="line">    //计算属性的名称与 state 的子节点名称相同时</div><div class="line">  	&apos;count&apos; ② == ①</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getters= &#123;</div><div class="line">  // ...</div><div class="line">  doneTodosCount: (state, getters) =&gt; &#123;</div><div class="line">    return getters.doneTodos.length</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">mutations= &#123;</div><div class="line">  increment (state, payload) &#123;</div><div class="line">    state.count += payload.amount</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">store.commit(&apos;increment&apos;, &#123;</div><div class="line">  amount: 10</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</div><div class="line">actions= &#123;</div><div class="line">  async actionA (&#123; commit &#125;) &#123;</div><div class="line">  	//触发mutation</div><div class="line">    commit(&apos;gotData&apos;, await getData())</div><div class="line">  &#125;,</div><div class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</div><div class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</div><div class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default new Vuex.Store(&#123;</div><div class="line">  actions,  //公用的actions</div><div class="line">  getters,	//公用的getters</div><div class="line">  modules: &#123;</div><div class="line">    cart,  //拥有自己的 state、mutation、action、getter</div><div class="line">    products //拥有自己的 state、mutation、action、getter</div><div class="line">  &#125;,</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+        <p>vuex详细教程请转<a href="https://vuex.vuejs.org/zh-cn/intro.html" target="_blank" rel="noopener">Vuex官网</a></p>
+<h2 id="一、知识点小结："><a href="#一、知识点小结：" class="headerlink" title="一、知识点小结："></a>一、知识点小结：</h2><h5 id="1-复合辅助函数"><a href="#1-复合辅助函数" class="headerlink" title="1.复合辅助函数"></a>1.复合辅助函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  localComputed () &#123; /* ... */ &#125;,</span><br><span class="line">  // 使用对象展开运算符将此对象混入到外部对象中</span><br><span class="line">  ...mapState(&#123;</span><br><span class="line">  	// 映射 this.count 为 store.state.count</span><br><span class="line">    count: state =&gt; state.count,  ① == ②</span><br><span class="line">    //计算属性的名称与 state 的子节点名称相同时</span><br><span class="line">  	&apos;count&apos; ② == ①</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数"><a href="#2-Getters-接受-state-作为其第一个参数，也可以接受其他-getters-作为第二个参数" class="headerlink" title="2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数"></a>2.Getters 接受 state 作为其第一个参数，也可以接受其他 getters 作为第二个参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getters= &#123;</span><br><span class="line">  // ...</span><br><span class="line">  doneTodosCount: (state, getters) =&gt; &#123;</span><br><span class="line">    return getters.doneTodos.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务"><a href="#3-更改-Vuex-的-store-中的状态的唯一方法是提交-mutation-mutation-都是同步事务" class="headerlink" title="3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务"></a>3.更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,mutation 都是同步事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">mutations= &#123;</span><br><span class="line">  increment (state, payload) &#123;</span><br><span class="line">    state.count += payload.amount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">store.commit(&apos;increment&apos;, &#123;</span><br><span class="line">  amount: 10</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数"><a href="#4-Actions相当于异步mutation，Action-函数接受一个与-store-实例具有相同方法和属性的-context-对象作为参数" class="headerlink" title="4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数"></a>4.Actions相当于异步mutation，Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象作为参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 假设 getData() 和 getOtherData() 返回的是 Promise</span><br><span class="line">actions= &#123;</span><br><span class="line">  async actionA (&#123; commit &#125;) &#123;</span><br><span class="line">  	//触发mutation</span><br><span class="line">    commit(&apos;gotData&apos;, await getData())</span><br><span class="line">  &#125;,</span><br><span class="line">  async actionB (&#123; dispatch, commit &#125;) &#123;</span><br><span class="line">    await dispatch(&apos;actionA&apos;) // 等待 actionA 完成</span><br><span class="line">    commit(&apos;gotOtherData&apos;, await getOtherData())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块"><a href="#5-Store可以复合Modules将-store-分割成模块，每个模块拥有自己的-state、mutation、action、getter、甚至是嵌套子模块" class="headerlink" title="5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块"></a>5.Store可以复合Modules将 store 分割成模块，每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  actions,  //公用的actions</span><br><span class="line">  getters,	//公用的getters</span><br><span class="line">  modules: &#123;</span><br><span class="line">    cart,  //拥有自己的 state、mutation、action、getter</span><br><span class="line">    products //拥有自己的 state、mutation、action、getter</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <ul>
 <li>对于模块内部的 mutation 和 getter，接收的第一个参数是模块的局部状态对象。</li>
 <li>对于模块内部的 action，局部状态通过 context.state 暴露出来， 根节点状态则为 context.rootState</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  actions: &#123;</div><div class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</div><div class="line">     //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const moduleA = &#123;</span><br><span class="line">  // ...</span><br><span class="line">  actions: &#123;</span><br><span class="line">    incrementIfOddOnRootSum (&#123; state, commit, rootState &#125;) &#123;</span><br><span class="line">     //...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>对于模块内部的 getter，根节点状态会作为第三个参数暴露出来</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const moduleA = &#123;</div><div class="line">  // ...</div><div class="line">  getters: &#123;</div><div class="line">    sumWithRootCount (state, getters, rootState) &#123;</div><div class="line">      return state.count + rootState.count</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">export default function createWebSocketPlugin (socket) &#123;</div><div class="line">  return store =&gt; &#123;</div><div class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</div><div class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</div><div class="line">      store.commit(&apos;receiveData&apos;, data)</div><div class="line">    &#125;)</div><div class="line">    //store监听到mutation触发后发送socket到后台 ②</div><div class="line">    store.subscribe(mutation =&gt; &#123;</div><div class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</div><div class="line">        socket.emit(&apos;update&apos;, mutation.payload)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">const plugin = createWebSocketPlugin(socket)</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  state,</div><div class="line">  mutations,</div><div class="line">  plugins: [plugin]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const moduleA = &#123;</span><br><span class="line">  // ...</span><br><span class="line">  getters: &#123;</span><br><span class="line">    sumWithRootCount (state, getters, rootState) &#123;</span><br><span class="line">      return state.count + rootState.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="添加插件，例如同步-websocket-数据源到-store"><a href="#添加插件，例如同步-websocket-数据源到-store" class="headerlink" title="添加插件，例如同步 websocket 数据源到 store"></a>添加插件，例如同步 websocket 数据源到 store</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">export default function createWebSocketPlugin (socket) &#123;</span><br><span class="line">  return store =&gt; &#123;</span><br><span class="line">  	socket监听到后台触发的data改变时触发receiveData的mutation ①·</span><br><span class="line">    socket.on(&apos;data&apos;, data =&gt; &#123;</span><br><span class="line">      store.commit(&apos;receiveData&apos;, data)</span><br><span class="line">    &#125;)</span><br><span class="line">    //store监听到mutation触发后发送socket到后台 ②</span><br><span class="line">    store.subscribe(mutation =&gt; &#123;</span><br><span class="line">      if (mutation.type === &apos;UPDATE_DATA&apos;) &#123;</span><br><span class="line">        socket.emit(&apos;update&apos;, mutation.payload)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">const plugin = createWebSocketPlugin(socket)</span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state,</span><br><span class="line">  mutations,</span><br><span class="line">  plugins: [plugin]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h5 id="内置-Logger-插件"><a href="#内置-Logger-插件" class="headerlink" title="内置 Logger 插件"></a>内置 Logger 插件</h5><blockquote>
-<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">vue-devtools</a>，你可能不需要此插件</p>
+<p>如果正在使用 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="noopener">vue-devtools</a>，你可能不需要此插件</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import createLogger from &apos;vuex/dist/logger&apos;</div><div class="line">const store = new Vuex.Store(&#123;</div><div class="line">  plugins: [createLogger()]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import createLogger from &apos;vuex/dist/logger&apos;</span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  plugins: [createLogger()]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="组件template中可以直接使用跟属性例如：-stroe"><a href="#组件template中可以直接使用跟属性例如：-stroe" class="headerlink" title="组件template中可以直接使用跟属性例如：$stroe"></a>组件template中可以直接使用跟属性例如：$stroe</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    Clicked: &#123;&#123; $store.state.count &#125;&#125; times, count is &#123;&#123; evenOrOdd &#125;&#125;.</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="二、项目实战"><a href="#二、项目实战" class="headerlink" title="二、项目实战"></a>二、项目实战</h2><blockquote>
-<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="external">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
+<p>源码在github:<a href="https://github.com/Jasonellen/vue-example" target="_blank" rel="noopener">vue-example</a>，基于vue2+vue-router2+vuex2，不是我吹牛，vue看完我这个例子就够了，比官网的好懂</p>
 </blockquote>
 
       
@@ -312,10 +390,10 @@
 
 
   
-    <article id="post-4个必须知道的数组方法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-4个必须知道的数组方法" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -333,12 +411,12 @@
         <h3 id="1-过滤器filter"><a href="#1-过滤器filter" class="headerlink" title="1.过滤器filter"></a>1.过滤器filter</h3><blockquote>
 <p>filter()方法创建一个新数组，返回所有通过所提供函数实现的测试的元素集合。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var arr = [</div><div class="line">    &#123;&quot;name&quot;:&quot;apple&quot;, &quot;count&quot;: 2&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;pear&quot;, &quot;count&quot;: 3&#125;,</div><div class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;,</div><div class="line">]; </div><div class="line">var newArr = arr.filter(function(item)&#123;</div><div class="line">    return item.name === &quot;orange&quot;;</div><div class="line">&#125;);</div><div class="line">console.log(newArr)//[&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var arr = [</span><br><span class="line">    &#123;&quot;name&quot;:&quot;apple&quot;, &quot;count&quot;: 2&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;pear&quot;, &quot;count&quot;: 3&#125;,</span><br><span class="line">    &#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;,</span><br><span class="line">]; </span><br><span class="line">var newArr = arr.filter(function(item)&#123;</span><br><span class="line">    return item.name === &quot;orange&quot;;</span><br><span class="line">&#125;);</span><br><span class="line">console.log(newArr)//[&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 5&#125;,&#123;&quot;name&quot;:&quot;orange&quot;, &quot;count&quot;: 16&#125;]</span><br></pre></td></tr></table></figure>
 <h3 id="2-forEach-map"><a href="#2-forEach-map" class="headerlink" title="2.forEach / map"></a>2.forEach / map</h3><blockquote>
 <p>相同点：都是遍历数组对数组的每一项进行操作，不改变原数组</p>
 <p>不同点：forEach无返回值，map返回值是一个数组，数组的每一项是遍历时函数的返回值</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var arr = [1,2,3,4,5,6,7,8];</div><div class="line">//******forEach</div><div class="line">var B = arr.forEach(function(item,index)&#123;</div><div class="line">	item+=1</div><div class="line">	return item</div><div class="line">&#125;);</div><div class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</div><div class="line">console.log(B)   //undefined</div><div class="line">//******Map</div><div class="line">var B = arr.forEach(function(item,index)&#123;</div><div class="line">	item+=1</div><div class="line">	return item</div><div class="line">&#125;);</div><div class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</div><div class="line">console.log(B)   //[2,3,4,5,6,7,8,9]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3,4,5,6,7,8];</span><br><span class="line">//******forEach</span><br><span class="line">var B = arr.forEach(function(item,index)&#123;</span><br><span class="line">	item+=1</span><br><span class="line">	return item</span><br><span class="line">&#125;);</span><br><span class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</span><br><span class="line">console.log(B)   //undefined</span><br><span class="line">//******Map</span><br><span class="line">var B = arr.forEach(function(item,index)&#123;</span><br><span class="line">	item+=1</span><br><span class="line">	return item</span><br><span class="line">&#125;);</span><br><span class="line">console.log(arr) //[1,2,3,4,5,6,7,8]</span><br><span class="line">console.log(B)   //[2,3,4,5,6,7,8,9]</span><br></pre></td></tr></table></figure>
 <h3 id="3-reduce"><a href="#3-reduce" class="headerlink" title="3.reduce"></a>3.reduce</h3><blockquote>
 <p><code>reduce(callback,initialValue)</code>拥有两个参数，<em>回调函数</em>和<em>initialValue</em>。回调函数本身共有4个参数，<em>prev</em>和<em>next</em>，<em>index</em>和<em>array</em>。基本上常用的就是pre和next。</p>
 </blockquote>
@@ -346,11 +424,11 @@
 <li>prev:如果没有传初始值，prev的初始值是数组的第一项,next的初始值是数组的第二项，如果传了初始值initialValue，那么prev的初始值就是initialValue，next的初始值是数组的第一项</li>
 <li>每次迭代都应该返回一个值，作为下次迭代的prev,next则顺延到数组的下一个</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var arr = [&quot;apple&quot;,&quot;orange&quot;,&quot;apple&quot;,&quot;orange&quot;,&quot;pear&quot;,&quot;orange&quot;];</div><div class="line"></div><div class="line">function getCount()&#123;</div><div class="line">    return arr.reduce(function(prev,next)&#123;</div><div class="line">        prev[next] = (prev[next] + 1) || 1;</div><div class="line">        return prev;</div><div class="line">    &#125;,&#123;&#125;);</div><div class="line">&#125;</div><div class="line">console.log(getCount()); // &#123;apple: 2, orange: 3, pear: 1&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var arr = [&quot;apple&quot;,&quot;orange&quot;,&quot;apple&quot;,&quot;orange&quot;,&quot;pear&quot;,&quot;orange&quot;];</span><br><span class="line"></span><br><span class="line">function getCount()&#123;</span><br><span class="line">    return arr.reduce(function(prev,next)&#123;</span><br><span class="line">        prev[next] = (prev[next] + 1) || 1;</span><br><span class="line">        return prev;</span><br><span class="line">    &#125;,&#123;&#125;);</span><br><span class="line">&#125;</span><br><span class="line">console.log(getCount()); // &#123;apple: 2, orange: 3, pear: 1&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="4-find"><a href="#4-find" class="headerlink" title="4.find"></a>4.find</h3><blockquote>
-<p><code>find</code>方法的<code>callback</code>为数组的每个索引执行一次功能，直到找到一个<code>callback</code>返回真值的值。如果找到这样的元素，<code>find</code>立即返回该元素的值。否则<code>find</code>返回<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="external"><code>undefined</code></a>。通常我们只会用到callback的2个参数，（item,index）</p>
+<p><code>find</code>方法的<code>callback</code>为数组的每个索引执行一次功能，直到找到一个<code>callback</code>返回真值的值。如果找到这样的元素，<code>find</code>立即返回该元素的值。否则<code>find</code>返回<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="noopener"><code>undefined</code></a>。通常我们只会用到callback的2个参数，（item,index）</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var inventory = [</div><div class="line">    &#123;name: &apos;cherries&apos;, quantity: 2&#125;,</div><div class="line">    &#123;name: &apos;bananas&apos;, quantity: 0&#125;,</div><div class="line">    &#123;name: &apos;cherries&apos;, quantity: 5&#125;,</div><div class="line">];</div><div class="line">var res = inventory.find(function(item,index)&#123;</div><div class="line">   return item.name === &apos;cherries&apos;;</div><div class="line">&#125;)</div><div class="line">console.log(res) //&#123;name: &quot;cherries&quot;, quantity: 2&#125; 和filter类似，但是只找到符合条件的第一个</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var inventory = [</span><br><span class="line">    &#123;name: &apos;cherries&apos;, quantity: 2&#125;,</span><br><span class="line">    &#123;name: &apos;bananas&apos;, quantity: 0&#125;,</span><br><span class="line">    &#123;name: &apos;cherries&apos;, quantity: 5&#125;,</span><br><span class="line">];</span><br><span class="line">var res = inventory.find(function(item,index)&#123;</span><br><span class="line">   return item.name === &apos;cherries&apos;;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(res) //&#123;name: &quot;cherries&quot;, quantity: 2&#125; 和filter类似，但是只找到符合条件的第一个</span><br></pre></td></tr></table></figure>
       
     </div>
     <div class="article-info article-info-index">
@@ -384,10 +462,10 @@
 
 
   
-    <article id="post-说走就走的正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-说走就走的正则表达式" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -626,7 +704,7 @@
 </li>
 </ul>
 <p>  ​</p>
-<h3 id="将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现："><a href="#将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现：" class="headerlink" title="将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现："></a>将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function escapeRegExp(string)&#123;</div><div class="line">  return string.replace(/([.*+?^=!:$&#123;&#125;()|[\]\/\\])/g, &quot;\\$&amp;&quot;); </div><div class="line">  //$&amp;表示整个被匹配的字符串</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现："><a href="#将用户输入转义为正则表达式中的一个字面字符串-可以通过简单的替换来实现：" class="headerlink" title="将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现："></a>将用户输入转义为正则表达式中的一个字面字符串, 可以通过简单的替换来实现：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function escapeRegExp(string)&#123;</span><br><span class="line">  return string.replace(/([.*+?^=!:$&#123;&#125;()|[\]\/\\])/g, &quot;\\$&amp;&quot;); </span><br><span class="line">  //$&amp;表示整个被匹配的字符串</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -661,10 +739,10 @@
 
 
   
-    <article id="post-原生JS封装自己的Picker" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-原生JS封装自己的Picker" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -682,7 +760,7 @@
         <blockquote>
 <p>移动端选择器随处可见，现在自己封装了一个ZnPicker，基于原生，体积小（压缩后仅4K），易调用</p>
 </blockquote>
-<h3 id="效果预览：轻戳"><a href="#效果预览：轻戳" class="headerlink" title="效果预览：轻戳"></a>效果预览：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/ZnPicker/blob/master/index.html" target="_blank" rel="external">轻戳</a></h3><h4 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h4><pre><code>&lt;body&gt;
+<h3 id="效果预览：轻戳"><a href="#效果预览：轻戳" class="headerlink" title="效果预览：轻戳"></a>效果预览：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/ZnPicker/blob/master/index.html" target="_blank" rel="noopener">轻戳</a></h3><h4 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h4><pre><code>&lt;body&gt;
   &lt;div id=&quot;ZnPicker&quot;&gt;&lt;/div&gt;
   &lt;script src=&apos;ZnPicker.js&apos;&gt;&lt;/script&gt;
   &lt;script&gt;
@@ -798,10 +876,10 @@
 
 
   
-    <article id="post-聊天室" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-聊天室" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -816,7 +894,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="socket-io详细介绍可以查看官网"><a href="#socket-io详细介绍可以查看官网" class="headerlink" title="socket.io详细介绍可以查看官网"></a>socket.io详细介绍可以查看<a href="https://socket.io/" target="_blank" rel="external">官网</a></h4><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="external">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
+        <h4 id="socket-io详细介绍可以查看官网"><a href="#socket-io详细介绍可以查看官网" class="headerlink" title="socket.io详细介绍可以查看官网"></a>socket.io详细介绍可以查看<a href="https://socket.io/" target="_blank" rel="noopener">官网</a></h4><h5 id="这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen"><a href="#这里说一说我自己搭建的聊天室哦，源码在github-Jasonellen" class="headerlink" title="这里说一说我自己搭建的聊天室哦，源码在github:Jasonellen"></a>这里说一说我自己搭建的聊天室哦，源码在github:<a href="https://github.com/Jasonellen/ChatRoom" target="_blank" rel="noopener">Jasonellen</a></h5><h5 id="首先我们来安装一下2个依赖express和socket-io"><a href="#首先我们来安装一下2个依赖express和socket-io" class="headerlink" title="首先我们来安装一下2个依赖express和socket.io"></a>首先我们来安装一下2个依赖<code>express</code>和<code>socket.io</code></h5><pre><code>npm i express socket.io -S
 </code></pre><h5 id="让我们来开启一个服务器"><a href="#让我们来开启一个服务器" class="headerlink" title="让我们来开启一个服务器"></a>让我们来开启一个服务器</h5><pre><code>//开启一个服务
 var express = require(&apos;express&apos;);
 var app = express();
@@ -1013,10 +1091,10 @@ mesIpt.on(&apos;input&apos;, function() {
 
 
   
-    <article id="post-canvas粒子运动" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-canvas粒子运动" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1031,7 +1109,7 @@ mesIpt.on(&apos;input&apos;, function() {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="今天说一说Canvas的粒子运动：效果图戳这里"><a href="#今天说一说Canvas的粒子运动：效果图戳这里" class="headerlink" title="今天说一说Canvas的粒子运动：效果图戳这里"></a>今天说一说Canvas的粒子运动：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/particleMove/blob/master/index.html" target="_blank" rel="external">效果图戳这里</a></h3><h2 id="首先我们需要创建一个HTML"><a href="#首先我们需要创建一个HTML" class="headerlink" title="首先我们需要创建一个HTML"></a>首先我们需要创建一个HTML</h2><pre><code>&lt;style&gt;
+        <h3 id="今天说一说Canvas的粒子运动：效果图戳这里"><a href="#今天说一说Canvas的粒子运动：效果图戳这里" class="headerlink" title="今天说一说Canvas的粒子运动：效果图戳这里"></a>今天说一说Canvas的粒子运动：<a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/particleMove/blob/master/index.html" target="_blank" rel="noopener">效果图戳这里</a></h3><h2 id="首先我们需要创建一个HTML"><a href="#首先我们需要创建一个HTML" class="headerlink" title="首先我们需要创建一个HTML"></a>首先我们需要创建一个HTML</h2><pre><code>&lt;style&gt;
   body{
     margin: 0;
     height:1500px;
@@ -1046,7 +1124,7 @@ mesIpt.on(&apos;input&apos;, function() {
   &lt;canvas id=&apos;canvas&apos;&gt;&lt;/canvas&gt;
   &lt;script src=&apos;index.js&apos;&gt;&lt;/script&gt;
 &lt;/body&gt;
-</code></pre><h2 id="最主要的就是JS啦☺"><a href="#最主要的就是JS啦☺" class="headerlink" title="最主要的就是JS啦☺"></a>最主要的就是JS啦☺</h2><h4 id="获取canvsa-设置画布和宽高"><a href="#获取canvsa-设置画布和宽高" class="headerlink" title="获取canvsa 设置画布和宽高"></a>获取canvsa 设置画布和宽高</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var canvas = document.getElementById(&apos;canvas&apos;)</div><div class="line">var ctx = canvas.getContext(&apos;2d&apos;);</div><div class="line">var _width = canvas.width = canvas.offsetWidth;</div><div class="line">var _height = canvas.height = canvas.offsetHeight;</div></pre></td></tr></table></figure>
+</code></pre><h2 id="最主要的就是JS啦☺"><a href="#最主要的就是JS啦☺" class="headerlink" title="最主要的就是JS啦☺"></a>最主要的就是JS啦☺</h2><h4 id="获取canvsa-设置画布和宽高"><a href="#获取canvsa-设置画布和宽高" class="headerlink" title="获取canvsa 设置画布和宽高"></a>获取canvsa 设置画布和宽高</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var canvas = document.getElementById(&apos;canvas&apos;)</span><br><span class="line">var canvas = document.getElementById(&apos;canvas&apos;)</span><br><span class="line">var ctx = canvas.getContext(&apos;2d&apos;);</span><br><span class="line">var _width = canvas.width = canvas.offsetWidth;</span><br><span class="line">var _height = canvas.height = canvas.offsetHeight;</span><br></pre></td></tr></table></figure>
 <h4 id="更新页面用requestAnimationFrame替代setTimeout"><a href="#更新页面用requestAnimationFrame替代setTimeout" class="headerlink" title="更新页面用requestAnimationFrame替代setTimeout"></a>更新页面用requestAnimationFrame替代setTimeout</h4><pre><code>window.requestAnimationFrame =  window.requestAnimationFrame ||
                                 window.mozRequestAnimationFrame ||
                                 window.webkitRequestAnimationFrame ||
@@ -1116,10 +1194,10 @@ Particle.prototype.faraway = function (other) {
     }
   }
 };
-</code></pre><h4 id="创建远离点"><a href="#创建远离点" class="headerlink" title="创建远离点"></a>创建远离点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function Away(x, y)&#123;</div><div class="line">  this.x = x;</div><div class="line">  this.y = y;</div><div class="line">  this.color = &apos;red&apos;;</div><div class="line">&#125;</div><div class="line">Away.prototype.awaydraw = function () &#123;</div><div class="line">  ctx.save();</div><div class="line">  ctx.beginPath();</div><div class="line">  ctx.arc(this.x, this.y, Math.random()*20, 0 , 360);</div><div class="line">  ctx.fillStyle = this.color;</div><div class="line">  ctx.fill();</div><div class="line">  ctx.restore();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h4 id="远离点跟随鼠标移动"><a href="#远离点跟随鼠标移动" class="headerlink" title="远离点跟随鼠标移动"></a>远离点跟随鼠标移动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var _away = new Away(0, 0)</div><div class="line">window.onmousemove = function(e)&#123;</div><div class="line">  var _scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</div><div class="line">  var e = e || window.event;</div><div class="line">  _away.x = e.clientX;</div><div class="line">  _away.y = e.clientY + _scrollTop;</div><div class="line">&#125;</div><div class="line">window.onmouseout = function()&#123;</div><div class="line">  _away.x = null;</div><div class="line">  _away.y = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="运动-起来"><a href="#运动-起来" class="headerlink" title="运动 起来"></a>运动 起来</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function run()&#123;</div><div class="line">  ctx.clearRect(0, 0, _width, _height)</div><div class="line">  //如果鼠标在窗口内，就画远离点</div><div class="line">  if(_away.x)&#123;</div><div class="line">    _away.awaydraw();</div><div class="line">  &#125;</div><div class="line">  for(var i=0; i&lt;length; i++)&#123;</div><div class="line">    P_array[i].move();</div><div class="line">    P_array[i].draw();</div><div class="line">    P_array[i].faraway(_away)</div><div class="line">    //逐个判断连线</div><div class="line">    for(var j=0; j&lt;length; j++)&#123;</div><div class="line">      P_array[i].line(P_array[j])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  //循环执行</div><div class="line">  requestAnimationFrame(run);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="初始化页面"><a href="#初始化页面" class="headerlink" title="初始化页面"></a>初始化页面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var P_array =[];</div><div class="line">var P_num = 360;</div><div class="line">var length = 0;</div><div class="line">//初始化页面</div><div class="line">function init()&#123;</div><div class="line">  //创建很多个 粒子</div><div class="line">  for(var i=0; i&lt; P_num; i++)&#123;</div><div class="line">    var _color = `rgb($&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;)`;</div><div class="line">    console.log(_color)</div><div class="line">    P_array.push(new Particle(Math.random()*_width, Math.random()*_height, Math.random()*5, _color))</div><div class="line">  &#125;</div><div class="line">  length = P_array.length;</div><div class="line">  //页面 动 起来</div><div class="line">  run();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</code></pre><h4 id="创建远离点"><a href="#创建远离点" class="headerlink" title="创建远离点"></a>创建远离点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function Away(x, y)&#123;</span><br><span class="line">  this.x = x;</span><br><span class="line">  this.y = y;</span><br><span class="line">  this.color = &apos;red&apos;;</span><br><span class="line">&#125;</span><br><span class="line">Away.prototype.awaydraw = function () &#123;</span><br><span class="line">  ctx.save();</span><br><span class="line">  ctx.beginPath();</span><br><span class="line">  ctx.arc(this.x, this.y, Math.random()*20, 0 , 360);</span><br><span class="line">  ctx.fillStyle = this.color;</span><br><span class="line">  ctx.fill();</span><br><span class="line">  ctx.restore();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="远离点跟随鼠标移动"><a href="#远离点跟随鼠标移动" class="headerlink" title="远离点跟随鼠标移动"></a>远离点跟随鼠标移动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var _away = new Away(0, 0)</span><br><span class="line">window.onmousemove = function(e)&#123;</span><br><span class="line">  var _scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</span><br><span class="line">  var e = e || window.event;</span><br><span class="line">  _away.x = e.clientX;</span><br><span class="line">  _away.y = e.clientY + _scrollTop;</span><br><span class="line">&#125;</span><br><span class="line">window.onmouseout = function()&#123;</span><br><span class="line">  _away.x = null;</span><br><span class="line">  _away.y = null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运动-起来"><a href="#运动-起来" class="headerlink" title="运动 起来"></a>运动 起来</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function run()&#123;</span><br><span class="line">  ctx.clearRect(0, 0, _width, _height)</span><br><span class="line">  //如果鼠标在窗口内，就画远离点</span><br><span class="line">  if(_away.x)&#123;</span><br><span class="line">    _away.awaydraw();</span><br><span class="line">  &#125;</span><br><span class="line">  for(var i=0; i&lt;length; i++)&#123;</span><br><span class="line">    P_array[i].move();</span><br><span class="line">    P_array[i].draw();</span><br><span class="line">    P_array[i].faraway(_away)</span><br><span class="line">    //逐个判断连线</span><br><span class="line">    for(var j=0; j&lt;length; j++)&#123;</span><br><span class="line">      P_array[i].line(P_array[j])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  //循环执行</span><br><span class="line">  requestAnimationFrame(run);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="初始化页面"><a href="#初始化页面" class="headerlink" title="初始化页面"></a>初始化页面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var P_array =[];</span><br><span class="line">var P_num = 360;</span><br><span class="line">var length = 0;</span><br><span class="line">//初始化页面</span><br><span class="line">function init()&#123;</span><br><span class="line">  //创建很多个 粒子</span><br><span class="line">  for(var i=0; i&lt; P_num; i++)&#123;</span><br><span class="line">    var _color = `rgb($&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;,$&#123;Math.floor(Math.random()*255)&#125;)`;</span><br><span class="line">    console.log(_color)</span><br><span class="line">    P_array.push(new Particle(Math.random()*_width, Math.random()*_height, Math.random()*5, _color))</span><br><span class="line">  &#125;</span><br><span class="line">  length = P_array.length;</span><br><span class="line">  //页面 动 起来</span><br><span class="line">  run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>其实这个效果有个思路的话没那么难的，运动面向对象的思想一步一步很容易就可以做出来的，我脑子笨做了几个小时😢</p>
 
       
@@ -1155,10 +1233,10 @@ Particle.prototype.faraway = function (other) {
 
 
   
-    <article id="post-常用几个正则" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-常用几个正则" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1246,10 +1324,10 @@ Particle.prototype.faraway = function (other) {
 
 
   
-    <article id="post-eslint使用" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-eslint使用" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1810,10 +1888,10 @@ Particle.prototype.faraway = function (other) {
 
 
   
-    <article id="post-saga-begining" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-saga-begining" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1837,8 +1915,8 @@ Particle.prototype.faraway = function (other) {
 </ul>
 </blockquote>
 <ul>
-<li>此篇文章重在完成saga的基本应用，其中会用到一些其他很有用的插件，<code>saga</code>详细说明请参考文档<a href="http://leonshi.com/redux-saga-in-chinese/" target="_blank" rel="external">Redux-saga中文文档</a></li>
-<li>文章项目源码戳<a href="https://github.com/Jasonellen/saga-begining" target="_blank" rel="external">github</a></li>
+<li>此篇文章重在完成saga的基本应用，其中会用到一些其他很有用的插件，<code>saga</code>详细说明请参考文档<a href="http://leonshi.com/redux-saga-in-chinese/" target="_blank" rel="noopener">Redux-saga中文文档</a></li>
+<li>文章项目源码戳<a href="https://github.com/Jasonellen/saga-begining" target="_blank" rel="noopener">github</a></li>
 </ul>
 <h3 id="这里我们用saga完整一个Counter的使用"><a href="#这里我们用saga完整一个Counter的使用" class="headerlink" title="这里我们用saga完整一个Counter的使用"></a>这里我们用saga完整一个Counter的使用</h3><h4 id="index-js—挂在到项目元素root上"><a href="#index-js—挂在到项目元素root上" class="headerlink" title="index.js—挂在到项目元素root上"></a>index.js—挂在到项目元素root上</h4><pre><code>import React from &apos;react&apos;;
 import ReactDOM from &apos;react-dom&apos;;
@@ -2000,118 +2078,9 @@ export function * counterMinus1 (action) {
 
 
   
-    <article id="post-imgClipUpload" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/imgClipUpload/">imgClipUpload</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>很多情况下用户上传的图片都需要经过裁剪，最常见的就是头像了。HTML5 的出现让我们可以更方便的实现这一需求。</p>
-</blockquote>
-<h3 id="直接在gitHub查看imgClipUpload🚘"><a href="#直接在gitHub查看imgClipUpload🚘" class="headerlink" title="直接在gitHub查看imgClipUpload🚘"></a>直接在gitHub查看<a href="https://github.com/Jasonellen/imgClipUpload" target="_blank" rel="external">imgClipUpload</a>🚘</h3><h4 id="✨HTML："><a href="#✨HTML：" class="headerlink" title="✨HTML："></a>✨HTML：</h4><pre><code>&lt;!-- 带Id的标签是必须要的 --&gt;
-&lt;canvas id=&quot;canvas&quot; &gt;&lt;/canvas&gt; //画布
-&lt;div class=&quot;file rake&quot;&gt;
-    &lt;input type=&quot;file&quot; id=&quot;file&quot;/&gt;上传图片
-&lt;/div&gt;
-&lt;div id=&quot;rotateR&quot; class=&quot;rake&quot;&gt;旋转&lt;/div&gt;
-&lt;div class=&quot;cancle rake&quot;&gt;取消&lt;/div&gt;
-&lt;div id=&quot;save&quot; class=&quot;rake&quot;&gt;截图&lt;/div&gt;
-&lt;div class=&quot;upload rake&quot;&gt;上传&lt;/div&gt;
-&lt;img src=&quot;&quot; alt=&quot;&quot; id=&quot;img&quot;/&gt; //截图或保存的图片
-</code></pre><h4 id="✨JS："><a href="#✨JS：" class="headerlink" title="✨JS："></a>✨JS：</h4><ul>
-<li><p>按钮移入移除动画效果</p>
-<pre><code>$(&apos;.rake&apos;).mouseenter(function(){
-    $(this).addClass(&apos;rubberBand animated infinite&apos;)
-})
-.mouseleave(function(){
-    $(this).removeClass(&apos;rubberBand animated infinite&apos;)
-})
-</code></pre></li>
-<li><p>创建截图</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var cut = new ImgClip(&#123;</div><div class="line">  canvas : &apos;canvas&apos;, // canvas id</div><div class="line">  width:$(window).width(), //canvas 宽度</div><div class="line">  height:$(window).height(), //canvas 高度</div><div class="line">  fileObj : &apos;file&apos;, // file id</div><div class="line">  cutBtn : &apos;save&apos;, // cut btn id</div><div class="line">  resultObj : &apos;img&apos;, // result img id</div><div class="line">  rotateR : &apos;rotateR&apos;,</div><div class="line">  cutScale : 3/4, // 高:宽</div><div class="line">  cutW : &apos;300&apos; // &apos;数字&apos;或者&apos;winW&apos;关键字，裁切宽度，随屏幕宽或自己设置</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-<li><p>点击选择本地图片预览</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(&apos;.file&apos;).on(&apos;change&apos;,&apos;#file&apos;,function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(this)[0].value=&apos;&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>取消预览</p>
-<pre><code>$(&apos;.cancle&apos;).click(function(){
-  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)
-  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)
-})
-</code></pre><p>  ​</p>
-</li>
-<li><p>保存截图</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(&apos;#save&apos;).click(function()&#123;</div><div class="line">  $(&apos;#canvas&apos;).css(&apos;display&apos;,&apos;none&apos;)</div><div class="line">  $(&apos;#img&apos;).css(&apos;display&apos;,&apos;block&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>点击上传图片</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">$(&apos;.upload&apos;).click(function()&#123;</div><div class="line">  var url = $(&apos;#img&apos;).attr(&apos;src&apos;)</div><div class="line">  var file = dataURItoBlob(url)</div><div class="line">  var fd=new FormData();</div><div class="line">  fd.append(&apos;file&apos;,file);</div><div class="line">  //如果需要多图上传只需要把对象添加进数组就可以了，向这样：fd.append(&apos;file[]&apos;,file);</div><div class="line">  $.ajax(&#123;</div><div class="line">     url:&quot;php/upload.php&quot;,</div><div class="line">     type:&quot;POST&quot;,</div><div class="line">     data:fd,</div><div class="line">     processData: false,</div><div class="line">     contentType: false,</div><div class="line">     success:function(data)&#123;</div><div class="line">         console.log(data)</div><div class="line">     &#125;</div><div class="line">  &#125;); </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>base64转Blob</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function dataURItoBlob (base64Data) &#123;</div><div class="line">   var byteString;</div><div class="line">   if (base64Data.split(&apos;,&apos;)[0].indexOf(&apos;base64&apos;) &gt;= 0)</div><div class="line">       byteString = atob(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   else</div><div class="line">       byteString = unescape(base64Data.split(&apos;,&apos;)[1]);</div><div class="line">   var type = base64Data.split(&apos;,&apos;)[0].split(&apos;:&apos;)[1].split(&apos;;&apos;)[0];</div><div class="line">   var ia = new Uint8Array(byteString.length);</div><div class="line">   for (var i = 0; i &lt; byteString.length; i++) &#123;</div><div class="line">       ia[i] = byteString.charCodeAt(i);</div><div class="line">   &#125;</div><div class="line">   // canvas.toDataURL 返回的默认格式是 image/png</div><div class="line">   return new Blob([ia], &#123;type: type&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="✨php"><a href="#✨php" class="headerlink" title="✨php:"></a>✨php:</h4><pre><code>&lt;?php
-  header(&apos;Access-Control-Allow-Origin:*&apos;);
-  //处理文件
-  if(!file_exists(&apos;./img&apos;)){
-      mkdir(&apos;./img&apos;);
-  }
-  $file = $_FILES[&apos;file&apos;][&apos;tmp_name&apos;];  //获取文件路径
-  $newName = $_FILES[&apos;file&apos;][&apos;name&apos;]; //获取文件的名字
-  $res = move_uploaded_file($file,&quot;./img/{$newName}&quot;); //原名上传到指定文件夹
-  print_r($_FILES)
-?&gt;
-</code></pre><p>😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/27/imgClipUpload/" class="archive-article-date">
-  	<time datetime="2017-03-26T17:01:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
@@ -2172,7 +2141,7 @@ export function * counterMinus1 (action) {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

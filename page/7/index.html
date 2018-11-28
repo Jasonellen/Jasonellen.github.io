@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,6 +13,7 @@
 <meta property="og:title" content="奋斗蚁🐜">
 <meta property="og:url" content="http://Jasonellen.github.io/page/7/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="奋斗蚁🐜">
   
@@ -25,7 +26,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -236,10 +237,233 @@
       <div class="body-wrap">
         
   
-    <article id="post-filter滤镜" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-日历" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/13/日历/">日历</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原生JS打造简版日历"><a href="#原生JS打造简版日历" class="headerlink" title="原生JS打造简版日历"></a>原生JS打造简版日历</h2><p><code>先来个预览：</code><a href="http://htmlpreview.github.io?https://github.com/Jasonellen/jasonProject.github.io/blob/master/calendar.html" target="_blank" rel="noopener">简版日历📅</a></p>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p><code>HTML:</code></p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;ul class=&quot;week&quot;&gt;
+        &lt;li&gt;星期日&lt;/li&gt;
+        &lt;li&gt;星期一&lt;/li&gt;
+        &lt;li&gt;星期二&lt;/li&gt;
+        &lt;li&gt;星期三&lt;/li&gt;
+        &lt;li&gt;星期四&lt;/li&gt;
+        &lt;li&gt;星期五&lt;/li&gt;
+        &lt;li&gt;星期六&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;ul class=&quot;wrap&quot;&gt;
+        &lt;li&gt;12&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;box&quot;&gt;
+    &lt;button class=&quot;preY&quot;&gt;上一年&lt;/button&gt;
+    &lt;button class=&quot;nextY&quot;&gt;下一年&lt;/button&gt;
+    &lt;button class=&quot;preM&quot;&gt;上个月&lt;/button&gt;
+    &lt;button class=&quot;nextM&quot;&gt;下个月&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;show&quot;&gt;12&lt;/div&gt;
+</code></pre><p><code>CSS:</code></p>
+<pre><code>&lt;style&gt;
+    ul,ol,li{
+        margin:0;
+        padding: 0;
+        list-style: none;
+    }
+    body{
+        background: #000;
+    }
+    .container{
+        width: 420px;
+        color: olive;
+    }
+    .container li{
+        width: 48px;
+        float: left;
+        border:1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+    .week li{
+        text-align: center;
+        height: 25px;
+        line-height: 25px;
+        padding: 2px;
+        background: green;
+        color: white;
+    }
+    .wrap li{
+        width:48px;
+        float: left;
+        height:48px;
+        text-align: center;
+        line-height: 48px;
+        margin:2px;
+        cursor: pointer;
+    }
+
+    .box{
+        position: absolute;
+        top: 360px;
+    }
+    button{
+        padding: 10px;
+        font-size:20px;
+        color: olive;
+    }
+    .show{
+        position: absolute;
+        left: 500px;
+        top: 100px;
+        color: gold;
+        font-size: 80px;
+    }
+&lt;/style&gt;
+</code></pre><h2 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h2><pre><code>var wrap =document.querySelector(&apos;.wrap&apos;);
+var preM =document.querySelector(&apos;.preM&apos;);
+var preY =document.querySelector(&apos;.preY&apos;);
+var nextM =document.querySelector(&apos;.nextM&apos;);
+var nextY =document.querySelector(&apos;.nextY&apos;);
+var show =document.querySelector(&apos;.show&apos;);
+
+var _Date = new Date();
+//显示的年月
+var show_year = _Date.getFullYear();
+var show_month = _Date.getMonth();
+
+//当前的年月日
+var now_year = _Date.getFullYear();
+var now_month = _Date.getMonth();
+var date = _Date.getDate();
+var inner =date; //初始化显示的日期
+
+setDate();
+preY.onclick=function(){
+    show_year--;
+    setDate();
+}
+nextY.onclick=function(){
+    show_year++;
+    setDate();
+}
+preM.onclick=function(){
+    show_month--;
+    if (show_month&lt;0) {
+        show_month=11;
+        show_year--;
+    }
+    setDate();
+}
+nextM.onclick=function(){
+    show_month++;
+    if (show_month&gt;0) {
+        show_month=0;
+        show_year++;
+    }
+    setDate();
+}
+
+function setDate(){
+    wrap.innerHTML=&apos;&apos;;  //清空列表
+
+    var today = new Date(show_year,show_month,1); //获取本年本月第一天
+    var num = today.getDay(); //获取本月第一天是周几
+    for(var i=0; i&lt;num ; i++){
+        wrap.appendChild(document.createElement(&apos;li&apos;)) //本月第一天之前添加空白标签
+    }
+
+    //本月最后一天通过下个月第0天可以获取到
+    var last_date = new Date(show_year,show_month+1,0).getDate();
+
+    //循环添加本月的日期列表，并将现在的当天设置背景颜色
+    for(var i=0; i&lt;last_date; i++){
+        var li = document.createElement(&apos;li&apos;);
+        li.innerHTML = i+1;
+
+        //如果显示的年月等于当前的年月，且当前日期等于循环的添加的li,改为选中状态
+        if( date == i+1 &amp;&amp; show_year ==now_year &amp;&amp; show_month == now_month){
+            li.style.background=&apos;red&apos;;
+            li.style.color=&apos;white&apos;;
+        }
+        wrap.appendChild(li);    
+    }
+
+    //设置每个li可以点击
+    var li = wrap.getElementsByTagName(&apos;li&apos;);
+    var length =li.length;
+    for(var i=0; i&lt;length; i++){
+        li.index =i;
+        li[i].onclick=function(){
+            if(this.innerHTML){
+                for(var j=0; j&lt;length; j++){
+                    li[j].style.background=&apos;&apos;;
+                    li[j].style.color=&apos;&apos;;
+                }
+                this.style.background=&apos;red&apos;;
+                this.style.color=&apos;white&apos;;
+                inner=this.innerHTML;
+                show.innerHTML=`${show_year}年${show_month}月${inner}日`;
+            }
+        }
+    }
+    //设置显示时间
+    show.innerHTML=`${show_year}年${show_month}月${inner}日`;
+}
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/13/日历/" class="archive-article-date">
+  	<time datetime="2016-11-13T13:20:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/简版日历/">简版日历</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-filter滤镜" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -268,7 +492,7 @@
 &lt;/body&gt;  
 &lt;/html&gt; 
 </code></pre><p><code>头部引入插件，对应图片加上类名，所有类名已写在图片左下角，点击预览查看</code></p>
-<p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.html" target="_blank" rel="external">效果预览</a><br>文件在我的github：<a href="https://github.com/Jasonellen/jasonProject.github.io/tree/master/filter" target="_blank" rel="external">Jasonellen</a><br>或者直接点击下载：<a href="https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.css" download="" target="_blank" rel="external">文件下载</a></p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.html" target="_blank" rel="noopener">效果预览</a><br>文件在我的github：<a href="https://github.com/Jasonellen/jasonProject.github.io/tree/master/filter" target="_blank" rel="noopener">Jasonellen</a><br>或者直接点击下载：<a href="https://github.com/Jasonellen/jasonProject.github.io/blob/master/filter/filter.css" download="" target="_blank" rel="noopener">文件下载</a></p>
 
       
     </div>
@@ -303,10 +527,10 @@
 
 
   
-    <article id="post-Vue之路由和请求" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Vue之路由和请求" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -322,7 +546,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-router.js" target="_blank" rel="external">vue-router.js</a>，<br>Vue的http请求就是相当于ajax,依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-resource.js" target="_blank" rel="external">vue-resource.js</a></p>
+<p>Vue的路由就相当于一个a连接，完成点击跳转的功能依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-router.js" target="_blank" rel="noopener">vue-router.js</a>，<br>Vue的http请求就是相当于ajax,依赖文件<a href="https://github.com/Jasonellen/relyOn/blob/master/Vue/vue-resource.js" target="_blank" rel="noopener">vue-resource.js</a></p>
 </blockquote>
 <p><code>直接贴完成页面</code></p>
 <pre><code>&lt;!DOCTYPE html&gt;
@@ -450,10 +674,10 @@
 
 
   
-    <article id="post-Vue表单与组件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Vue表单与组件" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -805,10 +1029,10 @@ var child = parent.$refs.profile;
 
 
   
-    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Vue之数据绑定" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -823,7 +1047,7 @@ var child = parent.$refs.profile;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="external">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="external">生产版本</a></p>
+        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="文件安装"></a>文件安装</h1><p><a class="button" href="http://vuejs.org/js/vue.js" download="" target="_blank" rel="noopener">开发版本</a><br><a class="button" href="http://vuejs.org/js/vue.min.js" download="" target="_blank" rel="noopener">生产版本</a></p>
 <p><strong> $ npm install vue </strong></p>
 <h1 id="基本语法-无序😁"><a href="#基本语法-无序😁" class="headerlink" title="基本语法-无序😁"></a>基本语法-无序😁</h1><p><code>Vue实例</code></p>
 <pre><code>var app = new Vue({
@@ -1032,10 +1256,10 @@ data: {
 
 
   
-    <article id="post-JS经典题解析" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JS经典题解析" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1158,10 +1382,10 @@ data: {
 
 
   
-    <article id="post-弹性球" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-弹性球" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1311,10 +1535,10 @@ function removeHandler(element, type, handler){
 
 
   
-    <article id="post-元素坐标" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-元素坐标" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1401,10 +1625,10 @@ e.x      ——支持
 
 
   
-    <article id="post-ES6新特性" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ES6新特性" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1637,10 +1861,10 @@ console.log(service.port); // 3000
 
 
   
-    <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1691,15 +1915,15 @@ deploy:
 如果博客打开后台有jq引入报错是因为默认引入的是谷歌CDN文件不稳定，可以修改为其他在线jquery文件即可，修改路径为themes--landscape-layout-_partial-after-footer.ejs
 </code></pre><p><code>11. 添加评论系统--这里用的是多说评论</code></p>
 <ul>
-<li>进入<a href="http://duoshuo.com/" target="_blank" rel="external">多说官网</a></li>
+<li>进入<a href="http://duoshuo.com/" target="_blank" rel="noopener">多说官网</a></li>
 <li>点击我要安装</li>
 <li>填完注册信息（记得有一个多说域名 xxx.duosho.com）自己写的xxx要记得后面会用到</li>
 <li>注册完会生成一段html代码如下(就是通用代码)</li>
 <li>进入前面的配置文件_config.xml,找个空白地新增 duoshuo_shortname: 上面注册时用的xxx</li>
 <li>进入themes\landscape\layout_partial\article.ejs</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">把最后一段这个代码</div><div class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</div><div class="line">  &lt;section id=&quot;comments&quot;&gt;</div><div class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</div><div class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/section&gt;</div><div class="line">  &lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</div><div class="line"> &lt;!-- 多说评论框 start --&gt;</div><div class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">把最后一段这个代码</span><br><span class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</span><br><span class="line">  &lt;section id=&quot;comments&quot;&gt;</span><br><span class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</span><br><span class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</span><br><span class="line"> &lt;!-- 多说评论框 start --&gt;</span><br><span class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <h1 id="OVER-喜欢就点个赞吧"><a href="#OVER-喜欢就点个赞吧" class="headerlink" title="OVER 喜欢就点个赞吧"></a>OVER 喜欢就点个赞吧</h1>
       
     </div>
@@ -1734,127 +1958,9 @@ deploy:
 
 
   
-    <article id="post-MarkDown" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/14/MarkDown/">MarkDown 语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h2><blockquote>
-<p>Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的 HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
-</blockquote>
-<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><pre><code>在 Mac OS X 上，我强烈建议你用 Mou 这款免费且十分好用的 Markdown 编辑器。它支持实时预览，既左边是你编辑 
-Markdown 语言，右边会实时的生成预览效果。在Win上推荐使用 MarkdownPad 或者 MarkPad。
-</code></pre><h1 id="Markdown-语法的简要规则"><a href="#Markdown-语法的简要规则" class="headerlink" title="Markdown 语法的简要规则"></a>Markdown 语法的简要规则</h1><h2 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h2><pre><code>图片为：![图片名](图片地址http://)
-       如果是本地图片请使用绝对路径
-链接为：[显示的链接名](链接地址http://..)        
-</code></pre><p><a href="https://github.com/Jasonellen/jasonProject.github.io" target="_blank" rel="external">myGitHub</a><br><img src="http://ww2.sinaimg.cn/large/6aee7dbbgw1efffa67voyj20ix0ctq3n.jpg" alt="pic"></p>
-<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><pre><code>#~######分别表示一级-六级标题
-</code></pre><p><img src="http://ww1.sinaimg.cn/large/6aee7dbbgw1effeaclhiyj20eh09cwez.jpg" alt="title"></p>
-<p><strong>注意在符号后需要一个空格，这是最标准的 Markdown 语法。</strong></p>
-<h2 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h2><pre><code>用一对*号括起来的是斜体，两对*号括起来的是粗体
-*斜体*   **粗体**
-</code></pre><h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><pre><code>表格是我觉得 Markdown 比较累人的地方，冒号表明文字对齐方式，例子如下：
-| Tables        | Are           | Cool  |
-| :-----------: |:-------------:|------:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-</code></pre><table>
-<thead>
-<tr>
-<th style="text-align:center">Tables</th>
-<th style="text-align:center">Are</th>
-<th style="text-align:right">Cool</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">col 3 is</td>
-<td style="text-align:center">right-aligned</td>
-<td style="text-align:right">$1600</td>
-</tr>
-<tr>
-<td style="text-align:center">col 2 is</td>
-<td style="text-align:center">centered</td>
-<td style="text-align:right">$12</td>
-</tr>
-<tr>
-<td style="text-align:center">zebra stripes</td>
-<td style="text-align:center">are neat</td>
-<td style="text-align:right">$1</td>
-</tr>
-</tbody>
-</table>
-<h2 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h2><pre><code>比如我这些有背景的文字描述都是框框括起来的
-实现：tab键后再输入文字
-</code></pre><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><p>直接输入三个星号</p>
-<hr>
-<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><pre><code>用一对``号括起来
-</code></pre><p><code>个人博客：https://jasonellen.github.io</code></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
-<p>大于号后面的内容就是引用：&gt; 这里是引用的内容<br><img src="http://ww3.sinaimg.cn/large/6aee7dbbgw1effezhonxlj20e009c3yu.jpg" alt="title"></p>
-</blockquote>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><pre><code>只需要在文字前加上 - 或 * 即可变为无序列表，有序列表则直接在文字前加1. 2. 3. 符号要和文字之间加上一个字符的空格。
-</code></pre><p><img src="http://ww4.sinaimg.cn/large/6aee7dbbgw1effew5aftij20d80bz3yw.jpg" alt="title"></p>
-<h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><ul>
-<li>1 </li>
-<li>2</li>
-<li>3<h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4></li>
-</ul>
-<ol>
-<li>1</li>
-<li>2</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/14/MarkDown/" class="archive-article-date">
-  	<time datetime="2016-09-14T08:54:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/">Markdown</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
 
@@ -1915,7 +2021,7 @@ Markdown 语言，右边会实时的生成预览效果。在Win上推荐使用 M
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

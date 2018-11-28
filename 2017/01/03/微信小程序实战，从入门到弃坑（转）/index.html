@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <meta name="baidu-site-verification" content="ggTdcuuNh2" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
   <title>微信小程序 | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="微信小程序实战，从入门到弃坑（转）原文链接
-最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文，简书没有目录，也挺伤感的。
-值得再次声明的是：微信小程序的内容部分是hy">
+  <meta name="description" content="微信小程序实战，从入门到弃坑（转）原文链接 最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文，简书没有目录，也挺伤感的。 值得再次声明的是：微信小程序的内容部分是hy">
+<meta name="keywords" content="微信小程序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微信小程序">
 <meta property="og:url" content="http://Jasonellen.github.io/2017/01/03/微信小程序实战，从入门到弃坑（转）/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="微信小程序实战，从入门到弃坑（转）原文链接
-最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文，简书没有目录，也挺伤感的。
-值得再次声明的是：微信小程序的内容部分是hy">
+<meta property="og:description" content="微信小程序实战，从入门到弃坑（转）原文链接 最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文，简书没有目录，也挺伤感的。 值得再次声明的是：微信小程序的内容部分是hy">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1158202-6c7ccf0f8e3019b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1158202-ef6d4c647e8b188c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1158202-719f23c56cd215ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -44,9 +42,7 @@
 <meta property="og:updated_time" content="2017-01-02T13:20:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微信小程序">
-<meta name="twitter:description" content="微信小程序实战，从入门到弃坑（转）原文链接
-最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文，简书没有目录，也挺伤感的。
-值得再次声明的是：微信小程序的内容部分是hy">
+<meta name="twitter:description" content="微信小程序实战，从入门到弃坑（转）原文链接 最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文，简书没有目录，也挺伤感的。 值得再次声明的是：微信小程序的内容部分是hy">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1158202-6c7ccf0f8e3019b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
@@ -58,7 +54,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -267,10 +263,10 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-微信小程序实战，从入门到弃坑（转）" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-微信小程序实战，从入门到弃坑（转）" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -285,7 +281,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="微信小程序实战，从入门到弃坑（转）"><a href="#微信小程序实战，从入门到弃坑（转）" class="headerlink" title="微信小程序实战，从入门到弃坑（转）"></a>微信小程序实战，从入门到弃坑（转）</h1><p><a href="http://www.jianshu.com/p/4433d46e6235" target="_blank" rel="external">原文链接</a></p>
+        <h1 id="微信小程序实战，从入门到弃坑（转）"><a href="#微信小程序实战，从入门到弃坑（转）" class="headerlink" title="微信小程序实战，从入门到弃坑（转）"></a>微信小程序实战，从入门到弃坑（转）</h1><p><a href="http://www.jianshu.com/p/4433d46e6235" target="_blank" rel="noopener">原文链接</a></p>
 <p>最近集中开发了两款微信小程序，分别是好奇心日历（每天一条辞典+一个小投票）和好奇心日报（轻量版），直接上图：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-6c7ccf0f8e3019b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>本文将结合具体的实战经验，主要介绍微信小程序的基础知识、开发中遇到的难点、项目的架构设计、最佳实践以及踩过的坑。<strong>文章内容较多，如果想看架构设计和躲坑技巧，请直接浏览后面的正文</strong>，简书没有目录，也挺伤感的。</p>
 <p>值得再次声明的是：<strong>微信小程序的内容部分是hybrid模式，并非原生</strong>，所以性能并不好，绑定的tap事件也有明显的延迟。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-ef6d4c647e8b188c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>如上图<em><code>每一个由边框围起来的部分，都是一个最小粒度的原生view</code></em>可以看出，整个微信小程序的内容部分，就是一个原生view。</p>
 <h2 id="小程序有哪些基础知识？"><a href="#小程序有哪些基础知识？" class="headerlink" title="小程序有哪些基础知识？"></a>小程序有哪些基础知识？</h2><p>一个完整的微信小程序是由一个App实例和多个Page实例构成，其中App实例表示该小程序应用，多个Page表示该小程序的多个页面。<br>此外，微信小程序并没有提供自定义组件的方式，这就导致微信小程序在开发较复杂应用时，可能会比较艰难。</p>
@@ -420,11 +416,11 @@ Page({
 </ul>
 <p>框架有了，小程序还提供了官方组件以便快速开发，提供了API以增强应用能力。</p>
 <p>这块就不具体介绍了，也需要注意小程序的官方文档还在大规模的更新中，务必查看最新版</p>
-<p>官方组件：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222</a></p>
-<p>官方API：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222</a></p>
+<p>官方组件：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222" target="_blank" rel="noopener">https://mp.weixin.qq.com/debug/wxadoc/dev/component/?t=20161222</a></p>
+<p>官方API：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222" target="_blank" rel="noopener">https://mp.weixin.qq.com/debug/wxadoc/dev/api/?t=20161222</a></p>
 <p>微信小程序的基础知识就是以上的内容，并不复杂，边查边写都可以。</p>
 <p>接下来会介绍更进阶一些的内容，内容主要结合好奇心日报这个小程序项目，先看效果：<br><img src="http://upload-images.jianshu.io/upload_images/1158202-50ade533c922cb0d.gif?imageMogr2/auto-orient/strip" alt=""></p>
-<h2 id="如何设计微信小程序？"><a href="#如何设计微信小程序？" class="headerlink" title="如何设计微信小程序？"></a>如何设计微信小程序？</h2><h3 id="构建系统-amp-amp-目录结构"><a href="#构建系统-amp-amp-目录结构" class="headerlink" title="构建系统 &amp;&amp; 目录结构"></a>构建系统 &amp;&amp; 目录结构</h3><h4 id="构建系统"><a href="#构建系统" class="headerlink" title="构建系统"></a>构建系统</h4><p>由于微信小程序本身对工程化几乎没有任何的支持，所以动手搭建一份：<a href="https://github.com/qixiuss/wxapp-redux-starter" target="_blank" rel="external">wxapp-redux-starter</a>。</p>
+<h2 id="如何设计微信小程序？"><a href="#如何设计微信小程序？" class="headerlink" title="如何设计微信小程序？"></a>如何设计微信小程序？</h2><h3 id="构建系统-amp-amp-目录结构"><a href="#构建系统-amp-amp-目录结构" class="headerlink" title="构建系统 &amp;&amp; 目录结构"></a>构建系统 &amp;&amp; 目录结构</h3><h4 id="构建系统"><a href="#构建系统" class="headerlink" title="构建系统"></a>构建系统</h4><p>由于微信小程序本身对工程化几乎没有任何的支持，所以动手搭建一份：<a href="https://github.com/qixiuss/wxapp-redux-starter" target="_blank" rel="noopener">wxapp-redux-starter</a>。</p>
 <p><strong>使用gulp进行编译构建，主要功能包括：</strong></p>
 <ul>
 <li>集成了<code>Redux</code>，数据管理更方便</li>
@@ -445,13 +441,13 @@ Page({
 <p>有了构建工具，代码开发起来更舒心，但很快就遇到另外一个糟心的问题，那就是如何管理散布在各处的数据？<br>要知道，微信小程序并没有提供组件化方案，所以<strong>把组件写成无状态组件</strong>特别适合，但是页面管理太多数据很凌乱，有什么办法可以将数据集中管理呢？</p>
 <h3 id="引入Redux进行数据集中管理"><a href="#引入Redux进行数据集中管理" class="headerlink" title="引入Redux进行数据集中管理"></a>引入Redux进行数据集中管理</h3><p>关于Redux相关的内容，之前有三篇博客详细介绍，有兴趣的建议先移步：</p>
 <ul>
-<li>Redux整体介绍：<a href="http://www.jianshu.com/p/d296a8c34936" target="_blank" rel="external">Redux 入门教程，应用的状态管理器</a></li>
-<li>对State进行横向和纵向拆分设计：<a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="external">State设计，Redux 开发第一步</a></li>
-<li>Reducer的最佳实践：<a href="http://www.jianshu.com/p/938f8121ba0f" target="_blank" rel="external">Reducer 最佳实践，Redux 开发最重要的部分</a></li>
+<li>Redux整体介绍：<a href="http://www.jianshu.com/p/d296a8c34936" target="_blank" rel="noopener">Redux 入门教程，应用的状态管理器</a></li>
+<li>对State进行横向和纵向拆分设计：<a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="noopener">State设计，Redux 开发第一步</a></li>
+<li>Reducer的最佳实践：<a href="http://www.jianshu.com/p/938f8121ba0f" target="_blank" rel="noopener">Reducer 最佳实践，Redux 开发最重要的部分</a></li>
 </ul>
 <p>这儿就简单介绍一下，如何在微信小程序中引入Redux 以及 如何将微信小程序和Redux连接起来。</p>
 <h4 id="引入Redux"><a href="#引入Redux" class="headerlink" title="引入Redux"></a>引入Redux</h4><p>直接在 <code>thirdPlugins</code>目录 运行 <code>yarn add redux / npm install redux</code>，等<code>redux</code>安装好了之后，将 <code>dist</code>目录 的 <code>redux.js/redux.min.js</code> 拷贝到<code>vendors</code>目录中。<br>需要进行简单的修改才能使用，将压缩版208行代码 <code>(i)</code> 改成 <code>(i || {})</code>即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-143fad06f8c52bca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h4 id="连接微信小程序和Redux"><a href="#连接微信小程序和Redux" class="headerlink" title="连接微信小程序和Redux"></a>连接微信小程序和Redux</h4><p>将Redux和微信小程序连接起来才会真的有用处。找了个现成的方案<a href="https://github.com/charleyw/wechat-weapp-redux" target="_blank" rel="external">charleyw/wechat-weapp-redux</a>，可以直接使用。</p>
+<h4 id="连接微信小程序和Redux"><a href="#连接微信小程序和Redux" class="headerlink" title="连接微信小程序和Redux"></a>连接微信小程序和Redux</h4><p>将Redux和微信小程序连接起来才会真的有用处。找了个现成的方案<a href="https://github.com/charleyw/wechat-weapp-redux" target="_blank" rel="noopener">charleyw/wechat-weapp-redux</a>，可以直接使用。</p>
 <p>一个完整的Redux方案如下，包括：将Store注入到App中、将state的数据和reducer的方法映射到Page中。一旦state发生变化，Page.data也会更新，进而触发页面的重新渲染。</p>
 <pre><code>// APP的逻辑
 import { createStore, applyMiddleware, combineReducers } from &apos;./vendors/redux.js&apos;;
@@ -608,15 +604,15 @@ let pageConfig = {
 </code></pre><p>这种Redux的组件化解决方案既简单又好用，保持一定的代码规范即可。这样设计当然是为了复用，同时也让Page的逻辑保持极度精简。</p>
 <h2 id="开发中遇到了哪些难点-amp-amp-微信小程序有多少坑？"><a href="#开发中遇到了哪些难点-amp-amp-微信小程序有多少坑？" class="headerlink" title="开发中遇到了哪些难点 &amp;&amp; 微信小程序有多少坑？"></a>开发中遇到了哪些难点 &amp;&amp; 微信小程序有多少坑？</h2><p>微信小程序目前的确算不上公测的版本，开发者工具不完善、真机表现和开发环境差异很大、部分组件性能较差、部分功能有缺陷，只有经历了这些大坑，才会真的知道你有多“爱”微信小程序。这儿总结了开发中的难点以及微信小程序中遇到的比较明显的坑。</p>
 <h3 id="富文本解析"><a href="#富文本解析" class="headerlink" title="富文本解析"></a>富文本解析</h3><p>微信小程序并不支持HTML标签，所以对于富文本解析来说，难度较大，而且有些功能还没有办法实现，比如：iframe视频、连接跳转等<br>这块功能建议由后台统一转换，如果非得前端转换，建议参考下面的思路。</p>
-<p>非常感谢 <a href="https://github.com/icindy/wxParse" target="_blank" rel="external">wxParse</a> 这款组件，替我省了不少时间。推荐大家使用，期间遇到一些问题，也分享给大家。</p>
+<p>非常感谢 <a href="https://github.com/icindy/wxParse" target="_blank" rel="noopener">wxParse</a> 这款组件，替我省了不少时间。推荐大家使用，期间遇到一些问题，也分享给大家。</p>
 <ul>
 <li>wxParse 默认层级只支持10层html嵌套，如果想要支持更深的层级，在wxParse.xml复制几份template即可。</li>
 <li>wxParse 提供了图片加载成功的回调<code>wxParseImgLoad</code>，很好用。但如果富文本中的图片已经预设宽高比，那么可以不用依赖该回调，在html2jons.js中根据屏幕宽度直接计算出图片高度，先占位，可以避免页面频繁抖动的问题。</li>
-<li>如果你的富文本中有自定义模块，对wxParse.xml中的template进行改造即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-52ce324bcc9879bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="数据扁平化"><a href="#数据扁平化" class="headerlink" title="数据扁平化"></a>数据扁平化</h3>具体如何扁平化，请移步上一篇博客 <a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="external">State设计，Redux 开发第一步</a>。<br>这儿只简单介绍下扁平化应用场景：<br>好奇心日报的研究所是三级表结构：<code>papers &gt; questions &gt; options</code>，后台返回的数据是三级嵌套数据，如果想要修改option.selected字段，需要三级嵌套循环！如果想要获取所有选中的option，需要三级嵌套循环！<h3 id="页面展现速度优化"><a href="#页面展现速度优化" class="headerlink" title="页面展现速度优化"></a>页面展现速度优化</h3>数据复用，比如复用列表页的数据，可以让详情页的标题等字段第一时间呈现出来。<br>离线缓存，同样可以让列表页和详情页第一时间呈现出来，甚至有可能减少请求数量。</li>
+<li>如果你的富文本中有自定义模块，对wxParse.xml中的template进行改造即可。<br><img src="http://upload-images.jianshu.io/upload_images/1158202-52ce324bcc9879bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><h3 id="数据扁平化"><a href="#数据扁平化" class="headerlink" title="数据扁平化"></a>数据扁平化</h3>具体如何扁平化，请移步上一篇博客 <a href="http://www.jianshu.com/p/ba8654cb77b6" target="_blank" rel="noopener">State设计，Redux 开发第一步</a>。<br>这儿只简单介绍下扁平化应用场景：<br>好奇心日报的研究所是三级表结构：<code>papers &gt; questions &gt; options</code>，后台返回的数据是三级嵌套数据，如果想要修改option.selected字段，需要三级嵌套循环！如果想要获取所有选中的option，需要三级嵌套循环！<h3 id="页面展现速度优化"><a href="#页面展现速度优化" class="headerlink" title="页面展现速度优化"></a>页面展现速度优化</h3>数据复用，比如复用列表页的数据，可以让详情页的标题等字段第一时间呈现出来。<br>离线缓存，同样可以让列表页和详情页第一时间呈现出来，甚至有可能减少请求数量。</li>
 </ul>
 <p>无论是数据复用还是离线缓存，配合数据扁平化，都非常好用。</p>
 <h3 id="小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）"><a href="#小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）" class="headerlink" title="小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）"></a>小程序默认设置代理，会和Shadowsocks等VPN冲突（最新版已修复）</h3><p>解决方法很简单，设置微信小程序不使用代理；或者临时关闭VPN即可。<br>最新版开发者工具已经解决该问题。</p>
-<h3 id="最新版微信小程序移除了对Promise的支持。"><a href="#最新版微信小程序移除了对Promise的支持。" class="headerlink" title="最新版微信小程序移除了对Promise的支持。"></a>最新版微信小程序移除了对Promise的支持。</h3><p>开发者自行引入兼容库即可，推荐<a href="https://github.com/stefanpenner/es6-promise" target="_blank" rel="external">es6-promise</a>。使用的时候，直接引入Promise即可。</p>
+<h3 id="最新版微信小程序移除了对Promise的支持。"><a href="#最新版微信小程序移除了对Promise的支持。" class="headerlink" title="最新版微信小程序移除了对Promise的支持。"></a>最新版微信小程序移除了对Promise的支持。</h3><p>开发者自行引入兼容库即可，推荐<a href="https://github.com/stefanpenner/es6-promise" target="_blank" rel="noopener">es6-promise</a>。使用的时候，直接引入Promise即可。</p>
 <pre><code>// 引入Promise
 import Promise from &apos;../vendors/es6-promise.js&apos;;
 
@@ -884,7 +880,7 @@ const getLocation = promisify(wx.getLocation);
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     
