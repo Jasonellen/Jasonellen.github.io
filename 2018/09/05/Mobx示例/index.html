@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>Mobx示例 | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="React必备技能之一&amp;gt; 作为优秀的状态管理工作，Redux之外，Mobx也是一个很好的选择哦，用起来非常的简单，花了点时间研究了一下，瞧下面↓  入口文件12345678910111213141516171819202122232425import React from &amp;apos;react&amp;apos;import &amp;#123;render&amp;#125; from &amp;apos;react">
+<meta name="keywords" content="Mobx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mobx示例">
+<meta property="og:url" content="http://Jasonellen.github.io/2018/09/05/Mobx示例/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="React必备技能之一&amp;gt; 作为优秀的状态管理工作，Redux之外，Mobx也是一个很好的选择哦，用起来非常的简单，花了点时间研究了一下，瞧下面↓  入口文件12345678910111213141516171819202122232425import React from &amp;apos;react&amp;apos;import &amp;#123;render&amp;#125; from &amp;apos;react">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-28T03:02:20.621Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mobx示例">
+<meta name="twitter:description" content="React必备技能之一&amp;gt; 作为优秀的状态管理工作，Redux之外，Mobx也是一个很好的选择哦，用起来非常的简单，花了点时间研究了一下，瞧下面↓  入口文件12345678910111213141516171819202122232425import React from &amp;apos;react&amp;apos;import &amp;#123;render&amp;#125; from &amp;apos;react">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Mobx示例" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mobx示例
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>React必备技能之一&gt; 作为优秀的状态管理工作，Redux之外，Mobx也是一个很好的选择哦，用起来非常的简单，花了点时间研究了一下，瞧下面↓</p>
+</blockquote>
+<h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line">import &#123;render&#125; from &apos;react-dom&apos;</span><br><span class="line">import Routers from &apos;./routers/router&apos;</span><br><span class="line">import &#123; configure &#125; from &apos;mobx&apos;;</span><br><span class="line">import &#123; Provider &#125; from &apos;mobx-react&apos;;</span><br><span class="line">import * as stores  from &apos;./stores&apos;</span><br><span class="line">configure(&#123; enforceActions: &quot;observed&quot; &#125;)</span><br><span class="line"></span><br><span class="line">render((</span><br><span class="line">	&lt;Provider &#123;...stores&#125;&gt;</span><br><span class="line">		&lt;Routers /&gt;</span><br><span class="line">	&lt;/Provider&gt;</span><br><span class="line">), document.getElementById(&apos;root&apos;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 开启局部热更新</span><br><span class="line">if (module.hot) &#123;</span><br><span class="line">	module.hot.accept(&apos;./routers/router&apos;, () =&gt; &#123;</span><br><span class="line">		render((</span><br><span class="line">			&lt;Provider &#123;...stores&#125;&gt;</span><br><span class="line">				&lt;Routers /&gt;</span><br><span class="line">			&lt;/Provider&gt;</span><br><span class="line">		), document.getElementById(&apos;root&apos;))</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="store"><a href="#store" class="headerlink" title="store"></a>store</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">//index.js</span><br><span class="line">import shop from &apos;./shop&apos;</span><br><span class="line"></span><br><span class="line">export &#123;</span><br><span class="line">	shop,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//shop.js</span><br><span class="line">import &#123; observable, action, computed, autorun &#125; from &apos;mobx&apos;;</span><br><span class="line">import &#123; create, persist &#125; from &apos;mobx-persist&apos;</span><br><span class="line"></span><br><span class="line">class Shop &#123;</span><br><span class="line">	@persist(&apos;list&apos;) @observable data = [];</span><br><span class="line">    @observable action = null;</span><br><span class="line">    //持久化测试</span><br><span class="line">    @persist(&apos;object&apos;) @observable persistTestObj = null //对象这里不能写&#123;&#125; 要么就也写成初始值</span><br><span class="line">    @persist(&apos;list&apos;) @observable persistTestArr = []</span><br><span class="line">    @persist @observable persistTestNum = 0</span><br><span class="line">    @persist @observable persistTestStr = &quot;&quot;</span><br><span class="line"></span><br><span class="line">	//设置初始化数据</span><br><span class="line">	@action</span><br><span class="line">	changeInitialData = (data)=&gt;&#123; </span><br><span class="line">		this.data = data</span><br><span class="line">	&#125;</span><br><span class="line">    @computed get totalCount()&#123;</span><br><span class="line">        return this.data.reduce(function(prev,next)&#123;</span><br><span class="line">            return prev + next.count </span><br><span class="line">        &#125;,0)</span><br><span class="line">    &#125;</span><br><span class="line">    @computed get totalPrice()&#123;</span><br><span class="line">        return this.data.reduce(function(prev,next)&#123;</span><br><span class="line">            return prev + next.count * next.price</span><br><span class="line">        &#125;,0)</span><br><span class="line">    &#125;</span><br><span class="line">    @action</span><br><span class="line">    increase = (i)=&gt;&#123;</span><br><span class="line">        this.action = &apos;increase&apos;</span><br><span class="line">        this.data.find(function(item,index)&#123;</span><br><span class="line">            return index == i</span><br><span class="line">        &#125;).count += 1</span><br><span class="line">    &#125;</span><br><span class="line">    @action</span><br><span class="line">    setAction = (data)=&gt;&#123;</span><br><span class="line">        this.action = data</span><br><span class="line">    &#125;</span><br><span class="line">    @action</span><br><span class="line">    decrease = (i)=&gt;&#123;</span><br><span class="line">        this.action = &apos;decerase&apos;</span><br><span class="line">        this.data.find(function(item,index)&#123;</span><br><span class="line">            return index == i</span><br><span class="line">        &#125;).count -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let _Shop = new Shop()</span><br><span class="line"></span><br><span class="line">autorun(()=&gt;&#123;</span><br><span class="line">    _Shop.action &amp;&amp; console.log(_Shop.action == &apos;increase&apos; ? &apos;您点击了增加&apos;:&quot;您点击了减少&quot;)</span><br><span class="line">    _Shop.setAction(null)</span><br><span class="line">&#125;,&#123;</span><br><span class="line">    delay:500 //加上delay 多次快速点击只会出现一次 console</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">const hydrate = create(&#123;</span><br><span class="line">    storage: localStorage,   // or AsyncStorage in react-native.</span><br><span class="line">                            // default: localStorage</span><br><span class="line">    jsonify: true  // if you use AsyncStorage, here shoud be true</span><br><span class="line">                    // default: true</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">hydrate(&apos;shop&apos;, _Shop,&#123;</span><br><span class="line">    persistTestObj:&#123;</span><br><span class="line">        &quot;a&quot;:10,&quot;b&quot;:2</span><br><span class="line">    &#125;,</span><br><span class="line">    persistTestArr:[1,3,20],</span><br><span class="line">    persistTestNum:1,</span><br><span class="line">    persistTestStr:&apos;2&apos;</span><br><span class="line">&#125;).then(() =&gt; console.log(&apos;_Shop has been hydrated&apos;))</span><br><span class="line"></span><br><span class="line">export default _Shop</span><br></pre></td></tr></table></figure>
+<h3 id="container"><a href="#container" class="headerlink" title="container"></a>container</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123;Component&#125; from &apos;react&apos;</span><br><span class="line">import &#123; inject, observer &#125; from &apos;mobx-react&apos;;</span><br><span class="line">import &apos;./index.scss&apos;</span><br><span class="line">import tu1 from &apos;static/1.jpg&apos;</span><br><span class="line"></span><br><span class="line">@inject(&apos;shop&apos;)</span><br><span class="line">@observer</span><br><span class="line">export default class Home extends Component &#123;</span><br><span class="line">	componentDidMount()&#123;</span><br><span class="line">		let data = [</span><br><span class="line">			&#123;</span><br><span class="line">				img:&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2781512380,2039838908&amp;fm=200&amp;gp=0.jpg&quot;,</span><br><span class="line">				title:&quot;狗狗&quot;,</span><br><span class="line">				price:&apos;9.9&apos;,</span><br><span class="line">				count:1,</span><br><span class="line">			&#125;,</span><br><span class="line">			&#123;</span><br><span class="line">				img:&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2781512380,2039838908&amp;fm=200&amp;gp=0.jpg&quot;,</span><br><span class="line">				title:&quot;狗狗2&quot;,</span><br><span class="line">				price:&apos;19.9&apos;,</span><br><span class="line">				count:0,</span><br><span class="line">			&#125;,</span><br><span class="line">			&#123;</span><br><span class="line">				img:&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2781512380,2039838908&amp;fm=200&amp;gp=0.jpg&quot;,</span><br><span class="line">				title:&quot;狗狗3&quot;,</span><br><span class="line">				price:&apos;29.9&apos;,</span><br><span class="line">				count:10,</span><br><span class="line">			&#125;</span><br><span class="line">		]</span><br><span class="line">		this.props.shop.changeInitialData(data)</span><br><span class="line">	&#125;</span><br><span class="line">	render () &#123;</span><br><span class="line">		const &#123;</span><br><span class="line">			data, totalCount, totalPrice,</span><br><span class="line">			increase,decrease</span><br><span class="line">		&#125; = this.props.shop</span><br><span class="line"></span><br><span class="line">		return(</span><br><span class="line">			&lt;div className=&quot;Home&quot;&gt;</span><br><span class="line">				&lt;img src=&#123;tu1&#125; style=&#123;&#123;width:100&#125;&#125; alt=&quot;&quot;/&gt;</span><br><span class="line">				&lt;div className=&quot;tu2&quot;&gt;&lt;/div&gt;</span><br><span class="line">				&lt;ul&gt;</span><br><span class="line">					&#123;</span><br><span class="line">						data.length&gt;0 &amp;&amp; data.map((item, i)=&gt;&#123;</span><br><span class="line">							return(</span><br><span class="line">								&lt;li key=&#123;i&#125;&gt;</span><br><span class="line">									&lt;img src=&#123;item.img&#125; alt=&quot;&quot;/&gt;</span><br><span class="line">									&lt;span&gt;&#123;item.title&#125;&lt;/span&gt;</span><br><span class="line">									&lt;em&gt;$&#123;item.price&#125;&lt;/em&gt;</span><br><span class="line">									&lt;div&gt;</span><br><span class="line">										&lt;button onClick=&#123;()=&gt;decrease(i)&#125;&gt;-&lt;/button&gt;</span><br><span class="line">										&lt;span&gt;&#123;item.count&#125;&lt;/span&gt;</span><br><span class="line">										&lt;button onClick=&#123;()=&gt;increase(i)&#125;&gt;+&lt;/button&gt;</span><br><span class="line">									&lt;/div&gt;</span><br><span class="line">								&lt;/li&gt;</span><br><span class="line">							)</span><br><span class="line">						&#125;)</span><br><span class="line">					&#125;</span><br><span class="line">				&lt;/ul&gt;</span><br><span class="line">				&lt;p&gt;</span><br><span class="line">					&lt;span className=&quot;left&quot;&gt;数量：&#123;totalCount&#125;个&lt;/span&gt;</span><br><span class="line">					&lt;span className=&quot;right&quot;&gt;价格：$&#123;totalPrice&#125;&lt;/span&gt;</span><br><span class="line">				&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="温馨提示："><a href="#温馨提示：" class="headerlink" title="温馨提示："></a>温馨提示：</h2><ul>
+<li><code>autorun</code>这里需要监听的是 new Shop()的对象属性</li>
+<li><code>mobx-persist</code>初始值最好在上面定义的地方和下面<code>hydrate</code>的地方都写一下(尤其是对象)，否则<code>hydrate</code>不写的话只会在执行其中一个有持久化数据的时候才会保存在本地</li>
+<li>善用<code>computed</code>，<code>mobx</code>状态改变后不会在组件中通过<code>componentWillReceiveProps</code>拦截到，而是直接进入的<code>render</code>，可以在手机进入的时候通过<code>computed</code>监听需要改变的元素，或者<code>autorun</code>来实现吧</li>
+<li>真的可以用<code>autorun</code>的<code>delay</code>来实现防抖动哦</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/05/Mobx示例/" class="archive-article-date">
+  	<time datetime="2018-09-05T07:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mobx/">Mobx</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/19/node抓取百度头像/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">node抓取百度头像</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
