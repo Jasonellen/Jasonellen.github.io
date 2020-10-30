@@ -237,6 +237,130 @@
       <div class="body-wrap">
         
   
+    <article id="post-canvas水波纹" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/06/canvas水波纹/">canvas水波纹</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="轻戳预览"><a href="#轻戳预览" class="headerlink" title="轻戳预览"></a><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/canvasWater/blob/master/index.html" target="_blank" rel="noopener">轻戳预览</a></h3><blockquote>
+<p>现在的水波纹效果，很多场景还是可以看到，这里用canvas实现一个类似的效果<br>思路：其实就是2个贝塞尔曲线填充2种不同颜色，然后动态改变贝塞尔的2个控制点，制造一个波纹的效果</p>
+</blockquote>
+<p>代码比较简单，废话不多少，直接贴Demo吧<br>HTML：</p>
+<pre><code>&lt;style&gt;
+    html,body{
+        height: 100%;
+        margin:0;
+        background: grey;
+    }
+    canvas{
+        width: 100%;
+        height: 100%;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
+&lt;/body&gt;
+</code></pre><p>JS：</p>
+<pre><code>var canvas = document.getElementById(&apos;canvas&apos;);
+var ctx = canvas.getContext(&apos;2d&apos;);
+var _width = canvas.width = canvas.offsetWidth;
+var _height = canvas.height = canvas.offsetHeight;
+var leftDot = rightDot = _height * 0.7  //起始点和终点高度
+var leftDotSpeed = 0.2;
+var rightDotSpeed = 0.16;
+var n = 0;
+window.requestAnimationFrame =  window.requestAnimationFrame ||
+                                window.mozRequestAnimationFrame ||
+                                window.webkitRequestAnimationFrame ||
+                                window.msRequestAnimationFrame;
+
+run();
+function drawSun(){
+    var color = ctx.createRadialGradient(_width/2,_height*0.6,1,_width/2,_height*0.8,600);
+    color.addColorStop(0,&apos;red&apos;);
+    color.addColorStop(.2,&apos;#fff&apos;);
+    color.addColorStop(0.5,&apos;lightgrey&apos;);
+    color.addColorStop(1,&apos;grey&apos;);
+    ctx.beginPath();
+    ctx.arc(_width/2, _height*0.8, 600, 0, 2*Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+function drawWater(n,color, leftDot, rightDot){
+    var angle = n * Math.PI / 180;
+    var deltaHeight = Math.sin(angle) * _height / 8;
+    var deltaHeightRight = Math.cos(angle) * _height / 7;
+    ctx.beginPath();
+    ctx.moveTo(0, leftDot);
+    ctx.bezierCurveTo(_width / 4, leftDot + deltaHeight, _width * 3 / 4, rightDot + deltaHeightRight, _width, rightDot);
+    ctx.lineTo(_width, _height);
+    ctx.lineTo(0, _height); //使得下半个矩形闭合
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+function run() {
+    ctx.clearRect(0, 0, _width, _height);
+    n+=1;
+    leftDot += leftDotSpeed
+    rightDot += rightDotSpeed
+    if(leftDot&gt;_height*0.8 || leftDot&lt;_height*0.6){
+        leftDotSpeed *= -1
+    }
+    if(rightDot&gt;_height*0.8 || rightDot&lt;_height*0.6){
+        rightDotSpeed *= -1
+    }
+    drawSun()
+    drawWater(n+50,&apos;lightcyan&apos;, leftDot, rightDot)
+    drawWater(n,&apos;cyan&apos;, leftDot, rightDot)
+    requestAnimationFrame(run);
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/06/canvas水波纹/" class="archive-article-date">
+  	<time datetime="2017-07-06T15:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-webpack之hash的意义" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1888,196 +2012,6 @@ Particle.prototype.faraway = function (other) {
 
 
   
-    <article id="post-saga-begining" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/04/saga-begining/">saga-begining</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>redux-saga 是一个用于管理 Redux 应用异步操作的中间件（又称异步 action）。 redux-saga 通过创建 <em>Sagas</em> 将所有的异步操作逻辑收集在一个地方集中处理，可以用来代替 <code>redux-thunk</code> 中间件。</p>
-<p>这意味着应用的逻辑会存在两个地方：</p>
-<ul>
-<li>Reducers 负责处理 action 的 state 更新。</li>
-<li>Sagas 负责协调那些复杂或异步的操作。</li>
-</ul>
-</blockquote>
-<ul>
-<li>此篇文章重在完成saga的基本应用，其中会用到一些其他很有用的插件，<code>saga</code>详细说明请参考文档<a href="http://leonshi.com/redux-saga-in-chinese/" target="_blank" rel="noopener">Redux-saga中文文档</a></li>
-<li>文章项目源码戳<a href="https://github.com/Jasonellen/saga-begining" target="_blank" rel="noopener">github</a></li>
-</ul>
-<h3 id="这里我们用saga完整一个Counter的使用"><a href="#这里我们用saga完整一个Counter的使用" class="headerlink" title="这里我们用saga完整一个Counter的使用"></a>这里我们用saga完整一个Counter的使用</h3><h4 id="index-js—挂在到项目元素root上"><a href="#index-js—挂在到项目元素root上" class="headerlink" title="index.js—挂在到项目元素root上"></a>index.js—挂在到项目元素root上</h4><pre><code>import React from &apos;react&apos;;
-import ReactDOM from &apos;react-dom&apos;;
-import {Provider} from &apos;react-redux&apos;;
-import createStore from &apos;./store/configureStore&apos;
-import App from &apos;./App&apos;;
-
-const store = createStore();
-ReactDOM.render(
-  &lt;Provider store={store}&gt;
-      &lt;App /&gt;
-  &lt;/Provider&gt;,
-  document.getElementById(&apos;root&apos;)
-);
-</code></pre><h4 id="上面index-js用到的creatrStore-js"><a href="#上面index-js用到的creatrStore-js" class="headerlink" title="上面index.js用到的creatrStore.js"></a>上面index.js用到的creatrStore.js</h4><pre><code>import {createLogger} from &apos;redux-logger&apos;;
-// const createLogger = require(&apos;redux-logger&apos;);
-import createSagaMiddleware from &apos;redux-saga&apos;;
-import {createStore, applyMiddleware } from &apos;redux&apos;;
-import rootReducer from &apos;../redux&apos;
-import rootSaga from &apos;../saga&apos;
-
-const middlewares = [];
-// 创建中间件saga
-const sagaMiddleware = createSagaMiddleware();
-middlewares.push(sagaMiddleware)
-
-if (process.env.NODE_ENV === &apos;development&apos;) {
-    //创建中间件logger
-    const logger = createLogger();
-    middlewares.push(logger);
-}
-
-export default function configureStore(initialState) {
-   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
-   sagaMiddleware.run(rootSaga) //saga中间键挂在到store后需要run一下 所有的saga文件
-   return store;
-}
-</code></pre><h4 id="createStore用到的rootRedux"><a href="#createStore用到的rootRedux" class="headerlink" title="createStore用到的rootRedux"></a>createStore用到的rootRedux</h4><pre><code>import {combineReducers} from &apos;redux&apos;;
-const rootReducer = combineReducers({
-  counterReducer1: require(&apos;./counterReducer1&apos;).reducer,
-  counterReducer2: require(&apos;./counterReducer2&apos;).reducer,
-})
-export default rootReducer
-</code></pre><h4 id="createStore用到的rootSaga"><a href="#createStore用到的rootSaga" class="headerlink" title="createStore用到的rootSaga"></a>createStore用到的rootSaga</h4><pre><code>import { takeLatest } from &apos;redux-saga/effects&apos;
-/* ------------- Types ------------- */
-import { CounterTypes1 } from &apos;../redux/counterReducer1&apos;
-import { CounterTypes2 } from &apos;../redux/counterReducer2&apos;
-/* ------------- Sagas ------------- */
-import { counterPlus1, counterMinus1 } from &apos;./counterSaga1&apos;
-import { counterPlus2, counterMinus2 } from &apos;./counterSaga2&apos;
-/* ------------- Connect Types To Sagas ------------- */
-export default function * rootSaga () {
-  yield [
-    takeLatest(CounterTypes1.PLUS_NUM_SAGA, counterPlus1),
-    takeLatest(CounterTypes1.MINUS_NUM_SAGA, counterMinus1),
-    takeLatest(CounterTypes2.PLUS_NUM_SAGA2, counterPlus2),
-    takeLatest(CounterTypes2.MINUS_NUM_SAGA2, counterMinus2),
-  ]
-}
-</code></pre><h4 id="rootRedux-引入的counterReducer1"><a href="#rootRedux-引入的counterReducer1" class="headerlink" title="rootRedux 引入的counterReducer1"></a>rootRedux 引入的counterReducer1</h4><pre><code>import { createReducer, createActions } from &apos;reduxsauce&apos;
-import Immutable from &apos;seamless-immutable&apos;
-/* ------------- Types and Action Creators ------------- */
-const { Types, Creators } = createActions({
-  plusNum: [&apos;text&apos;], //type名驼峰，生成的是全大写PLUS_NUM
-  minusNum: null,
-  plusNumSaga: [&apos;text&apos;],
-  minusNumSaga: [&apos;text&apos;],
-})
-
-export const CounterTypes1 = Types //这里导出是给saga监听使用
-export default Creators
-//导出action生成器 Creators，
-//Creators.plusNum =(text) =&gt; {type:&apos;PLUS_NUM&apos; ,text:text}
-/* ------------- Initial State ------------- */
-export const INITIAL_STATE = Immutable({
-  value:0
-})
-/* ------------- Reducers ------------- */
-export const plus = (state,action) =&gt; {
-  const { text } = action
-  return state.merge({ value:state.value+text })
-}
-export const minus = (state,action) =&gt; {
-  return state.merge({ value:state.value-1 })
-}
-/* ------------- Hookup Reducers To Types ------------- */
-export const reducer = createReducer(INITIAL_STATE, {
-  [Types.PLUS_NUM]: plus,
-  [Types.MINUS_NUM]: minus
-  //这里reducer监听Types是PLUS_NUM的action,执行对应的plus放法
-})
-// reducer生成器，生成对应type的reducer
-</code></pre><h4 id="rootSaga引入的counterSaga1"><a href="#rootSaga引入的counterSaga1" class="headerlink" title="rootSaga引入的counterSaga1"></a>rootSaga引入的counterSaga1</h4><pre><code>import { put,select,call } from &apos;redux-saga/effects&apos;
-import CounterActions1 from &apos;../redux/counterReducer1&apos;
-
-// attempts to get state
-// const getState = (state) =&gt; state.login
-
-// let API={
-//     request:(text)=&gt;{
-//         return fetch(...)
-//     }
-// }
-
-export function * counterPlus1 (action) {
-    // const data = yield select(selectState) //通过select可以获取全局state
-
-  // const check = yield call(API.request, text) //如果有异步请求，用call调用
-  // if(check.ok == &apos;ok&apos;){
-  //     yield put(CounterActions1.xxx(xxx, xxx))
-  // }
-   const {text} = action
-   alert(text)
-   yield put(CounterActions1.plusNum(2))
-
-}
-
-export function * counterMinus1 (action) {
-   const {text} = action
-   alert(text)
-   yield put(CounterActions1.minusNum())
-}
-</code></pre><h2 id="谨记"><a href="#谨记" class="headerlink" title="谨记"></a>谨记</h2><ul>
-<li><code>saga</code>和<code>reducer</code>都会监听<code>action</code>监听的顺序是先<code>reducer</code>后<code>saga</code>,所以如果<code>reducer</code>和<code>saga</code>都监听了相同的<code>action</code>,那么<code>saga</code>逻辑执行在<code>reducer</code>改变后的状态基础上，尽量不要用<code>saga</code>和<code>reducer</code>监听相同的reducer</li>
-<li>相同的<code>action</code>内容，不管是谁触发的，所有监听此<code>action</code>的<code>reducer</code>和<code>action</code>都会触发，所以请区分好<code>action</code>的触发及监听操作</li>
-<li>和<code>thunk</code>一样<code>(dispatch,getState)</code> 第二个参数会将全局的<code>state</code>函数当参数传递进来，<code>saga</code>的<code>select(()=&gt;fn(state))</code>也可以调用全局<code>state</code></li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/04/04/saga-begining/" class="archive-article-date">
-  	<time datetime="2017-04-04T02:59:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -2090,7 +2024,7 @@ export function * counterMinus1 (action) {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Jasonellen
+    		&copy; 2020 Jasonellen
     	</div>
     </div>
   </div>

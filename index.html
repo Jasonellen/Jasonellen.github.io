@@ -237,6 +237,50 @@
       <div class="body-wrap">
         
   
+    <article id="post-iframe跨域通信" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: Iframe 跨域通信</span><br><span class="line">date: 2020-10-30 19:06:14</span><br><span class="line">tags: iframe</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>​    很多情况下需要用到iframe嵌入子页面以达到也无需求，通常使用场景都是跨页面的情况下，这时候如果需要传递数据怎么处理呢？</p>
+</blockquote>
+<h3 id="父页面"><a href="#父页面" class="headerlink" title="父页面"></a>父页面</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//  iframe页面</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"siri_child"</span> <span class="attr">src</span>=<span class="string">"&lt;%=url%&gt;"</span> <span class="attr">onload</span>=<span class="string">"postMsg()"</span> <span class="attr">width</span>=<span class="string">"100%"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">	var url="<span class="tag">&lt;<span class="name">%=url%</span>&gt;</span>";</span></span><br><span class="line"><span class="undefined">	function postMsg()&#123;</span></span><br><span class="line"><span class="undefined">        		var msg = &#123;sendMsg:'sendMsg',action:'registerChildFunc',setParentHeigh:'setParentHeigh'&#125;</span></span><br><span class="line"><span class="undefined">        		document.getElementById('siri_child').contentWindow.postMessage(msg, url)</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    window.addEventListener("message",function(obj)&#123;</span></span><br><span class="line"><span class="undefined">        var data = obj.data;</span></span><br><span class="line"><span class="undefined">        var action = data.action;</span></span><br><span class="line"><span class="undefined">				console.log(obj);</span></span><br><span class="line"><span class="undefined">    &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="子页面"><a href="#子页面" class="headerlink" title="子页面"></a>子页面</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//子页面</span></span><br><span class="line"><span class="built_in">window</span>.sendMsg = <span class="string">''</span>;</span><br><span class="line"><span class="built_in">window</span>.setParentHeigh=<span class="number">0</span>;</span><br><span class="line"><span class="built_in">window</span>.origin=<span class="string">''</span>;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.parent !== event.source)&#123;<span class="keyword">return</span>&#125;</span><br><span class="line">    <span class="keyword">if</span>(event.data.action==<span class="string">'registerChildFunc'</span>)&#123;</span><br><span class="line">        <span class="built_in">window</span>.sendMsg=event.data.sendMsg;</span><br><span class="line">        <span class="built_in">window</span>.setParentHeigh=event.data.setParentHeigh;</span><br><span class="line">        <span class="built_in">window</span>.origin=event.origin;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">userId</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.sendMsg)&#123;</span><br><span class="line">        <span class="keyword">var</span> msg = &#123;userId,<span class="attr">action</span>:<span class="string">'sendMsg'</span>&#125;</span><br><span class="line">        parent.postMessage(msg, <span class="built_in">window</span>.origin)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>好吧，看起来很清晰，就不细说了</strong></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/10/30/iframe跨域通信/" class="archive-article-date">
+  	<time datetime="2020-10-30T11:13:21.188Z" itemprop="datePublished"><i class="icon-clock"></i>2020-10-30</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Mobx示例" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1015,218 +1059,6 @@ render(){
 
 
   
-    <article id="post-moment" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/05/moment/">时间工具-moment</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：<a href="http://momentjs.com/" target="_blank" rel="noopener">moment.js</a></p>
-</blockquote>
-<h3 id="head"><a href="#head" class="headerlink" title="head"></a>head</h3><pre><code>&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&apos;&gt;&lt;/script&gt;
-&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/zh-cn.js&apos;&gt;&lt;/script&gt;
-</code></pre><p><strong> 这里引入了cdn <code>moment.min.js</code> 和 <code>汉化包</code> </strong></p>
-<h3 id="页面输出"><a href="#页面输出" class="headerlink" title="页面输出"></a>页面输出</h3><p><span style="color:red">当前时间moment()</span> = Fri Jan 05 2018 16:54:35 GMT+0800</p>
-<hr>
-<p><span style="color:red">初始格式化moment().format()</span> = 2018-01-05T16:54:35+08:00</p>
-<hr>
-<p><span style="color:red">设置时间moment(“2010-3-5 15:10:3:123”)</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
-<hr>
-<p><span style="color:red">.date()是获取，.date(-7)是设置时间</span></p>
-<hr>
-<p><span style="color:red">moment().date()</span> = 5<br><span style="color:red">moment().date(-7).format(“YYYY-MM-DD”)</span> = 2017-12-24</p>
-<hr>
-<p><span style="color:red">取值</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
-<hr>
-<p>moment().get(‘year’);</p>
-<pre><code>moment().get(&apos;month&apos;);  // 0 to 11
-
-moment().get(&apos;date&apos;);
-
-moment().get(&apos;hour&apos;);
-
-moment().get(&apos;minute&apos;);
-
-moment().get(&apos;second&apos;);
-
-moment().get(&apos;millisecond&apos;);
-</code></pre><hr>
-<p><span style="color:red">moment().set(“year”, 2013) == moment().year(2013)</span><br>…</p>
-<hr>
-<p><span style="color:red">设置相对时间：moment().add(-3, “d”)=</span>Tue Jan 02 2018 16:54:35 GMT+0800</p>
-<pre><code>Key    Shorthand    
-years  y
-quarters Q
-months    M
-weeks    w
-days    d
-hours    h
-minutes    m
-seconds    s
-milliseconds    ms
-</code></pre><hr>
-<p><span style="color:red">格式化format()</span><span style="color:red">moment().format(“[today] dddd”) = </span>today 星期五<br><span style="color:red">moment().format(“YYYY-MM-DD”) = </span>2018-01-05<br><span style="color:red">moment(2015/12/2).format(“YYYY-MM-DD”) = </span>2015-12-02</p>
-<hr>
-<p><span style="color:red">转化为时间戳：moment()-0 = </span>1515142475927</p>
-<hr>
-<p><span style="color:red">相对时间：moment(“2017-9-10”).fromNow() = </span>4 个月前<br><span style="color:red">相对时间：moment(“2017-9-10”).fromNow(true); = </span>4 个月</p>
-<hr>
-<p><span style="color:red">日历时间：moment().calendar() = </span>今天16:54<br><span style="color:red">日历时间：moment(“2018-1-4”).calendar(); = </span>昨天00:00</p>
-<hr>
-<p><span style="color:red">时差 (毫秒) ：<br>                var a = moment(“2017-1-20”);<br>                var b = moment(“2017-1-19”);<br>                a.diff(b) = </span>86400000<br><span style="color:red">日历时间：a.diff(b, “days”); = </span>1</p>
-<hr>
-<p><span style="color:red">时间比较：moment(‘2010-10-20’).isBefore(‘2010-10-21’)</span><br><span style="color:red">isBefore、isSame、isAfter、isBetween</span></p>
-<hr>
-<p>​    </p>
-<h3 id="script提供js支持"><a href="#script提供js支持" class="headerlink" title="script提供js支持"></a>script提供js支持</h3><pre><code>&lt;script &gt;
-    window.onload=function(){
-        moment.locale(&apos;zh-cn&apos;)  //设置中文  需要引入带locale的js文件生效
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;当前时间moment()&lt;/span&gt; = &apos;,moment())
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;初始格式化moment().format()&lt;/span&gt; = &apos;, moment().format())
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置时间moment(&quot;2010-3-5 15:10:3:123&quot;)&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
-        document.write(&apos;&lt;hr/&gt;&apos;)
-        document.write(&apos;&lt;br/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;.date()是获取，.date(-7)是设置时间&lt;/span&gt;&apos;)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date()&lt;/span&gt; = &apos;,moment().date())
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date(-7).format(&quot;YYYY-MM-DD&quot;)&lt;/span&gt; = &apos;,moment().date(-7).format(&apos;YYYY-MM-DD&apos;))
-        document.write(&apos;&lt;hr/&gt;&apos;)
-        document.write(&apos;&lt;br/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;取值&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
-        document.write(&apos;&lt;hr/&gt;&apos;)
-        document.write(`moment().get(&apos;year&apos;);&lt;br/&gt;
-                                        moment().get(&apos;month&apos;);  // 0 to 11&lt;br/&gt;
-                                        moment().get(&apos;date&apos;);&lt;br/&gt;
-                                        moment().get(&apos;hour&apos;);&lt;br/&gt;
-                                        moment().get(&apos;minute&apos;);&lt;br/&gt;
-                                        moment().get(&apos;second&apos;);&lt;br/&gt;
-                                        moment().get(&apos;millisecond&apos;);&lt;br/&gt;`
-        )
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().set(&quot;year&quot;, 2013) == moment().year(2013)&lt;/span&gt;&apos;)
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;...&apos;)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置相对时间：moment().add(-3, &quot;d&quot;)=&lt;/span&gt;&apos;,moment().add(-3, &apos;d&apos;))
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(`
-            Key    Shorthand&lt;br/&gt;
-            years    y&lt;br/&gt;
-            quarters    Q&lt;br/&gt;
-            months    M&lt;br/&gt;
-            weeks    w&lt;br/&gt;
-            days    d&lt;br/&gt;
-            hours    h&lt;br/&gt;
-            minutes    m&lt;br/&gt;
-            seconds    s&lt;br/&gt;
-            milliseconds    ms&lt;br/&gt;
-        `)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-        document.write(&apos;&lt;br/&gt;&apos;)
-
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;格式化format()&lt;/span&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;[today] dddd&quot;) = &lt;/span&gt;&apos;, moment().format(&apos;[today] dddd&apos;))
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment().format(&quot;YYYY-MM-DD&quot;))
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment(2015/12/2).format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment(&apos;2015/12/2&apos;).format(&quot;YYYY-MM-DD&quot;))
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;转化为时间戳：moment()-0 = &lt;/span&gt;&apos;, moment()-0)
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow() = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow())
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow(true); = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow(true))
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment().calendar() = &lt;/span&gt;&apos;, moment().calendar())
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment(&quot;2018-1-4&quot;).calendar(); = &lt;/span&gt;&apos;, moment(&quot;2018-1-4&quot;).calendar())
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        var a = moment(&quot;2017-1-20&quot;);
-        var b = moment(&quot;2017-1-19&quot;);
-        document.write(`
-            &lt;span style=&quot;color:red&quot;&gt;时差 (毫秒) ：
-            var a = moment(&quot;2017-1-20&quot;);
-            var b = moment(&quot;2017-1-19&quot;);
-            a.diff(b) = &lt;/span&gt;`, a.diff(b))
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：a.diff(b, &quot;days&quot;); = &lt;/span&gt;&apos;, a.diff(b, &apos;days&apos;))
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-        document.write(`&lt;span style=&quot;color:red&quot;&gt;时间比较：moment(&apos;2010-10-20&apos;).isBefore(&apos;2010-10-21&apos;)&lt;/span&gt;`)
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(`&lt;span style=&quot;color:red&quot;&gt;isBefore、isSame、isAfter、isBetween&lt;/span&gt;`)
-        document.write(&apos;&lt;br/&gt;&apos;)
-        document.write(&apos;&lt;hr/&gt;&apos;)
-
-    }
-&lt;/script&gt;
-</code></pre><p><strong> 常用的方法直接输出到页面，看的已经很直白明显了喔 </strong></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/01/05/moment/" class="archive-article-date">
-  	<time datetime="2018-01-05T11:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-05</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/moment/">moment</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1239,7 +1071,7 @@ milliseconds    ms
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Jasonellen
+    		&copy; 2020 Jasonellen
     	</div>
     </div>
   </div>

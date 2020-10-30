@@ -237,6 +237,218 @@
       <div class="body-wrap">
         
   
+    <article id="post-moment" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/05/moment/">时间工具-moment</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>moment.js一般用来处理时间的工具，实用性还是很广的喔，这里整理了部分功能，应该够我用的了😯，详情请参见官方网站：<a href="http://momentjs.com/" target="_blank" rel="noopener">moment.js</a></p>
+</blockquote>
+<h3 id="head"><a href="#head" class="headerlink" title="head"></a>head</h3><pre><code>&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&apos;&gt;&lt;/script&gt;
+&lt;script src=&apos;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/zh-cn.js&apos;&gt;&lt;/script&gt;
+</code></pre><p><strong> 这里引入了cdn <code>moment.min.js</code> 和 <code>汉化包</code> </strong></p>
+<h3 id="页面输出"><a href="#页面输出" class="headerlink" title="页面输出"></a>页面输出</h3><p><span style="color:red">当前时间moment()</span> = Fri Jan 05 2018 16:54:35 GMT+0800</p>
+<hr>
+<p><span style="color:red">初始格式化moment().format()</span> = 2018-01-05T16:54:35+08:00</p>
+<hr>
+<p><span style="color:red">设置时间moment(“2010-3-5 15:10:3:123”)</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
+<hr>
+<p><span style="color:red">.date()是获取，.date(-7)是设置时间</span></p>
+<hr>
+<p><span style="color:red">moment().date()</span> = 5<br><span style="color:red">moment().date(-7).format(“YYYY-MM-DD”)</span> = 2017-12-24</p>
+<hr>
+<p><span style="color:red">取值</span> = Fri Mar 05 2010 15:10:03 GMT+0800</p>
+<hr>
+<p>moment().get(‘year’);</p>
+<pre><code>moment().get(&apos;month&apos;);  // 0 to 11
+
+moment().get(&apos;date&apos;);
+
+moment().get(&apos;hour&apos;);
+
+moment().get(&apos;minute&apos;);
+
+moment().get(&apos;second&apos;);
+
+moment().get(&apos;millisecond&apos;);
+</code></pre><hr>
+<p><span style="color:red">moment().set(“year”, 2013) == moment().year(2013)</span><br>…</p>
+<hr>
+<p><span style="color:red">设置相对时间：moment().add(-3, “d”)=</span>Tue Jan 02 2018 16:54:35 GMT+0800</p>
+<pre><code>Key    Shorthand    
+years  y
+quarters Q
+months    M
+weeks    w
+days    d
+hours    h
+minutes    m
+seconds    s
+milliseconds    ms
+</code></pre><hr>
+<p><span style="color:red">格式化format()</span><span style="color:red">moment().format(“[today] dddd”) = </span>today 星期五<br><span style="color:red">moment().format(“YYYY-MM-DD”) = </span>2018-01-05<br><span style="color:red">moment(2015/12/2).format(“YYYY-MM-DD”) = </span>2015-12-02</p>
+<hr>
+<p><span style="color:red">转化为时间戳：moment()-0 = </span>1515142475927</p>
+<hr>
+<p><span style="color:red">相对时间：moment(“2017-9-10”).fromNow() = </span>4 个月前<br><span style="color:red">相对时间：moment(“2017-9-10”).fromNow(true); = </span>4 个月</p>
+<hr>
+<p><span style="color:red">日历时间：moment().calendar() = </span>今天16:54<br><span style="color:red">日历时间：moment(“2018-1-4”).calendar(); = </span>昨天00:00</p>
+<hr>
+<p><span style="color:red">时差 (毫秒) ：<br>                var a = moment(“2017-1-20”);<br>                var b = moment(“2017-1-19”);<br>                a.diff(b) = </span>86400000<br><span style="color:red">日历时间：a.diff(b, “days”); = </span>1</p>
+<hr>
+<p><span style="color:red">时间比较：moment(‘2010-10-20’).isBefore(‘2010-10-21’)</span><br><span style="color:red">isBefore、isSame、isAfter、isBetween</span></p>
+<hr>
+<p>​    </p>
+<h3 id="script提供js支持"><a href="#script提供js支持" class="headerlink" title="script提供js支持"></a>script提供js支持</h3><pre><code>&lt;script &gt;
+    window.onload=function(){
+        moment.locale(&apos;zh-cn&apos;)  //设置中文  需要引入带locale的js文件生效
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;当前时间moment()&lt;/span&gt; = &apos;,moment())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;初始格式化moment().format()&lt;/span&gt; = &apos;, moment().format())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置时间moment(&quot;2010-3-5 15:10:3:123&quot;)&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;.date()是获取，.date(-7)是设置时间&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date()&lt;/span&gt; = &apos;,moment().date())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().date(-7).format(&quot;YYYY-MM-DD&quot;)&lt;/span&gt; = &apos;,moment().date(-7).format(&apos;YYYY-MM-DD&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;取值&lt;/span&gt; = &apos;, moment(&apos;2010-3-5 15:10:3:123&apos;))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(`moment().get(&apos;year&apos;);&lt;br/&gt;
+                                        moment().get(&apos;month&apos;);  // 0 to 11&lt;br/&gt;
+                                        moment().get(&apos;date&apos;);&lt;br/&gt;
+                                        moment().get(&apos;hour&apos;);&lt;br/&gt;
+                                        moment().get(&apos;minute&apos;);&lt;br/&gt;
+                                        moment().get(&apos;second&apos;);&lt;br/&gt;
+                                        moment().get(&apos;millisecond&apos;);&lt;br/&gt;`
+        )
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().set(&quot;year&quot;, 2013) == moment().year(2013)&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;...&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;设置相对时间：moment().add(-3, &quot;d&quot;)=&lt;/span&gt;&apos;,moment().add(-3, &apos;d&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(`
+            Key    Shorthand&lt;br/&gt;
+            years    y&lt;br/&gt;
+            quarters    Q&lt;br/&gt;
+            months    M&lt;br/&gt;
+            weeks    w&lt;br/&gt;
+            days    d&lt;br/&gt;
+            hours    h&lt;br/&gt;
+            minutes    m&lt;br/&gt;
+            seconds    s&lt;br/&gt;
+            milliseconds    ms&lt;br/&gt;
+        `)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+        document.write(&apos;&lt;br/&gt;&apos;)
+
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;格式化format()&lt;/span&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;[today] dddd&quot;) = &lt;/span&gt;&apos;, moment().format(&apos;[today] dddd&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment().format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment().format(&quot;YYYY-MM-DD&quot;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;moment(2015/12/2).format(&quot;YYYY-MM-DD&quot;) = &lt;/span&gt;&apos;, moment(&apos;2015/12/2&apos;).format(&quot;YYYY-MM-DD&quot;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;转化为时间戳：moment()-0 = &lt;/span&gt;&apos;, moment()-0)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow() = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;相对时间：moment(&quot;2017-9-10&quot;).fromNow(true); = &lt;/span&gt;&apos;, moment(&quot;2017-9-10&quot;).fromNow(true))
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment().calendar() = &lt;/span&gt;&apos;, moment().calendar())
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：moment(&quot;2018-1-4&quot;).calendar(); = &lt;/span&gt;&apos;, moment(&quot;2018-1-4&quot;).calendar())
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        var a = moment(&quot;2017-1-20&quot;);
+        var b = moment(&quot;2017-1-19&quot;);
+        document.write(`
+            &lt;span style=&quot;color:red&quot;&gt;时差 (毫秒) ：
+            var a = moment(&quot;2017-1-20&quot;);
+            var b = moment(&quot;2017-1-19&quot;);
+            a.diff(b) = &lt;/span&gt;`, a.diff(b))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;span style=&quot;color:red&quot;&gt;日历时间：a.diff(b, &quot;days&quot;); = &lt;/span&gt;&apos;, a.diff(b, &apos;days&apos;))
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+        document.write(`&lt;span style=&quot;color:red&quot;&gt;时间比较：moment(&apos;2010-10-20&apos;).isBefore(&apos;2010-10-21&apos;)&lt;/span&gt;`)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(`&lt;span style=&quot;color:red&quot;&gt;isBefore、isSame、isAfter、isBetween&lt;/span&gt;`)
+        document.write(&apos;&lt;br/&gt;&apos;)
+        document.write(&apos;&lt;hr/&gt;&apos;)
+
+    }
+&lt;/script&gt;
+</code></pre><p><strong> 常用的方法直接输出到页面，看的已经很直白明显了喔 </strong></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/01/05/moment/" class="archive-article-date">
+  	<time datetime="2018-01-05T11:07:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/moment/">moment</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-移动端适配" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1190,130 +1402,6 @@ b.next(13) // { value:42, done:true }
 
 
   
-    <article id="post-canvas水波纹" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/06/canvas水波纹/">canvas水波纹</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="轻戳预览"><a href="#轻戳预览" class="headerlink" title="轻戳预览"></a><a href="http://htmlpreview.github.io/?https://github.com/Jasonellen/canvasWater/blob/master/index.html" target="_blank" rel="noopener">轻戳预览</a></h3><blockquote>
-<p>现在的水波纹效果，很多场景还是可以看到，这里用canvas实现一个类似的效果<br>思路：其实就是2个贝塞尔曲线填充2种不同颜色，然后动态改变贝塞尔的2个控制点，制造一个波纹的效果</p>
-</blockquote>
-<p>代码比较简单，废话不多少，直接贴Demo吧<br>HTML：</p>
-<pre><code>&lt;style&gt;
-    html,body{
-        height: 100%;
-        margin:0;
-        background: grey;
-    }
-    canvas{
-        width: 100%;
-        height: 100%;
-    }
-&lt;/style&gt;
-&lt;body&gt;
-    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
-&lt;/body&gt;
-</code></pre><p>JS：</p>
-<pre><code>var canvas = document.getElementById(&apos;canvas&apos;);
-var ctx = canvas.getContext(&apos;2d&apos;);
-var _width = canvas.width = canvas.offsetWidth;
-var _height = canvas.height = canvas.offsetHeight;
-var leftDot = rightDot = _height * 0.7  //起始点和终点高度
-var leftDotSpeed = 0.2;
-var rightDotSpeed = 0.16;
-var n = 0;
-window.requestAnimationFrame =  window.requestAnimationFrame ||
-                                window.mozRequestAnimationFrame ||
-                                window.webkitRequestAnimationFrame ||
-                                window.msRequestAnimationFrame;
-
-run();
-function drawSun(){
-    var color = ctx.createRadialGradient(_width/2,_height*0.6,1,_width/2,_height*0.8,600);
-    color.addColorStop(0,&apos;red&apos;);
-    color.addColorStop(.2,&apos;#fff&apos;);
-    color.addColorStop(0.5,&apos;lightgrey&apos;);
-    color.addColorStop(1,&apos;grey&apos;);
-    ctx.beginPath();
-    ctx.arc(_width/2, _height*0.8, 600, 0, 2*Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
-}
-function drawWater(n,color, leftDot, rightDot){
-    var angle = n * Math.PI / 180;
-    var deltaHeight = Math.sin(angle) * _height / 8;
-    var deltaHeightRight = Math.cos(angle) * _height / 7;
-    ctx.beginPath();
-    ctx.moveTo(0, leftDot);
-    ctx.bezierCurveTo(_width / 4, leftDot + deltaHeight, _width * 3 / 4, rightDot + deltaHeightRight, _width, rightDot);
-    ctx.lineTo(_width, _height);
-    ctx.lineTo(0, _height); //使得下半个矩形闭合
-    ctx.fillStyle = color;
-    ctx.fill();
-}
-function run() {
-    ctx.clearRect(0, 0, _width, _height);
-    n+=1;
-    leftDot += leftDotSpeed
-    rightDot += rightDotSpeed
-    if(leftDot&gt;_height*0.8 || leftDot&lt;_height*0.6){
-        leftDotSpeed *= -1
-    }
-    if(rightDot&gt;_height*0.8 || rightDot&lt;_height*0.6){
-        rightDotSpeed *= -1
-    }
-    drawSun()
-    drawWater(n+50,&apos;lightcyan&apos;, leftDot, rightDot)
-    drawWater(n,&apos;cyan&apos;, leftDot, rightDot)
-    requestAnimationFrame(run);
-}
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/07/06/canvas水波纹/" class="archive-article-date">
-  	<time datetime="2017-07-06T15:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1326,7 +1414,7 @@ function run() {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Jasonellen
+    		&copy; 2020 Jasonellen
     	</div>
     </div>
   </div>

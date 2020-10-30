@@ -237,6 +237,76 @@
       <div class="body-wrap">
         
   
+    <article id="post-开启一个简单的cdn加速" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/16/开启一个简单的cdn加速/">开启一个简单的CDN加速</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>cdn加速是通过一个服务器集群对网站内容建立缓存和镜像，并且通过对网页静态资源的压缩来加快网站的最终访问速度，但是对于大部分的个人网站或者普通企业网站来说，自己建立cdn加速的服务器集群是一笔较高的费用，而且需要专业的技术。这里说一种最简单的网站cdn加速方法。</p>
+</blockquote>
+<p><img src="http://a.hiphotos.baidu.com/exp/w=500/sign=c93d5757c15c1038247ecec28210931c/d4628535e5dde711b08214bba0efce1b9d16612e.jpg" alt=""></p>
+<p><strong>备注：CDN只是在你的服务器给出数据之后，进行加快传输。举个例子，你的服务器响应是10秒，网络传输占2秒，整体是12秒响应。而CDN可以将你的网络传输2秒加速到1秒，但是你的服务器吐出查询数据还是10秒，整体时间是11秒。</strong></p>
+<h2 id="方法-步骤"><a href="#方法-步骤" class="headerlink" title="方法/步骤"></a>方法/步骤</h2><h4 id="1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。"><a href="#1-登陆百度云加速网站：su-baidu-com-也可以直接百度搜索“百度云加速”找到官网地址。" class="headerlink" title="1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。"></a>1.登陆百度云加速网站：su.baidu.com 也可以直接百度搜索“百度云加速”找到官网地址。</h4><p><img src="http://d.hiphotos.baidu.com/exp/w=500/sign=3f0b53d0ccef76093c0b999f1edca301/9825bc315c6034a86d20efcccc134954082376b8.jpg" alt=""></p>
+<h4 id="2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"><a href="#2-然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。" class="headerlink" title="2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。"></a>2.然后用自己的百度账号登陆百度云加速，登陆后在你的用户名左侧能看到一个“我的网站”文字链接，点击这个链接。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=a65259542af5e0feee1889016c6134e5/6609c93d70cf3bc7c9709ba1d600baa1cd112a0e.jpg" alt=""></p>
+<h4 id="3-进入我的网站管理界面后，点击“添加网站”按钮。"><a href="#3-进入我的网站管理界面后，点击“添加网站”按钮。" class="headerlink" title="3.进入我的网站管理界面后，点击“添加网站”按钮。"></a>3.进入我的网站管理界面后，点击“添加网站”按钮。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=4729466292cad1c8d0bbfc274f3f67c4/0824ab18972bd407429d85b07c899e510fb30920.jpg" alt=""></p>
+<h4 id="4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"><a href="#4-在添加网站页面，输入你的网址（不带http-和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”" class="headerlink" title="4.在添加网站页面，输入你的网址（不带http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”"></a>4.在添加网站页面，输入你的网址（不带http://和www），然后点击“选择接入方式”的文字链接，建议选择“NS方式”这种方式可以同时免费使用百度提供的dns服务器。最后点击“下一步”</h4><p><img src="http://f.hiphotos.baidu.com/exp/w=500/sign=6d4dfc5f750e0cf3a0f74efb3a47f23d/9213b07eca806538f1c8f55e90dda144ad348259.jpg" alt=""></p>
+<h4 id="5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"><a href="#5-如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。" class="headerlink" title="5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。"></a>5.如果你的网站解析正常，百度云加速会自动检测你的域名解析IP并帮你添加好，我们只需要按照界面上的提示，把域名原本的dns服务器修改成百度云加速提供的dns服务器地址即可。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=c6afe4b63edbb6fd255be5263925aba6/cefc1e178a82b901dde5937e748da9773912ef37.jpg" alt=""></p>
+<h4 id="6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"><a href="#6-登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。" class="headerlink" title="6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。"></a>6.登陆你的域名控制面板，修改域名的DNS设置，不同的域名注册商提供的域名管理面板可能不太一样，但是都有dns设置这一项，如果没有dns设置这一项，你就进入域名的“解析管理”找到ns解析项。</h4><p><img src="http://b.hiphotos.baidu.com/exp/w=500/sign=053f52d559df8db1bc2e7c643922dddb/d000baa1cd11728b1e4fdf6fcffcc3cec3fd2c18.jpg" alt=""></p>
+<h4 id="7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"><a href="#7-把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。" class="headerlink" title="7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。"></a>7.把dns解析的值替换成百度云加速提供的dns服务器地址即可。修改成功后，要等待2-24小时才能全面生效。</h4><p><img src="http://h.hiphotos.baidu.com/exp/w=500/sign=827831339558d109c4e3a9b2e159ccd0/c2cec3fdfc03924589a4b3428094a4c27d1e256d.jpg" alt=""></p>
+<h4 id="8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"><a href="#8-等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。" class="headerlink" title="8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。"></a>8.等待dns设置生效后，你的网站就会出现在“我的网站”列表中，并且右侧图标编程绿色的对勾。</h4><p><img src="http://g.hiphotos.baidu.com/exp/w=500/sign=29a31cb60d46f21fc9345e53c6256b31/0dd7912397dda144535d3effb5b7d0a20cf48623.jpg" alt=""></p>
+<h4 id="9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"><a href="#9-生效后，我们就可以点击“配置选项”来配置网站的CDN加速-和-网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！" class="headerlink" title="9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！"></a>9.生效后，我们就可以点击“配置选项”来配置网站的CDN加速 和 网站安全防护了，让你的网站打开速度更快，网站更安全，赶紧去体验吧！</h4><p><img src="http://e.hiphotos.baidu.com/exp/w=500/sign=b7de0a5f484a20a4311e3cc7a0539847/342ac65c103853430f3ad56c9413b07ecb808882.jpg" alt=""></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>网站域名备案后才能使用百度云加速的国内CDN加速节点。</li>
+<li>在dns修改并等待生效的时间内，不会影响网站的正常访问。</li>
+</ul>
+<h5 id="转自百度经验"><a href="#转自百度经验" class="headerlink" title="转自百度经验"></a>转自<a href="http://jingyan.baidu.com/article/fedf0737ac414f35ac897704.html" target="_blank" rel="noopener">百度经验</a></h5>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/01/16/开启一个简单的cdn加速/" class="archive-article-date">
+  	<time datetime="2017-01-16T14:11:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN加速/">CDN加速</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-jQuery对象之deferred" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -2005,117 +2075,6 @@ export default class WelcomePage extends Component {
 
 
   
-    <article id="post-CSS布局之Stickyfooters" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/08/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。</p>
-</blockquote>
-<h2 id="这里说2个实现的原理"><a href="#这里说2个实现的原理" class="headerlink" title="这里说2个实现的原理"></a>这里说2个实现的原理</h2><pre><code>因为兼容性问题，请在高端浏览器或手机端使用~
-</code></pre><h3 id="1-使用CSS取值函数calc"><a href="#1-使用CSS取值函数calc" class="headerlink" title="1.使用CSS取值函数calc()"></a>1.使用CSS取值函数calc()</h3><p><code>注意运算符的前后一定要➕空格</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;style&gt;
-        *{margin:0;}
-        header,footer{
-            height: 50px;
-            color: red;
-            background: #000;
-        }
-        div{
-            background: blue;
-            min-height: calc(100vh - 100px);
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;header&gt;头部&lt;/header&gt;
-    &lt;div&gt;内容部分&lt;/div&gt;
-    &lt;footer&gt;底部&lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><em>效果就不展示了，自己建一个html运行一下吧…</em><br>​    </p>
-<h3 id="2-使用flex布局"><a href="#2-使用flex布局" class="headerlink" title="2.使用flex布局"></a>2.使用flex布局</h3><pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;style&gt;
-        *{margin:0;}
-        body{
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;   //给body一个最小的高度
-        }
-        header,footer{
-            height: 50px;
-            color: red;
-            background: #000;
-        }
-        div{
-            background: blue;
-            flex:1;  //头部底部固定，中间占据剩余空间
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;header&gt;头部&lt;/header&gt;
-    &lt;div&gt;内容部分&lt;/div&gt;
-    &lt;footer&gt;底部&lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h1 id="OVRE"><a href="#OVRE" class="headerlink" title="OVRE"></a>OVRE</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
-  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -2128,7 +2087,7 @@ export default class WelcomePage extends Component {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Jasonellen
+    		&copy; 2020 Jasonellen
     	</div>
     </div>
   </div>

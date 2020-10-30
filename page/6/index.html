@@ -237,6 +237,117 @@
       <div class="body-wrap">
         
   
+    <article id="post-CSS布局之Stickyfooters" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/08/CSS布局之Stickyfooters/">CSS布局之Stickyfooters</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在网页设计中，Sticky footers设计是最古老和最常见的效果之一，大多数人都曾经经历过。它可以概括如下：如果页面内容不够长的时候，页脚块粘贴在视窗底部；如果内容足够长时，页脚块会被内容向下推送。</p>
+</blockquote>
+<h2 id="这里说2个实现的原理"><a href="#这里说2个实现的原理" class="headerlink" title="这里说2个实现的原理"></a>这里说2个实现的原理</h2><pre><code>因为兼容性问题，请在高端浏览器或手机端使用~
+</code></pre><h3 id="1-使用CSS取值函数calc"><a href="#1-使用CSS取值函数calc" class="headerlink" title="1.使用CSS取值函数calc()"></a>1.使用CSS取值函数calc()</h3><p><code>注意运算符的前后一定要➕空格</code></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        *{margin:0;}
+        header,footer{
+            height: 50px;
+            color: red;
+            background: #000;
+        }
+        div{
+            background: blue;
+            min-height: calc(100vh - 100px);
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;头部&lt;/header&gt;
+    &lt;div&gt;内容部分&lt;/div&gt;
+    &lt;footer&gt;底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><em>效果就不展示了，自己建一个html运行一下吧…</em><br>​    </p>
+<h3 id="2-使用flex布局"><a href="#2-使用flex布局" class="headerlink" title="2.使用flex布局"></a>2.使用flex布局</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+        *{margin:0;}
+        body{
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;   //给body一个最小的高度
+        }
+        header,footer{
+            height: 50px;
+            color: red;
+            background: #000;
+        }
+        div{
+            background: blue;
+            flex:1;  //头部底部固定，中间占据剩余空间
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;头部&lt;/header&gt;
+    &lt;div&gt;内容部分&lt;/div&gt;
+    &lt;footer&gt;底部&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h1 id="OVRE"><a href="#OVRE" class="headerlink" title="OVRE"></a>OVRE</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/08/CSS布局之Stickyfooters/" class="archive-article-date">
+  	<time datetime="2016-12-08T08:28:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-手机端自适应单位换算" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1478,107 +1589,6 @@ echo htmlspecialchars($a);  //将以字符串的方式返还成实体
 
 
   
-    <article id="post-数据库基本操作一" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/数据库基本操作一/">数据库基本操作一</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="本文先来谈谈MYSQL内部SQL语言的基本操作"><a href="#本文先来谈谈MYSQL内部SQL语言的基本操作" class="headerlink" title="本文先来谈谈MYSQL内部SQL语言的基本操作"></a>本文先来谈谈MYSQL内部SQL语言的基本操作</h2><blockquote>
-<p>   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。</p>
-</blockquote>
-<h3 id="先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统"><a href="#先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统" class="headerlink" title="先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统"></a>先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统</h3><h2 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h2><p><em>数据库的操作无非是增删改查，下面就是针对这几条简单的进行罗列…</em></p>
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre><code>如下所示点击new 然后填入自己的数据库名字，后面的排序规则这里选utf8_general_ci,
-这里选ci的原因是ci是 case insensitive, 即 &quot;大小写不敏感&quot;, a 和 A 会在字符判断中会被当做一样的;方便查询..
-</code></pre><p><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg" alt=""></p>
-<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code>字段数选择比我们要创建的列表书+1，为了设置唯一id，username选择VARCHAR，勾选非空说明可以为空，id一栏勾选A_I注释，然后会弹出一框框，表明自增索引，直接执行就OK了
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg" alt=""></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg" alt=""></p>
-<h3 id="增加数据"><a href="#增加数据" class="headerlink" title="增加数据"></a>增加数据</h3><pre><code>//增加数据
-INSERT INTO 数据表名(字段一，字段二，字段三) VALUES (值一，值二，值三)
-INSERT INTO   users(username,pwd,age) VALUES(&apos;张三&apos;,123,25);
-如下所示，点击SQL，输入SQL语法添加相关数据，点击右下的执行即可创建一条属于你自己的数据
-</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa5c97uo7tj20mk05xta1.jpg" alt=""></p>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><pre><code>//DELETE FROM 表名  WHERE  条件;  
-DELETE FROM users WHERE username=&apos;李四&apos;;
-</code></pre><h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><pre><code>//修改 
-//UPDATE 表名 SET 设置的内容 WHERE 条件； 
-UPDATE `users` SET `username`=&apos;李四&apos;,`pwd`=11111,`age`=222  WHERE id=1 
-//(注意：最后条件不写会全部都改掉)
-</code></pre><h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><p><code>单表查询：</code></p>
-<pre><code>SELECT 字段 FROM 表名 WHERE 条件语句;
-SELECT username FROM `users` (查询所有的名字)
-SELECT * FROM `users` WHERE username LIKE &apos;%三&apos;  AND age=12  
-//%占位符 找到所有的叫  “某三” 的人(占位符只需要一个就够了)
-SELECT * FROM `users` ORDER BY id DESC;  查询结果DESC倒叙排列
-SELECT * FROM `users` ORDER BY age ASC;  按年龄正序查询
-SELECT * FROM  users LIMIT 2,2;  //分页用的限制查询 从第3条查询2条数据(0是第一条数据)
-SELECT COUNT(*) FROM users  //查询数据条数 
-</code></pre><p><code>联表查询：</code></p>
-<pre><code>//联表查询
-SELECT * FROM 表名1 JOIN 表名2 ON 条件； 
-
-//把2个表中id相同的展示出来（显示公共部分）
-SELECT * FROM users JOIN product ON users.id = product.id;  
-//这样取值的时候有两个相同的id，会出问题，选择的时候不能用*要像下面这样去
-SELECT users.id,users.age,product.name FROM ...
-
-//以JOIN 左边的users为主表，将联合的结果添加到users中，并显示users
-SELECT * FROM users LEFT JOIN product ON users.id = product.id;  
-
-//简写
-SELECT * FROM users AS u JOIN product ASp ON u.id = p.id; 
-</code></pre><h3 id="查询条件"><a href="#查询条件" class="headerlink" title="查询条件"></a>查询条件</h3><p><code>条件可以有 AND OR NOT BETWEEN..AND  IN  &gt; &lt; ...等等很多：</code></p>
-<pre><code>DELETE  FROM `users` WHERE id=4 OR id=6
-DELETE  FROM `users` WHERE id&gt;8
-DELETE  FROM `users` WHERE id IN(5,6)
-...
-</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/17/数据库基本操作一/" class="archive-article-date">
-  	<time datetime="2016-11-17T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL/">MYSQL</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1591,7 +1601,7 @@ DELETE  FROM `users` WHERE id IN(5,6)
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Jasonellen
+    		&copy; 2020 Jasonellen
     	</div>
     </div>
   </div>

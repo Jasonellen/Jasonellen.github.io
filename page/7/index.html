@@ -237,6 +237,107 @@
       <div class="body-wrap">
         
   
+    <article id="post-数据库基本操作一" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/17/数据库基本操作一/">数据库基本操作一</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="本文先来谈谈MYSQL内部SQL语言的基本操作"><a href="#本文先来谈谈MYSQL内部SQL语言的基本操作" class="headerlink" title="本文先来谈谈MYSQL内部SQL语言的基本操作"></a>本文先来谈谈MYSQL内部SQL语言的基本操作</h2><blockquote>
+<p>   MySQL是一种关联数据库管理系统，关联数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。搭配 PHP 和 Apache 可组成良好的开发环境。</p>
+</blockquote>
+<h3 id="先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统"><a href="#先来安装下xampp-gt-通过网址localhost-phpmyadmin进入mysql管理系统" class="headerlink" title="先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统"></a>先来安装下xampp-&gt;通过网址localhost/phpmyadmin进入mysql管理系统</h3><h2 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h2><p><em>数据库的操作无非是增删改查，下面就是针对这几条简单的进行罗列…</em></p>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre><code>如下所示点击new 然后填入自己的数据库名字，后面的排序规则这里选utf8_general_ci,
+这里选ci的原因是ci是 case insensitive, 即 &quot;大小写不敏感&quot;, a 和 A 会在字符判断中会被当做一样的;方便查询..
+</code></pre><p><img src="http://ww4.sinaimg.cn/mw690/908edb0egw1fa81njecsoj20k503b3yz.jpg" alt=""></p>
+<h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code>字段数选择比我们要创建的列表书+1，为了设置唯一id，username选择VARCHAR，勾选非空说明可以为空，id一栏勾选A_I注释，然后会弹出一框框，表明自增索引，直接执行就OK了
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81njr0vbj20du03ht8t.jpg" alt=""></p>
+<p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa81nkarbuj20k005kdgs.jpg" alt=""></p>
+<h3 id="增加数据"><a href="#增加数据" class="headerlink" title="增加数据"></a>增加数据</h3><pre><code>//增加数据
+INSERT INTO 数据表名(字段一，字段二，字段三) VALUES (值一，值二，值三)
+INSERT INTO   users(username,pwd,age) VALUES(&apos;张三&apos;,123,25);
+如下所示，点击SQL，输入SQL语法添加相关数据，点击右下的执行即可创建一条属于你自己的数据
+</code></pre><p><img src="http://ww3.sinaimg.cn/mw690/908edb0egw1fa5c97uo7tj20mk05xta1.jpg" alt=""></p>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><pre><code>//DELETE FROM 表名  WHERE  条件;  
+DELETE FROM users WHERE username=&apos;李四&apos;;
+</code></pre><h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><pre><code>//修改 
+//UPDATE 表名 SET 设置的内容 WHERE 条件； 
+UPDATE `users` SET `username`=&apos;李四&apos;,`pwd`=11111,`age`=222  WHERE id=1 
+//(注意：最后条件不写会全部都改掉)
+</code></pre><h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><p><code>单表查询：</code></p>
+<pre><code>SELECT 字段 FROM 表名 WHERE 条件语句;
+SELECT username FROM `users` (查询所有的名字)
+SELECT * FROM `users` WHERE username LIKE &apos;%三&apos;  AND age=12  
+//%占位符 找到所有的叫  “某三” 的人(占位符只需要一个就够了)
+SELECT * FROM `users` ORDER BY id DESC;  查询结果DESC倒叙排列
+SELECT * FROM `users` ORDER BY age ASC;  按年龄正序查询
+SELECT * FROM  users LIMIT 2,2;  //分页用的限制查询 从第3条查询2条数据(0是第一条数据)
+SELECT COUNT(*) FROM users  //查询数据条数 
+</code></pre><p><code>联表查询：</code></p>
+<pre><code>//联表查询
+SELECT * FROM 表名1 JOIN 表名2 ON 条件； 
+
+//把2个表中id相同的展示出来（显示公共部分）
+SELECT * FROM users JOIN product ON users.id = product.id;  
+//这样取值的时候有两个相同的id，会出问题，选择的时候不能用*要像下面这样去
+SELECT users.id,users.age,product.name FROM ...
+
+//以JOIN 左边的users为主表，将联合的结果添加到users中，并显示users
+SELECT * FROM users LEFT JOIN product ON users.id = product.id;  
+
+//简写
+SELECT * FROM users AS u JOIN product ASp ON u.id = p.id; 
+</code></pre><h3 id="查询条件"><a href="#查询条件" class="headerlink" title="查询条件"></a>查询条件</h3><p><code>条件可以有 AND OR NOT BETWEEN..AND  IN  &gt; &lt; ...等等很多：</code></p>
+<pre><code>DELETE  FROM `users` WHERE id=4 OR id=6
+DELETE  FROM `users` WHERE id&gt;8
+DELETE  FROM `users` WHERE id IN(5,6)
+...
+</code></pre><h1 id="OVER"><a href="#OVER" class="headerlink" title="OVER"></a>OVER</h1>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/17/数据库基本操作一/" class="archive-article-date">
+  	<time datetime="2016-11-17T02:43:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL/">MYSQL</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-日历" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1861,103 +1962,6 @@ console.log(service.port); // 3000
 
 
   
-    <article id="post-HEXO搭建个人博客" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/15/HEXO搭建个人博客/">HEXO搭建个人博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号"><a href="#我们搭建的前提是你有一个github账号-现在默认有喽-，跟着步骤走吧-下面以我自己的博客为例-记得改为自己的账号" class="headerlink" title="我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)"></a>我们搭建的前提是你有一个github账号(现在默认有喽)，跟着步骤走吧,下面以我自己的博客为例(记得改为自己的账号)</h3><p><code>1. $ sudo npm install hexo -g   安装博客搭建环境hexo</code></p>
-<p><code>2. $ git clone https://github.com/Jasonellen/Jasonellen.github.io.git到本地</code></p>
-<p><code>3. $ cd Jasonellen.github.io仓库</code></p>
-<p><code>4. $ hexo init 初始化文件夹</code></p>
-<p><code>5. 初始化OK可以用$ hexo server开启服务器查看个人搭建的博客</code></p>
-<p><code>6. 进入_config.xml 修改个人相关信息</code></p>
-<pre><code>title: 奋斗蚁🐜
-subtitle: 前端拼搏中的小小蚁🐜
-description:
-author: Jasonellen
-</code></pre><p><code>7. $ npm install hexo-deployer-git --save</code></p>
-<p><code>8. 同步到github账号</code></p>
-<pre><code>_config.xml拉倒最底部修改文件
-deploy:
-      type: git
-      repo: https://github.com/Jasonellen/Jasonellen.github.io.git
-</code></pre><p><code>9. 写博客</code></p>
-<ul>
-<li><p>$ hexo new 论天气</p>
-<pre><code>新建文件，对应生成到source下面的.MD文件，可以用markdown编写，Markdown简易语法教程请查看我上一篇的博客
-</code></pre></li>
-<li><p>hexo g</p>
-<pre><code>编译生成对应的html文件
-</code></pre></li>
-<li><p>hexo server 预览</p>
-<pre><code>开启服务器，本地预览写好的文章
-</code></pre></li>
-<li><p>hexo d 发布</p>
-<pre><code>同步到github账号
-</code></pre></li>
-</ul>
-<p><code>10. 博客Markdown css样式修改</code></p>
-<pre><code>样式修改的地址是 themes--languages--source--css
-如果博客打开后台有jq引入报错是因为默认引入的是谷歌CDN文件不稳定，可以修改为其他在线jquery文件即可，修改路径为themes--landscape-layout-_partial-after-footer.ejs
-</code></pre><p><code>11. 添加评论系统--这里用的是多说评论</code></p>
-<ul>
-<li>进入<a href="http://duoshuo.com/" target="_blank" rel="noopener">多说官网</a></li>
-<li>点击我要安装</li>
-<li>填完注册信息（记得有一个多说域名 xxx.duosho.com）自己写的xxx要记得后面会用到</li>
-<li>注册完会生成一段html代码如下(就是通用代码)</li>
-<li>进入前面的配置文件_config.xml,找个空白地新增 duoshuo_shortname: 上面注册时用的xxx</li>
-<li>进入themes\landscape\layout_partial\article.ejs</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">把最后一段这个代码</span><br><span class="line">&lt;% if (!index &amp;&amp; post.comments &amp;&amp; config.disqus_shortname)&#123; %&gt;</span><br><span class="line">  &lt;section id=&quot;comments&quot;&gt;</span><br><span class="line">    &lt;div id=&quot;disqus_thread&quot;&gt;</span><br><span class="line">      &lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;//disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/section&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;换成上面注册信息后生成的通用代码,然后把多说评论start全部替换为下面这段</span><br><span class="line"> &lt;!-- 多说评论框 start --&gt;</span><br><span class="line">    &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= post.layout %&gt;-&lt;%= post.slug %&gt;&quot; data-title=&quot;&lt;%= post.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="OVER-喜欢就点个赞吧"><a href="#OVER-喜欢就点个赞吧" class="headerlink" title="OVER 喜欢就点个赞吧"></a>OVER 喜欢就点个赞吧</h1>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/15/HEXO搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-15T01:53:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -1970,7 +1974,7 @@ deploy:
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Jasonellen
+    		&copy; 2020 Jasonellen
     	</div>
     </div>
   </div>
