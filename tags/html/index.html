@@ -8,20 +8,15 @@
   <meta name="referrer" content="no-referrer">
   <meta name="baidu-site-verification" content="ggTdcuuNh2">
   <link rel="dns-prefetch" href="http://Jasonellen.github.io">
-  <title>箭头函数 | 奋斗蚁🐜</title>
+  <title>Tag: html | 奋斗蚁🐜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="箭头函数要实现类似纯函数的效果，必须剔除外部状态。所以当你定义一个箭头函数，在普通函数里常见的 this 、 arguments 、 caller 是统统没有的。  箭头函数没有 this箭头函数没有 this ，那下面的代码明显可以取到 this 啊： function foo() {   let a = 1   let b = () =&amp;gt; console.log(this.a)">
-<meta name="keywords" content="ES6">
-<meta property="og:type" content="article">
-<meta property="og:title" content="箭头函数">
-<meta property="og:url" content="http://Jasonellen.github.io/2017/09/02/箭头函数/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="奋斗蚁🐜">
+<meta property="og:url" content="http://Jasonellen.github.io/tags/html/index.html">
 <meta property="og:site_name" content="奋斗蚁🐜">
-<meta property="og:description" content="箭头函数要实现类似纯函数的效果，必须剔除外部状态。所以当你定义一个箭头函数，在普通函数里常见的 this 、 arguments 、 caller 是统统没有的。  箭头函数没有 this箭头函数没有 this ，那下面的代码明显可以取到 this 啊： function foo() {   let a = 1   let b = () =&amp;gt; console.log(this.a)">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2017-10-08T02:39:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="箭头函数">
-<meta name="twitter:description" content="箭头函数要实现类似纯函数的效果，必须剔除外部状态。所以当你定义一个箭头函数，在普通函数里常见的 this 、 arguments 、 caller 是统统没有的。  箭头函数没有 this箭头函数没有 this ，那下面的代码明显可以取到 this 啊： function foo() {   let a = 1   let b = () =&amp;gt; console.log(this.a)">
+<meta name="twitter:title" content="奋斗蚁🐜">
   
     <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
   
@@ -241,121 +236,54 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-箭头函数" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      箭头函数
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/11/27/HTML5小技巧/" class="archive-article-date">
+  	<time datetime="2020-11-27T02:05:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-11-27</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/11/27/HTML5小技巧/">HTML5小技巧</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>箭头函数要实现类似纯函数的效果，必须剔除外部状态。所以当你定义一个箭头函数，在普通函数里常见的 <code>this</code> 、 <code>arguments</code> 、 <code>caller</code> 是统统没有的。</p>
-</blockquote>
-<h3 id="箭头函数没有-this"><a href="#箭头函数没有-this" class="headerlink" title="箭头函数没有 this"></a>箭头函数没有 this</h3><p>箭头函数没有 this ，那下面的代码明显可以取到 this 啊：</p>
-<pre><code>function foo() {
-  let a = 1
-  let b = () =&gt; console.log(this.a)
-
-  b()
-}
-foo()  // 1
-</code></pre><p>以上箭头函数中的 this 其实是父级作用域中的 this ，即函数 foo 的 this 。箭头函数引用了父级的变量，构成了一个闭包。以上代码等价于：</p>
-<pre><code>function foo() {
-  let a = 1
-  let self = this
-  let b = () =&gt; console.log(self.a)
-  b()
-}
-foo()  // 1
-</code></pre><p>一个经常犯的错误是使用箭头函数定义对象的方法，如：</p>
-<pre><code>let a = {
-  foo: 1,
-  bar: () =&gt; console.log(this.foo)
-}
-a.bar()  //undefined
-</code></pre><p>以上代码中，箭头函数中的 this 并不是指向 a 这个对象。对象 a 并不能构成一个作用域，所以再往上到达全局作用域， this 就指向全局作用域。</p>
-<hr>
-<p>另一个错误是在原型上使用箭头函数，如：</p>
-<pre><code>function A() {
-  this.foo = 1
-}
-A.prototype.bar = () =&gt; console.log(this.foo)
-let a = new A()
-a.bar()  //undefined
-</code></pre><p>同样，箭头函数中的 this 不是指向 A ，而是根据变量查找规则回溯到了全局作用域。同样，<code>使用普通函数就不存在问题</code>。</p>
-<h3 id="箭头函数没有arguments"><a href="#箭头函数没有arguments" class="headerlink" title="箭头函数没有arguments"></a>箭头函数没有arguments</h3><pre><code>function foo() {
-  return () =&gt; console.log(arguments[0])
-}
-foo(1, 2)(3, 4)  // 1
-</code></pre><p>上例中如果箭头函数有 arguments ，就应该输出的是3而不是1。</p>
-<p><strong>通过以上说明，我们可以看出，箭头函数除了传入的参数之外，真的是什么都没有！如果你在箭头函数引用了 this 、 arguments 或者参数之外的变量，那它们一定不是箭头函数本身包含的，而是从父级作用域继承的。</strong></p>
-<h3 id="那么问题来了，什么情况下该使用箭头函数"><a href="#那么问题来了，什么情况下该使用箭头函数" class="headerlink" title="那么问题来了，什么情况下该使用箭头函数"></a>那么问题来了，什么情况下该使用箭头函数</h3><ul>
-<li>箭头函数适合于无复杂逻辑或者无副作用的纯函数场景下，例如用在 map 、 reduce 、 filter 的回调函数定义中；</li>
-<li>不要在最外层定义箭头函数，因为在函数内部操作 this 会很容易污染全局作用域。最起码在箭头函数外部包一层普通函数，将 this 控制在可见的范围内；</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/02/箭头函数/" class="archive-article-date">
-  	<time datetime="2017-09-02T06:37:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-02</time>
-</a>
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li></ul>
 	</div>
 
-      
+          
 
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/09/11/JS运算符和进制转换/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JS运算符和进制转换
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/08/22/generator/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">generator</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
       </div>
@@ -375,9 +303,9 @@ foo(1, 2)(3, 4)  // 1
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

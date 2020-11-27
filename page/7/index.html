@@ -238,6 +238,146 @@
       <div class="body-wrap">
         
   
+    <article id="post-php文件操作" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/21/php文件操作/">php文件操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>文件操作，</li>
+<li>目录操作(文件夹操作)</li>
+</ol>
+<p><code>1.文件的读取</code></p>
+<pre><code>$res = file_get_contents(&apos;php3.txt&apos;);  //读  一般配合 file_put_contents 写使用
+
+// $res =file_get_contents(&apos;http://www.baidu.com&apos;);
+</code></pre><p><code>2.文件的写入</code></p>
+<pre><code>$a = file_get_contents(&apos;http://www.baidu.com&apos;); //或者其他文件
+$res =file_put_contents(&apos;php3.txt&apos;,&apos;写入方式二 常用&apos;);  //从头写入，覆盖  也可以是上面的$a
+if($res){
+    echo &apos;写入成功&apos;;
+}else{
+    echo &apos;写入失败&apos;;
+}
+</code></pre><p><code>3.文件的删除</code></p>
+<pre><code>// $res = unlink(&apos;6.txt&apos;);
+// if($res){
+//     echo &apos;删除成功&apos;;
+// }else{
+//     echo &apos;删除失败&apos;;
+// }
+</code></pre><p><code>php文件夹操作</code></p>
+<pre><code>//创建文件夹📂
+// $rem = mkdir(&apos;test1&apos;);
+// if($res){
+//     echo &apos;创建成功&apos;;
+// }else{
+//     echo &apos;创建失败&apos;;
+// }
+</code></pre><p><code>读取文件夹📂</code></p>
+<pre><code>$xx = scandir(&apos;test&apos;); //读取文件夹，以数组形式返回
+foreach ($xx as $key =&gt; $value) {
+    // $xx[$key] = iconv(&apos;gbk&apos;,&quot;utf-8&quot;,$value); //如果中文文件夹乱码加上这个就好了
+    $url = &quot;test/&quot;.$value;
+    if(is_file($url)){
+        echo &quot;&lt;font color=&apos;red&apos;&gt;&quot;.$value.&apos;&lt;/font&gt;&lt;br&gt;&apos;;
+    }else{
+        echo &quot;&lt;font color=&apos;green&apos;&gt;&quot;.$value.&apos;&lt;/font&gt;&lt;br&gt;&apos;;
+    }
+}
+// print_r ($xx);
+</code></pre><p><code>删除文件夹</code></p>
+<pre><code>// $res = rmdir(&apos;test1&apos;);  //这个只能删除空文件夹
+
+
+//删除文件夹及内部文件
+function removeDir($path){
+    $arr = scandir($path);
+//    print_r($arr);die;
+    if(count($arr)&gt;2){
+        //目录不为空
+        for($i=2;$i&lt;count($arr);$i++){
+             $url = $path.&apos;/&apos;.$arr[$i];
+            //$arr[$i] = 1.txt  test1
+             if(is_dir($url)){
+                 //为目录. 
+                 removeDir($url);
+             }else{
+                 //是文件
+                unlink($url);
+             }
+        }
+    }
+    $res = rmdir($path);
+    return $res;
+}
+// removeDir($path)
+</code></pre><p><code>获取文件的最后创建时间</code></p>
+<pre><code>//$res = filectime(&apos;1.txt&apos;)  //返回时间戳
+//echo date(&apos;Y-m-d H:i:s&apos;,$res)
+
+//file_exists: 判断文件是否存在；
+if(!file_exists(&apos;test&apos;)){
+    mkdir(&apos;test&apos;);
+}
+
+//判断是否可读
+is_readable(filename);
+//判断是否可写
+is_writable(filename);
+</code></pre><p><code>修改目录权限</code></p>
+<pre><code>chmod(&apos;test&apos;, 0755); //7=1+4+2   5=1+4  
+// 1.执行权限(1)  2.读取(4) 3.可写(2)
+//如果是手动创建的是不能用代码来更改权限的
+</code></pre><p><code>页面跳转</code></p>
+<pre><code>header(&apos;Location:file.php&apos;) //跳转显示file.php文件
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/21/php文件操作/" class="archive-article-date">
+  	<time datetime="2016-11-21T11:01:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-php入门" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1869,96 +2009,6 @@ function removeHandler(element, type, handler){
 
 
   
-    <article id="post-元素坐标" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/27/元素坐标/">元素坐标</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析"><a href="#本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析" class="headerlink" title="本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析"></a>本文主要是针对pageX、clientX、screenX、offsetX、X展开的分析</h1><p><br></p>
-<h2 id="screenX"><a href="#screenX" class="headerlink" title="screenX"></a>screenX</h2><p>鼠标在屏幕中的位置，指的是鼠标到电脑屏幕左侧的距离。 <code>各个浏览器相同。</code></p>
-<h2 id="pageX、clientX、offsetX、-X"><a href="#pageX、clientX、offsetX、-X" class="headerlink" title="pageX、clientX、offsetX、    X"></a>pageX、clientX、offsetX、    X</h2><pre><code>e.pageX——相对整个页面的坐标
-e.offsetX——相对当前元素的border左上角开始的坐标
-e.clientX——相对可视区域的坐标
-e.x——相对可视区域的坐标
-</code></pre><p><code>浏览器支持情况如下</code></p>
-<p><code>chrome</code></p>
-<pre><code>e.pageX  ——支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>safari:(这个和chrome是一样的)</code><br>​<br>​<br>​<br><code>ff</code></p>
-<pre><code>e.pageX  ——支持
-e.offsetX——不支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>opera</code></p>
-<pre><code>e.pageX  ——支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>IE9</code></p>
-<pre><code>e.pageX——支持
-e.offsetX——支持
-e.clientX——支持
-e.x——支持
-</code></pre><p><code>IE8</code></p>
-<pre><code>e.pageX  ——不支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p><code>IE7</code></p>
-<pre><code>e.pageX  ——不支持
-e.offsetX——支持
-e.clientX——支持
-e.x      ——支持
-</code></pre><p>​    </p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/27/元素坐标/" class="archive-article-date">
-  	<time datetime="2016-09-27T05:12:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -2022,7 +2072,7 @@ e.x      ——支持
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/css3/" style="font-size: 10px;">css3</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/iframe/" style="font-size: 10px;">iframe</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/css3/" style="font-size: 10px;">css3</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/iframe/" style="font-size: 10px;">iframe</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
     			</div>
     	</section>
     

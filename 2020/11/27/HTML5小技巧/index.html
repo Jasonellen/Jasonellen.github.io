@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="referrer" content="no-referrer">
+  <meta name="baidu-site-verification" content="ggTdcuuNh2">
+  <link rel="dns-prefetch" href="http://Jasonellen.github.io">
+  <title>HTML5小技巧 | 奋斗蚁🐜</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文地址：https://dev.to/atapas/10-useful-html5-features-you-may-not-be-using-2bk0   🔥 Details Tag&amp;lt;details&amp;gt;标签提供随需应变的细节内容给用户。如果需要按需向用户显示内容，请使用此标记。默认情况下，详细内容是关闭的。打开后，它将展开并显示其中的内容。&amp;lt;summary&amp;gt;标签与&amp;">
+<meta name="keywords" content="html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5小技巧">
+<meta property="og:url" content="http://Jasonellen.github.io/2020/11/27/HTML5小技巧/index.html">
+<meta property="og:site_name" content="奋斗蚁🐜">
+<meta property="og:description" content="原文地址：https://dev.to/atapas/10-useful-html5-features-you-may-not-be-using-2bk0   🔥 Details Tag&amp;lt;details&amp;gt;标签提供随需应变的细节内容给用户。如果需要按需向用户显示内容，请使用此标记。默认情况下，详细内容是关闭的。打开后，它将展开并显示其中的内容。&amp;lt;summary&amp;gt;标签与&amp;">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f79caf0cc254f71af4747834c8d1e01~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/323a2ac313924010a8dbb896da233f32~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21add3fc9487412bb5c911360f223912~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/518e3fac1fb84a718beb5ad34caf3eba~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75351b95a7cc4d1aaaf9514c19da0ec2~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/382d317fd95945229bbf8493a0d095b2~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/033169b1e69341d0a27af662ac6b13f3~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e5e2fde322d48c0a35c6af9eb83eede~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e955417dfc94ab4880595ea30b9b4ae~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd3a5d3b88e499d801ba959b5d9e6b5~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bfafc139d64a43c880ac58be8c096387~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e25f3f9cc010434a9e92631c54431ac6~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2020-11-27T02:06:34.072Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML5小技巧">
+<meta name="twitter:description" content="原文地址：https://dev.to/atapas/10-useful-html5-features-you-may-not-be-using-2bk0   🔥 Details Tag&amp;lt;details&amp;gt;标签提供随需应变的细节内容给用户。如果需要按需向用户显示内容，请使用此标记。默认情况下，详细内容是关闭的。打开后，它将展开并显示其中的内容。&amp;lt;summary&amp;gt;标签与&amp;">
+<meta name="twitter:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f79caf0cc254f71af4747834c8d1e01~tplv-k3u1fbpfcp-zoom-1.image">
+  
+    <link rel="alternative" href="/atom.xml" title="奋斗蚁🐜" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="https://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Jasonellen</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">文章列表</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+		        
+			</div>
+		</nav>
+	</header>			
+</div>
+
+
+
+      <div class="ball" style=' width:100px;
+            height:100px;
+            position: absolute;
+            bottom:0;
+            left:200px;
+            background: url(http://img3.imgtn.bdimg.com/it/u=2342940863,4159168232&fm=23&gp=0.jpg) no-repeat;
+            background-size:contain;
+            border-radius:50%;
+      '>
+      </div>
+
+        <script>
+            var ball = document.querySelector(".ball");
+            gravBall(ball);
+
+            function gravBall(obj){
+                var timer = null;
+                var speedX =0, speedY=0,x=0,y=0;
+                var gapX =0, gapY=0;
+
+                // obj.onmousedown = down;
+                addHandler(obj,'mousedown',down);
+                addHandler(obj,'mouseup',up);
+
+                function down(ev){           
+                    clearInterval(timer); 
+                    var ev = ev || window.event;
+                    gapX = ev.clientX - obj.offsetLeft;
+                    gapY = ev.clientY - obj.offsetTop;
+                    addHandler(document,'mousemove',move);    
+                }
+                function up(){
+                    var currentX=0,currentY=0,l=0,t=0;
+                    removeHandler(document,'mousemove',move)
+                    clearInterval(timer); 
+                    timer = setInterval(function(){
+                        speedY +=3;  //一直有一个Y方向的增加，仿重力
+                        currentX = window.innerWidth - obj.offsetWidth;
+                        currentY = window.innerHeight - obj.offsetHeight;
+                        l = obj.offsetLeft + speedX;
+                        t = obj.offsetTop + speedY;
+                        //speedY +=3;  //放在这里就是先判断再+3，根本停不下来
+                        if(l > currentX){
+                            speedX *= -0.8;
+                            l =currentX;
+                        }
+                        if(l < 0){
+                            speedX *= -0.8;
+                            l = 0;
+                        }
+                        if(t > currentY){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = currentY;
+                        }
+                        if(t < 0){
+                            speedY *= -0.8;
+                            speedX *= 0.8;
+                            t = 0;
+                        }
+                        if( Math.abs(t-currentY)<1 && Math.abs(speedY)<1.5 && Math.abs(speedX)<1.5){
+                            clearInterval(timer);
+                        }
+                        obj.style.left = l  + "px";
+                        obj.style.top = t  + "px";
+                    },30)
+                }
+
+                function move(ev){
+                    var ev = ev || window.event;
+                    //难点一，记录当前速度 是最后一次的offsetLeft减去上一次的offsetLeft
+                    speedX = ev.clientX - x - gapX;
+                    speedY = ev.clientY - y - gapY;
+                    //记录本次的offsetLeft作为下一次移动的的上一次的offsetLeft；
+                    x = obj.offsetLeft;
+                    y = obj.offsetTop;
+                    var evX = ev.clientX;
+                    var evY = ev.clientY;
+                    if(ev.clientX<gapX || ev.clientX>window.innerWidth-gapX || ev.clientY<0 || ev.clientY>window.innerHeight){
+                        up();
+                    }
+                    obj.style.left = evX - gapX  + "px";
+                    obj.style.top = evY - gapY  + "px";
+                }
+            }
+
+
+            function addHandler(element,type,handler){
+                if(element.addEventListener){//检测是否为DOM2级方法
+                    element.addEventListener(type, handler, false);
+                }else if (element.attachEvent){//检测是否为IE级方法
+                    element.attachEvent("on" + type, handler);
+                } else {//检测是否为DOM0级方法
+                    element["on" + type] = handler;
+                }
+            }
+             function removeHandler(element, type, handler){
+                if (element.removeEventListener){
+                    element.removeEventListener(type, handler, false);
+                } else if (element.detachEvent){
+                    element.detachEvent("on" + type, handler);
+                } else {
+                    element["on" + type] = null;
+                }
+            }  
+        </script>  
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Jasonellen</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="https://ww1.sinaimg.cn/small/908edb0ejw8fa0vrjx3bbj2050050jrg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Jasonellen</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端拼搏中的小小蚁🐜</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="//github.com/Jasonellen/" title="github">github</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-HTML5小技巧" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTML5小技巧
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<ul>
+<li>原文地址：<a href="https://dev.to/atapas/10-useful-html5-features-you-may-not-be-using-2bk0" target="_blank" rel="noopener">https://dev.to/atapas/10-useful-html5-features-you-may-not-be-using-2bk0</a></li>
+</ul>
+</blockquote>
+<h2 data-id="heading-0">🔥 Details Tag</h2><br><p><code>&lt;details&gt;</code>标签提供随需应变的细节内容给用户。如果需要按需向用户显示内容，请使用此标记。默认情况下，详细内容是关闭的。打开后，它将展开并显示其中的内容。</p><br><p><code>&lt;summary&gt;</code>标签与<code>&lt;details&gt;</code>一起使用，来为它指定一个可见的标题。</p><br><h3 data-id="heading-1">Code</h3><br><pre><code class="hljs language-html copyable" lang="html"><span class="hljs-tag">&lt;<span class="hljs-name">details</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">summary</span>&gt;</span>Click Here to get the user details<span class="hljs-tag">&lt;/<span class="hljs-name">summary</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>#<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Name<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Location<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Job<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Adam<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Huston<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>UI/UX<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>          <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br><code></code>  <span class="hljs-tag">&lt;/<span class="hljs-name">details</span>&gt;</span><br><span class="copy-code-btn">复制代码</span></code></pre><br><h3 data-id="heading-2">效果演示</h3><br><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f79caf0cc254f71af4747834c8d1e01~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f79caf0cc254f71af4747834c8d1e01~tplv-k3u1fbpfcp-zoom-1.image"></p><br><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/323a2ac313924010a8dbb896da233f32~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/323a2ac313924010a8dbb896da233f32~tplv-k3u1fbpfcp-zoom-1.image"></p><br><p>您可以从这里<a href="https://html5-tips.netlify.app/details/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：https : //html5-tips.netlify.app/details/index.html</p><br><h3 data-id="heading-3">小提示</h3><br><p>在GitHub Readme中使用它来显示需要的详细信息。隐藏大量的文字并仅按需显示它。酷吧？</p><br><p><a href="https://github.com/atapas/notifyme#properties" target="_blank" rel="nofollow noopener noreferrer">点击查看例子</a>：<a href="https://github.com/atapas/notifyme#properties" target="_blank" rel="noopener">https://github.com/atapas/notifyme#properties</a></p><br><h2 data-id="heading-4">🔥 Content Editable</h2><br><p><code>contenteditable</code>是可以在元素上设置以使内容可编辑的属性</p><br><p>可以与DIV，P，UL等元素一起使用。您必须像这样指定它：<code>&lt;element contenteditable=”true|false”&gt;</code>。</p><br><p>注意，如果contenteditable未在元素上设置属性，则会从其父级继承该属性。</p><br><h3 data-id="heading-5">Code</h3><br><pre><code class="hljs language-js copyable" lang="js">&lt;h2&gt; Shoppping List(Content Editable) &lt;/h2&gt;<br> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">“content-editable”</span> <span class="hljs-attr">contenteditable</span>=<span class="hljs-string">“true”</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span> 1. Milk <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span> 2. Bread <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span> 3. Honey <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br><span class="copy-code-btn">复制代码</span></code></pre><br><h3 data-id="heading-6">效果演示</h3><br><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21add3fc9487412bb5c911360f223912~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21add3fc9487412bb5c911360f223912~tplv-k3u1fbpfcp-zoom-1.image"></p><br><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/518e3fac1fb84a718beb5ad34caf3eba~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/518e3fac1fb84a718beb5ad34caf3eba~tplv-k3u1fbpfcp-zoom-1.image"></p><br><p>您可以从这里<a href="https://html5-tips.netlify.app/content-editable/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/content-editable/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/content-editable/index.html</a></p><br><h3 data-id="heading-7">小提示</h3><br><p>可以使span或div元素可编辑，并且可以使用CSS样式向其添加任何丰富的内容。这将比使用input 输入框更好。试一试！</p><br><h2 data-id="heading-8">🔥 Map</h2>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"circus.jpg"</span> <span class="attr">width</span>=<span class="string">"500"</span> <span class="attr">height</span>=<span class="string">"500"</span> <span class="attr">alt</span>=<span class="string">"Circus"</span> <span class="attr">usemap</span>=<span class="string">"#circusmap"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">map</span> <span class="attr">name</span>=<span class="string">"circusmap"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"67,114,207,254"</span> <span class="attr">href</span>=<span class="string">"elephant.htm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"222,141,318, 256"</span> <span class="attr">href</span>=<span class="string">"lion.htm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"343,111,455, 267"</span> <span class="attr">href</span>=<span class="string">"horse.htm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"rect"</span> <span class="attr">coords</span>=<span class="string">"35,328,143,500"</span> <span class="attr">href</span>=<span class="string">"clown.htm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">area</span> <span class="attr">shape</span>=<span class="string">"circle"</span> <span class="attr">coords</span>=<span class="string">"426,409,100"</span> <span class="attr">href</span>=<span class="string">"clown.htm"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p></p><h3 data-id="heading-10">效果演示</h3><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75351b95a7cc4d1aaaf9514c19da0ec2~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75351b95a7cc4d1aaaf9514c19da0ec2~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/382d317fd95945229bbf8493a0d095b2~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/382d317fd95945229bbf8493a0d095b2~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p>您可以从这里<a href="https://html5-tips.netlify.app/map/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/map/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/map/index.html</a></p><p></p>
+<p></p><h3 data-id="heading-11">小提示</h3><p></p>
+<p></p><p>图像贴图有其自身的缺点，但是您可以将其用于视觉演示。我们可以用全家福照片尝试一下并深入研究个人照片</p><p></p>
+<p></p><h2 data-id="heading-12">🔥 Mark Content</h2><p></p>
+<p></p><p>使用<code>&lt;mark&gt;</code>标记突出显示任何文本内容。</p><p></p>
+<p></p><h3 data-id="heading-13">Code</h3><p></p>
+<p><pre><code class="hljs language-html copyable" lang="html"> <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span> Did you know, you can <span class="hljs-tag">&lt;<span class="hljs-name">mark</span>&gt;</span>“Highlight something interesting”<span class="hljs-tag">&lt;/<span class="hljs-name">mark</span>&gt;</span> just with an HTML tag? <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="copy-code-btn">复制代码</span></code></pre></p>
+<p></p><h3 data-id="heading-14">效果演示</h3><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/033169b1e69341d0a27af662ac6b13f3~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/033169b1e69341d0a27af662ac6b13f3~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p>您可以从这里<a href="https://html5-tips.netlify.app/mark/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/mark/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/mark/index.html</a></p><p></p>
+<p></p><h3 data-id="heading-15">小提示</h3><p></p>
+<p></p><p>您始终可以使用CSS更改突出显示颜色，</p><p></p>
+<p><pre><code class="hljs language-js copyable" lang="js">mark {<br>  background-color: green;<br>  color: #FFFFFF;<br>}<br><span class="copy-code-btn">复制代码</span></code></pre></p>
+<p></p><h2 data-id="heading-16">🔥 data-* attribute</h2><p></p>
+<p></p><p><code>data-*</code>属性用于存储页面或应用程序专用的自定义数据。可以在JavaScript代码中使用存储的数据来创建更多的用户体验。</p><p></p>
+<p></p><p><code>data- *</code>属性由两部分组成：</p><p></p>
+<p><ul></ul></p>
+<p><li>属性名称不得包含任何大写字母，并且前缀“ data-”后必须至少长一个字符</li></p>
+<p><li>属性值可以是任何字符串</li><br></p>
+<p></p><h3 data-id="heading-17">Code</h3><p></p>
+<p><pre><code class="hljs language-html copyable" lang="html"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span> Know data attribute <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">div</span><br>       <span class="hljs-attr">class</span>=<span class="hljs-string">“data-attribute”</span><br>       <span class="hljs-attr">id</span>=<span class="hljs-string">“data-attr”</span><br>       <span class="hljs-attr">data-custom-attr</span>=<span class="hljs-string">“You are just Awesome!”</span>&gt;</span><br>   I have a hidden secret!<br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></p>
+<p><pre><code class="hljs language-js copyable" lang="js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reveal</span>(<span class="hljs-params"></span>) </span>{<br>   <span class="hljs-keyword">let</span> dataDiv = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">‘data-attr’</span>);<br>    <span class="hljs-keyword">let</span> value = dataDiv.dataset[<span class="hljs-string">‘customAttr’</span>];<br>   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">‘msg’</span>).innerHTML = <span class="hljs-string"><code>&amp;lt;mark&amp;gt;&lt;span class=&quot;hljs-subst&quot;&gt;${value}&lt;/span&gt;&amp;lt;/mark&amp;gt;</code></span>;<br>}<br><span class="copy-code-btn">复制代码</span></code></pre></p>
+<p></p><p>注意：要在JavaScript中读取这些属性的值，可以使用getAttribute()，但是规范定义了一种更简单的方法：使用dataset属性。</p><p></p>
+<p></p><h3 data-id="heading-18">效果演示</h3><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e5e2fde322d48c0a35c6af9eb83eede~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e5e2fde322d48c0a35c6af9eb83eede~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e955417dfc94ab4880595ea30b9b4ae~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e955417dfc94ab4880595ea30b9b4ae~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p>您可以从这里<a href="https://html5-tips.netlify.app/data-attribute/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/data-attribute/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/data-attribute/index.html</a></p><p></p>
+<p></p><h3 data-id="heading-19">小提示</h3><p></p>
+<p></p><p>您可以使用它在页面中存储一些数据，然后使用REST调用将其传递给服务器。</p><p></p>
+<p></p><h2 data-id="heading-20">🔥 Output Tag</h2><p></p>
+<p></p><p><code>&lt;output&gt;</code>标签表示运算的结果。通常，此元素定义一个区域，该区域将用于显示某些计算得出的文本。</p><p></p>
+<p></p><h3 data-id="heading-21">Code</h3><p></p>
+<p><pre><code class="hljs language-html copyable" lang="html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">oninput</span>=<span class="hljs-string">“x.value=parseInt(a.value) * parseInt(b.value)”</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">“number”</span> <span class="hljs-attr">id</span>=<span class="hljs-string">“a”</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“0”</span>&gt;</span></code></pre></p>
+<pre><code>* &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;number&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;b&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;value&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;0&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+      = &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;name&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;x&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;for&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;a b&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;output&lt;/span&gt;&amp;gt;&lt;/span&gt;
+</code></pre><p><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="copy-code-btn">复制代码</span></p>
+<p></p><h3 data-id="heading-22">效果演示</h3><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd3a5d3b88e499d801ba959b5d9e6b5~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd3a5d3b88e499d801ba959b5d9e6b5~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p>您可以从这里<a href="https://html5-tips.netlify.app/output/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/output/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/output/index.html</a></p><p></p>
+<p></p><h3 data-id="heading-23">小提示</h3><p></p>
+<p></p><p>如果要在客户端JavaScript中执行任何计算，并且希望结果反映在页面上，请使用<code>&lt;output&gt;</code>标记。您不必走动使用可获取元素的额外步骤：getElementById()。</p><p></p>
+<p></p><h2 data-id="heading-24">🔥 Datalist</h2><p></p>
+<p></p><p><code>&lt;datalist&gt;</code>标签指定了预先定义的选项列表，并允许用户添加更多。它提供了一项autocomplete功能，使您可以提前输入所需的选项。</p><p></p>
+<p></p><h3 data-id="heading-25">Code</h3><p></p>
+<p><pre><code class="hljs language-html copyable" lang="html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">“”</span> <span class="hljs-attr">method</span>=<span class="hljs-string">“get”</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">“fruit”</span>&gt;</span>Choose your fruit from the list:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">list</span>=<span class="hljs-string">“fruits”</span> <span class="hljs-attr">name</span>=<span class="hljs-string">“fruit”</span> <span class="hljs-attr">id</span>=<span class="hljs-string">“fruit”</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">datalist</span> <span class="hljs-attr">id</span>=<span class="hljs-string">“fruits”</span>&gt;</span><br>           <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“Apple”</span>&gt;</span><br>           <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“Orange”</span>&gt;</span><br>           <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“Banana”</span>&gt;</span><br>           <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“Mango”</span>&gt;</span><br>           <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“Avacado”</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">datalist</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">“submit”</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="copy-code-btn">复制代码</span></code></pre></p>
+<p></p><h3 data-id="heading-26">效果演示</h3><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bfafc139d64a43c880ac58be8c096387~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bfafc139d64a43c880ac58be8c096387~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p>您可以从这里<a href="https://html5-tips.netlify.app/datalist/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/datalist/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/datalist/index.html</a></p><p></p>
+<p></p><h3 data-id="heading-27">小提示</h3><p></p>
+<p></p><p>与传统<code>&lt;select&gt;-&lt;option&gt;</code>标签有何不同？Select标记用于从选项中选择一个或多个项目，您需要浏览列表以进行选择。Datalist是具有自动完成支持的高级功能。也就是说Datalist标签不仅可以选择，还可以输入</p><p></p>
+<p></p><h2 data-id="heading-28">🔥 Range(Slider)</h2><p></p>
+<p></p><p><code>range</code>具有滑块，范围选择的输入类型</p><p></p>
+<p></p><h3 data-id="heading-29">Code</h3><p></p>
+<p><pre><code class="hljs language-html copyable" lang="html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">method</span>=<span class="hljs-string">“post”</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span><br>         <span class="hljs-attr">type</span>=<span class="hljs-string">“range”</span><br>         <span class="hljs-attr">name</span>=<span class="hljs-string">“range”</span><br>         <span class="hljs-attr">min</span>=<span class="hljs-string">“0”</span><br>         <span class="hljs-attr">max</span>=<span class="hljs-string">“100”</span><br>         <span class="hljs-attr">step</span>=<span class="hljs-string">“1”</span><br>         <span class="hljs-attr">value</span>=<span class="hljs-string">“”</span><br>         <span class="hljs-attr">onchange</span>=<span class="hljs-string">“changeValue(event)”</span>/&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">“range”</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">output</span> <span class="hljs-attr">id</span>=<span class="hljs-string">“output”</span> <span class="hljs-attr">name</span>=<span class="hljs-string">“result”</span>&gt;</span>  <span class="hljs-tag">&lt;/<span class="hljs-name">output</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="copy-code-btn">复制代码</span></code></pre></p>
+<p></p><h3 data-id="heading-30">效果演示</h3><p></p>
+<p></p><p><img alt="" class="lazyload inited loaded" data-src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e25f3f9cc010434a9e92631c54431ac6~tplv-k3u1fbpfcp-zoom-1.image" data-width="800" data-height="600" src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e25f3f9cc010434a9e92631c54431ac6~tplv-k3u1fbpfcp-zoom-1.image"></p><p></p>
+<p></p><p>您可以从这里<a href="https://html5-tips.netlify.app/range/index.html" target="_blank" rel="nofollow noopener noreferrer">开始查看演示</a>：<a href="https://html5-tips.netlify.app/range/index.html" target="_blank" rel="noopener">https://html5-tips.netlify.app/range/index.html</a></p><p></p>
+<p></p><h3 data-id="heading-31">小提示</h3><p></p>
+<p></p><p>在html5中，没有叫slider的东西</p><p></p>
+<p></p><h2 data-id="heading-32">🔥 Meter</h2><p></p>
+<p></p><p>使用<code>&lt;meter&gt;</code>标签测量给定范围内的数据。</p><p></p>
+<p></p><h3 data-id="heading-33">Code</h3><p></p>
+<p><pre><code class="hljs language-html copyable" lang="html">`<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">“home”</span>&gt;</span>/home/atapas<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meter</span> <span class="hljs-attr">id</span>=<span class="hljs-string">“home”</span> <span class="hljs-attr">value</span>=<span class="hljs-string">“4”</span> <span class="hljs-attr">min</span>=<span class="hljs-string">“0”</span> <span class="hljs-attr">max</span>=<span class="hljs-string">“10”</span>&gt;</span>2 out of 10<span class="hljs-tag">&lt;/<span class="hljs-name">meter</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></code></pre></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/11/27/HTML5小技巧/" class="archive-article-date">
+  	<time datetime="2020-11-27T02:05:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-11-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/26/css3瀑布流的实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">css3瀑布流的实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Jasonellen
+    	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Array/" style="font-size: 10px;">Array</a> <a href="/tags/CDN加速/" style="font-size: 10px;">CDN加速</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/ES6/" style="font-size: 13.33px;">ES6</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/IScroll/" style="font-size: 10px;">IScroll</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/JS试题/" style="font-size: 10px;">JS试题</a> <a href="/tags/MYSQL/" style="font-size: 13.33px;">MYSQL</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mobx/" style="font-size: 10px;">Mobx</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactNative/" style="font-size: 13.33px;">ReactNative</a> <a href="/tags/Rem适配/" style="font-size: 10px;">Rem适配</a> <a href="/tags/SVG/" style="font-size: 10px;">SVG</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/UpLoad/" style="font-size: 10px;">UpLoad</a> <a href="/tags/Vue/" style="font-size: 20px;">Vue</a> <a href="/tags/ZnPicker/" style="font-size: 10px;">ZnPicker</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/css3/" style="font-size: 10px;">css3</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/filter/" style="font-size: 10px;">filter</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/iframe/" style="font-size: 10px;">iframe</a> <a href="/tags/import/" style="font-size: 10px;">import</a> <a href="/tags/jQuery/" style="font-size: 13.33px;">jQuery</a> <a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/mobiscroll/" style="font-size: 10px;">mobiscroll</a> <a href="/tags/moment/" style="font-size: 10px;">moment</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/package/" style="font-size: 10px;">package</a> <a href="/tags/php/" style="font-size: 16.67px;">php</a> <a href="/tags/react/" style="font-size: 16.67px;">react</a> <a href="/tags/react-router/" style="font-size: 10px;">react-router</a> <a href="/tags/regexp/" style="font-size: 13.33px;">regexp</a> <a href="/tags/socket/" style="font-size: 10px;">socket</a> <a href="/tags/this/" style="font-size: 10px;">this</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/upload/" style="font-size: 10px;">upload</a> <a href="/tags/userAgent/" style="font-size: 10px;">userAgent</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/其他/" style="font-size: 10px;">其他</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/异步函数/" style="font-size: 10px;">异步函数</a> <a href="/tags/弹球/" style="font-size: 10px;">弹球</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/移动端/" style="font-size: 13.33px;">移动端</a> <a href="/tags/简版日历/" style="font-size: 10px;">简版日历</a> <a href="/tags/运算符/" style="font-size: 10px;">运算符</a> <a href="/tags/配置文件/" style="font-size: 10px;">配置文件</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://cn.bing.com/">必应</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://gold.xitu.io/">掘金</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="//vuefe.cn/guide/">Vue</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.baidu.com/">百度</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://yaomengyyu.github.io/">家浩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://wangyalijas.github.io/">王雅丽</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;我只是想学记录点东西&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  </div>
+</body>
+</html>
